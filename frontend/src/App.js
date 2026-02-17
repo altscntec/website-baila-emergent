@@ -111,6 +111,9 @@ const CountdownTimer = ({ targetDate }) => {
   );
 };
 
+// Baila Dembow Logo
+const BAILA_LOGO = "https://customer-assets.emergentagent.com/job_baila-dembow/artifacts/yu24u3j0_White%20Baila%20Logo%20%284%29.png";
+
 // Hero Section
 const HeroSection = () => {
   const scrollToNextEvent = () => {
@@ -121,50 +124,38 @@ const HeroSection = () => {
   };
 
   return (
-    <section id="hero" className="hero-section" data-testid="hero-section">
-      {/* Video Background */}
-      <div className="hero-video-container">
-        <iframe
-          src={`https://www.youtube.com/embed/${YOUTUBE_VIDEO_ID}?autoplay=1&mute=1&loop=1&playlist=${YOUTUBE_VIDEO_ID}&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1&enablejsapi=1&origin=${window.location.origin}`}
-          title="Baila Dembow Background"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowFullScreen
-          style={{ border: 'none' }}
-        />
-      </div>
-      
-      {/* Overlay */}
-      <div className="absolute inset-0 video-overlay z-[1]" />
-      
+    <section id="hero" className="hero-section bg-black" data-testid="hero-section">
       {/* Content */}
       <div className="hero-content">
+        {/* Logo */}
+        <motion.img
+          src={BAILA_LOGO}
+          alt="Baila Dembow"
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8, delay: 0.3 }}
+          className="w-64 sm:w-80 md:w-96 lg:w-[500px] mx-auto mb-8"
+          data-testid="hero-logo"
+        />
+        
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.3 }}
+          transition={{ duration: 0.6, delay: 0.5 }}
           className="text-white/80 text-sm md:text-base tracking-[0.3em] uppercase mb-6"
         >
-          Latin Culture • Raw Energy • One Unforgettable Night
+          Reggaeton. Dembow & Latin Hits
         </motion.p>
         
         <motion.h1
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.5 }}
-          className="font-display text-5xl sm:text-6xl md:text-7xl lg:text-8xl text-white hero-text-shadow mb-4"
-          data-testid="hero-headline"
-        >
-          THIS IS NOT A PARTY.
-        </motion.h1>
-        
-        <motion.h2
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.7 }}
           className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl gradient-text mb-8"
+          data-testid="hero-headline"
         >
-          THIS IS BAILA DEMBOW.
-        </motion.h2>
+          Perreo Para El Mundo.
+        </motion.h1>
         
         <motion.div
           initial={{ opacity: 0, y: 20 }}
