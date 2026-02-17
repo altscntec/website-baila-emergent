@@ -60,14 +60,14 @@ const Navigation = () => {
       initial={{ y: -100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.6, delay: 0.5 }}
-      className={`nav-container ${scrolled ? 'glass-nav' : 'bg-transparent'}`}
+      className={`nav-container`}
       data-testid="main-navigation"
     >
-      <div className={`flex items-center gap-6 px-6 py-3 rounded-full transition-all duration-300 ${scrolled ? 'glass-nav shadow-lg' : ''}`}>
-        <span className="font-display text-xl tracking-tight cursor-pointer" onClick={() => scrollToSection('hero')}>
+      <div className={`flex items-center gap-6 px-6 py-3 rounded-full transition-all duration-300 ${scrolled ? 'glass-nav shadow-lg' : 'bg-white/10 backdrop-blur-sm'}`}>
+        <span className="font-display text-xl tracking-tight cursor-pointer text-white" onClick={() => scrollToSection('hero')}>
           BAILA<span className="gradient-text">.</span>
         </span>
-        <div className="hidden md:flex items-center gap-6 text-sm font-medium">
+        <div className="hidden md:flex items-center gap-6 text-sm font-medium text-white">
           <button onClick={() => scrollToSection('next-event')} className="hover:text-[#FF0080] transition-colors" data-testid="nav-events">Events</button>
           <button onClick={() => scrollToSection('experience')} className="hover:text-[#FF0080] transition-colors" data-testid="nav-experience">Experience</button>
           <button onClick={() => scrollToSection('community')} className="hover:text-[#FF0080] transition-colors" data-testid="nav-community">Community</button>
