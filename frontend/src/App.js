@@ -172,7 +172,7 @@ const HeroSection = () => {
             href="https://linktr.ee/bailadembow" 
             target="_blank" 
             rel="noopener noreferrer"
-            className="bg-gradient-to-r from-[#FF0080] to-[#FF3B30] text-white font-bold rounded-full px-8 py-4 text-lg flex items-center gap-2 hover:scale-105 transition-transform duration-300 shadow-lg"
+            className="inline-flex items-center gap-2 bg-[#FF0080] text-white font-bold py-4 px-8 rounded-full text-lg hover:bg-[#FF3B30] transition-colors duration-300"
             data-testid="hero-cta-tickets"
           >
             <Ticket size={20} />
@@ -180,7 +180,7 @@ const HeroSection = () => {
           </a>
           <button 
             onClick={scrollToNextEvent}
-            className="bg-white/10 backdrop-blur-sm text-white font-bold rounded-full px-8 py-4 text-lg border-2 border-white/50 hover:bg-white hover:text-black transition-colors duration-300"
+            className="inline-flex items-center gap-2 bg-transparent text-white font-bold py-4 px-8 rounded-full text-lg border-2 border-white hover:bg-white hover:text-black transition-colors duration-300"
             data-testid="hero-cta-events"
           >
             View Upcoming Events
