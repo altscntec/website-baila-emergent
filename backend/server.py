@@ -40,13 +40,21 @@ class StatusCheckCreate(BaseModel):
 class EmailSubscriber(BaseModel):
     model_config = ConfigDict(extra="ignore")
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    name: str
     email: EmailStr
+    city: str
+    country: str
+    age: int
     subscribed_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     source: Optional[str] = "website"
 
 
 class EmailSubscriberCreate(BaseModel):
+    name: str
     email: EmailStr
+    city: str
+    country: str
+    age: int
     source: Optional[str] = "website"
 
 
