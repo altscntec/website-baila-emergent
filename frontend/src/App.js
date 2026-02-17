@@ -119,9 +119,6 @@ const CountdownTimer = ({ targetDate }) => {
   );
 };
 
-// Baila Dembow Logo
-const BAILA_LOGO = "https://customer-assets.emergentagent.com/job_baila-dembow/artifacts/yu24u3j0_White%20Baila%20Logo%20%284%29.png";
-
 // Hero Section
 const HeroSection = () => {
   const scrollToNextEvent = () => {
