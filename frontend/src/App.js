@@ -208,6 +208,7 @@ const HeroSection = () => {
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 bg-[#FF0080] text-white font-bold py-4 px-8 rounded-full text-lg hover:bg-[#FF3B30] transition-colors duration-300"
             data-testid="hero-cta-tickets"
+            onClick={() => trackTicketClick('Baila Dembow - Hero CTA', 'https://linktr.ee/bailadembow')}
           >
             <Ticket size={20} />
             GET TICKETS
