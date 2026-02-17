@@ -1,34 +1,294 @@
-.App-logo {
-    height: 40vmin;
-    pointer-events: none;
+/* Baila Dembow - App Styles */
+
+/* Hero Section */
+.hero-section {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-    .App-logo {
-        animation: App-logo-spin infinite 20s linear;
-    }
+.hero-video-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
 }
 
-.App-header {
-    background-color: #0f0f10;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-size: calc(10px + 2vmin);
-    color: white;
+.hero-video-container iframe {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100vw;
+  height: 100vh;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
 }
 
-.App-link {
-    color: #61dafb;
+@media (min-aspect-ratio: 16/9) {
+  .hero-video-container iframe {
+    height: 56.25vw;
+  }
 }
 
-@keyframes App-logo-spin {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(360deg);
-    }
+@media (max-aspect-ratio: 16/9) {
+  .hero-video-container iframe {
+    width: 177.78vh;
+  }
+}
+
+.hero-content {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  padding: 0 20px;
+  max-width: 1200px;
+}
+
+/* Navigation */
+.nav-container {
+  position: fixed;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+}
+
+/* Countdown Timer */
+.countdown-container {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.countdown-box {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  padding: 16px 20px;
+  min-width: 80px;
+  text-align: center;
+}
+
+.countdown-number {
+  font-family: 'Anton', sans-serif;
+  font-size: 2.5rem;
+  line-height: 1;
+  color: #FFFFFF;
+}
+
+.countdown-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: rgba(255, 255, 255, 0.7);
+  margin-top: 4px;
+}
+
+@media (min-width: 768px) {
+  .countdown-box {
+    padding: 24px 32px;
+    min-width: 100px;
+  }
+  
+  .countdown-number {
+    font-size: 3.5rem;
+  }
+  
+  .countdown-label {
+    font-size: 0.875rem;
+  }
+}
+
+/* Gallery Grid */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+@media (min-width: 768px) {
+  .gallery-grid {
+    grid-template-columns: repeat(12, 1fr);
+    grid-auto-rows: 280px;
+    gap: 20px;
+  }
+  
+  .gallery-item-1 {
+    grid-column: span 7;
+    grid-row: span 2;
+  }
+  
+  .gallery-item-2 {
+    grid-column: span 5;
+  }
+  
+  .gallery-item-3 {
+    grid-column: span 5;
+  }
+  
+  .gallery-item-4 {
+    grid-column: span 6;
+  }
+  
+  .gallery-item-5 {
+    grid-column: span 6;
+  }
+}
+
+/* Event Cards Grid */
+.events-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+
+@media (min-width: 768px) {
+  .events-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+  }
+}
+
+/* Scroll indicator */
+.scroll-indicator {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: rgba(255, 255, 255, 0.8);
+  cursor: pointer;
+}
+
+.scroll-indicator-line {
+  width: 1px;
+  height: 60px;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.8), transparent);
+}
+
+@keyframes bounce-subtle {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(8px);
+  }
+}
+
+.scroll-indicator svg {
+  animation: bounce-subtle 2s ease-in-out infinite;
+}
+
+/* Input styling */
+.input-styled {
+  background: #F5F5F5;
+  border: 2px solid transparent;
+  border-radius: 9999px;
+  padding: 1rem 1.5rem;
+  font-size: 1rem;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  outline: none;
+  width: 100%;
+}
+
+.input-styled:focus {
+  border-color: #FF0080;
+  box-shadow: 0 0 0 4px rgba(255, 0, 128, 0.1);
+}
+
+.input-styled::placeholder {
+  color: #999;
+}
+
+/* Footer */
+.footer-gradient {
+  background: linear-gradient(to top, rgba(255, 0, 128, 0.05), transparent);
+}
+
+/* Social links */
+.social-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #F5F5F5;
+  color: #0A0A0A;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.social-link:hover {
+  background: linear-gradient(135deg, #FF0080, #FF3B30);
+  color: #FFFFFF;
+  transform: scale(1.1);
+}
+
+/* Status badge */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.status-upcoming {
+  background: rgba(127, 0, 255, 0.1);
+  color: #7F00FF;
+}
+
+.status-almost-sold-out {
+  background: rgba(255, 59, 48, 0.1);
+  color: #FF3B30;
+}
+
+.status-sold-out {
+  background: rgba(0, 0, 0, 0.1);
+  color: #666;
+}
+
+/* Animate on scroll placeholder */
+.animate-fade-up {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.animate-fade-up.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Responsive container */
+.container-custom {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+@media (min-width: 768px) {
+  .container-custom {
+    padding: 0 40px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container-custom {
+    padding: 0 60px;
+  }
 }
