@@ -472,6 +472,7 @@ const CommunitySection = () => {
     setIsSubmitting(true);
     try {
       await axios.post(`${API}/subscribe`, { ...formData, source: "website" });
+      trackFormSubmission(formData);
       toast.success("Welcome to the movement! You're now part of Baila Dembow.");
       setFormData({ name: "", email: "", city: "", country: "", age: "" });
     } catch (error) {
