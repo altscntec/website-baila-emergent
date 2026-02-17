@@ -188,18 +188,6 @@ const HeroSection = () => {
         </motion.div>
       </div>
       
-      {/* Scroll Indicator */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.6, delay: 1.2 }}
-        className="scroll-indicator"
-        onClick={scrollToNextEvent}
-      >
-        <span className="text-xs tracking-widest uppercase">Scroll</span>
-        <ChevronDown size={20} />
-        <div className="scroll-indicator-line" />
-      </motion.div>
     </section>
   );
 };
