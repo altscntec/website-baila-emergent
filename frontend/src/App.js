@@ -527,9 +527,32 @@ const CommunitySection = () => {
       
       {/* Footer */}
       <div className="container-custom mt-20 pt-8 border-t border-gray-200">
-        <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-500">
+        {/* Animated Bunny with Glasses */}
+        <motion.div 
+          className="flex justify-center mb-8"
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8 }}
+        >
+          <motion.img 
+            src={BUNNY_GLASSES}
+            alt="Baila Dembow Bunny"
+            className="h-32 md:h-40 w-auto"
+            animate={{ 
+              y: [0, -10, 0],
+              rotate: [0, 2, -2, 0]
+            }}
+            transition={{ 
+              duration: 3,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+          />
+        </motion.div>
+        
+        <div className="flex flex-col items-center gap-4 text-sm text-gray-500 text-center">
           <span className="font-display text-xl text-black">BAILA DEMBOW<span className="gradient-text">.</span></span>
-          <span>© {new Date().getFullYear()} Baila Dembow. All rights reserved.</span>
+          <span>© {new Date().getFullYear()} Baila Dembow. All rights reserved. Part of House Decoded events, Amsterdam KVK 67994725</span>
         </div>
       </div>
     </section>
