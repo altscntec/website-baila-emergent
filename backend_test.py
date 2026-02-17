@@ -96,7 +96,7 @@ class BailaDembowAPITester:
 
     def test_email_subscription(self):
         """Test POST /api/subscribe endpoint"""
-        test_email = f"test_{datetime.now().strftime('%Y%m%d_%H%M%S')}@bailadembow.test"
+        test_email = f"test_{datetime.now().strftime('%Y%m%d_%H%M%S')}@example.com"
         
         try:
             # Test valid subscription
