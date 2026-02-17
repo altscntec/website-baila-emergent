@@ -1,7 +1,7 @@
 {
-  "total_tests": 5,
-  "passed_tests": 4,
-  "success_rate": 80.0,
+  "total_tests": 6,
+  "passed_tests": 6,
+  "success_rate": 100.0,
   "test_results": [
     {
       "test": "API Root",
@@ -62,8 +62,19 @@
     },
     {
       "test": "Email Subscription - Valid",
-      "success": false,
-      "details": "Status: 422, Response: {\"detail\":[{\"type\":\"value_error\",\"loc\":[\"body\",\"email\"],\"msg\":\"value is not a valid email address: The part after the @-sign is a special-use or reserved name that cannot be used with email.\",\"input\":\"test_20260217_123429@bailadembow.test\",\"ctx\":{\"reason\":\"The part after the @-sign is a special-use or reserved name that cannot be used with email.\"}}]}",
+      "success": true,
+      "details": "Successfully subscribed email",
+      "response_data": {
+        "id": "75f349ce-94c1-47c4-a7f1-40b435c4e413",
+        "email": "test_20260217_123444@example.com",
+        "subscribed_at": "2026-02-17T12:34:44.834981Z",
+        "source": "website"
+      }
+    },
+    {
+      "test": "Email Subscription - Duplicate",
+      "success": true,
+      "details": "Correctly rejected duplicate email",
       "response_data": null
     },
     {
@@ -75,7 +86,7 @@
     {
       "test": "GET Subscribers",
       "success": true,
-      "details": "Retrieved 0 subscribers",
+      "details": "Retrieved 1 subscribers",
       "response_data": null
     }
   ]
