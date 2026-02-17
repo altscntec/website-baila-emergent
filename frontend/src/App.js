@@ -36,6 +36,11 @@ const GALLERY_IMAGES = [
 // YouTube video ID
 const YOUTUBE_VIDEO_ID = "wnHQetmyGHQ";
 
+// Logos
+const BAILA_LOGO = "https://customer-assets.emergentagent.com/job_baila-dembow/artifacts/yu24u3j0_White%20Baila%20Logo%20%284%29.png";
+const BUNNY_LOGO = "https://customer-assets.emergentagent.com/job_baila-dembow/artifacts/funee3te_Copy%20of%2029-11-25%20%2826%29.png";
+const BUNNY_GLASSES = "https://customer-assets.emergentagent.com/job_baila-dembow/artifacts/uigi9j0z_bunny%20with%20Baila%20Dembow%20glasses%20.png";
+
 // Navigation Component
 const Navigation = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -63,13 +68,16 @@ const Navigation = () => {
       className={`nav-container`}
       data-testid="main-navigation"
     >
-      <div className={`flex items-center gap-6 px-6 py-3 rounded-full transition-all duration-300 ${scrolled ? 'glass-nav shadow-lg' : 'bg-white/10 backdrop-blur-sm'}`}>
-        <span className="font-display text-xl tracking-tight cursor-pointer text-white" onClick={() => scrollToSection('hero')}>
-          BAILA<span className="gradient-text">.</span>
-        </span>
-        <div className="hidden md:flex items-center gap-6 text-sm font-medium text-white">
+      <div className={`flex items-center gap-6 px-4 py-2 rounded-full transition-all duration-300 ${scrolled ? 'bg-white shadow-lg border border-gray-200' : 'bg-white/10 backdrop-blur-sm'}`}>
+        <img 
+          src={BUNNY_LOGO} 
+          alt="Baila Dembow" 
+          className="h-10 w-10 cursor-pointer object-contain"
+          onClick={() => scrollToSection('hero')}
+        />
+        <div className={`hidden md:flex items-center gap-6 text-sm font-medium ${scrolled ? 'text-black' : 'text-white'}`}>
           <button onClick={() => scrollToSection('next-event')} className="hover:text-[#FF0080] transition-colors" data-testid="nav-events">Events</button>
-          <button onClick={() => scrollToSection('experience')} className="hover:text-[#FF0080] transition-colors" data-testid="nav-experience">Experience</button>
+          <button onClick={() => scrollToSection('experience')} className="hover:text-[#FF0080] transition-colors" data-testid="nav-gallery">Gallery</button>
           <button onClick={() => scrollToSection('community')} className="hover:text-[#FF0080] transition-colors" data-testid="nav-community">Community</button>
         </div>
       </div>
