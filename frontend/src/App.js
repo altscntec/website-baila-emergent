@@ -433,6 +433,7 @@ const AgendaSection = ({ events }) => {
                       rel="noopener noreferrer"
                       className="flex items-center gap-1 text-[#FF0080] font-semibold hover:gap-2 transition-all"
                       data-testid={`event-cta-${index}`}
+                      onClick={() => trackTicketClick(event.title, event.ticket_url)}
                     >
                       Get Tickets <ArrowRight size={16} />
                     </a>
