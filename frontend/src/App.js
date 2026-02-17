@@ -634,49 +634,6 @@ function App() {
       } catch (error) {
         console.error("Failed to fetch events:", error);
         // Keep fallback events
-          {
-            id: "amsterdam-xl-feb-2026",
-            city: "Amsterdam",
-            venue: "IJland, Amsterdam Noord",
-            date: "2026-02-28",
-            time: "23:00 - 05:00",
-            title: "BAILA DEMBOW XL // IJLAND",
-            description: "¡QUÉ CLASE AMSTERDAM - LLEGÓ LA LEYENDA! For the first time ever, a full tribute to legendary Juan Luis Guerra.",
-            ticket_url: "https://weeztix.shop/v9f38e5c",
-            status: "upcoming",
-            price_from: "€10",
-            price_door: "€35",
-            image_url: "https://customer-assets.emergentagent.com/job_baila-dembow/artifacts/9jxy50ay_BAILA%20DEMBOW%20HALLOWEEN%2031-10-2025%20INSTA-66%202.JPG"
-          },
-          {
-            id: "leiden-march-2026",
-            city: "Leiden",
-            venue: "Wibar Club",
-            date: "2026-03-14",
-            time: "23:59 - 05:00",
-            title: "BAILA DEMBOW // LEIDEN",
-            description: "LEIDEN, WE'RE COMING FOR YOU. Six hours. One warehouse. Zero rules.",
-            ticket_url: "https://weeztix.shop/erxqk52c",
-            status: "almost_sold_out",
-            price_from: "€10",
-            price_door: "€25",
-            image_url: "https://customer-assets.emergentagent.com/job_baila-dembow/artifacts/7x9ijnic_DSC03865%202.JPG"
-          },
-          {
-            id: "amsterdam-kingsnight-2026",
-            city: "Amsterdam",
-            venue: "IJland, Amsterdam",
-            date: "2026-04-26",
-            time: "23:00 - 05:00",
-            title: "BAILA DEMBOW XL // KINGSNIGHT",
-            description: "We're taking over IJland for King's Night with six hours of dembow, reggaeton, and Latin sounds.",
-            ticket_url: "https://weeztix.shop/v9f38e5c",
-            status: "upcoming",
-            price_from: "€15",
-            price_door: "€30",
-            image_url: "https://customer-assets.emergentagent.com/job_baila-dembow/artifacts/3jggmoj3_DSC03325%202.JPG"
-          }
-        ]);
       }
     };
     fetchEvents();
