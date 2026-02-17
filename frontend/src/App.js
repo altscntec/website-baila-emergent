@@ -167,7 +167,7 @@ const HeroSection = () => {
             href="https://linktr.ee/bailadembow" 
             target="_blank" 
             rel="noopener noreferrer"
-            className="cta-primary flex items-center gap-2 text-lg"
+            className="bg-gradient-to-r from-[#FF0080] to-[#FF3B30] text-white font-bold rounded-full px-8 py-4 text-lg flex items-center gap-2 hover:scale-105 transition-transform duration-300 shadow-lg"
             data-testid="hero-cta-tickets"
           >
             <Ticket size={20} />
@@ -175,7 +175,7 @@ const HeroSection = () => {
           </a>
           <button 
             onClick={scrollToNextEvent}
-            className="cta-secondary text-white border-white hover:bg-white hover:text-black"
+            className="bg-white/10 backdrop-blur-sm text-white font-bold rounded-full px-8 py-4 text-lg border-2 border-white/50 hover:bg-white hover:text-black transition-colors duration-300"
             data-testid="hero-cta-events"
           >
             View Upcoming Events
@@ -219,7 +219,7 @@ const NextEventSection = ({ events }) => {
         >
           <p className="text-sm tracking-[0.2em] uppercase text-[#FF0080] font-semibold mb-4">Next Experience</p>
           <h2 className="font-display text-4xl md:text-6xl mb-4" data-testid="next-event-title">
-            YOUR NEXT EXPERIENCE<br />STARTS HERE.
+            THE UPCOMING GATHERING<br />STARTS HERE.
           </h2>
         </motion.div>
         
@@ -355,7 +355,7 @@ const AgendaSection = ({ events }) => {
         >
           <p className="text-sm tracking-[0.2em] uppercase text-[#FF0080] font-semibold mb-4">Upcoming Events</p>
           <h2 className="font-display text-4xl md:text-6xl">
-            ALL UPCOMING<br /><span className="gradient-text">EXPERIENCES</span>
+            <span className="gradient-text">AGENDA</span>
           </h2>
         </motion.div>
         
