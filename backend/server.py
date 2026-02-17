@@ -141,7 +141,7 @@ async def get_events():
             "status": "upcoming",
             "price_from": "€10",
             "price_door": "€35",
-            "image_url": "https://customer-assets.emergentagent.com/job_baila-dembow/artifacts/9jxy50ay_BAILA%20DEMBOW%20HALLOWEEN%2031-10-2025%20INSTA-66%202.JPG"
+            "image_url": "https://customer-assets.emergentagent.com/job_baila-dembow/artifacts/c61u2vl4_1600%20X%20900%20%281920%20x%201005%20px%29%20%282%29.png"
         },
         {
             "id": "leiden-march-2026",
@@ -155,7 +155,7 @@ async def get_events():
             "status": "almost_sold_out",
             "price_from": "€10",
             "price_door": "€25",
-            "image_url": "https://customer-assets.emergentagent.com/job_baila-dembow/artifacts/7x9ijnic_DSC03865%202.JPG"
+            "image_url": "https://customer-assets.emergentagent.com/job_baila-dembow/artifacts/qe9qcun6_14%20March%20Leiden%20.png"
         },
         {
             "id": "amsterdam-kingsnight-2026",
@@ -169,7 +169,7 @@ async def get_events():
             "status": "upcoming",
             "price_from": "€15",
             "price_door": "€30",
-            "image_url": "https://customer-assets.emergentagent.com/job_baila-dembow/artifacts/3jggmoj3_DSC03325%202.JPG"
+            "image_url": "https://customer-assets.emergentagent.com/job_baila-dembow/artifacts/d4cz8fiu_26%3A04%20Amsterdam.png"
         }
     ]
     return events
