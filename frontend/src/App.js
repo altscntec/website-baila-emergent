@@ -2,12 +2,46 @@ import { useEffect, useState, useRef } from "react";
 import "@/App.css";
 import axios from "axios";
 import { motion, useInView, AnimatePresence } from "framer-motion";
-import { Ticket, ChevronDown, Instagram, MessageCircle, Mail, MapPin, Calendar, Clock, Users, ArrowRight, Flame, Sparkles } from "lucide-react";
+import { Ticket, Instagram, MessageCircle, Mail, MapPin, Calendar, Clock, Users, ArrowRight, Flame, Sparkles } from "lucide-react";
 import { Toaster } from "@/components/ui/sonner";
 import { toast } from "sonner";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
+
+// Tracking helper functions
+const trackEvent = (eventName, eventData = {}) => {
+  // Meta Pixel tracking
+  if (typeof window !== 'undefined' && window.fbq) {
+    window.fbq('track', eventName, eventData);
+  }
+  // TikTok Pixel tracking
+  if (typeof window !== 'undefined' && window.ttq) {
+    window.ttq.track(eventName, eventData);
+  }
+};
+
+const trackTicketClick = (eventName, ticketUrl) => {
+  trackEvent('InitiateCheckout', {
+    content_name: eventName,
+    content_category: 'Event Ticket',
+    currency: 'EUR',
+    value: 10
+  });
+};
+
+const trackFormSubmission = (formData) => {
+  trackEvent('Lead', {
+    content_name: 'Community Signup',
+    content_category: 'Newsletter',
+    city: formData.city,
+    country: formData.country
+  });
+  trackEvent('CompleteRegistration', {
+    content_name: 'Baila Dembow Community',
+    status: 'subscribed'
+  });
+};
 
 // User provided images
 const GALLERY_IMAGES = [
