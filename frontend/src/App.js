@@ -694,6 +694,7 @@ const FloatingCTA = () => {
           exit={{ opacity: 0, scale: 0.8, y: 20 }}
           className="floating-cta"
           data-testid="floating-cta"
+          onClick={() => trackTicketClick('Baila Dembow - Floating CTA', 'https://linktr.ee/bailadembow')}
         >
           <div className="absolute inset-0 rounded-full bg-[#FF0080] pulse-ring" />
           <Ticket size={20} />
