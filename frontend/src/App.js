@@ -1367,7 +1367,6 @@ const HomePage = ({ events }) => {
       <NextEventSection events={events} />
       <ExperienceSection />
       <AgendaSection events={events} />
-      <SEOContentBlock />
       <CommunitySection />
     </>
   );
