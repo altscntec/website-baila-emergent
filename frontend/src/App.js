@@ -340,21 +340,8 @@ const NextEventSection = ({ events }) => {
 const ExperienceSection = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
-  const [galleryImages, setGalleryImages] = useState(GALLERY_IMAGES);
-
-  useEffect(() => {
-    const fetchGallery = async () => {
-      try {
-        const response = await axios.get(`${API}/gallery`);
-        if (response.data && response.data.length > 0) {
-          setGalleryImages(response.data);
-        }
-      } catch (error) {
-        console.error("Failed to fetch gallery:", error);
-      }
-    };
-    fetchGallery();
-  }, []);
+  // Use static local images instead of fetching from API
+  const galleryImages = GALLERY_IMAGES;
 
   return (
     <section id="experience" className="section-spacing" ref={ref} data-testid="experience-section">
