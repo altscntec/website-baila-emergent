@@ -880,9 +880,9 @@ const AboutUsPage = () => {
           <div className="mt-8">
             <h4 className="font-display text-lg mb-4">📸 Amsterdam Photo Gallery</h4>
             <div className="grid grid-cols-3 gap-4">
-              <img src="https://drive.google.com/uc?export=view&id=1aCUum-LGLHOHijwDufnx-D1o6WnyCLts" alt="Baila Dembow Amsterdam event 1" className="aspect-video object-cover rounded-xl w-full" loading="lazy" />
-              <img src="https://drive.google.com/uc?export=view&id=1w6Y2l96JgO7FgiND8xvKNVvVLPdtXhKu" alt="Baila Dembow Amsterdam event 2" className="aspect-video object-cover rounded-xl w-full" loading="lazy" />
-              <img src="https://drive.google.com/uc?export=view&id=1Y2x5eB6NXUmQCXtAdtmDL4Z0K050bMVf" alt="Baila Dembow Amsterdam event 3" className="aspect-video object-cover rounded-xl w-full" loading="lazy" />
+              <img src="/city-photos/amsterdam1.jpg" alt="Baila Dembow Amsterdam event 1" className="aspect-video object-cover rounded-xl w-full" loading="lazy" />
+              <img src="/city-photos/amsterdam2.jpg" alt="Baila Dembow Amsterdam event 2" className="aspect-video object-cover rounded-xl w-full" loading="lazy" />
+              <img src="/city-photos/amsterdam3.jpg" alt="Baila Dembow Amsterdam event 3" className="aspect-video object-cover rounded-xl w-full" loading="lazy" />
             </div>
           </div>
         </div>
@@ -916,9 +916,9 @@ const AboutUsPage = () => {
           <div className="mt-8">
             <h4 className="font-display text-lg mb-4">📸 Rotterdam Photo Gallery</h4>
             <div className="grid grid-cols-3 gap-4">
-              <img src="https://drive.google.com/uc?export=view&id=1MTILVdOjCWmIvjSnFTQV0p_QjHzOJUMp" alt="Baila Dembow Rotterdam event 1" className="aspect-video object-cover rounded-xl w-full" loading="lazy" />
-              <img src="https://drive.google.com/uc?export=view&id=10e8uRnbKyE6Qg_0Fhr0Ijh-AxCQzW38K" alt="Baila Dembow Rotterdam event 2" className="aspect-video object-cover rounded-xl w-full" loading="lazy" />
-              <img src="https://drive.google.com/uc?export=view&id=1oednk37cSlMiD_rJCM44mQnCJs1A2vu6" alt="Baila Dembow Rotterdam event 3" className="aspect-video object-cover rounded-xl w-full" loading="lazy" />
+              <img src="/city-photos/rotterdam1.jpg" alt="Baila Dembow Rotterdam event 1" className="aspect-video object-cover rounded-xl w-full" loading="lazy" />
+              <img src="/city-photos/rotterdam2.jpg" alt="Baila Dembow Rotterdam event 2" className="aspect-video object-cover rounded-xl w-full" loading="lazy" />
+              <img src="/city-photos/rotterdam3.jpg" alt="Baila Dembow Rotterdam event 3" className="aspect-video object-cover rounded-xl w-full" loading="lazy" />
             </div>
           </div>
         </div>
@@ -951,9 +951,9 @@ const AboutUsPage = () => {
           <div className="mt-8">
             <h4 className="font-display text-lg mb-4">📸 Utrecht Photo Gallery</h4>
             <div className="grid grid-cols-3 gap-4">
-              <img src="https://drive.google.com/uc?export=view&id=1r8aqCcXaC8rUpQd0hQQGx4UnDW-obWsE" alt="Baila Dembow Utrecht event 1" className="aspect-video object-cover rounded-xl w-full" loading="lazy" />
-              <img src="https://drive.google.com/uc?export=view&id=1H0mhmmmOjgq0e0ChZxU_OTMBMbPTALYL" alt="Baila Dembow Utrecht event 2" className="aspect-video object-cover rounded-xl w-full" loading="lazy" />
-              <img src="https://drive.google.com/uc?export=view&id=11zvuzzmiTCyphdp-u_m5bJC0VxCuaH3c" alt="Baila Dembow Utrecht event 3" className="aspect-video object-cover rounded-xl w-full" loading="lazy" />
+              <img src="/city-photos/utrecht1.jpg" alt="Baila Dembow Utrecht event 1" className="aspect-video object-cover rounded-xl w-full" loading="lazy" />
+              <img src="/city-photos/utrecht2.jpg" alt="Baila Dembow Utrecht event 2" className="aspect-video object-cover rounded-xl w-full" loading="lazy" />
+              <img src="/city-photos/utrecht3.jpg" alt="Baila Dembow Utrecht event 3" className="aspect-video object-cover rounded-xl w-full" loading="lazy" />
             </div>
           </div>
         </div>
@@ -985,9 +985,9 @@ const AboutUsPage = () => {
           <div className="mt-8">
             <h4 className="font-display text-lg mb-4">📸 Tilburg Photo Gallery</h4>
             <div className="grid grid-cols-3 gap-4">
-              <img src="https://drive.google.com/uc?export=view&id=1c-86wKMFDtUKvKMwhn0Gv29dgimoKX8K" alt="Baila Dembow Tilburg event 1" className="aspect-video object-cover rounded-xl w-full" loading="lazy" />
-              <img src="https://drive.google.com/uc?export=view&id=1LG5_cdDMuyvR1XYzhDxzajuP_yHsDk-S" alt="Baila Dembow Tilburg event 2" className="aspect-video object-cover rounded-xl w-full" loading="lazy" />
-              <img src="https://drive.google.com/uc?export=view&id=1LG5_cdDMuyvR1XYzhDxzajuP_yHsDk-S" alt="Baila Dembow Tilburg event 3" className="aspect-video object-cover rounded-xl w-full" loading="lazy" />
+              <img src="/city-photos/tilburg1.jpg" alt="Baila Dembow Tilburg event 1" className="aspect-video object-cover rounded-xl w-full" loading="lazy" />
+              <img src="/city-photos/tilburg2.jpg" alt="Baila Dembow Tilburg event 2" className="aspect-video object-cover rounded-xl w-full" loading="lazy" />
+              <img src="/city-photos/tilburg2.jpg" alt="Baila Dembow Tilburg event 3" className="aspect-video object-cover rounded-xl w-full" loading="lazy" />
             </div>
           </div>
         </div>
@@ -1021,9 +1021,9 @@ const AboutUsPage = () => {
           <div className="mt-8">
             <h4 className="font-display text-lg mb-4">📸 London Photo Gallery</h4>
             <div className="grid grid-cols-3 gap-4">
-              <img src="https://drive.google.com/uc?export=view&id=1fg_auP-UnIOtt8qFfTZaz7rve7kUJSxl" alt="Baila Dembow London event 1" className="aspect-video object-cover rounded-xl w-full" loading="lazy" />
-              <img src="https://drive.google.com/uc?export=view&id=17foAmBQjWJDck-ea7DBYYa0_TfOPa9uf" alt="Baila Dembow London event 2" className="aspect-video object-cover rounded-xl w-full" loading="lazy" />
-              <img src="https://drive.google.com/uc?export=view&id=1htzgFKfylX-ihMHAdgv-f-jp2TDQIsdD" alt="Baila Dembow London event 3" className="aspect-video object-cover rounded-xl w-full" loading="lazy" />
+              <img src="/city-photos/london1.jpg" alt="Baila Dembow London event 1" className="aspect-video object-cover rounded-xl w-full" loading="lazy" />
+              <img src="/city-photos/london2.jpg" alt="Baila Dembow London event 2" className="aspect-video object-cover rounded-xl w-full" loading="lazy" />
+              <img src="/city-photos/london3.jpg" alt="Baila Dembow London event 3" className="aspect-video object-cover rounded-xl w-full" loading="lazy" />
             </div>
           </div>
         </div>
