@@ -1168,7 +1168,7 @@ const AboutUsPage = () => {
 
         {/* Back to Home */}
         <div className="text-center mt-12">
-          <a href="/" className="inline-flex items-center gap-2 text-[#FF0080] font-semibold hover:underline">
+          <a href="#/" className="inline-flex items-center gap-2 text-[#FF0080] font-semibold hover:underline">
             ← Back to Homepage
           </a>
         </div>
@@ -1315,7 +1315,7 @@ const AdminPage = () => {
             </button>
           </form>
           <div className="text-center mt-6">
-            <a href="/" className="text-[#FF0080] hover:underline">← Back to Homepage</a>
+            <a href="#/" className="text-[#FF0080] hover:underline">← Back to Homepage</a>
           </div>
         </div>
       </div>
@@ -1412,7 +1412,7 @@ const AdminPage = () => {
         </div>
 
         <div className="text-center mt-12">
-          <a href="/" className="inline-flex items-center gap-2 text-[#FF0080] font-semibold hover:underline">
+          <a href="#/" className="inline-flex items-center gap-2 text-[#FF0080] font-semibold hover:underline">
             ← Back to Homepage
           </a>
         </div>
@@ -1482,7 +1482,7 @@ const PressPage = () => {
         </div>
         
         <div className="text-center mt-12">
-          <a href="/" className="inline-flex items-center gap-2 text-[#FF0080] font-semibold hover:underline">
+          <a href="#/" className="inline-flex items-center gap-2 text-[#FF0080] font-semibold hover:underline">
             ← Back to Homepage
           </a>
         </div>
@@ -1560,7 +1560,7 @@ const EventsPage = () => {
         </div>
         
         <div className="text-center mt-12">
-          <a href="/" className="inline-flex items-center gap-2 text-[#FF0080] font-semibold hover:underline">
+          <a href="#/" className="inline-flex items-center gap-2 text-[#FF0080] font-semibold hover:underline">
             ← Back to Homepage
           </a>
         </div>
