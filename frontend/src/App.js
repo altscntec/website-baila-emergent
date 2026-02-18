@@ -1187,9 +1187,10 @@ const HomePage = ({ events }) => {
     <>
       <HeroSection />
       <NextEventSection events={events} />
-      <SEOContentBlock />
+      <AboutUsSection />
       <ExperienceSection />
       <AgendaSection events={events} />
+      <SEOContentBlock />
       <CommunitySection />
     </>
   );
