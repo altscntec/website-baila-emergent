@@ -47,38 +47,43 @@ const trackFormSubmission = (formData) => {
 const GALLERY_IMAGES = [
   {
     id: "gallery-1",
-    url: "https://customer-assets.emergentagent.com/job_baila-dembow/artifacts/a14cn4l3_www.qxvisuals.com-131.JPG",
-    alt: "Baila Dembow crowd with green lights and giant bunny"
+    url: "/gallery/gallery1.jpg",
+    alt: "Baila Dembow event crowd"
   },
   {
     id: "gallery-2",
-    url: "https://customer-assets.emergentagent.com/job_baila-dembow/artifacts/ujzqe4nh_BAILA%20DEMBOW%20HALLOWEEN%2031-10-2025%20INSTA-282.jpg",
-    alt: "Baila Dembow crowd with flags"
+    url: "/gallery/gallery2.jpg",
+    alt: "Baila Dembow party atmosphere"
   },
   {
     id: "gallery-3",
-    url: "https://customer-assets.emergentagent.com/job_baila-dembow/artifacts/s4a162cz_DSC03860.JPG",
-    alt: "Club atmosphere"
+    url: "/gallery/gallery3.jpg",
+    alt: "Baila Dembow dance floor"
   },
   {
     id: "gallery-4",
-    url: "https://customer-assets.emergentagent.com/job_baila-dembow/artifacts/67aouk8u_DSC07207.JPG",
-    alt: "Event energy"
+    url: "/gallery/gallery4.jpg",
+    alt: "Baila Dembow event energy"
   },
   {
     id: "gallery-5",
-    url: "https://customer-assets.emergentagent.com/job_baila-dembow/artifacts/5gfkl130_BAILA%20DEMBOW%20HALLOWEEN%2031-10-2025%20INSTA-66.jpg",
-    alt: "Halloween event"
+    url: "/gallery/gallery5.jpg",
+    alt: "Baila Dembow club night"
   },
   {
     id: "gallery-6",
-    url: "https://customer-assets.emergentagent.com/job_baila-dembow/artifacts/ov707mqf_BAILA%20DEMBOW%20HALLOWEEN%2031-10-2025%20INSTA-398.JPG",
-    alt: "Dance floor"
+    url: "/gallery/gallery6.jpg",
+    alt: "Baila Dembow Latin vibes"
   },
   {
     id: "gallery-7",
-    url: "https://customer-assets.emergentagent.com/job_baila-dembow/artifacts/8c11g9vs_DSC03325.JPG",
-    alt: "Party atmosphere"
+    url: "/gallery/gallery7.jpg",
+    alt: "Baila Dembow crowd experience"
+  },
+  {
+    id: "gallery-8",
+    url: "/gallery/gallery8.jpg",
+    alt: "Baila Dembow party scene"
   }
 ];
 
