@@ -1626,7 +1626,9 @@ function App() {
   // Use hash-based routing for better compatibility with deployed sites
   const getHashPath = () => {
     const hash = window.location.hash;
-    return hash.replace('#', '') || '/';
+    // Remove query params from path
+    const pathPart = hash.replace('#', '').split('?')[0];
+    return pathPart || '/';
   };
 
   const [currentPath, setCurrentPath] = useState(getHashPath());
@@ -1634,8 +1636,36 @@ function App() {
   useEffect(() => {
     const handleHashChange = () => {
       setCurrentPath(getHashPath());
+      
+      // Handle scrollTo parameter for navigation from other pages
+      const hash = window.location.hash;
+      if (hash.includes('scrollTo=')) {
+        const scrollToId = hash.split('scrollTo=')[1];
+        setTimeout(() => {
+          const element = document.getElementById(scrollToId);
+          if (element) {
+            element.scrollIntoView({ behavior: "smooth" });
+          }
+          // Clean up the URL
+          window.history.replaceState(null, '', window.location.origin + '/#/');
+        }, 100);
+      }
     };
     window.addEventListener('hashchange', handleHashChange);
+    
+    // Also check on initial load
+    const hash = window.location.hash;
+    if (hash.includes('scrollTo=')) {
+      const scrollToId = hash.split('scrollTo=')[1];
+      setTimeout(() => {
+        const element = document.getElementById(scrollToId);
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth" });
+        }
+        window.history.replaceState(null, '', window.location.origin + '/#/');
+      }, 500);
+    }
+    
     return () => window.removeEventListener('hashchange', handleHashChange);
   }, []);
 
