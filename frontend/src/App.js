@@ -1,15 +1,334 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, createContext, useContext } from "react";
 import "@/App.css";
 import axios from "axios";
 import { motion, useInView, AnimatePresence } from "framer-motion";
-import { Ticket, Instagram, MessageCircle, Mail, MapPin, Calendar, Clock, Users, ArrowRight, Flame, Sparkles } from "lucide-react";
+import { Ticket, Instagram, MessageCircle, Mail, MapPin, Calendar, Clock, Users, ArrowRight, Flame, Sparkles, X, Settings, Shield, BarChart3, Target } from "lucide-react";
 import { Toaster } from "@/components/ui/sonner";
 import { toast } from "sonner";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
-// Tracking helper functions
+// Cookie Consent Context
+const CookieConsentContext = createContext(null);
+
+const useCookieConsent = () => useContext(CookieConsentContext);
+
+// Cookie Consent Storage Keys
+const CONSENT_KEY = 'baila_cookie_consent';
+const META_PIXEL_ID = '179511642577064';
+const TIKTOK_PIXEL_ID = 'C189G8RC77UBJAEBRS80';
+
+// Get stored consent
+const getStoredConsent = () => {
+  try {
+    const stored = localStorage.getItem(CONSENT_KEY);
+    if (stored) {
+      return JSON.parse(stored);
+    }
+  } catch (e) {
+    console.error('Error reading consent:', e);
+  }
+  return null;
+};
+
+// Save consent
+const saveConsent = (consent) => {
+  try {
+    localStorage.setItem(CONSENT_KEY, JSON.stringify({
+      ...consent,
+      timestamp: new Date().toISOString()
+    }));
+  } catch (e) {
+    console.error('Error saving consent:', e);
+  }
+};
+
+// Load Meta Pixel
+const loadMetaPixel = () => {
+  if (window.fbq) return;
+  
+  !function(f,b,e,v,n,t,s) {
+    if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)
+  }(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
+  
+  window.fbq('init', META_PIXEL_ID);
+  window.fbq('track', 'PageView');
+};
+
+// Load TikTok Pixel
+const loadTikTokPixel = () => {
+  if (window.ttq && window.ttq._i && window.ttq._i[TIKTOK_PIXEL_ID]) return;
+  
+  !function (w, d, t) {
+    w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];
+    ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie"];
+    ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};
+    for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);
+    ttq.instance=function(t){for(var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e};
+    ttq.load=function(e,n){var i="https://analytics.tiktok.com/i18n/pixel/events.js";ttq._i=ttq._i||{},ttq._i[e]=[],ttq._i[e]._u=i,ttq._t=ttq._t||{},ttq._t[e]=+new Date,ttq._o=ttq._o||{},ttq._o[e]=n||{};var o=document.createElement("script");o.type="text/javascript",o.async=!0,o.src=i+"?sdkid="+e+"&lib="+t;var a=document.getElementsByTagName("script")[0];a.parentNode.insertBefore(o,a)};
+    ttq.load(TIKTOK_PIXEL_ID);
+    ttq.page();
+  }(window, document, 'ttq');
+};
+
+// Cookie Consent Banner Component
+const CookieConsentBanner = ({ onConsent, showPreferences, setShowPreferences }) => {
+  const [preferences, setPreferences] = useState({
+    necessary: true,
+    analytics: false,
+    marketing: false
+  });
+
+  const handleAcceptAll = () => {
+    const consent = { necessary: true, analytics: true, marketing: true };
+    onConsent(consent);
+  };
+
+  const handleRejectAll = () => {
+    const consent = { necessary: true, analytics: false, marketing: false };
+    onConsent(consent);
+  };
+
+  const handleSavePreferences = () => {
+    onConsent(preferences);
+    setShowPreferences(false);
+  };
+
+  return (
+    <AnimatePresence>
+      <motion.div
+        initial={{ opacity: 0, y: 100 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: 100 }}
+        transition={{ duration: 0.4, ease: "easeOut" }}
+        className="fixed inset-0 z-[9999] flex items-end justify-center p-4 pointer-events-none"
+        data-testid="cookie-banner"
+      >
+        <div className="pointer-events-auto w-full max-w-2xl">
+          {!showPreferences ? (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden"
+            >
+              {/* Gradient accent bar */}
+              <div className="h-1 bg-gradient-to-r from-[#FF0080] via-[#FF4D4D] to-[#8B5CF6]" />
+              
+              <div className="p-6">
+                <div className="flex items-start gap-4 mb-5">
+                  <div className="p-2 bg-gradient-to-br from-[#FF0080]/10 to-[#8B5CF6]/10 rounded-xl">
+                    <Shield className="w-6 h-6 text-[#FF0080]" />
+                  </div>
+                  <div>
+                    <h3 className="font-display text-xl text-gray-900 mb-1">We value your privacy</h3>
+                    <p className="text-sm text-gray-600 leading-relaxed">
+                      We use cookies to enhance your experience, analyze site traffic, and for marketing purposes. 
+                      You can choose which cookies to accept.
+                    </p>
+                  </div>
+                </div>
+                
+                <div className="flex flex-col sm:flex-row gap-3">
+                  <button
+                    onClick={handleRejectAll}
+                    className="flex-1 px-5 py-3 rounded-xl border-2 border-gray-200 text-gray-700 font-semibold text-sm hover:border-gray-300 hover:bg-gray-50 transition-all duration-200"
+                    data-testid="cookie-reject-all"
+                  >
+                    Reject all
+                  </button>
+                  <button
+                    onClick={handleAcceptAll}
+                    className="flex-1 px-5 py-3 rounded-xl bg-gradient-to-r from-[#FF0080] to-[#8B5CF6] text-white font-semibold text-sm hover:opacity-90 transition-all duration-200 shadow-lg shadow-[#FF0080]/20"
+                    data-testid="cookie-accept-all"
+                  >
+                    Accept all
+                  </button>
+                </div>
+                
+                <button
+                  onClick={() => setShowPreferences(true)}
+                  className="w-full mt-3 px-4 py-2 text-sm text-gray-500 hover:text-[#FF0080] transition-colors flex items-center justify-center gap-2"
+                  data-testid="cookie-manage-preferences"
+                >
+                  <Settings className="w-4 h-4" />
+                  Manage preferences
+                </button>
+              </div>
+            </motion.div>
+          ) : (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden max-h-[80vh] overflow-y-auto"
+            >
+              {/* Gradient accent bar */}
+              <div className="h-1 bg-gradient-to-r from-[#FF0080] via-[#FF4D4D] to-[#8B5CF6]" />
+              
+              <div className="p-6">
+                <div className="flex items-center justify-between mb-6">
+                  <h3 className="font-display text-xl text-gray-900">Cookie Preferences</h3>
+                  <button
+                    onClick={() => setShowPreferences(false)}
+                    className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                  >
+                    <X className="w-5 h-5 text-gray-500" />
+                  </button>
+                </div>
+                
+                {/* Necessary Cookies */}
+                <div className="mb-4 p-4 bg-gray-50 rounded-xl">
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="flex items-center gap-3">
+                      <div className="p-1.5 bg-green-100 rounded-lg">
+                        <Shield className="w-4 h-4 text-green-600" />
+                      </div>
+                      <span className="font-semibold text-gray-900">Necessary</span>
+                    </div>
+                    <span className="text-xs font-medium text-green-600 bg-green-100 px-2 py-1 rounded-full">
+                      Always active
+                    </span>
+                  </div>
+                  <p className="text-sm text-gray-600 ml-10">
+                    Essential for the website to function properly. Cannot be disabled.
+                  </p>
+                </div>
+                
+                {/* Analytics Cookies */}
+                <div className="mb-4 p-4 bg-gray-50 rounded-xl">
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="flex items-center gap-3">
+                      <div className="p-1.5 bg-blue-100 rounded-lg">
+                        <BarChart3 className="w-4 h-4 text-blue-600" />
+                      </div>
+                      <span className="font-semibold text-gray-900">Analytics</span>
+                    </div>
+                    <label className="relative inline-flex items-center cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={preferences.analytics}
+                        onChange={(e) => setPreferences(prev => ({ ...prev, analytics: e.target.checked }))}
+                        className="sr-only peer"
+                        data-testid="cookie-analytics-toggle"
+                      />
+                      <div className="w-11 h-6 bg-gray-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-gradient-to-r peer-checked:from-[#FF0080] peer-checked:to-[#8B5CF6]"></div>
+                    </label>
+                  </div>
+                  <p className="text-sm text-gray-600 ml-10">
+                    Help us understand how visitors interact with our website.
+                  </p>
+                </div>
+                
+                {/* Marketing Cookies */}
+                <div className="mb-6 p-4 bg-gray-50 rounded-xl">
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="flex items-center gap-3">
+                      <div className="p-1.5 bg-purple-100 rounded-lg">
+                        <Target className="w-4 h-4 text-purple-600" />
+                      </div>
+                      <span className="font-semibold text-gray-900">Marketing</span>
+                    </div>
+                    <label className="relative inline-flex items-center cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={preferences.marketing}
+                        onChange={(e) => setPreferences(prev => ({ ...prev, marketing: e.target.checked }))}
+                        className="sr-only peer"
+                        data-testid="cookie-marketing-toggle"
+                      />
+                      <div className="w-11 h-6 bg-gray-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-gradient-to-r peer-checked:from-[#FF0080] peer-checked:to-[#8B5CF6]"></div>
+                    </label>
+                  </div>
+                  <p className="text-sm text-gray-600 ml-10">
+                    Used to show you relevant ads on other platforms (Meta, TikTok).
+                  </p>
+                </div>
+                
+                <div className="flex gap-3">
+                  <button
+                    onClick={() => setShowPreferences(false)}
+                    className="flex-1 px-5 py-3 rounded-xl border-2 border-gray-200 text-gray-700 font-semibold text-sm hover:border-gray-300 hover:bg-gray-50 transition-all duration-200"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={handleSavePreferences}
+                    className="flex-1 px-5 py-3 rounded-xl bg-gradient-to-r from-[#FF0080] to-[#8B5CF6] text-white font-semibold text-sm hover:opacity-90 transition-all duration-200 shadow-lg shadow-[#FF0080]/20"
+                    data-testid="cookie-save-preferences"
+                  >
+                    Save preferences
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </div>
+      </motion.div>
+    </AnimatePresence>
+  );
+};
+
+// Cookie Consent Provider Component
+const CookieConsentProvider = ({ children }) => {
+  const [consent, setConsent] = useState(null);
+  const [showBanner, setShowBanner] = useState(false);
+  const [showPreferences, setShowPreferences] = useState(false);
+  const [initialized, setInitialized] = useState(false);
+
+  useEffect(() => {
+    const stored = getStoredConsent();
+    if (stored) {
+      setConsent(stored);
+      // Load trackers based on stored consent
+      if (stored.marketing) {
+        loadMetaPixel();
+        loadTikTokPixel();
+      }
+    } else {
+      setShowBanner(true);
+    }
+    setInitialized(true);
+  }, []);
+
+  const handleConsent = (newConsent) => {
+    setConsent(newConsent);
+    saveConsent(newConsent);
+    setShowBanner(false);
+    
+    // Load trackers if marketing consent given
+    if (newConsent.marketing) {
+      loadMetaPixel();
+      loadTikTokPixel();
+    }
+  };
+
+  const openPreferences = () => {
+    setShowPreferences(true);
+    setShowBanner(true);
+  };
+
+  if (!initialized) return null;
+
+  return (
+    <CookieConsentContext.Provider value={{ consent, openPreferences }}>
+      {children}
+      {showBanner && (
+        <CookieConsentBanner 
+          onConsent={handleConsent}
+          showPreferences={showPreferences}
+          setShowPreferences={setShowPreferences}
+        />
+      )}
+    </CookieConsentContext.Provider>
+  );
+};
+
+// Tracking helper functions - now check for consent
 const trackEvent = (eventName, eventData = {}) => {
   // Meta Pixel tracking
   if (typeof window !== 'undefined' && window.fbq) {
