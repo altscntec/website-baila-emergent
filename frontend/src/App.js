@@ -790,9 +790,8 @@ const AboutUsPage = () => {
           <h1 className="font-display text-4xl md:text-6xl mb-6">
             BAILA DEMBOW<br /><span className="gradient-text">ABOUT US</span>
           </h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            The #1 Latin Event in Amsterdam and the Netherlands
-          </p>
+          {/* Hidden for SEO - not visible to visitors */}
+          <span className="sr-only" aria-hidden="true">The #1 Latin Event in Amsterdam and the Netherlands</span>
         </div>
 
         {/* Main Story Section */}
