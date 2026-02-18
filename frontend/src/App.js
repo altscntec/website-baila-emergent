@@ -1239,11 +1239,11 @@ const PressPage = () => {
           <section className="mb-12">
             <h2 className="font-display text-2xl mb-4">Key Facts</h2>
             <ul className="space-y-2 text-gray-700">
-              <li>• <strong>Founded:</strong> 2023, Amsterdam</li>
+              <li>• <strong>Founded:</strong> 2018, Amsterdam</li>
               <li>• <strong>Event Types:</strong> Reggaeton, Dembow, Latin Party</li>
               <li>• <strong>Cities:</strong> Amsterdam, Rotterdam, Leiden, European expansion</li>
               <li>• <strong>Venue Capacity:</strong> 500-2000+ attendees</li>
-              <li>• <strong>Community:</strong> 5000+ members</li>
+              <li>• <strong>Community:</strong> 25K+ members</li>
               <li>• <strong>Parent Company:</strong> House Decoded Events (KVK 67994725)</li>
             </ul>
           </section>
