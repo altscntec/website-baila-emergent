@@ -512,7 +512,7 @@ const Navigation = () => {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -20, scale: 0.95 }}
             transition={{ duration: 0.2 }}
-            className="md:hidden absolute top-full left-0 right-0 mt-2 mx-4"
+            className="md:hidden fixed top-20 left-4 right-4 z-[101]"
             data-mobile-menu
           >
             <div className="bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden">
