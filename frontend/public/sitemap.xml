@@ -1,31 +1,61 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
-        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   
-  <!-- Homepage -->
+  <!-- Homepage - Latin Event Amsterdam -->
   <url>
     <loc>https://bailadembow.com/</loc>
     <lastmod>2026-02-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://customer-assets.emergentagent.com/job_baila-dembow/artifacts/yu24u3j0_White%20Baila%20Logo%20%284%29.png</image:loc>
+      <image:title>Baila Dembow - Latin Event Amsterdam</image:title>
+    </image:image>
   </url>
   
-  <!-- Events Section -->
+  <!-- Events Page -->
   <url>
-    <loc>https://bailadembow.com/#next-event</loc>
+    <loc>https://bailadembow.com/events</loc>
     <lastmod>2026-02-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   
-  <!-- Agenda Section -->
+  <!-- Amsterdam Event Feb 2026 -->
   <url>
-    <loc>https://bailadembow.com/#agenda</loc>
+    <loc>https://bailadembow.com/events/amsterdam-february-2026</loc>
     <lastmod>2026-02-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://customer-assets.emergentagent.com/job_baila-dembow/artifacts/c61u2vl4_1600%20X%20900%20%281920%20x%201005%20px%29%20%282%29.png</image:loc>
+      <image:title>Baila Dembow XL Amsterdam - Latin Event Reggaeton Dembow</image:title>
+    </image:image>
+  </url>
+  
+  <!-- Leiden Event Mar 2026 -->
+  <url>
+    <loc>https://bailadembow.com/events/leiden-march-2026</loc>
+    <lastmod>2026-02-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://customer-assets.emergentagent.com/job_baila-dembow/artifacts/qe9qcun6_14%20March%20Leiden%20.png</image:loc>
+      <image:title>Baila Dembow Leiden - Latin Party Netherlands</image:title>
+    </image:image>
+  </url>
+  
+  <!-- Amsterdam Kingsnight Apr 2026 -->
+  <url>
+    <loc>https://bailadembow.com/events/amsterdam-kingsnight-2026</loc>
+    <lastmod>2026-02-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://customer-assets.emergentagent.com/job_baila-dembow/artifacts/d4cz8fiu_26%3A04%20Amsterdam.png</image:loc>
+      <image:title>Baila Dembow XL Kingsnight - Reggaeton Party Amsterdam</image:title>
+    </image:image>
   </url>
   
   <!-- Gallery Section -->
@@ -42,6 +72,14 @@
     <lastmod>2026-02-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
+  </url>
+  
+  <!-- Press Page -->
+  <url>
+    <loc>https://bailadembow.com/press</loc>
+    <lastmod>2026-02-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
   </url>
 
 </urlset>
