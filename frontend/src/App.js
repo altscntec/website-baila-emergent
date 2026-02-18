@@ -880,9 +880,9 @@ const AboutUsPage = () => {
           <div className="mt-8">
             <h4 className="font-display text-lg mb-4">📸 Amsterdam Photo Gallery</h4>
             <div className="grid grid-cols-3 gap-4">
-              <div className="aspect-video bg-gray-200 rounded-xl flex items-center justify-center text-gray-400">Photo 1</div>
-              <div className="aspect-video bg-gray-200 rounded-xl flex items-center justify-center text-gray-400">Photo 2</div>
-              <div className="aspect-video bg-gray-200 rounded-xl flex items-center justify-center text-gray-400">Photo 3</div>
+              <img src="https://drive.google.com/uc?export=view&id=1aCUum-LGLHOHijwDufnx-D1o6WnyCLts" alt="Baila Dembow Amsterdam event 1" className="aspect-video object-cover rounded-xl w-full" loading="lazy" />
+              <img src="https://drive.google.com/uc?export=view&id=1w6Y2l96JgO7FgiND8xvKNVvVLPdtXhKu" alt="Baila Dembow Amsterdam event 2" className="aspect-video object-cover rounded-xl w-full" loading="lazy" />
+              <img src="https://drive.google.com/uc?export=view&id=1Y2x5eB6NXUmQCXtAdtmDL4Z0K050bMVf" alt="Baila Dembow Amsterdam event 3" className="aspect-video object-cover rounded-xl w-full" loading="lazy" />
             </div>
           </div>
         </div>
@@ -916,9 +916,9 @@ const AboutUsPage = () => {
           <div className="mt-8">
             <h4 className="font-display text-lg mb-4">📸 Rotterdam Photo Gallery</h4>
             <div className="grid grid-cols-3 gap-4">
-              <div className="aspect-video bg-gray-200 rounded-xl flex items-center justify-center text-gray-400">Photo 1</div>
-              <div className="aspect-video bg-gray-200 rounded-xl flex items-center justify-center text-gray-400">Photo 2</div>
-              <div className="aspect-video bg-gray-200 rounded-xl flex items-center justify-center text-gray-400">Photo 3</div>
+              <img src="https://drive.google.com/uc?export=view&id=1MTILVdOjCWmIvjSnFTQV0p_QjHzOJUMp" alt="Baila Dembow Rotterdam event 1" className="aspect-video object-cover rounded-xl w-full" loading="lazy" />
+              <img src="https://drive.google.com/uc?export=view&id=10e8uRnbKyE6Qg_0Fhr0Ijh-AxCQzW38K" alt="Baila Dembow Rotterdam event 2" className="aspect-video object-cover rounded-xl w-full" loading="lazy" />
+              <img src="https://drive.google.com/uc?export=view&id=1oednk37cSlMiD_rJCM44mQnCJs1A2vu6" alt="Baila Dembow Rotterdam event 3" className="aspect-video object-cover rounded-xl w-full" loading="lazy" />
             </div>
           </div>
         </div>
@@ -951,9 +951,9 @@ const AboutUsPage = () => {
           <div className="mt-8">
             <h4 className="font-display text-lg mb-4">📸 Utrecht Photo Gallery</h4>
             <div className="grid grid-cols-3 gap-4">
-              <div className="aspect-video bg-gray-200 rounded-xl flex items-center justify-center text-gray-400">Photo 1</div>
-              <div className="aspect-video bg-gray-200 rounded-xl flex items-center justify-center text-gray-400">Photo 2</div>
-              <div className="aspect-video bg-gray-200 rounded-xl flex items-center justify-center text-gray-400">Photo 3</div>
+              <img src="https://drive.google.com/uc?export=view&id=1r8aqCcXaC8rUpQd0hQQGx4UnDW-obWsE" alt="Baila Dembow Utrecht event 1" className="aspect-video object-cover rounded-xl w-full" loading="lazy" />
+              <img src="https://drive.google.com/uc?export=view&id=1H0mhmmmOjgq0e0ChZxU_OTMBMbPTALYL" alt="Baila Dembow Utrecht event 2" className="aspect-video object-cover rounded-xl w-full" loading="lazy" />
+              <img src="https://drive.google.com/uc?export=view&id=11zvuzzmiTCyphdp-u_m5bJC0VxCuaH3c" alt="Baila Dembow Utrecht event 3" className="aspect-video object-cover rounded-xl w-full" loading="lazy" />
             </div>
           </div>
         </div>
@@ -985,9 +985,9 @@ const AboutUsPage = () => {
           <div className="mt-8">
             <h4 className="font-display text-lg mb-4">📸 Tilburg Photo Gallery</h4>
             <div className="grid grid-cols-3 gap-4">
-              <div className="aspect-video bg-gray-200 rounded-xl flex items-center justify-center text-gray-400">Photo 1</div>
-              <div className="aspect-video bg-gray-200 rounded-xl flex items-center justify-center text-gray-400">Photo 2</div>
-              <div className="aspect-video bg-gray-200 rounded-xl flex items-center justify-center text-gray-400">Photo 3</div>
+              <img src="https://drive.google.com/uc?export=view&id=1c-86wKMFDtUKvKMwhn0Gv29dgimoKX8K" alt="Baila Dembow Tilburg event 1" className="aspect-video object-cover rounded-xl w-full" loading="lazy" />
+              <img src="https://drive.google.com/uc?export=view&id=1LG5_cdDMuyvR1XYzhDxzajuP_yHsDk-S" alt="Baila Dembow Tilburg event 2" className="aspect-video object-cover rounded-xl w-full" loading="lazy" />
+              <img src="https://drive.google.com/uc?export=view&id=1LG5_cdDMuyvR1XYzhDxzajuP_yHsDk-S" alt="Baila Dembow Tilburg event 3" className="aspect-video object-cover rounded-xl w-full" loading="lazy" />
             </div>
           </div>
         </div>
