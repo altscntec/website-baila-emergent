@@ -752,6 +752,238 @@ const FALLBACK_EVENTS = [
   }
 ];
 
+// Previous Events Data
+const PREVIOUS_EVENTS = [
+  {
+    city: "Amsterdam",
+    venues: ["Club Oliva", "IJland"],
+    capacity: "450-700",
+    soldOut: true,
+    country: "Netherlands"
+  },
+  {
+    city: "Rotterdam",
+    venues: ["Club Reverse"],
+    capacity: "450-700",
+    soldOut: true,
+    country: "Netherlands"
+  },
+  {
+    city: "Utrecht",
+    venues: ["Coming Soon"],
+    capacity: "450-700",
+    soldOut: false,
+    country: "Netherlands"
+  },
+  {
+    city: "Tilburg",
+    venues: ["Coming Soon"],
+    capacity: "450-700",
+    soldOut: false,
+    country: "Netherlands"
+  },
+  {
+    city: "London",
+    venues: ["Club Duo", "Club Fire"],
+    capacity: "450-700",
+    soldOut: true,
+    country: "UK"
+  }
+];
+
+// About Us Section Component
+const AboutUsSection = () => {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const [contactForm, setContactForm] = useState({
+    name: "",
+    email: "",
+    subject: "Booking",
+    message: ""
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleContactChange = (e) => {
+    const { name, value } = e.target;
+    setContactForm(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleContactSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    // Simulate submission
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    toast.success("Message sent! We'll get back to you soon.");
+    setContactForm({ name: "", email: "", subject: "Booking", message: "" });
+    setIsSubmitting(false);
+  };
+
+  return (
+    <section id="about" className="section-spacing bg-white" ref={ref} data-testid="about-section">
+      <!-- SEO: #1 Latin Event Netherlands | Latin Event Holland | Reggaeton Netherlands | Latin Party Netherlands | Best Latin Event Holland -->
+      <div className="container-custom">
+        {/* Our Story Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8 }}
+          className="max-w-4xl mx-auto mb-20"
+        >
+          <p className="text-sm tracking-[0.2em] uppercase text-[#FF0080] font-semibold mb-4 text-center">About Us</p>
+          <h2 className="font-display text-4xl md:text-6xl mb-8 text-center">
+            OUR <span className="gradient-text">STORY</span>
+          </h2>
+          <div className="space-y-6 text-lg text-gray-700 leading-relaxed">
+            <p>
+              <strong>Baila Dembow</strong> started in Amsterdam as a raw, unapologetic Reggaeton & Dembow club night — 
+              a space where Latin-Caribbean culture could explode without limits. What began as a single event 
+              quickly grew into a multi-city movement, spreading across the Netherlands to Rotterdam, Utrecht, 
+              Tilburg, and crossing borders to London.
+            </p>
+            <p>
+              We're not just throwing parties — we're building a movement. Every Baila Dembow event is a 
+              sold-out, block-party atmosphere with festival-level production: CO2 cannons erupting, confetti 
+              raining down, immersive lighting that pulses with every beat, and headline DJs that know exactly 
+              how to move a crowd.
+            </p>
+            <p>
+              Built by <strong>House Decoded Events</strong>, we're rooted in Latin-Caribbean culture and driven 
+              by community. From the Dominican neighborhoods of Amsterdam to the vibrant Latin diaspora across 
+              Europe, Baila Dembow is where strangers become family, where the music hits different, and where 
+              every night ends with stories you'll tell for years.
+            </p>
+            <p className="text-center font-semibold text-xl text-[#FF0080]">
+              This is not just a party. This is Baila Dembow.
+            </p>
+          </div>
+        </motion.div>
+
+        {/* Previous Events Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8, delay: 0.2 }}
+          className="mb-20"
+        >
+          <h3 className="font-display text-3xl md:text-4xl mb-8 text-center">
+            WHERE WE'VE <span className="gradient-text">BEEN</span>
+          </h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {PREVIOUS_EVENTS.map((event, index) => (
+              <motion.div
+                key={event.city}
+                initial={{ opacity: 0, y: 20 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.5, delay: 0.1 * index }}
+                className="bg-gray-50 rounded-2xl p-6 hover:shadow-lg transition-shadow"
+              >
+                <div className="flex items-center justify-between mb-4">
+                  <h4 className="font-display text-2xl">{event.city}</h4>
+                  {event.soldOut && (
+                    <span className="px-3 py-1 bg-[#FF0080] text-white text-xs font-bold rounded-full uppercase">
+                      Sold Out
+                    </span>
+                  )}
+                </div>
+                <div className="space-y-2 text-gray-600">
+                  <p className="flex items-center gap-2">
+                    <MapPin size={16} className="text-[#FF0080]" />
+                    {event.venues.join(" • ")}
+                  </p>
+                  <p className="flex items-center gap-2">
+                    <Users size={16} className="text-[#FF0080]" />
+                    Capacity: {event.capacity}
+                  </p>
+                  <p className="text-sm text-gray-400">{event.country}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* Get In Touch Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8, delay: 0.4 }}
+          className="max-w-2xl mx-auto"
+        >
+          <h3 className="font-display text-3xl md:text-4xl mb-4 text-center">
+            WORK <span className="gradient-text">WITH US</span>
+          </h3>
+          <p className="text-gray-600 text-center mb-8">
+            For bookings, partnerships, venue collaborations and press — reach out to the Baila Dembow team.
+          </p>
+          
+          <form onSubmit={handleContactSubmit} className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <input
+                type="text"
+                name="name"
+                value={contactForm.name}
+                onChange={handleContactChange}
+                placeholder="Your Name *"
+                className="input-styled w-full"
+                required
+                data-testid="contact-name"
+              />
+              <input
+                type="email"
+                name="email"
+                value={contactForm.email}
+                onChange={handleContactChange}
+                placeholder="Your Email *"
+                className="input-styled w-full"
+                required
+                data-testid="contact-email"
+              />
+            </div>
+            <select
+              name="subject"
+              value={contactForm.subject}
+              onChange={handleContactChange}
+              className="input-styled w-full"
+              data-testid="contact-subject"
+            >
+              <option value="Booking">Booking</option>
+              <option value="Partnership">Partnership</option>
+              <option value="Press">Press</option>
+              <option value="Other">Other</option>
+            </select>
+            <textarea
+              name="message"
+              value={contactForm.message}
+              onChange={handleContactChange}
+              placeholder="Your Message *"
+              rows={5}
+              className="input-styled w-full resize-none"
+              required
+              data-testid="contact-message"
+            />
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="w-full bg-[#FF0080] text-white font-bold py-4 px-8 rounded-full text-lg hover:bg-[#FF3B30] transition-colors duration-300"
+              data-testid="contact-submit"
+            >
+              {isSubmitting ? "Sending..." : "Send Message"}
+            </button>
+          </form>
+          
+          <div className="flex justify-center gap-6 mt-8 text-sm text-gray-600">
+            <a href="https://www.instagram.com/baila.dembow/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:text-[#FF0080] transition-colors">
+              <Instagram size={18} /> @baila.dembow
+            </a>
+            <span className="flex items-center gap-2">
+              <Mail size={18} /> ask@housedecoded.com
+            </span>
+          </div>
+        </motion.div>
+      </div>
+    </section>
+  );
+};
+
 // SEO Content Block Component
 const SEOContentBlock = () => {
   const ref = useRef(null);
