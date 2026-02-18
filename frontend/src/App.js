@@ -751,6 +751,217 @@ const FALLBACK_EVENTS = [
   }
 ];
 
+// SEO Content Block Component
+const SEOContentBlock = () => {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
+
+  return (
+    <section className="section-spacing bg-white" ref={ref} data-testid="seo-content-section">
+      <div className="container-custom">
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8 }}
+          className="max-w-4xl mx-auto"
+        >
+          <h2 className="font-display text-3xl md:text-5xl mb-6 text-center">
+            LATIN EVENT IN AMSTERDAM & NETHERLANDS
+          </h2>
+          <p className="text-lg text-gray-700 mb-8 text-center leading-relaxed">
+            Baila Dembow is the leading Latin Party brand in the Netherlands, specializing in authentic 
+            Reggaeton and Dembow experiences. We host Latin Events in Amsterdam, Rotterdam, Leiden, and 
+            cities across Europe, bringing Caribbean culture and community-driven experiences to life. 
+            Our events feature world-class sound systems, professional dancers, and an unforgettable atmosphere.
+          </p>
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 text-center">
+            <div className="p-4 bg-gray-50 rounded-xl">
+              <span className="text-[#FF0080] font-semibold">Latin Event in Amsterdam</span>
+            </div>
+            <div className="p-4 bg-gray-50 rounded-xl">
+              <span className="text-[#FF0080] font-semibold">Latin Event in Rotterdam</span>
+            </div>
+            <div className="p-4 bg-gray-50 rounded-xl">
+              <span className="text-[#FF0080] font-semibold">Reggaeton Party</span>
+            </div>
+            <div className="p-4 bg-gray-50 rounded-xl">
+              <span className="text-[#FF0080] font-semibold">Dembow Experience</span>
+            </div>
+            <div className="p-4 bg-gray-50 rounded-xl">
+              <span className="text-[#FF0080] font-semibold">Latin Party Netherlands</span>
+            </div>
+            <div className="p-4 bg-gray-50 rounded-xl">
+              <span className="text-[#FF0080] font-semibold">Latin Event Netherlands</span>
+            </div>
+          </div>
+        </motion.div>
+      </div>
+    </section>
+  );
+};
+
+// Press Page Component
+const PressPage = () => {
+  return (
+    <div className="min-h-screen bg-white pt-24">
+      <div className="container-custom py-16">
+        <h1 className="font-display text-4xl md:text-6xl mb-8 text-center">
+          BAILA DEMBOW<br /><span className="gradient-text">PRESS & MEDIA</span>
+        </h1>
+        
+        <div className="max-w-3xl mx-auto">
+          <section className="mb-12">
+            <h2 className="font-display text-2xl mb-4">About Baila Dembow</h2>
+            <p className="text-gray-700 leading-relaxed mb-4">
+              Baila Dembow is the leading Latin Event organizer in the Netherlands, pioneering the 
+              Reggaeton and Dembow party scene in Amsterdam, Rotterdam, and beyond. Founded as a 
+              cultural movement, we bring authentic Caribbean music experiences to European audiences.
+            </p>
+            <p className="text-gray-700 leading-relaxed">
+              Our Latin Party events feature world-class sound systems, professional dancers, CO2 blasts, 
+              confetti drops, and an atmosphere that transports attendees to the heart of Latin America. 
+              We've hosted thousands of party-goers and continue to grow as the premier Latin Event 
+              brand in the Netherlands.
+            </p>
+          </section>
+          
+          <section className="mb-12">
+            <h2 className="font-display text-2xl mb-4">Key Facts</h2>
+            <ul className="space-y-2 text-gray-700">
+              <li>• <strong>Founded:</strong> 2023, Amsterdam</li>
+              <li>• <strong>Event Types:</strong> Reggaeton, Dembow, Latin Party</li>
+              <li>• <strong>Cities:</strong> Amsterdam, Rotterdam, Leiden, European expansion</li>
+              <li>• <strong>Venue Capacity:</strong> 500-2000+ attendees</li>
+              <li>• <strong>Community:</strong> 5000+ members</li>
+              <li>• <strong>Parent Company:</strong> House Decoded Events (KVK 67994725)</li>
+            </ul>
+          </section>
+          
+          <section className="mb-12">
+            <h2 className="font-display text-2xl mb-4">Contact</h2>
+            <ul className="space-y-2 text-gray-700">
+              <li>• <strong>Press Inquiries:</strong> ask@housedecoded.com</li>
+              <li>• <strong>Instagram:</strong> @baila.dembow</li>
+              <li>• <strong>Facebook:</strong> facebook.com/baila.dembow</li>
+              <li>• <strong>TikTok:</strong> @baila.dembow</li>
+              <li>• <strong>YouTube:</strong> @baila.dembow</li>
+            </ul>
+          </section>
+          
+          <section>
+            <h2 className="font-display text-2xl mb-4">Keywords</h2>
+            <div className="flex flex-wrap gap-2">
+              {['Latin Event Amsterdam', 'Latin Event Netherlands', 'Latin Party', 'Dembow', 
+                'Reggaeton', 'Latin Event Rotterdam', 'Reggaeton Amsterdam', 'Latin Club Amsterdam',
+                'Dembow Party', 'Caribbean Party Netherlands'].map((tag, i) => (
+                <span key={i} className="px-3 py-1 bg-gray-100 rounded-full text-sm text-gray-700">{tag}</span>
+              ))}
+            </div>
+          </section>
+        </div>
+        
+        <div className="text-center mt-12">
+          <a href="/" className="inline-flex items-center gap-2 text-[#FF0080] font-semibold hover:underline">
+            ← Back to Homepage
+          </a>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// Events Page Component
+const EventsPage = () => {
+  const [events, setEvents] = useState(FALLBACK_EVENTS);
+
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const response = await axios.get(`${API}/events`);
+        if (response.data && response.data.length > 0) {
+          setEvents(response.data);
+        }
+      } catch (error) {
+        console.error("Failed to fetch events:", error);
+      }
+    };
+    fetchEvents();
+  }, []);
+
+  return (
+    <div className="min-h-screen bg-white pt-24">
+      <div className="container-custom py-16">
+        <h1 className="font-display text-4xl md:text-6xl mb-4 text-center">
+          LATIN EVENTS<br /><span className="gradient-text">AMSTERDAM & NETHERLANDS</span>
+        </h1>
+        <p className="text-lg text-gray-600 text-center mb-12 max-w-2xl mx-auto">
+          Experience the best Reggaeton, Dembow, and Latin Party events in the Netherlands. 
+          From Amsterdam to Rotterdam, Baila Dembow brings authentic Latin vibes.
+        </p>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {events.map((event, index) => (
+            <div key={event.id} className="event-card" data-testid={`events-page-card-${index}`}>
+              <div className="relative h-56 overflow-hidden">
+                <img src={event.image_url} alt={event.title} className="w-full h-full object-cover" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                <div className="absolute bottom-4 left-4">
+                  <span className={`status-badge ${event.status === 'almost_sold_out' ? 'status-almost-sold-out' : 'status-upcoming'}`}>
+                    {event.status === 'almost_sold_out' ? 'Almost Sold Out' : 'On Sale'}
+                  </span>
+                </div>
+              </div>
+              <div className="p-6">
+                <div className="flex items-center gap-2 text-sm text-[#FF0080] font-semibold mb-2">
+                  <MapPin size={14} /> {event.city}
+                </div>
+                <h3 className="font-display text-xl mb-2">{event.title}</h3>
+                <div className="flex flex-wrap gap-3 text-sm text-gray-500 mb-4">
+                  <span className="flex items-center gap-1"><Calendar size={14} /> {new Date(event.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
+                  <span className="flex items-center gap-1"><Clock size={14} /> {event.time}</span>
+                </div>
+                <p className="text-sm text-gray-600 mb-4">{event.description.substring(0, 120)}...</p>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm">From <span className="font-bold text-lg">{event.price_from}</span></span>
+                  <a 
+                    href={event.ticket_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-1 text-[#FF0080] font-semibold hover:gap-2 transition-all"
+                    onClick={() => trackTicketClick(event.title, event.ticket_url)}
+                  >
+                    Get Tickets <ArrowRight size={16} />
+                  </a>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+        
+        <div className="text-center mt-12">
+          <a href="/" className="inline-flex items-center gap-2 text-[#FF0080] font-semibold hover:underline">
+            ← Back to Homepage
+          </a>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// Home Page Component
+const HomePage = ({ events }) => {
+  return (
+    <>
+      <HeroSection />
+      <NextEventSection events={events} />
+      <SEOContentBlock />
+      <ExperienceSection />
+      <AgendaSection events={events} />
+      <CommunitySection />
+    </>
+  );
+};
+
 // Main App Component
 function App() {
   const [events, setEvents] = useState(FALLBACK_EVENTS);
@@ -764,33 +975,28 @@ function App() {
         }
       } catch (error) {
         console.error("Failed to fetch events:", error);
-        // Keep fallback events
       }
     };
     fetchEvents();
   }, []);
 
+  // Simple routing based on pathname
+  const pathname = window.location.pathname;
+
   return (
     <>
-      {/* Grain Overlay */}
       <div className="grain-overlay" />
-      
-      {/* Navigation */}
       <Navigation />
-      
-      {/* Main Content */}
       <main>
-        <HeroSection />
-        <NextEventSection events={events} />
-        <ExperienceSection />
-        <AgendaSection events={events} />
-        <CommunitySection />
+        {pathname === '/press' ? (
+          <PressPage />
+        ) : pathname === '/events' ? (
+          <EventsPage />
+        ) : (
+          <HomePage events={events} />
+        )}
       </main>
-      
-      {/* Floating CTA */}
       <FloatingCTA />
-      
-      {/* Toast Notifications */}
       <Toaster position="top-center" richColors />
     </>
   );
