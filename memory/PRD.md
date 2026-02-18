@@ -25,14 +25,14 @@ Create a cinematic, emotionally immersive, high-converting event website for Bai
 - **Database**: MongoDB (subscribers collection, status_checks collection)
 - **External Services**: YouTube embed, user-provided images from customer-assets
 
-## What's Been Implemented (Feb 17, 2026)
+## What's Been Implemented (Feb 18, 2026)
 ✅ Hero section with YouTube video background (autoplay, muted, looped)
 ✅ Gradient text headlines (Pink → Red → Violet)
 ✅ Anton + Manrope typography
 ✅ Floating navigation with glassmorphism effect
 ✅ Countdown timer to next event (Feb 28, 2026 Amsterdam XL)
 ✅ Next Event section with event details and ticket CTA
-✅ Experience gallery with 5 user-provided images in Bento grid
+✅ Experience gallery with 7 user-provided images in Bento grid
 ✅ Agenda section with 3 event cards
 ✅ Status badges (On Sale, Almost Sold Out) with animations
 ✅ Email subscription form with MongoDB integration
@@ -42,6 +42,11 @@ Create a cinematic, emotionally immersive, high-converting event website for Bai
 ✅ SEO meta tags, Open Graph, Twitter cards, JSON-LD schema
 ✅ Mobile responsive design
 ✅ Grain texture overlay for premium feel
+✅ Separate pages: About Us, Press, Events with hash-based routing (/#/about, /#/press, /#/events)
+✅ Password-protected Admin Panel (/#/admin) for gallery management
+✅ Meta and TikTok tracking pixels integrated
+✅ sitemap.xml and robots.txt for SEO
+✅ **City-specific photo galleries on About page**: Amsterdam (3 photos), Rotterdam (3 photos), Utrecht (3 photos), Tilburg (3 photos), London (3 photos) - 15 photos total hosted locally
 
 ## API Endpoints
 - `GET /api/` - Health check
