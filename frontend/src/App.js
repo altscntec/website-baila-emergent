@@ -107,12 +107,13 @@ const Navigation = () => {
           src={BUNNY_LOGO} 
           alt="Baila Dembow" 
           className="h-10 w-10 cursor-pointer object-contain"
-          onClick={() => scrollToSection('hero')}
+          onClick={() => window.location.href = '/'}
         />
         <div className={`hidden md:flex items-center gap-6 text-sm font-medium ${scrolled ? 'text-black' : 'text-white'}`}>
-          <button onClick={() => scrollToSection('next-event')} className="hover:text-[#FF0080] transition-colors" data-testid="nav-events">Events</button>
+          <a href="/events" className="hover:text-[#FF0080] transition-colors" data-testid="nav-events">Events</a>
           <button onClick={() => scrollToSection('experience')} className="hover:text-[#FF0080] transition-colors" data-testid="nav-gallery">Gallery</button>
           <button onClick={() => scrollToSection('community')} className="hover:text-[#FF0080] transition-colors" data-testid="nav-community">Community</button>
+          <a href="/press" className="hover:text-[#FF0080] transition-colors" data-testid="nav-press">Press</a>
         </div>
       </div>
     </motion.nav>
