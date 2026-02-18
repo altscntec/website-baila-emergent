@@ -1021,9 +1021,9 @@ const AboutUsPage = () => {
           <div className="mt-8">
             <h4 className="font-display text-lg mb-4">📸 London Photo Gallery</h4>
             <div className="grid grid-cols-3 gap-4">
-              <div className="aspect-video bg-gray-200 rounded-xl flex items-center justify-center text-gray-400">Photo 1</div>
-              <div className="aspect-video bg-gray-200 rounded-xl flex items-center justify-center text-gray-400">Photo 2</div>
-              <div className="aspect-video bg-gray-200 rounded-xl flex items-center justify-center text-gray-400">Photo 3</div>
+              <img src="https://drive.google.com/uc?export=view&id=1fg_auP-UnIOtt8qFfTZaz7rve7kUJSxl" alt="Baila Dembow London event 1" className="aspect-video object-cover rounded-xl w-full" loading="lazy" />
+              <img src="https://drive.google.com/uc?export=view&id=17foAmBQjWJDck-ea7DBYYa0_TfOPa9uf" alt="Baila Dembow London event 2" className="aspect-video object-cover rounded-xl w-full" loading="lazy" />
+              <img src="https://drive.google.com/uc?export=view&id=1htzgFKfylX-ihMHAdgv-f-jp2TDQIsdD" alt="Baila Dembow London event 3" className="aspect-video object-cover rounded-xl w-full" loading="lazy" />
             </div>
           </div>
         </div>
