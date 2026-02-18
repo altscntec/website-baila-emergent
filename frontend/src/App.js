@@ -103,9 +103,17 @@ const Navigation = () => {
   }, []);
 
   const scrollToSection = (id) => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
+    // Check if we're on the homepage
+    const isHomePage = window.location.hash === '' || window.location.hash === '#' || window.location.hash === '#/';
+    
+    if (isHomePage) {
+      const element = document.getElementById(id);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      }
+    } else {
+      // Navigate to homepage with hash for the section
+      window.location.href = `${window.location.origin}/#/?scrollTo=${id}`;
     }
   };
 
