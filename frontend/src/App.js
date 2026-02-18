@@ -107,7 +107,7 @@ const Navigation = () => {
           src={BUNNY_LOGO} 
           alt="Baila Dembow" 
           className="h-10 w-10 cursor-pointer object-contain"
-          onClick={() => window.location.href = '/'}
+          onClick={() => window.location.href = window.location.origin}
         />
         <div className={`hidden md:flex items-center gap-6 text-sm font-medium ${scrolled ? 'text-black' : 'text-white'}`}>
           <a href="#events" className="hover:text-[#FF0080] transition-colors" data-testid="nav-events">Events</a>
