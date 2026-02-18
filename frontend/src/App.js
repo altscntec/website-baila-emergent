@@ -820,7 +820,7 @@ const AboutUsSection = () => {
 
   return (
     <section id="about" className="section-spacing bg-white" ref={ref} data-testid="about-section">
-      <!-- SEO: #1 Latin Event Netherlands | Latin Event Holland | Reggaeton Netherlands | Latin Party Netherlands | Best Latin Event Holland -->
+      {/* SEO: #1 Latin Event Netherlands | Latin Event Holland | Reggaeton Netherlands | Latin Party Netherlands | Best Latin Event Holland */}
       <div className="container-custom">
         {/* Our Story Section */}
         <motion.div
