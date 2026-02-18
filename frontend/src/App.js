@@ -753,49 +753,11 @@ const FALLBACK_EVENTS = [
   }
 ];
 
-// Previous Events Data
-const PREVIOUS_EVENTS = [
-  {
-    city: "Amsterdam",
-    venues: ["Club Oliva", "IJland"],
-    capacity: "450-700",
-    soldOut: true,
-    country: "Netherlands"
-  },
-  {
-    city: "Rotterdam",
-    venues: ["Club Reverse"],
-    capacity: "450-700",
-    soldOut: true,
-    country: "Netherlands"
-  },
-  {
-    city: "Utrecht",
-    venues: ["Coming Soon"],
-    capacity: "450-700",
-    soldOut: false,
-    country: "Netherlands"
-  },
-  {
-    city: "Tilburg",
-    venues: ["Coming Soon"],
-    capacity: "450-700",
-    soldOut: false,
-    country: "Netherlands"
-  },
-  {
-    city: "London",
-    venues: ["Club Duo", "Club Fire"],
-    capacity: "450-700",
-    soldOut: true,
-    country: "UK"
-  }
-];
+// Previous Events Data - kept for reference
+const PREVIOUS_EVENTS_CITIES = ["Amsterdam", "Rotterdam", "Utrecht", "Tilburg", "London"];
 
-// About Us Section Component
-const AboutUsSection = () => {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
+// About Us Page Component (Separate Page)
+const AboutUsPage = () => {
   const [contactForm, setContactForm] = useState({
     name: "",
     email: "",
@@ -812,7 +774,6 @@ const AboutUsSection = () => {
   const handleContactSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    // Simulate submission
     await new Promise(resolve => setTimeout(resolve, 1000));
     toast.success("Message sent! We'll get back to you soon.");
     setContactForm({ name: "", email: "", subject: "Booking", message: "" });
@@ -820,95 +781,305 @@ const AboutUsSection = () => {
   };
 
   return (
-    <section id="about" className="section-spacing bg-white" ref={ref} data-testid="about-section">
+    <div className="min-h-screen bg-white pt-24">
       {/* SEO: #1 Latin Event Netherlands | Latin Event Holland | Reggaeton Netherlands | Latin Party Netherlands | Best Latin Event Holland */}
-      <div className="container-custom">
-        {/* Our Story Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8 }}
-          className="max-w-4xl mx-auto mb-20"
-        >
-          <p className="text-sm tracking-[0.2em] uppercase text-[#FF0080] font-semibold mb-4 text-center">About Us</p>
-          <h2 className="font-display text-4xl md:text-6xl mb-8 text-center">
-            OUR <span className="gradient-text">STORY</span>
+      <div className="container-custom py-12">
+        
+        {/* Hero Section */}
+        <div className="text-center mb-16">
+          <h1 className="font-display text-4xl md:text-6xl mb-6">
+            BAILA DEMBOW<br /><span className="gradient-text">ABOUT US</span>
+          </h1>
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            The #1 Latin Event in Amsterdam and the Netherlands
+          </p>
+        </div>
+
+        {/* Main Story Section */}
+        <div className="max-w-4xl mx-auto mb-20">
+          <h2 className="font-display text-3xl md:text-4xl mb-8 text-center">
+            WHERE LATIN CULTURE <span className="gradient-text">COMES ALIVE</span>
           </h2>
           <div className="space-y-6 text-lg text-gray-700 leading-relaxed">
             <p>
-              <strong>Baila Dembow</strong> started in Amsterdam as a raw, unapologetic Reggaeton & Dembow club night — 
-              a space where Latin-Caribbean culture could explode without limits. What began as a single event 
-              quickly grew into a multi-city movement, spreading across the Netherlands to Rotterdam, Utrecht, 
-              Tilburg, and crossing borders to London.
+              There's a moment — right when the bass drops, the CO2 cannon fires, and confetti rains down on a 
+              600-person dance floor — when you realize this isn't just a party. <strong>This is a movement.</strong>
             </p>
             <p>
-              We're not just throwing parties — we're building a movement. Every Baila Dembow event is a 
-              sold-out, block-party atmosphere with festival-level production: CO2 cannons erupting, confetti 
-              raining down, immersive lighting that pulses with every beat, and headline DJs that know exactly 
-              how to move a crowd.
+              Baila Dembow is the #1 Latin event in Amsterdam and the Netherlands, delivering sold-out nights of 
+              Reggaeton, Dembow, Latin urban hits, Salsa, Bachata, and Merengue that have turned first-timers into 
+              loyal regulars and transformed ordinary venues into pulsating Latin spaces.
             </p>
             <p>
-              Built by <strong>House Decoded Events</strong>, we're rooted in Latin-Caribbean culture and driven 
-              by community. From the Dominican neighborhoods of Amsterdam to the vibrant Latin diaspora across 
-              Europe, Baila Dembow is where strangers become family, where the music hits different, and where 
-              every night ends with stories you'll tell for years.
+              Born from a deep love of Latin-Caribbean culture and built by <strong>House Decoded Events</strong>, 
+              Baila Dembow has grown from a local Amsterdam staple into a multi-city circuit spanning Rotterdam, 
+              Utrecht, Tilburg, and London. Every edition is a full-scale production — immersive stage design, 
+              headline DJs, live artist moments, and a crowd that shows up ready to dance until the lights come on.
             </p>
             <p className="text-center font-semibold text-xl text-[#FF0080]">
-              This is not just a party. This is Baila Dembow.
+              If you've been searching for a Latin party in the Netherlands that actually delivers on its promise, you've found it.
             </p>
           </div>
-        </motion.div>
+        </div>
 
-        {/* Previous Events Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="mb-20"
-        >
-          <h3 className="font-display text-3xl md:text-4xl mb-8 text-center">
-            WHERE WE'VE <span className="gradient-text">BEEN</span>
-          </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {PREVIOUS_EVENTS.map((event, index) => (
-              <motion.div
-                key={event.city}
-                initial={{ opacity: 0, y: 20 }}
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.5, delay: 0.1 * index }}
-                className="bg-gray-50 rounded-2xl p-6 hover:shadow-lg transition-shadow"
-              >
-                <div className="flex items-center justify-between mb-4">
-                  <h4 className="font-display text-2xl">{event.city}</h4>
-                  {event.soldOut && (
-                    <span className="px-3 py-1 bg-[#FF0080] text-white text-xs font-bold rounded-full uppercase">
-                      Sold Out
-                    </span>
-                  )}
-                </div>
-                <div className="space-y-2 text-gray-600">
-                  <p className="flex items-center gap-2">
-                    <MapPin size={16} className="text-[#FF0080]" />
-                    {event.venues.join(" • ")}
-                  </p>
-                  <p className="flex items-center gap-2">
-                    <Users size={16} className="text-[#FF0080]" />
-                    Capacity: {event.capacity}
-                  </p>
-                  <p className="text-sm text-gray-400">{event.country}</p>
-                </div>
-              </motion.div>
-            ))}
+        {/* Amsterdam Section */}
+        <div className="mb-20 bg-gray-50 rounded-3xl p-8 md:p-12">
+          <div className="flex items-center gap-3 mb-6">
+            <span className="text-4xl">🇳🇱</span>
+            <h3 className="font-display text-3xl md:text-4xl">AMSTERDAM — <span className="gradient-text">HOME OF THE MOVEMENT</span></h3>
           </div>
-        </motion.div>
+          <div className="space-y-6 text-gray-700 leading-relaxed">
+            <p>
+              Amsterdam is where Baila Dembow was born, and it remains the heartbeat of the brand. From the electric 
+              floors of <strong>Club Oliva</strong> to the waterfront energy of <strong>IJland</strong>, Latin event Amsterdam nights 
+              under the Baila Dembow name consistently hit capacity — 450 to 700 people packed shoulder-to-shoulder, 
+              moving to the best Reggaeton and Dembow the city has to offer.
+            </p>
+            <h4 className="font-display text-xl text-[#FF0080]">The Vibe</h4>
+            <p>
+              Amsterdam crowds are passionate, diverse, and dressed to move. Expect an electric block-party atmosphere 
+              where every corner of the room is alive. CO2 cannons erupt mid-set, confetti showers the dance floor 
+              during peak moments, and the lighting rigs transform every venue into a Latin nightlife destination 
+              unlike anything else in the city. This is the best Latin party Amsterdam has seen — and the sold-out history proves it.
+            </p>
+            <p>
+              Music spans the full Latin urban spectrum: trap Latino, classic Perreo, Bachata romántica, Merengue breaks, 
+              and Dembow rhythms that keep the floor moving from the first track to the last. Guest DJs and surprise 
+              live performances elevate the experience from great to unforgettable.
+            </p>
+          </div>
+          <div className="mt-8">
+            <h4 className="font-display text-lg mb-4">📸 Amsterdam Photo Gallery</h4>
+            <div className="grid grid-cols-3 gap-4">
+              <div className="aspect-video bg-gray-200 rounded-xl flex items-center justify-center text-gray-400">Photo 1</div>
+              <div className="aspect-video bg-gray-200 rounded-xl flex items-center justify-center text-gray-400">Photo 2</div>
+              <div className="aspect-video bg-gray-200 rounded-xl flex items-center justify-center text-gray-400">Photo 3</div>
+            </div>
+          </div>
+        </div>
 
-        {/* Get In Touch Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 0.4 }}
-          className="max-w-2xl mx-auto"
-        >
+        {/* Rotterdam Section */}
+        <div className="mb-20 bg-gray-50 rounded-3xl p-8 md:p-12">
+          <div className="flex items-center gap-3 mb-6">
+            <span className="text-4xl">🔴</span>
+            <h3 className="font-display text-3xl md:text-4xl">ROTTERDAM — <span className="gradient-text">RAW ENERGY, LATIN STYLE</span></h3>
+          </div>
+          <div className="space-y-6 text-gray-700 leading-relaxed">
+            <p>
+              Rotterdam has its own rhythm — bolder, rawer, and relentless. Baila Dembow tapped into that energy when 
+              it brought the Latin event Rotterdam experience to <strong>Club Reverse</strong>, and the result was instant: 
+              a sold-out floor every single time. Rotterdam's crowd doesn't hold back, and neither does the production.
+            </p>
+            <h4 className="font-display text-xl text-[#FF0080]">The Vibe</h4>
+            <p>
+              Club Reverse becomes a different world on a Baila Dembow night. The sound system hits harder, the crowd 
+              moves faster, and the energy between DJ and dance floor is electric. Reggaeton Netherlands fans from 
+              across South Holland make Club Reverse their pilgrimage point when Baila Dembow is in town. Expect the 
+              same full-production treatment Amsterdam gets — CO2, confetti, immersive visuals — in a venue that 
+              amplifies every element.
+            </p>
+            <p>
+              Rotterdam nights often feature special b2b DJ sets and exclusive track premieres that keep the crowd 
+              guessing and moving. The Latin nightlife Amsterdam crowd knows about this. Now Rotterdam has its own 
+              identity within the movement.
+            </p>
+          </div>
+          <div className="mt-8">
+            <h4 className="font-display text-lg mb-4">📸 Rotterdam Photo Gallery</h4>
+            <div className="grid grid-cols-3 gap-4">
+              <div className="aspect-video bg-gray-200 rounded-xl flex items-center justify-center text-gray-400">Photo 1</div>
+              <div className="aspect-video bg-gray-200 rounded-xl flex items-center justify-center text-gray-400">Photo 2</div>
+              <div className="aspect-video bg-gray-200 rounded-xl flex items-center justify-center text-gray-400">Photo 3</div>
+            </div>
+          </div>
+        </div>
+
+        {/* Utrecht Section */}
+        <div className="mb-20 bg-gray-50 rounded-3xl p-8 md:p-12">
+          <div className="flex items-center gap-3 mb-6">
+            <span className="text-4xl">🟡</span>
+            <h3 className="font-display text-3xl md:text-4xl">UTRECHT — <span className="gradient-text">THE CITY THAT KEEPS ASKING FOR MORE</span></h3>
+          </div>
+          <div className="space-y-6 text-gray-700 leading-relaxed">
+            <p>
+              Utrecht may not be the largest city on the Baila Dembow circuit, but it might be the hungriest. From 
+              the moment tickets go on sale, the demand is immediate. Latin party Netherlands culture has found a 
+              powerful home in Utrecht, where a tight-knit community of Latin music lovers has been waiting for an 
+              event that takes the culture seriously.
+            </p>
+            <h4 className="font-display text-xl text-[#FF0080]">The Vibe</h4>
+            <p>
+              Utrecht Baila Dembow nights are intimate in the best possible sense — every person in the room is there 
+              because they want to be, and that energy translates directly to the dance floor. Expect a sweat-soaked, 
+              euphoric crowd moving through Reggaeton, Bachata, Salsa, and Dembow with the kind of passion that only 
+              comes from a city that finally got the event it deserved.
+            </p>
+            <p>
+              Production quality matches every other city on the circuit: CO2, confetti, full lighting rig, and DJs 
+              who understand that Utrecht crowds want the culture, not a watered-down version of it.
+            </p>
+          </div>
+          <div className="mt-8">
+            <h4 className="font-display text-lg mb-4">📸 Utrecht Photo Gallery</h4>
+            <div className="grid grid-cols-3 gap-4">
+              <div className="aspect-video bg-gray-200 rounded-xl flex items-center justify-center text-gray-400">Photo 1</div>
+              <div className="aspect-video bg-gray-200 rounded-xl flex items-center justify-center text-gray-400">Photo 2</div>
+              <div className="aspect-video bg-gray-200 rounded-xl flex items-center justify-center text-gray-400">Photo 3</div>
+            </div>
+          </div>
+        </div>
+
+        {/* Tilburg Section */}
+        <div className="mb-20 bg-gray-50 rounded-3xl p-8 md:p-12">
+          <div className="flex items-center gap-3 mb-6">
+            <span className="text-4xl">🔵</span>
+            <h3 className="font-display text-3xl md:text-4xl">TILBURG — <span className="gradient-text">THE SOUTH'S LATIN HEARTBEAT</span></h3>
+          </div>
+          <div className="space-y-6 text-gray-700 leading-relaxed">
+            <p>
+              Tilburg has been quietly building one of the most passionate Latin music communities in the Netherlands, 
+              and Baila Dembow is the event that gives it a stage. Southern Netherlands crowds bring a warmth and 
+              directness to the dance floor that makes every Tilburg edition feel special — less polished, more alive.
+            </p>
+            <h4 className="font-display text-xl text-[#FF0080]">The Vibe</h4>
+            <p>
+              Tilburg nights have a festival-within-a-club feel. The crowd is multigenerational, the energy is communal, 
+              and the music selection reflects that: classic Reggaeton anthems sit alongside current Dembow hits and 
+              throwback Bachata tracks that get every age group moving. Caribbean party Amsterdam fans who've been 
+              following the brand know the standard. Tilburg delivers the same.
+            </p>
+            <p>
+              With CO2 effects cutting through the smoke-filled air and confetti turning the final hour into pure 
+              celebration, Tilburg shows why expanding beyond Amsterdam was always the right move.
+            </p>
+          </div>
+          <div className="mt-8">
+            <h4 className="font-display text-lg mb-4">📸 Tilburg Photo Gallery</h4>
+            <div className="grid grid-cols-3 gap-4">
+              <div className="aspect-video bg-gray-200 rounded-xl flex items-center justify-center text-gray-400">Photo 1</div>
+              <div className="aspect-video bg-gray-200 rounded-xl flex items-center justify-center text-gray-400">Photo 2</div>
+              <div className="aspect-video bg-gray-200 rounded-xl flex items-center justify-center text-gray-400">Photo 3</div>
+            </div>
+          </div>
+        </div>
+
+        {/* London Section */}
+        <div className="mb-20 bg-gray-50 rounded-3xl p-8 md:p-12">
+          <div className="flex items-center gap-3 mb-6">
+            <span className="text-4xl">🇬🇧</span>
+            <h3 className="font-display text-3xl md:text-4xl">LONDON — <span className="gradient-text">BAILA DEMBOW GOES INTERNATIONAL</span></h3>
+          </div>
+          <div className="space-y-6 text-gray-700 leading-relaxed">
+            <p>
+              London is the proving ground. One of the most competitive nightlife markets in the world, with an audience 
+              that has seen everything and settled for nothing. Baila Dembow entered London's <strong>Club Duo</strong> and 
+              <strong>Club Fire</strong> with the same philosophy it brought to Amsterdam, Rotterdam, and beyond — and 
+              sold out every time.
+            </p>
+            <h4 className="font-display text-xl text-[#FF0080]">The Vibe</h4>
+            <p>
+              London crowds are discerning, international, and relentlessly passionate about Latin music. The city's 
+              enormous Latin-Caribbean diaspora community showed up from day one and spread the word: this is the real 
+              thing. Latin club night Amsterdam veterans who've relocated to London, and London locals who'd never 
+              experienced the brand before, packed the venues and didn't leave until the last track dropped.
+            </p>
+            <p>
+              London nights feature the brand's signature production — CO2, confetti, immersive stage design — scaled 
+              to match the ambition of a city that doesn't do anything small. Headline DJs deliver extended sets, and 
+              the cross-cultural energy between the Netherlands brand and the London crowd creates something entirely unique.
+            </p>
+          </div>
+          <div className="mt-8">
+            <h4 className="font-display text-lg mb-4">📸 London Photo Gallery</h4>
+            <div className="grid grid-cols-3 gap-4">
+              <div className="aspect-video bg-gray-200 rounded-xl flex items-center justify-center text-gray-400">Photo 1</div>
+              <div className="aspect-video bg-gray-200 rounded-xl flex items-center justify-center text-gray-400">Photo 2</div>
+              <div className="aspect-video bg-gray-200 rounded-xl flex items-center justify-center text-gray-400">Photo 3</div>
+            </div>
+          </div>
+        </div>
+
+        {/* Production Section */}
+        <div className="mb-20 max-w-4xl mx-auto text-center">
+          <h2 className="font-display text-3xl md:text-4xl mb-8">
+            THE PRODUCTION: <span className="gradient-text">FESTIVAL-LEVEL ENERGY, EVERY NIGHT</span>
+          </h2>
+          <div className="space-y-6 text-lg text-gray-700 leading-relaxed text-left">
+            <p>
+              A Baila Dembow night isn't a club night with a Latin playlist. It's a full-scale production experience 
+              built around the culture. Every element is intentional — from the CO2 cannons that ignite the room at 
+              peak moments, to the confetti that marks the night's climax, to the branded visuals and lighting rigs 
+              that transform every venue into something worth remembering.
+            </p>
+            <p>
+              The DJ lineup is curated, not assembled. Headline artists who understand Reggaeton and Dembow at a deep 
+              level, who know when to drop a classic and when to push the crowd forward with something new. Occasionally, 
+              live artists join the stage for moments that no setlist could predict.
+            </p>
+            <p className="font-semibold text-center">
+              This is why Latin event Holland searches lead here. This is why the brand sells out across five cities. 
+              <span className="text-[#FF0080]"> Production, culture, and community — in that order, every time.</span>
+            </p>
+          </div>
+        </div>
+
+        {/* FAQ Section */}
+        <div className="mb-20 max-w-4xl mx-auto">
+          <h2 className="font-display text-3xl md:text-4xl mb-8 text-center">
+            FREQUENTLY ASKED <span className="gradient-text">QUESTIONS</span>
+          </h2>
+          <div className="space-y-6">
+            <div className="bg-gray-50 rounded-2xl p-6">
+              <h4 className="font-bold text-lg mb-2">What kind of music plays at Baila Dembow events?</h4>
+              <p className="text-gray-700">Every night features a curated mix of Reggaeton, Dembow, Latin urban hits, Bachata, Salsa, and Merengue. The selection spans classic anthems and current chart hits, with DJs who know how to read a crowd and keep the energy moving all night.</p>
+            </div>
+            <div className="bg-gray-50 rounded-2xl p-6">
+              <h4 className="font-bold text-lg mb-2">Where does Baila Dembow host events?</h4>
+              <p className="text-gray-700">Baila Dembow runs a multi-city circuit across Amsterdam (Club Oliva, IJland), Rotterdam (Club Reverse), Utrecht, Tilburg, and London (Club Duo, Club Fire). Check the official agenda at bailadembow.com for upcoming dates near you.</p>
+            </div>
+            <div className="bg-gray-50 rounded-2xl p-6">
+              <h4 className="font-bold text-lg mb-2">Do Baila Dembow events sell out?</h4>
+              <p className="text-gray-700">Yes — consistently. Venue capacities run between 450 and 700 people, and demand regularly exceeds availability. Tickets for Latin event Amsterdam and Latin event Rotterdam nights sell out well in advance, particularly for premium editions and holiday weekends.</p>
+            </div>
+            <div className="bg-gray-50 rounded-2xl p-6">
+              <h4 className="font-bold text-lg mb-2">What makes Baila Dembow different from other Latin nights?</h4>
+              <p className="text-gray-700">Production quality and cultural authenticity. CO2 cannons, confetti, immersive lighting, and headline DJ lineups set the brand apart from generic Latin club nights. Baila Dembow treats every edition as a premium experience — not a one-off party, but an ongoing movement with a loyal community behind it.</p>
+            </div>
+            <div className="bg-gray-50 rounded-2xl p-6">
+              <h4 className="font-bold text-lg mb-2">How do I buy tickets for the next Baila Dembow event?</h4>
+              <p className="text-gray-700">Tickets are available through the official website at bailadembow.com/agenda, as well as on Fatsoma, Skiddle, Eventbrite, TicketSwap, Partyflock, and DJ Guide. Early purchase is strongly recommended — these events sell out fast.</p>
+            </div>
+          </div>
+        </div>
+
+        {/* CTA Section */}
+        <div className="mb-20 bg-gradient-to-br from-[#FF0080] to-[#7F00FF] rounded-3xl p-8 md:p-12 text-center text-white">
+          <h2 className="font-display text-3xl md:text-4xl mb-4">🎟️ SECURE YOUR SPOT BEFORE IT'S GONE</h2>
+          <p className="text-lg mb-6 max-w-2xl mx-auto opacity-90">
+            Baila Dembow doesn't do empty dance floors or second chances. Every event sells out. Every city. Every time. 
+            Whether you're looking for a Latin event this weekend in Amsterdam, planning a trip to Rotterdam for the 
+            ultimate Reggaeton night, or catching the brand in London for the first time — the only mistake you can make 
+            is waiting too long.
+          </p>
+          <p className="text-xl font-bold mb-8">
+            The culture is real. The production is elite. The crowd is everything. And the tickets go fast.
+          </p>
+          <a 
+            href="https://linktr.ee/bailadembow"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 bg-white text-[#FF0080] font-bold py-4 px-8 rounded-full text-lg hover:bg-gray-100 transition-colors duration-300"
+          >
+            <Ticket size={20} />
+            GET YOUR TICKETS NOW
+          </a>
+          <p className="mt-6 text-sm opacity-80">
+            Follow <a href="https://www.instagram.com/baila.dembow/" target="_blank" rel="noopener noreferrer" className="underline">@baila.dembow</a> on Instagram to stay ahead of announcements, ticket drops, and after-movie releases.
+          </p>
+        </div>
+
+        {/* Work With Us Section */}
+        <div className="max-w-2xl mx-auto">
           <h3 className="font-display text-3xl md:text-4xl mb-4 text-center">
             WORK <span className="gradient-text">WITH US</span>
           </h3>
@@ -926,7 +1097,7 @@ const AboutUsSection = () => {
                 placeholder="Your Name *"
                 className="input-styled w-full"
                 required
-                data-testid="contact-name"
+                data-testid="about-contact-name"
               />
               <input
                 type="email"
@@ -936,7 +1107,7 @@ const AboutUsSection = () => {
                 placeholder="Your Email *"
                 className="input-styled w-full"
                 required
-                data-testid="contact-email"
+                data-testid="about-contact-email"
               />
             </div>
             <select
@@ -944,7 +1115,7 @@ const AboutUsSection = () => {
               value={contactForm.subject}
               onChange={handleContactChange}
               className="input-styled w-full"
-              data-testid="contact-subject"
+              data-testid="about-contact-subject"
             >
               <option value="Booking">Booking</option>
               <option value="Partnership">Partnership</option>
@@ -959,13 +1130,13 @@ const AboutUsSection = () => {
               rows={5}
               className="input-styled w-full resize-none"
               required
-              data-testid="contact-message"
+              data-testid="about-contact-message"
             />
             <button
               type="submit"
               disabled={isSubmitting}
               className="w-full bg-[#FF0080] text-white font-bold py-4 px-8 rounded-full text-lg hover:bg-[#FF3B30] transition-colors duration-300"
-              data-testid="contact-submit"
+              data-testid="about-contact-submit"
             >
               {isSubmitting ? "Sending..." : "Send Message"}
             </button>
@@ -979,9 +1150,16 @@ const AboutUsSection = () => {
               <Mail size={18} /> ask@housedecoded.com
             </span>
           </div>
-        </motion.div>
+        </div>
+
+        {/* Back to Home */}
+        <div className="text-center mt-12">
+          <a href="/" className="inline-flex items-center gap-2 text-[#FF0080] font-semibold hover:underline">
+            ← Back to Homepage
+          </a>
+        </div>
       </div>
-    </section>
+    </div>
   );
 };
 
