@@ -312,6 +312,21 @@ const NextEventSection = ({ events }) => {
 const ExperienceSection = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const [galleryImages, setGalleryImages] = useState(GALLERY_IMAGES);
+
+  useEffect(() => {
+    const fetchGallery = async () => {
+      try {
+        const response = await axios.get(`${API}/gallery`);
+        if (response.data && response.data.length > 0) {
+          setGalleryImages(response.data);
+        }
+      } catch (error) {
+        console.error("Failed to fetch gallery:", error);
+      }
+    };
+    fetchGallery();
+  }, []);
 
   return (
     <section id="experience" className="section-spacing" ref={ref} data-testid="experience-section">
@@ -334,13 +349,13 @@ const ExperienceSection = () => {
           transition={{ duration: 0.8, delay: 0.3 }}
           className="gallery-grid"
         >
-          {GALLERY_IMAGES.map((image, index) => (
+          {galleryImages.map((image, index) => (
             <motion.div
-              key={index}
+              key={image.id || index}
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, delay: 0.1 * index }}
-              className={`bento-item img-zoom gallery-item-${index + 1}`}
+              className={`bento-item img-zoom gallery-item-${(index % 5) + 1}`}
               style={{ minHeight: index === 0 ? '400px' : '280px' }}
               data-testid={`gallery-image-${index}`}
             >
