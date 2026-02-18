@@ -169,7 +169,7 @@ async def get_events():
             "status": "upcoming",
             "price_from": "€10",
             "price_door": "€25",
-            "image_url": "https://customer-assets.emergentagent.com/job_baila-dembow/artifacts/c61u2vl4_1600%20X%20900%20%281920%20x%201005%20px%29%20%282%29.png"
+            "image_url": "https://customer-assets.emergentagent.com/job_latinevents/artifacts/ww7bm8cu_1600%20X%20900%20%281920%20x%201005%20px%29%20%284%29.png"
         },
         {
             "id": "leiden-march-2026",
