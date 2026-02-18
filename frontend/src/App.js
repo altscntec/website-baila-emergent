@@ -1015,9 +1015,28 @@ const CommunitySection = () => {
         <div className="flex flex-col items-center gap-4 text-sm text-gray-500 text-center">
           <span className="font-display text-xl text-black">BAILA DEMBOW<span className="gradient-text">.</span></span>
           <span>© {new Date().getFullYear()} Baila Dembow. All rights reserved. Part of House Decoded events, Amsterdam KVK 67994725</span>
+          <CookieSettingsLink />
         </div>
       </div>
     </section>
+  );
+};
+
+// Cookie Settings Footer Link Component
+const CookieSettingsLink = () => {
+  const cookieContext = useCookieConsent();
+  
+  if (!cookieContext) return null;
+  
+  return (
+    <button
+      onClick={cookieContext.openPreferences}
+      className="text-gray-400 hover:text-[#FF0080] transition-colors flex items-center gap-1 text-xs"
+      data-testid="cookie-settings-link"
+    >
+      <Settings className="w-3 h-3" />
+      Cookie Settings
+    </button>
   );
 };
 
