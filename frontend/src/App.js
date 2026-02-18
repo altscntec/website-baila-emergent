@@ -762,7 +762,7 @@ const FALLBACK_EVENTS = [
     title: "BAILA DEMBOW // LEIDEN",
     description: "LEIDEN, WE'RE COMING FOR YOU. After conquering Amsterdam, London, and dance floors across Europe, Baila Dembow makes history in the Netherlands' oldest university city. Six hours. One warehouse. Zero rules.",
     ticket_url: "https://weeztix.shop/erxqk52c",
-    status: "almost_sold_out",
+    status: "on_sale",
     price_from: "€10",
     price_door: "€25",
     image_url: "https://customer-assets.emergentagent.com/job_baila-dembow/artifacts/qe9qcun6_14%20March%20Leiden%20.png"
