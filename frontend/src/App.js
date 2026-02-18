@@ -1404,6 +1404,8 @@ function App() {
           <PressPage />
         ) : pathname === '/events' ? (
           <EventsPage />
+        ) : pathname === '/about' ? (
+          <AboutUsPage />
         ) : (
           <HomePage events={events} />
         )}
