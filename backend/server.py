@@ -58,6 +58,20 @@ class EmailSubscriberCreate(BaseModel):
     source: Optional[str] = "website"
 
 
+class GalleryImage(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    url: str
+    alt: str = "Baila Dembow Event"
+    order: int = 0
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+
+
+class GalleryImageCreate(BaseModel):
+    url: str
+    alt: Optional[str] = "Baila Dembow Event"
+
+
 class Event(BaseModel):
     model_config = ConfigDict(extra="ignore")
     id: str
