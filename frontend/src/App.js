@@ -110,11 +110,11 @@ const Navigation = () => {
           onClick={() => window.location.href = '/'}
         />
         <div className={`hidden md:flex items-center gap-6 text-sm font-medium ${scrolled ? 'text-black' : 'text-white'}`}>
-          <a href="/events" className="hover:text-[#FF0080] transition-colors" data-testid="nav-events">Events</a>
-          <a href="/about" className="hover:text-[#FF0080] transition-colors" data-testid="nav-about">About</a>
+          <a href="#events" className="hover:text-[#FF0080] transition-colors" data-testid="nav-events">Events</a>
+          <a href="#about" className="hover:text-[#FF0080] transition-colors" data-testid="nav-about">About</a>
           <button onClick={() => scrollToSection('experience')} className="hover:text-[#FF0080] transition-colors" data-testid="nav-gallery">Gallery</button>
           <button onClick={() => scrollToSection('community')} className="hover:text-[#FF0080] transition-colors" data-testid="nav-community">Community</button>
-          <a href="/press" className="hover:text-[#FF0080] transition-colors" data-testid="nav-press">Press</a>
+          <a href="#press" className="hover:text-[#FF0080] transition-colors" data-testid="nav-press">Press</a>
         </div>
       </div>
     </motion.nav>
