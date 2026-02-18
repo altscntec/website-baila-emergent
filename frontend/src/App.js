@@ -2018,7 +2018,7 @@ function App() {
   const effectivePath = currentPath !== '/' ? currentPath : pathname;
 
   return (
-    <>
+    <CookieConsentProvider>
       <div className="grain-overlay" />
       <Navigation />
       <main>
@@ -2036,7 +2036,7 @@ function App() {
       </main>
       <FloatingCTA />
       <Toaster position="top-center" richColors />
-    </>
+    </CookieConsentProvider>
   );
 }
 
