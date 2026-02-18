@@ -1600,21 +1600,38 @@ function App() {
     fetchEvents();
   }, []);
 
-  // Simple routing based on pathname
+  // Use hash-based routing for better compatibility with deployed sites
+  const getHashPath = () => {
+    const hash = window.location.hash;
+    return hash.replace('#', '') || '/';
+  };
+
+  const [currentPath, setCurrentPath] = useState(getHashPath());
+
+  useEffect(() => {
+    const handleHashChange = () => {
+      setCurrentPath(getHashPath());
+    };
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
+
+  // Also check regular pathname for preview environment
   const pathname = window.location.pathname;
+  const effectivePath = currentPath !== '/' ? currentPath : pathname;
 
   return (
     <>
       <div className="grain-overlay" />
       <Navigation />
       <main>
-        {pathname === '/press' ? (
+        {effectivePath === '/press' || effectivePath === 'press' ? (
           <PressPage />
-        ) : pathname === '/events' ? (
+        ) : effectivePath === '/events' || effectivePath === 'events' ? (
           <EventsPage />
-        ) : pathname === '/about' ? (
+        ) : effectivePath === '/about' || effectivePath === 'about' ? (
           <AboutUsPage />
-        ) : pathname === '/admin' ? (
+        ) : effectivePath === '/admin' || effectivePath === 'admin' ? (
           <AdminPage />
         ) : (
           <HomePage events={events} />
