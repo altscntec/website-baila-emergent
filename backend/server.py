@@ -189,6 +189,72 @@ async def get_events():
     return events
 
 
+# Gallery endpoints
+@api_router.get("/gallery", response_model=List[GalleryImage])
+async def get_gallery_images():
+    """Get all gallery images ordered by order field"""
+    images = await db.gallery.find({}, {"_id": 0}).sort("order", 1).to_list(100)
+    for img in images:
+        if isinstance(img.get('created_at'), str):
+            img['created_at'] = datetime.fromisoformat(img['created_at'])
+    
+    # If no images in DB, return default images
+    if not images:
+        default_images = [
+            {"id": "default-1", "url": "https://customer-assets.emergentagent.com/job_baila-dembow/artifacts/3jggmoj3_DSC03325%202.JPG", "alt": "Baila Dembow crowd energy", "order": 0},
+            {"id": "default-2", "url": "https://customer-assets.emergentagent.com/job_baila-dembow/artifacts/7x9ijnic_DSC03865%202.JPG", "alt": "Atmospheric club lighting", "order": 1},
+            {"id": "default-3", "url": "https://customer-assets.emergentagent.com/job_baila-dembow/artifacts/9jxy50ay_BAILA%20DEMBOW%20HALLOWEEN%2031-10-2025%20INSTA-66%202.JPG", "alt": "Halloween event energy", "order": 2},
+            {"id": "default-4", "url": "https://customer-assets.emergentagent.com/job_baila-dembow/artifacts/491ta7ee_BAILA%20DEMBOW%20HALLOWEEN%2031-10-2025%20NL-282%202.JPG", "alt": "DJ performing", "order": 3},
+            {"id": "default-5", "url": "https://customer-assets.emergentagent.com/job_baila-dembow/artifacts/cad4fk12_BAILA%20DEMBOW%20HALLOWEEN%2031-10-2025%20NL-220%202.JPG", "alt": "Crowd interaction", "order": 4}
+        ]
+        return default_images
+    return images
+
+
+@api_router.post("/gallery", response_model=GalleryImage)
+async def add_gallery_image(input: GalleryImageCreate):
+    """Add a new image to the gallery"""
+    # Get current max order
+    max_order_doc = await db.gallery.find_one(sort=[("order", -1)])
+    max_order = max_order_doc["order"] + 1 if max_order_doc else 0
+    
+    image_obj = GalleryImage(url=input.url, alt=input.alt, order=max_order)
+    doc = image_obj.model_dump()
+    doc['created_at'] = doc['created_at'].isoformat()
+    
+    await db.gallery.insert_one(doc)
+    return image_obj
+
+
+@api_router.delete("/gallery/{image_id}")
+async def delete_gallery_image(image_id: str):
+    """Delete an image from the gallery"""
+    result = await db.gallery.delete_one({"id": image_id})
+    if result.deleted_count == 0:
+        raise HTTPException(status_code=404, detail="Image not found")
+    return {"message": "Image deleted successfully"}
+
+
+@api_router.put("/gallery/reorder")
+async def reorder_gallery_images(image_ids: List[str]):
+    """Reorder gallery images by providing list of image IDs in desired order"""
+    for index, image_id in enumerate(image_ids):
+        await db.gallery.update_one({"id": image_id}, {"$set": {"order": index}})
+    return {"message": "Gallery reordered successfully"}
+
+
+# Admin password (simple protection)
+ADMIN_PASSWORD = "bailadembow2024"
+
+
+@api_router.post("/admin/verify")
+async def verify_admin_password(password: str):
+    """Verify admin password"""
+    if password == ADMIN_PASSWORD:
+        return {"valid": True}
+    raise HTTPException(status_code=401, detail="Invalid password")
+
+
 # Include the router in the main app
 app.include_router(api_router)
 
