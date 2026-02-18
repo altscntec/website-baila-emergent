@@ -995,7 +995,7 @@ const AboutUsPage = () => {
             <div className="grid grid-cols-3 gap-4">
               <img src="/city-photos/tilburg1.jpg" alt="Baila Dembow Tilburg event 1" className="aspect-video object-cover rounded-xl w-full" loading="lazy" />
               <img src="/city-photos/tilburg2.jpg" alt="Baila Dembow Tilburg event 2" className="aspect-video object-cover rounded-xl w-full" loading="lazy" />
-              <img src="/city-photos/tilburg2.jpg" alt="Baila Dembow Tilburg event 3" className="aspect-video object-cover rounded-xl w-full" loading="lazy" />
+              <img src="/city-photos/tilburg3.jpg" alt="Baila Dembow Tilburg event 3" className="aspect-video object-cover rounded-xl w-full" loading="lazy" />
             </div>
           </div>
         </div>
