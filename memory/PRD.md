@@ -83,7 +83,18 @@ Create a cinematic, emotionally immersive, high-converting event website for Bai
 - Loyalty program integration
 
 ## Next Tasks
-1. Add analytics tracking (GA4, Meta Pixel for Instagram traffic)
-2. Implement event management admin panel
-3. Add real-time ticket availability from Weeztix
-4. Localization (i18n) for Dutch and Spanish
+1. **User Verification Pending**: Admin panel access on live domain (bailadembow.com/#/admin) - requires user to redeploy
+2. Refactor monolithic App.js (~1500 lines) into smaller components for maintainability
+3. Image optimization for faster loading (some city photos are 15-30MB)
+4. Add analytics tracking (GA4)
+5. Implement event management admin panel
+6. Add real-time ticket availability from Weeztix
+7. Localization (i18n) for Dutch and Spanish
+
+## City Photos Location
+Photos are stored in `/app/frontend/public/city-photos/`:
+- amsterdam1.jpg, amsterdam2.jpg, amsterdam3.jpg
+- rotterdam1.jpg, rotterdam2.jpg, rotterdam3.jpg  
+- utrecht1.jpg, utrecht2.jpg, utrecht3.jpg
+- tilburg1.jpg, tilburg2.jpg
+- london1.jpg, london2.jpg, london3.jpg
