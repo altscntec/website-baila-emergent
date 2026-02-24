@@ -54,24 +54,46 @@
     <!-- Meta Pixel Code - Loaded after consent via React component -->
     <!-- TikTok Pixel Code - Loaded after consent via React component -->
     
-    <!-- Structured Data - Organization -->
+    <!-- Structured Data - Organization (Site-Wide) -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "Organization",
       "name": "Baila Dembow",
-      "alternateName": ["Baila Dembow Events", "Latin Event Amsterdam", "Latin Party Netherlands"],
+      "alternateName": ["Latin Event in Amsterdam", "Latin Event in Netherlands", "Latin Event in Rotterdam", "Baila Dembow Events"],
       "url": "https://bailadembow.com",
-      "logo": "https://customer-assets.emergentagent.com/job_baila-dembow/artifacts/yu24u3j0_White%20Baila%20Logo%20%284%29.png",
-      "description": "Baila Dembow is the leading Latin Event organizer in Amsterdam and the Netherlands, specializing in Reggaeton, Dembow, and Latin Party experiences.",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://customer-assets.emergentagent.com/job_baila-dembow/artifacts/yu24u3j0_White%20Baila%20Logo%20%284%29.png",
+        "width": 512,
+        "height": 512
+      },
+      "image": "https://customer-assets.emergentagent.com/job_baila-dembow/artifacts/c61u2vl4_1600%20X%20900%20%281920%20x%201005%20px%29%20%282%29.png",
+      "description": "Baila Dembow is the leading Latin Event in Amsterdam and the Netherlands. We organize Reggaeton and Dembow parties, creating the ultimate Latin Party experience in Amsterdam, Rotterdam, and across the Netherlands. Join 25,000+ Latin music fans for unforgettable Latin events.",
+      "slogan": "The #1 Latin Event in Amsterdam & Netherlands",
       "foundingDate": "2023",
-      "foundingLocation": "Amsterdam, Netherlands",
-      "areaServed": ["Amsterdam", "Rotterdam", "Leiden", "Netherlands", "Europe"],
+      "foundingLocation": {
+        "@type": "Place",
+        "name": "Amsterdam",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Amsterdam",
+          "addressCountry": "NL"
+        }
+      },
+      "areaServed": [
+        {"@type": "City", "name": "Amsterdam", "containedInPlace": {"@type": "Country", "name": "Netherlands"}},
+        {"@type": "City", "name": "Rotterdam", "containedInPlace": {"@type": "Country", "name": "Netherlands"}},
+        {"@type": "City", "name": "Leiden", "containedInPlace": {"@type": "Country", "name": "Netherlands"}},
+        {"@type": "Country", "name": "Netherlands"}
+      ],
+      "knowsAbout": ["Latin Event", "Reggaeton", "Dembow", "Latin Party", "Latin Music", "Latin Event in Amsterdam", "Latin Event in Rotterdam"],
       "sameAs": [
         "https://www.instagram.com/baila.dembow/",
         "https://www.facebook.com/baila.dembow",
         "https://www.tiktok.com/@baila.dembow",
-        "https://www.youtube.com/@baila.dembow"
+        "https://www.youtube.com/@baila.dembow",
+        "https://linktr.ee/bailadembow"
       ],
       "contactPoint": {
         "@type": "ContactPoint",
