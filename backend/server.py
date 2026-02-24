@@ -165,7 +165,7 @@ async def get_events():
             "time": "23:00 - 05:00",
             "title": "BAILA DEMBOW // ROTTERDAM",
             "description": "A night of pure Latin energy with 6 hours of non-stop dembow, reggaeton, and Latin urban beats. Top DJs, an electric atmosphere, and Latin vibes all night. Full bar service. 18+.",
-            "ticket_url": "https://weeztix.shop/v9f38e5c",
+            "ticket_url": "https://weeztix.shop/4s84rxxa",
             "status": "upcoming",
             "price_from": "€10",
             "price_door": "€25",
