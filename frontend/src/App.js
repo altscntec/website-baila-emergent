@@ -2520,12 +2520,12 @@ const SingleEventPage = ({ eventSlug, events }) => {
   useEffect(() => {
     if (event) {
       // Update document title for SEO
-      document.title = `Baila Dembow ${event.city} – Latin Event in ${event.city} | Reggaeton & Dembow Party`;
+      document.title = `Latin Event in ${event.city} | ${event.title} – Reggaeton & Dembow Party Netherlands`;
       
       // Update meta description
       const metaDesc = document.querySelector('meta[name="description"]');
       if (metaDesc) {
-        metaDesc.setAttribute('content', `Baila Dembow presents the leading Latin Event in ${event.city}. Experience Reggaeton, Dembow, and the ultimate Latin Party in the Netherlands. Tickets available now.`);
+        metaDesc.setAttribute('content', `${event.title} - The best Latin Event in ${event.city}. Experience Reggaeton, Dembow, and the ultimate Latin Party in the Netherlands at ${event.venue}. Get tickets now.`);
       }
       
       // Add canonical link
@@ -2537,19 +2537,23 @@ const SingleEventPage = ({ eventSlug, events }) => {
       }
       canonical.href = `https://bailadembow.com/events/${eventSlug}`;
       
-      // Add JSON-LD structured data
-      const existingScript = document.querySelector('#event-jsonld');
-      if (existingScript) existingScript.remove();
+      // Remove existing schemas
+      const existingEventScript = document.querySelector('#event-jsonld');
+      if (existingEventScript) existingEventScript.remove();
+      const existingBreadcrumbScript = document.querySelector('#breadcrumb-jsonld');
+      if (existingBreadcrumbScript) existingBreadcrumbScript.remove();
       
       const eventDate = new Date(event.date);
       const endDate = new Date(eventDate);
       endDate.setHours(endDate.getHours() + 6);
       
-      const jsonLD = {
+      // Enhanced MusicEvent Schema
+      const musicEventSchema = {
         "@context": "https://schema.org",
         "@type": "MusicEvent",
-        "name": event.title,
-        "description": event.description,
+        "name": `${event.title} - Latin Event in ${event.city}`,
+        "description": `${event.description} Experience the best Reggaeton, Dembow, and Latin Party vibes in the Netherlands. Baila Dembow presents the leading Latin Event in ${event.city}.`,
+        "image": [event.image_url],
         "startDate": eventDate.toISOString(),
         "endDate": endDate.toISOString(),
         "eventStatus": "https://schema.org/EventScheduled",
@@ -2559,39 +2563,94 @@ const SingleEventPage = ({ eventSlug, events }) => {
           "name": event.venue,
           "address": {
             "@type": "PostalAddress",
+            "streetAddress": event.venue,
             "addressLocality": event.city,
+            "addressRegion": event.city === "Amsterdam" ? "North Holland" : event.city === "Rotterdam" ? "South Holland" : "Netherlands",
             "addressCountry": "NL"
           }
         },
-        "image": event.image_url,
         "offers": {
           "@type": "Offer",
+          "name": "General Admission",
           "url": event.ticket_url,
+          "price": event.price_from.replace("€", ""),
           "priceCurrency": "EUR",
-          "availability": "https://schema.org/InStock"
+          "availability": "https://schema.org/InStock",
+          "validFrom": "2025-01-01"
         },
         "organizer": {
           "@type": "Organization",
           "name": "Baila Dembow",
-          "url": "https://bailadembow.com"
+          "url": "https://bailadembow.com",
+          "logo": "https://customer-assets.emergentagent.com/job_baila-dembow/artifacts/yu24u3j0_White%20Baila%20Logo%20%284%29.png",
+          "sameAs": [
+            "https://www.instagram.com/baila.dembow/",
+            "https://www.facebook.com/baila.dembow"
+          ]
         },
         "performer": {
-          "@type": "MusicGroup",
-          "name": "Baila Dembow DJs"
-        }
+          "@type": "PerformingGroup",
+          "name": "Baila Dembow DJs",
+          "description": "Top Reggaeton and Dembow DJs"
+        },
+        "about": [
+          {"@type": "Thing", "name": "Latin Event"},
+          {"@type": "Thing", "name": "Reggaeton"},
+          {"@type": "Thing", "name": "Dembow"},
+          {"@type": "Thing", "name": "Latin Party"}
+        ],
+        "inLanguage": "en",
+        "isAccessibleForFree": false,
+        "typicalAgeRange": "18+"
       };
       
-      const script = document.createElement('script');
-      script.id = 'event-jsonld';
-      script.type = 'application/ld+json';
-      script.textContent = JSON.stringify(jsonLD);
-      document.head.appendChild(script);
+      // Breadcrumb Schema
+      const breadcrumbSchema = {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://bailadembow.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Events",
+            "item": "https://bailadembow.com/events"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": `Latin Event ${event.city}`,
+            "item": `https://bailadembow.com/events/${eventSlug}`
+          }
+        ]
+      };
+      
+      // Add MusicEvent Schema
+      const eventScript = document.createElement('script');
+      eventScript.id = 'event-jsonld';
+      eventScript.type = 'application/ld+json';
+      eventScript.textContent = JSON.stringify(musicEventSchema);
+      document.head.appendChild(eventScript);
+      
+      // Add Breadcrumb Schema
+      const breadcrumbScript = document.createElement('script');
+      breadcrumbScript.id = 'breadcrumb-jsonld';
+      breadcrumbScript.type = 'application/ld+json';
+      breadcrumbScript.textContent = JSON.stringify(breadcrumbSchema);
+      document.head.appendChild(breadcrumbScript);
     }
     
     return () => {
       // Cleanup
-      const script = document.querySelector('#event-jsonld');
-      if (script) script.remove();
+      const eventScript = document.querySelector('#event-jsonld');
+      if (eventScript) eventScript.remove();
+      const breadcrumbScript = document.querySelector('#breadcrumb-jsonld');
+      if (breadcrumbScript) breadcrumbScript.remove();
     };
   }, [event, eventSlug]);
   
