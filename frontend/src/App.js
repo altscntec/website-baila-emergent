@@ -2617,6 +2617,10 @@ function App() {
   const pathname = window.location.pathname;
   const effectivePath = currentPath !== '/' ? currentPath : pathname;
 
+  // Check if it's a single event page
+  const isEventPage = effectivePath.startsWith('/events/') || effectivePath.startsWith('events/');
+  const eventSlug = isEventPage ? effectivePath.replace(/^\/?events\//, '') : null;
+
   return (
     <CookieConsentProvider>
       <div className="grain-overlay" />
@@ -2624,8 +2628,10 @@ function App() {
       <main>
         {effectivePath === '/press' || effectivePath === 'press' ? (
           <PressPage />
+        ) : isEventPage && eventSlug ? (
+          <SingleEventPage eventSlug={eventSlug} events={events} />
         ) : effectivePath === '/events' || effectivePath === 'events' ? (
-          <EventsPage />
+          <EventsPage events={events} />
         ) : effectivePath === '/about' || effectivePath === 'about' ? (
           <AboutUsPage />
         ) : effectivePath === '/admin' || effectivePath === 'admin' ? (
