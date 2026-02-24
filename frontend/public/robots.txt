@@ -1,9 +1,10 @@
 # Baila Dembow - robots.txt
-# Latin Event Amsterdam | Reggaeton & Dembow Party Netherlands
+# Latin Event in Amsterdam | Reggaeton & Dembow Party Netherlands
 # https://bailadembow.com
 
 User-agent: *
 Allow: /
+Disallow: /admin
 
 # Sitemap
 Sitemap: https://bailadembow.com/sitemap.xml
@@ -20,6 +21,9 @@ Allow: /
 
 # Bing
 User-agent: Bingbot
+Allow: /
+
+User-agent: msnbot
 Allow: /
 
 # OpenAI / ChatGPT
@@ -39,8 +43,30 @@ Allow: /
 User-agent: Claude-Web
 Allow: /
 
+User-agent: ClaudeBot
+Allow: /
+
 # Perplexity
 User-agent: PerplexityBot
+Allow: /
+
+# Meta / Facebook
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: Facebot
+Allow: /
+
+# Twitter
+User-agent: Twitterbot
+Allow: /
+
+# LinkedIn
+User-agent: LinkedInBot
+Allow: /
+
+# Apple
+User-agent: Applebot
 Allow: /
 
 # Other AI Crawlers
@@ -50,7 +76,19 @@ Allow: /
 User-agent: Bytespider
 Allow: /
 
-User-agent: Applebot
+User-agent: cohere-ai
+Allow: /
+
+# Yahoo
+User-agent: Slurp
+Allow: /
+
+# DuckDuckGo
+User-agent: DuckDuckBot
+Allow: /
+
+# Yandex
+User-agent: YandexBot
 Allow: /
 
 # Crawl-delay
