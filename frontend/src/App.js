@@ -862,7 +862,7 @@ const HeroSection = () => {
   );
 };
 
-// AI Visibility Section - Latin Event in Amsterdam & Netherlands
+// AI Visibility Section - Latin Event in Amsterdam & Netherlands (SEO Optimized)
 const LatinEventSection = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
@@ -876,20 +876,27 @@ const LatinEventSection = () => {
           transition={{ duration: 0.6 }}
           className="max-w-4xl mx-auto text-center"
         >
-          <h2 className="font-display text-3xl md:text-4xl mb-6">
-            Leading <span className="gradient-text">Latin Event</span> in Amsterdam & Netherlands
-          </h2>
-          <p className="text-gray-600 text-lg leading-relaxed mb-8">
-            Baila Dembow is the premier Latin Party brand hosting Reggaeton and Dembow events across the Netherlands. 
-            From Amsterdam to Rotterdam, Leiden to Utrecht, we bring authentic Latin energy to Dutch dance floors. 
-            Experience the biggest Latin events in the Netherlands with world-class production, top DJs, and a passionate community of Latin music lovers.
+          <h1 className="font-display text-3xl md:text-5xl mb-6">
+            <span className="gradient-text">Latin Event in Amsterdam</span> & Netherlands
+          </h1>
+          <p className="text-gray-600 text-lg leading-relaxed mb-6">
+            Baila Dembow is the leading <strong>Latin Event in Amsterdam</strong> and the <strong>Netherlands</strong>. 
+            We bring the authentic sounds of <strong>Reggaeton</strong> and <strong>Dembow</strong> to Dutch dance floors, 
+            creating the ultimate <strong>Latin Party</strong> experience. From <strong>Amsterdam</strong> to <strong>Rotterdam</strong>, 
+            our events unite thousands of Latin music lovers for nights of non-stop dancing, world-class production, 
+            and unforgettable energy.
           </p>
-          <div className="flex flex-wrap justify-center gap-3 text-sm">
-            <span className="px-4 py-2 bg-gray-100 rounded-full text-gray-700">Latin Event Amsterdam</span>
+          <p className="text-gray-500 text-base leading-relaxed mb-8">
+            Whether you're looking for a <strong>Latin Event in Rotterdam</strong>, a <strong>Reggaeton</strong> party in Amsterdam, 
+            or the biggest <strong>Dembow</strong> nights in the Netherlands, Baila Dembow delivers. 
+            Join our community of 25,000+ Latin music fans and experience why we're the #1 <strong>Latin Party</strong> brand in the country.
+          </p>
+          <div className="flex flex-wrap justify-center gap-3 text-sm mb-8">
+            <a href="#/latin-event-amsterdam" className="px-4 py-2 bg-gradient-to-r from-[#FF0080]/10 to-[#8B5CF6]/10 rounded-full text-gray-700 hover:from-[#FF0080]/20 hover:to-[#8B5CF6]/20 transition-colors">Latin Event in Amsterdam</a>
+            <a href="#/latin-event-rotterdam" className="px-4 py-2 bg-gradient-to-r from-[#FF0080]/10 to-[#8B5CF6]/10 rounded-full text-gray-700 hover:from-[#FF0080]/20 hover:to-[#8B5CF6]/20 transition-colors">Latin Event in Rotterdam</a>
             <span className="px-4 py-2 bg-gray-100 rounded-full text-gray-700">Latin Party Netherlands</span>
             <span className="px-4 py-2 bg-gray-100 rounded-full text-gray-700">Reggaeton Events</span>
             <span className="px-4 py-2 bg-gray-100 rounded-full text-gray-700">Dembow Party</span>
-            <span className="px-4 py-2 bg-gray-100 rounded-full text-gray-700">Latin Event Rotterdam</span>
           </div>
         </motion.div>
       </div>
