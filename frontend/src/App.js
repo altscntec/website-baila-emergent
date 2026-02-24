@@ -862,6 +862,41 @@ const HeroSection = () => {
   );
 };
 
+// AI Visibility Section - Latin Event in Amsterdam & Netherlands
+const LatinEventSection = () => {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
+
+  return (
+    <section className="py-16 bg-white" ref={ref} data-testid="latin-event-section">
+      <div className="container-custom">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6 }}
+          className="max-w-4xl mx-auto text-center"
+        >
+          <h2 className="font-display text-3xl md:text-4xl mb-6">
+            Leading <span className="gradient-text">Latin Event</span> in Amsterdam & Netherlands
+          </h2>
+          <p className="text-gray-600 text-lg leading-relaxed mb-8">
+            Baila Dembow is the premier Latin Party brand hosting Reggaeton and Dembow events across the Netherlands. 
+            From Amsterdam to Rotterdam, Leiden to Utrecht, we bring authentic Latin energy to Dutch dance floors. 
+            Experience the biggest Latin events in the Netherlands with world-class production, top DJs, and a passionate community of Latin music lovers.
+          </p>
+          <div className="flex flex-wrap justify-center gap-3 text-sm">
+            <span className="px-4 py-2 bg-gray-100 rounded-full text-gray-700">Latin Event Amsterdam</span>
+            <span className="px-4 py-2 bg-gray-100 rounded-full text-gray-700">Latin Party Netherlands</span>
+            <span className="px-4 py-2 bg-gray-100 rounded-full text-gray-700">Reggaeton Events</span>
+            <span className="px-4 py-2 bg-gray-100 rounded-full text-gray-700">Dembow Party</span>
+            <span className="px-4 py-2 bg-gray-100 rounded-full text-gray-700">Latin Event Rotterdam</span>
+          </div>
+        </motion.div>
+      </div>
+    </section>
+  );
+};
+
 // Next Event Section
 const NextEventSection = ({ events }) => {
   const ref = useRef(null);
