@@ -257,8 +257,8 @@ async def reorder_gallery_images(image_ids: List[str]):
     return {"message": "Gallery reordered successfully"}
 
 
-# Admin password (simple protection)
-ADMIN_PASSWORD = "bailadembow2024"
+# Admin password from environment variable
+ADMIN_PASSWORD = os.environ.get("ADMIN_PASSWORD", "")
 
 
 @api_router.post("/admin/verify")
