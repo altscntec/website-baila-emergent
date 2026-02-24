@@ -2241,11 +2241,271 @@ const EventsPage = () => {
   );
 };
 
+// Single Event Page Component (SEO-Optimized)
+const SingleEventPage = ({ eventSlug, events }) => {
+  const event = getEventBySlug(eventSlug, events);
+  
+  useEffect(() => {
+    if (event) {
+      // Update document title for SEO
+      document.title = `Baila Dembow ${event.city} – Latin Event in ${event.city} | Reggaeton & Dembow Party`;
+      
+      // Update meta description
+      const metaDesc = document.querySelector('meta[name="description"]');
+      if (metaDesc) {
+        metaDesc.setAttribute('content', `Baila Dembow presents the leading Latin Event in ${event.city}. Experience Reggaeton, Dembow, and the ultimate Latin Party in the Netherlands. Tickets available now.`);
+      }
+      
+      // Add canonical link
+      let canonical = document.querySelector('link[rel="canonical"]');
+      if (!canonical) {
+        canonical = document.createElement('link');
+        canonical.rel = 'canonical';
+        document.head.appendChild(canonical);
+      }
+      canonical.href = `https://bailadembow.com/events/${eventSlug}`;
+      
+      // Add JSON-LD structured data
+      const existingScript = document.querySelector('#event-jsonld');
+      if (existingScript) existingScript.remove();
+      
+      const eventDate = new Date(event.date);
+      const endDate = new Date(eventDate);
+      endDate.setHours(endDate.getHours() + 6);
+      
+      const jsonLD = {
+        "@context": "https://schema.org",
+        "@type": "MusicEvent",
+        "name": event.title,
+        "description": event.description,
+        "startDate": eventDate.toISOString(),
+        "endDate": endDate.toISOString(),
+        "eventStatus": "https://schema.org/EventScheduled",
+        "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+        "location": {
+          "@type": "Place",
+          "name": event.venue,
+          "address": {
+            "@type": "PostalAddress",
+            "addressLocality": event.city,
+            "addressCountry": "NL"
+          }
+        },
+        "image": event.image_url,
+        "offers": {
+          "@type": "Offer",
+          "url": event.ticket_url,
+          "priceCurrency": "EUR",
+          "availability": "https://schema.org/InStock"
+        },
+        "organizer": {
+          "@type": "Organization",
+          "name": "Baila Dembow",
+          "url": "https://bailadembow.com"
+        },
+        "performer": {
+          "@type": "MusicGroup",
+          "name": "Baila Dembow DJs"
+        }
+      };
+      
+      const script = document.createElement('script');
+      script.id = 'event-jsonld';
+      script.type = 'application/ld+json';
+      script.textContent = JSON.stringify(jsonLD);
+      document.head.appendChild(script);
+    }
+    
+    return () => {
+      // Cleanup
+      const script = document.querySelector('#event-jsonld');
+      if (script) script.remove();
+    };
+  }, [event, eventSlug]);
+  
+  if (!event) {
+    return (
+      <div className="min-h-screen bg-white pt-24 flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="font-display text-4xl mb-4">Event Not Found</h1>
+          <p className="text-gray-600 mb-8">The event you're looking for doesn't exist or has ended.</p>
+          <a href="#/events" className="cta-primary inline-flex items-center gap-2">
+            View All Events
+          </a>
+        </div>
+      </div>
+    );
+  }
+  
+  const eventDate = new Date(event.date);
+  const formattedDate = eventDate.toLocaleDateString('en-US', { 
+    weekday: 'long', 
+    month: 'long', 
+    day: 'numeric', 
+    year: 'numeric' 
+  });
+
+  return (
+    <div className="min-h-screen bg-white">
+      {/* Hero Section with Event Poster */}
+      <div className="relative h-[50vh] md:h-[60vh] overflow-hidden">
+        <img
+          src={event.image_url}
+          alt={event.title}
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
+        <div className="absolute bottom-0 left-0 right-0 p-6 md:p-12">
+          <div className="container-custom">
+            <div className="flex items-center gap-2 text-[#FF0080] font-semibold mb-3">
+              <MapPin size={18} />
+              <span>{event.city}, Netherlands</span>
+            </div>
+            <h1 className="font-display text-3xl md:text-5xl text-white mb-4">{event.title}</h1>
+            <div className="flex flex-wrap gap-4 text-white/80">
+              <span className="flex items-center gap-2"><Calendar size={18} /> {formattedDate}</span>
+              <span className="flex items-center gap-2"><Clock size={18} /> {event.time}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div className="container-custom py-12">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Main Content */}
+          <div className="lg:col-span-2">
+            {/* About This Event */}
+            <section className="mb-10">
+              <h2 className="font-display text-2xl mb-4">About This Event</h2>
+              <p className="text-gray-700 leading-relaxed text-lg">{event.description}</p>
+            </section>
+            
+            {/* Event Quick Facts - AI Friendly */}
+            <section className="mb-10 bg-gray-50 rounded-2xl p-6">
+              <h2 className="font-display text-xl mb-4 flex items-center gap-2">
+                <Sparkles className="w-5 h-5 text-[#FF0080]" />
+                Event Quick Facts
+              </h2>
+              <ul className="space-y-3 text-gray-700">
+                <li className="flex items-start gap-3">
+                  <Calendar className="w-5 h-5 text-[#FF0080] mt-0.5" />
+                  <div><strong>Date:</strong> {formattedDate}</div>
+                </li>
+                <li className="flex items-start gap-3">
+                  <Clock className="w-5 h-5 text-[#FF0080] mt-0.5" />
+                  <div><strong>Time:</strong> {event.time}</div>
+                </li>
+                <li className="flex items-start gap-3">
+                  <MapPin className="w-5 h-5 text-[#FF0080] mt-0.5" />
+                  <div><strong>Venue:</strong> {event.venue}</div>
+                </li>
+                <li className="flex items-start gap-3">
+                  <MapPin className="w-5 h-5 text-[#FF0080] mt-0.5" />
+                  <div><strong>City:</strong> {event.city}, Netherlands</div>
+                </li>
+                <li className="flex items-start gap-3">
+                  <Flame className="w-5 h-5 text-[#FF0080] mt-0.5" />
+                  <div><strong>Music Style:</strong> Reggaeton & Dembow</div>
+                </li>
+                <li className="flex items-start gap-3">
+                  <Users className="w-5 h-5 text-[#FF0080] mt-0.5" />
+                  <div><strong>Category:</strong> Latin Party</div>
+                </li>
+                <li className="flex items-start gap-3">
+                  <Ticket className="w-5 h-5 text-[#FF0080] mt-0.5" />
+                  <div><strong>Ticket Link:</strong> <a href={event.ticket_url} target="_blank" rel="noopener noreferrer" className="text-[#FF0080] hover:underline">{event.ticket_url}</a></div>
+                </li>
+              </ul>
+            </section>
+            
+            {/* What to Expect */}
+            <section className="mb-10">
+              <h2 className="font-display text-2xl mb-4">What to Expect</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="bg-gradient-to-br from-[#FF0080]/10 to-[#8B5CF6]/10 rounded-xl p-5">
+                  <h3 className="font-semibold text-gray-900 mb-2">🎵 Music</h3>
+                  <p className="text-gray-600 text-sm">Non-stop Reggaeton, Dembow, and Latin Urban beats all night long.</p>
+                </div>
+                <div className="bg-gradient-to-br from-[#FF0080]/10 to-[#8B5CF6]/10 rounded-xl p-5">
+                  <h3 className="font-semibold text-gray-900 mb-2">🎉 Production</h3>
+                  <p className="text-gray-600 text-sm">CO2 cannons, confetti drops, immersive lighting, and professional dancers.</p>
+                </div>
+                <div className="bg-gradient-to-br from-[#FF0080]/10 to-[#8B5CF6]/10 rounded-xl p-5">
+                  <h3 className="font-semibold text-gray-900 mb-2">👥 Crowd</h3>
+                  <p className="text-gray-600 text-sm">Join thousands of Latin music lovers from across the Netherlands.</p>
+                </div>
+                <div className="bg-gradient-to-br from-[#FF0080]/10 to-[#8B5CF6]/10 rounded-xl p-5">
+                  <h3 className="font-semibold text-gray-900 mb-2">📍 Venue</h3>
+                  <p className="text-gray-600 text-sm">Premium venue with full bar service and amazing atmosphere.</p>
+                </div>
+              </div>
+            </section>
+          </div>
+          
+          {/* Sidebar - Ticket Box */}
+          <div className="lg:col-span-1">
+            <div className="sticky top-24 bg-white rounded-2xl shadow-xl border border-gray-100 p-6">
+              <div className="text-center mb-6">
+                <span className="text-sm text-gray-500">Tickets from</span>
+                <div className="font-display text-4xl text-[#FF0080]">{event.price_from}</div>
+                <span className="text-sm text-gray-400">Door price: {event.price_door}</span>
+              </div>
+              
+              <a
+                href={event.ticket_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full flex items-center justify-center gap-2 px-6 py-4 bg-gradient-to-r from-[#FF0080] to-[#8B5CF6] text-white font-semibold rounded-xl hover:opacity-90 transition-all shadow-lg shadow-[#FF0080]/20 mb-4"
+                onClick={() => trackTicketClick(event.title, event.ticket_url)}
+              >
+                <Ticket className="w-5 h-5" />
+                Get Tickets Now
+              </a>
+              
+              <p className="text-xs text-gray-500 text-center">
+                18+ Event • ID Required • Limited Capacity
+              </p>
+              
+              <hr className="my-6 border-gray-100" />
+              
+              <div className="space-y-3 text-sm">
+                <div className="flex items-center gap-3 text-gray-600">
+                  <Calendar className="w-4 h-4 text-[#FF0080]" />
+                  {new Date(event.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                </div>
+                <div className="flex items-center gap-3 text-gray-600">
+                  <Clock className="w-4 h-4 text-[#FF0080]" />
+                  {event.time}
+                </div>
+                <div className="flex items-center gap-3 text-gray-600">
+                  <MapPin className="w-4 h-4 text-[#FF0080]" />
+                  {event.venue}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        {/* Back Links */}
+        <div className="flex flex-wrap gap-4 mt-12 pt-8 border-t border-gray-100">
+          <a href="#/" className="text-gray-600 hover:text-[#FF0080] transition-colors flex items-center gap-2">
+            ← Back to Homepage
+          </a>
+          <a href="#/events" className="text-gray-600 hover:text-[#FF0080] transition-colors flex items-center gap-2">
+            View All Events →
+          </a>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 // Home Page Component
 const HomePage = ({ events }) => {
   return (
     <>
       <HeroSection />
+      <LatinEventSection />
       <NextEventSection events={events} />
       <ExperienceSection />
       <AgendaSection events={events} />
