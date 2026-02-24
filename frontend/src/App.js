@@ -2865,6 +2865,10 @@ function App() {
       <main>
         {effectivePath === '/press' || effectivePath === 'press' ? (
           <PressPage />
+        ) : effectivePath === '/latin-event-amsterdam' || effectivePath === 'latin-event-amsterdam' ? (
+          <LatinEventAmsterdamPage events={events} />
+        ) : effectivePath === '/latin-event-rotterdam' || effectivePath === 'latin-event-rotterdam' ? (
+          <LatinEventRotterdamPage events={events} />
         ) : isEventPage && eventSlug ? (
           <SingleEventPage eventSlug={eventSlug} events={events} />
         ) : effectivePath === '/events' || effectivePath === 'events' ? (
