@@ -957,7 +957,7 @@ const NextEventSection = ({ events }) => {
                 <MapPin size={16} /> {nextEvent.venue}
               </p>
             </div>
-            <CountdownTimer targetDate={nextEvent.date} />
+            <CountdownTimer targetDate={nextEvent.date} targetTime={nextEvent.time} />
           </div>
           
           {/* Event Details Card */}
