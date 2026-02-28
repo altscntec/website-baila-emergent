@@ -755,12 +755,25 @@ const Navigation = () => {
 };
 
 // Countdown Timer Component
-const CountdownTimer = ({ targetDate }) => {
+const CountdownTimer = ({ targetDate, targetTime }) => {
   const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
 
   useEffect(() => {
     const calculateTimeLeft = () => {
-      const difference = new Date(targetDate) - new Date();
+      // Parse targetTime to get hours (e.g., "23:00 - 05:00" -> 23)
+      let eventHour = 23; // Default to 23:00
+      if (targetTime) {
+        const timeParts = targetTime.split(':');
+        if (timeParts.length > 0) {
+          eventHour = parseInt(timeParts[0], 10) || 23;
+        }
+      }
+      
+      // Create full datetime
+      const eventDateTime = new Date(targetDate);
+      eventDateTime.setHours(eventHour, 0, 0, 0);
+      
+      const difference = eventDateTime - new Date();
       if (difference > 0) {
         setTimeLeft({
           days: Math.floor(difference / (1000 * 60 * 60 * 24)),
@@ -768,13 +781,15 @@ const CountdownTimer = ({ targetDate }) => {
           minutes: Math.floor((difference / 1000 / 60) % 60),
           seconds: Math.floor((difference / 1000) % 60)
         });
+      } else {
+        setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
       }
     };
 
     calculateTimeLeft();
     const timer = setInterval(calculateTimeLeft, 1000);
     return () => clearInterval(timer);
-  }, [targetDate]);
+  }, [targetDate, targetTime]);
 
   return (
     <div className="countdown-container" data-testid="countdown-timer">
