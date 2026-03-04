@@ -64,13 +64,10 @@ Create a cinematic, emotionally immersive, high-converting event website for Bai
 
 ## What's Been Implemented
 
-### Feb 28, 2026 - Major Refactoring Complete
-✅ **CRITICAL: Refactored monolithic App.js** - Split ~2965 lines into 20+ modular components
-✅ **Countdown timer fix verified** - Now accurately counts down to event time (23:00)
-✅ Organized component structure: common/, sections/, pages/
-✅ Created utility modules: constants.js, tracking.js, helpers.js
-✅ Created CookieConsentContext for GDPR compliance
-✅ All pages working: Home, About, Press, Events, Admin, SEO landing pages, Single event pages
+### Mar 4, 2026 - Events Update & UI Changes
+✅ **Updated events list** - Removed past Feb 28 event, added new Amsterdam Mar 28 event at Oliva
+✅ **Removed countdown section** - NextEventSection removed from homepage per user request
+✅ Events now: Rotterdam (Mar 7), Leiden (Mar 14), Amsterdam Oliva (Mar 28), Kingsnight (Apr 26)
 
 ### Previously Implemented
 ✅ Hero section with YouTube video background
@@ -109,9 +106,9 @@ Create a cinematic, emotionally immersive, high-converting event website for Bai
 - `DELETE /api/gallery/{id}` - Delete gallery image
 
 ## Events Data
-1. **Feb 28, 2026** - Amsterdam XL @ IJland - Juan Luis Guerra tribute (€10-€35)
-2. **Mar 7, 2026** - Rotterdam @ Club Reverse (€10-€25)
-3. **Mar 14, 2026** - Leiden @ Wibar Club (€10-€25)
+1. **Mar 7, 2026** - Rotterdam @ Club Reverse (€10-€25)
+2. **Mar 14, 2026** - Leiden @ Wibar Club (€10-€25)
+3. **Mar 28, 2026** - Amsterdam @ Oliva, Rembrandtplein (€10-€25) - NEW!
 4. **Apr 26, 2026** - Amsterdam Kingsnight @ IJland (€15-€30)
 
 ## External Links
