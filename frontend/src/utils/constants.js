@@ -71,7 +71,7 @@ export const FALLBACK_EVENTS = [
     status: "upcoming",
     price_from: "€10",
     price_door: "€25",
-    image_url: "https://customer-assets.emergentagent.com/job_baila-dembow/artifacts/c61u2vl4_1600%20X%20900%20%281920%20x%201005%20px%29%20%282%29.png"
+    image_url: "https://customer-assets.emergentagent.com/job_6f6a7dfa-4ba2-45da-a0d7-cabd89498e04/artifacts/1jkedt5t_1600%20X%20900%20%281920%20x%201005%20px%29%20%281920%20x%201080%20px%29.png"
   },
   {
     id: "amsterdam-kingsnight-2026",
