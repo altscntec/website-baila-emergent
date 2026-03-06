@@ -1,7 +1,7 @@
 import { META_PIXEL_ID, TIKTOK_PIXEL_ID } from './constants';
 
-// Load Meta Pixel
-export const loadMetaPixel = () => {
+// Load Meta Pixel with Advanced Matching support
+export const loadMetaPixel = (userData = {}) => {
   if (window.fbq) return;
   
   !function(f,b,e,v,n,t,s) {
@@ -13,8 +13,30 @@ export const loadMetaPixel = () => {
     s.parentNode.insertBefore(t,s)
   }(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
   
-  window.fbq('init', META_PIXEL_ID);
+  // Initialize with Advanced Matching - values will be hashed automatically by the pixel using SHA-256
+  window.fbq('init', META_PIXEL_ID, {
+    em: userData.email || '',      // Email - hashed automatically
+    ph: userData.phone || '',      // Phone number - hashed automatically
+    fn: userData.firstName || '',  // First name - hashed automatically
+    ln: userData.lastName || '',   // Last name - hashed automatically
+    ct: userData.city || '',       // City - hashed automatically
+    country: userData.country || '' // Country - hashed automatically
+  });
   window.fbq('track', 'PageView');
+};
+
+// Update user data for Advanced Matching after form submission
+export const updateMetaPixelUserData = (userData) => {
+  if (typeof window !== 'undefined' && window.fbq) {
+    window.fbq('init', META_PIXEL_ID, {
+      em: userData.email || '',
+      ph: userData.phone || '',
+      fn: userData.firstName || userData.name?.split(' ')[0] || '',
+      ln: userData.lastName || userData.name?.split(' ').slice(1).join(' ') || '',
+      ct: userData.city || '',
+      country: userData.country || ''
+    });
+  }
 };
 
 // Load TikTok Pixel
