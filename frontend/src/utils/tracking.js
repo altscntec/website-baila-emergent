@@ -77,6 +77,14 @@ export const trackTicketClick = (eventName, ticketUrl) => {
 };
 
 export const trackFormSubmission = (formData) => {
+  // Update Meta Pixel with user data for Advanced Matching
+  updateMetaPixelUserData({
+    email: formData.email,
+    name: formData.name,
+    city: formData.city,
+    country: formData.country
+  });
+  
   trackEvent('Lead', {
     content_name: 'Community Signup',
     content_category: 'Newsletter',
