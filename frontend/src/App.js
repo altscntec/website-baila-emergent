@@ -94,11 +94,14 @@ function App() {
   // Check if it's a single event page
   const isEventPage = effectivePath.startsWith('/events/') || effectivePath.startsWith('events/');
   const eventSlug = isEventPage ? effectivePath.replace(/^\/?events\//, '') : null;
+  
+  // Check for Kingsday Weekender page
+  const isKingsdayPage = eventSlug === 'kingsday-weekender-2026';
 
   return (
     <CookieConsentProvider>
       <div className="grain-overlay" />
-      <Navigation />
+      {!isKingsdayPage && <Navigation />}
       <main>
         {effectivePath === '/press' || effectivePath === 'press' ? (
           <PressPage />
@@ -106,6 +109,8 @@ function App() {
           <LatinEventAmsterdamPage events={events} />
         ) : effectivePath === '/latin-event-rotterdam' || effectivePath === 'latin-event-rotterdam' ? (
           <LatinEventRotterdamPage events={events} />
+        ) : isKingsdayPage ? (
+          <KingsdayWeekenderPage />
         ) : isEventPage && eventSlug ? (
           <SingleEventPage eventSlug={eventSlug} events={events} />
         ) : effectivePath === '/events' || effectivePath === 'events' ? (
@@ -118,7 +123,7 @@ function App() {
           <HomePage events={events} />
         )}
       </main>
-      <FloatingCTA />
+      {!isKingsdayPage && <FloatingCTA />}
       <Toaster position="top-center" richColors />
     </CookieConsentProvider>
   );
