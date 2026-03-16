@@ -72,6 +72,37 @@ class GalleryImageCreate(BaseModel):
     alt: Optional[str] = "Baila Dembow Event"
 
 
+# Kingsday Weekender Models
+class KingsdaySubscriber(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    email: str
+    normalized_email: str
+    verified: bool = False
+    verification_token: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    has_spun: bool = False
+    spin_result: Optional[str] = None
+    coupon_code: Optional[str] = None
+    ip_address: Optional[str] = None
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    verified_at: Optional[datetime] = None
+
+
+class KingsdaySubscribeRequest(BaseModel):
+    email: EmailStr
+
+
+class KingsdaySpinRequest(BaseModel):
+    email: EmailStr
+
+
+class SpinResult(BaseModel):
+    success: bool
+    prize: Optional[str] = None
+    coupon_code: Optional[str] = None
+    message: str
+
+
 class Event(BaseModel):
     model_config = ConfigDict(extra="ignore")
     id: str
