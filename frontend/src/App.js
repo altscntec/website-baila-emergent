@@ -21,6 +21,7 @@ import { AboutUsPage } from "./components/pages/AboutUsPage";
 import { EventsPage } from "./components/pages/EventsPage";
 import { SingleEventPage } from "./components/pages/SingleEventPage";
 import { LatinEventAmsterdamPage, LatinEventRotterdamPage } from "./components/pages/SEOPages";
+import { KingsdayWeekenderPage } from "./components/pages/KingsdayWeekenderPage";
 
 // Main App Component
 function App() {
