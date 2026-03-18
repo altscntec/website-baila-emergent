@@ -3,7 +3,7 @@ import { motion, useInView } from 'framer-motion';
 import { 
   Calendar, Clock, MapPin, Ticket, Crown, Music, Users, 
   Mail, CheckCircle, Loader2, Star, Mic2, PartyPopper,
-  Gift, ArrowRight, Sparkles, Check
+  Gift, ArrowRight, Sparkles, Check, X
 } from 'lucide-react';
 import axios from 'axios';
 import { toast } from 'sonner';
@@ -339,6 +339,7 @@ const PremiumSpinWheel = ({ onSpin, isSpinning, disabled }) => {
 const SpinResultModal = ({ result, couponCode, onClose }) => {
   if (!result) return null;
   const isWinner = result !== 'Better Luck Next Time';
+  const isDiscount = result === '10% Discount';
 
   return (
     <motion.div
@@ -347,6 +348,7 @@ const SpinResultModal = ({ result, couponCode, onClose }) => {
       exit={{ opacity: 0 }}
       className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm"
       onClick={onClose}
+      data-testid="spin-result-modal"
     >
       <motion.div
         initial={{ scale: 0.9, opacity: 0 }}
@@ -366,28 +368,66 @@ const SpinResultModal = ({ result, couponCode, onClose }) => {
           )}
         </div>
 
-        <h3 className="font-display text-2xl mb-3" style={{ color: COLORS.espresso }}>
+        <h3 className="font-display text-2xl mb-3" style={{ color: COLORS.espresso }} data-testid="spin-result-title">
           {isWinner ? 'Congratulations!' : 'Not This Time'}
         </h3>
         
-        <p className="mb-6" style={{ color: COLORS.warmGray }}>
-          {isWinner ? `You won: ${result}` : "Join us at Kingsday Weekender anyway!"}
-        </p>
+        {isDiscount ? (
+          <p className="mb-6" style={{ color: COLORS.warmGray }} data-testid="spin-result-message">
+            You unlocked a 10% discount. Check your email to claim it.
+          </p>
+        ) : (
+          <p className="mb-6" style={{ color: COLORS.warmGray }}>
+            {isWinner ? `You won: ${result}` : "Join us at Kingsday Weekender anyway!"}
+          </p>
+        )}
 
-        {couponCode && (
+        {couponCode && !isDiscount && (
           <div className="rounded-2xl p-5 mb-6" style={{ backgroundColor: COLORS.cream }}>
             <p className="text-xs uppercase tracking-wider mb-2" style={{ color: COLORS.warmGray }}>Your Code</p>
             <p className="font-mono text-xl font-bold" style={{ color: COLORS.burntOrange }}>{couponCode}</p>
           </div>
         )}
 
-        <button
-          onClick={onClose}
-          className="px-8 py-3 rounded-full font-semibold text-white transition-all hover:scale-[1.02]"
-          style={{ background: `linear-gradient(135deg, ${COLORS.burntOrange} 0%, ${COLORS.deepOrange} 100%)` }}
-        >
-          Continue
-        </button>
+        {isDiscount && (
+          <div className="rounded-2xl p-5 mb-6" style={{ backgroundColor: COLORS.cream }}>
+            <div className="flex items-center justify-center gap-2 mb-2">
+              <Mail className="w-4 h-4" style={{ color: COLORS.burntOrange }} />
+              <p className="text-xs uppercase tracking-wider" style={{ color: COLORS.warmGray }}>Sent to your inbox</p>
+            </div>
+            <p className="text-sm" style={{ color: COLORS.charcoal }}>Your discount code has been emailed to you.</p>
+          </div>
+        )}
+
+        <div className="flex flex-col gap-3">
+          {isWinner && (
+            <a
+              href="#tickets"
+              onClick={onClose}
+              className="px-8 py-3 rounded-full font-semibold text-white transition-all hover:scale-[1.02] flex items-center justify-center gap-2"
+              style={{ background: `linear-gradient(135deg, ${COLORS.burntOrange} 0%, ${COLORS.deepOrange} 100%)` }}
+              data-testid="spin-result-view-tickets"
+            >
+              <Ticket className="w-4 h-4" />
+              View Tickets
+            </a>
+          )}
+          <button
+            onClick={onClose}
+            className={`px-8 py-3 rounded-full font-semibold transition-all hover:scale-[1.02] ${
+              isWinner 
+                ? 'border-2 hover:bg-gray-50' 
+                : 'text-white'
+            }`}
+            style={isWinner 
+              ? { borderColor: COLORS.warmBeige, color: COLORS.charcoal }
+              : { background: `linear-gradient(135deg, ${COLORS.burntOrange} 0%, ${COLORS.deepOrange} 100%)` }
+            }
+            data-testid="spin-result-close"
+          >
+            {isWinner ? 'Close' : 'Continue'}
+          </button>
+        </div>
       </motion.div>
     </motion.div>
   );

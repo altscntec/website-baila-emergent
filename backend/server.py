@@ -1,14 +1,18 @@
-from fastapi import FastAPI, APIRouter, HTTPException
+from fastapi import FastAPI, APIRouter, HTTPException, UploadFile, File
 from dotenv import load_dotenv
 from starlette.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
 import os
 import logging
+import csv
+import io
+import asyncio
 from pathlib import Path
 from pydantic import BaseModel, Field, ConfigDict, EmailStr
 from typing import List, Optional
 import uuid
 from datetime import datetime, timezone
+import resend
 
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
@@ -23,6 +27,10 @@ app = FastAPI()
 
 # Create a router with the /api prefix
 api_router = APIRouter(prefix="/api")
+
+# Resend email configuration
+resend.api_key = os.environ.get('RESEND_API_KEY', '')
+SENDER_EMAIL = os.environ.get('SENDER_EMAIL', 'onboarding@resend.dev')
 
 
 # Define Models
@@ -101,6 +109,22 @@ class SpinResult(BaseModel):
     prize: Optional[str] = None
     coupon_code: Optional[str] = None
     message: str
+    email_sent: Optional[bool] = None
+
+
+class DiscountCode(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    code: str
+    type: str = "10_percent"
+    is_used: bool = False
+    assigned_email: Optional[str] = None
+    assigned_at: Optional[str] = None
+    created_at: str = Field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
+
+
+class BulkUploadRequest(BaseModel):
+    codes: List[str]
 
 
 class Event(BaseModel):
@@ -386,6 +410,90 @@ def spin_wheel() -> str:
     return "Better Luck Next Time"
 
 
+async def assign_discount_code(email: str) -> Optional[str]:
+    """Fetch an unused discount code and assign it to the given email"""
+    result = await db.discount_codes.find_one_and_update(
+        {"is_used": False},
+        {"$set": {
+            "is_used": True,
+            "assigned_email": email,
+            "assigned_at": datetime.now(timezone.utc).isoformat()
+        }},
+        projection={"_id": 0},
+        return_document=True
+    )
+    if result:
+        return result.get("code")
+    return None
+
+
+async def send_discount_email(email: str, code: str) -> bool:
+    """Send discount code email to user via Resend"""
+    if not resend.api_key:
+        logger.warning("RESEND_API_KEY not set, skipping email send")
+        return False
+
+    html_content = f"""
+    <div style="font-family: 'Helvetica Neue', Arial, sans-serif; max-width: 600px; margin: 0 auto; background-color: #FAF8F5; padding: 0;">
+      <div style="background: linear-gradient(135deg, #2C2420 0%, #1a1512 100%); padding: 48px 32px; text-align: center;">
+        <div style="margin-bottom: 16px;">
+          <span style="display: inline-block; width: 48px; height: 2px; background-color: #8B3A3A; margin-right: 8px;"></span>
+          <span style="display: inline-block; width: 48px; height: 2px; background-color: rgba(255,255,255,0.8); margin-right: 8px;"></span>
+          <span style="display: inline-block; width: 48px; height: 2px; background-color: #3A4A6B;"></span>
+        </div>
+        <h1 style="color: #ffffff; font-size: 28px; font-weight: 700; margin: 0 0 8px 0; letter-spacing: 2px;">BAILA DEMBOW</h1>
+        <p style="color: #D4622A; font-size: 14px; letter-spacing: 3px; margin: 0;">KINGSDAY WEEKENDER 2026</p>
+      </div>
+
+      <div style="padding: 48px 32px; text-align: center;">
+        <div style="width: 64px; height: 64px; background-color: rgba(212, 98, 42, 0.15); border-radius: 50%; margin: 0 auto 24px; line-height: 64px; font-size: 28px;">
+          &#127881;
+        </div>
+        <h2 style="color: #2C2420; font-size: 24px; font-weight: 700; margin: 0 0 12px 0;">You Won a 10% Discount!</h2>
+        <p style="color: #6B5E54; font-size: 16px; margin: 0 0 32px 0; line-height: 1.6;">
+          Congratulations! You spun the Kingsday Weekender wheel and unlocked an exclusive discount for our events.
+        </p>
+
+        <div style="background-color: #F5F0E8; border-radius: 16px; padding: 28px; margin: 0 0 32px 0;">
+          <p style="color: #6B5E54; font-size: 12px; text-transform: uppercase; letter-spacing: 2px; margin: 0 0 12px 0;">Your Discount Code</p>
+          <p style="color: #D4622A; font-size: 32px; font-weight: 700; font-family: 'Courier New', monospace; margin: 0; letter-spacing: 4px;">{code}</p>
+        </div>
+
+        <div style="background-color: #F5F0E8; border-radius: 12px; padding: 20px; margin: 0 0 32px 0; text-align: left;">
+          <p style="color: #2C2420; font-size: 14px; font-weight: 600; margin: 0 0 12px 0;">How to use your code:</p>
+          <p style="color: #6B5E54; font-size: 14px; margin: 0 0 8px 0;">1. Go to the ticket page for any Kingsday Weekender event</p>
+          <p style="color: #6B5E54; font-size: 14px; margin: 0 0 8px 0;">2. Select your tickets and proceed to checkout</p>
+          <p style="color: #6B5E54; font-size: 14px; margin: 0;">3. Enter code <strong style="color: #D4622A;">{code}</strong> to get 10% off</p>
+        </div>
+
+        <a href="https://bailadembow.com/#/events/kingsday-weekender-2026" style="display: inline-block; background: linear-gradient(135deg, #D4622A 0%, #B8501F 100%); color: #ffffff; text-decoration: none; padding: 16px 40px; border-radius: 50px; font-size: 16px; font-weight: 600; letter-spacing: 0.5px;">
+          Get Your Tickets
+        </a>
+      </div>
+
+      <div style="background-color: #2C2420; padding: 32px; text-align: center;">
+        <p style="color: rgba(255,255,255,0.6); font-size: 12px; margin: 0 0 8px 0;">Baila Dembow &middot; Kingsday Weekender 2026</p>
+        <p style="color: rgba(255,255,255,0.4); font-size: 11px; margin: 0;">Amsterdam &amp; Rotterdam &middot; April 26-27, 2026</p>
+      </div>
+    </div>
+    """
+
+    params = {
+        "from": SENDER_EMAIL,
+        "to": [email],
+        "subject": "You unlocked a Kingsday reward \U0001f389",
+        "html": html_content
+    }
+
+    try:
+        email_response = await asyncio.to_thread(resend.Emails.send, params)
+        logger.info(f"Discount email sent to {email}, id: {email_response}")
+        return True
+    except Exception as e:
+        logger.error(f"Failed to send discount email to {email}: {str(e)}")
+        return False
+
+
 @api_router.post("/kingsday/subscribe")
 async def kingsday_subscribe(request: KingsdaySubscribeRequest):
     """Subscribe to Kingsday Weekender and get verification email"""
@@ -498,8 +606,20 @@ async def kingsday_spin(request: KingsdaySpinRequest):
     # Spin the wheel
     prize = spin_wheel()
     coupon_code = None
+    email_sent = None
     
-    if prize != "Better Luck Next Time":
+    if prize == "10% Discount":
+        # Assign a real discount code from the database
+        coupon_code = await assign_discount_code(request.email)
+        if not coupon_code:
+            # No codes left - change prize to fallback
+            prize = "Better Luck Next Time"
+            logger.warning("No discount codes available, falling back to 'Better Luck Next Time'")
+        else:
+            # Send the discount code via email
+            email_sent = await send_discount_email(request.email, coupon_code)
+    elif prize != "Better Luck Next Time":
+        # Other prizes still use auto-generated codes
         coupon_code = generate_coupon_code(prize)
     
     # Update subscriber with spin result
@@ -515,8 +635,9 @@ async def kingsday_spin(request: KingsdaySpinRequest):
     return SpinResult(
         success=True,
         prize=prize,
-        coupon_code=coupon_code,
-        message=f"Congratulations! You won: {prize}" if prize != "Better Luck Next Time" else "Better luck next time!"
+        coupon_code=coupon_code if prize != "10% Discount" else None,
+        message=f"Congratulations! You won: {prize}" if prize != "Better Luck Next Time" else "Better luck next time!",
+        email_sent=email_sent
     )
 
 
@@ -572,6 +693,107 @@ async def get_kingsday_events():
     return events
 
 
+# ==================== DISCOUNT CODE ADMIN ENDPOINTS ====================
+
+@api_router.post("/admin/discount-codes/upload")
+async def upload_discount_codes(request: BulkUploadRequest):
+    """Bulk upload discount codes (admin only)"""
+    if not request.codes:
+        raise HTTPException(status_code=400, detail="No codes provided")
+    
+    inserted = 0
+    skipped = 0
+    for code in request.codes:
+        code = code.strip().upper()
+        if not code:
+            continue
+        existing = await db.discount_codes.find_one({"code": code})
+        if existing:
+            skipped += 1
+            continue
+        doc = DiscountCode(code=code).model_dump()
+        await db.discount_codes.insert_one(doc)
+        inserted += 1
+    
+    return {
+        "success": True,
+        "inserted": inserted,
+        "skipped": skipped,
+        "message": f"Uploaded {inserted} new codes ({skipped} duplicates skipped)"
+    }
+
+
+@api_router.post("/admin/discount-codes/upload-csv")
+async def upload_discount_codes_csv(file: UploadFile = File(...)):
+    """Upload discount codes from a CSV file"""
+    content = await file.read()
+    text = content.decode('utf-8-sig')
+    reader = csv.DictReader(io.StringIO(text))
+    
+    codes = []
+    for row in reader:
+        code = row.get('Code', '').strip()
+        if code:
+            codes.append(code)
+    
+    if not codes:
+        raise HTTPException(status_code=400, detail="No codes found in CSV")
+    
+    inserted = 0
+    skipped = 0
+    for code in codes:
+        code = code.strip().upper()
+        existing = await db.discount_codes.find_one({"code": code})
+        if existing:
+            skipped += 1
+            continue
+        doc = DiscountCode(code=code).model_dump()
+        await db.discount_codes.insert_one(doc)
+        inserted += 1
+    
+    return {
+        "success": True,
+        "inserted": inserted,
+        "skipped": skipped,
+        "total_in_file": len(codes),
+        "message": f"Uploaded {inserted} new codes ({skipped} duplicates skipped)"
+    }
+
+
+@api_router.get("/admin/discount-codes")
+async def get_discount_codes(status: Optional[str] = None):
+    """Get all discount codes with optional filtering. status: 'used', 'unused', or None for all"""
+    query = {}
+    if status == "used":
+        query["is_used"] = True
+    elif status == "unused":
+        query["is_used"] = False
+    
+    codes = await db.discount_codes.find(query, {"_id": 0}).sort("created_at", -1).to_list(1000)
+    return codes
+
+
+@api_router.get("/admin/discount-codes/stats")
+async def get_discount_code_stats():
+    """Get discount code statistics"""
+    total = await db.discount_codes.count_documents({})
+    used = await db.discount_codes.count_documents({"is_used": True})
+    unused = await db.discount_codes.count_documents({"is_used": False})
+    
+    # Get recently assigned codes
+    recent = await db.discount_codes.find(
+        {"is_used": True},
+        {"_id": 0}
+    ).sort("assigned_at", -1).limit(10).to_list(10)
+    
+    return {
+        "total": total,
+        "used": used,
+        "unused": unused,
+        "recent_assignments": recent
+    }
+
+
 # ==================== END KINGSDAY ENDPOINTS ====================
 
 
@@ -604,6 +826,36 @@ logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 )
 logger = logging.getLogger(__name__)
+
+
+@app.on_event("startup")
+async def seed_discount_codes():
+    """Seed discount codes from CSV on startup if the collection is empty"""
+    count = await db.discount_codes.count_documents({})
+    if count > 0:
+        logger.info(f"Discount codes already seeded ({count} codes in DB)")
+        return
+    
+    csv_path = ROOT_DIR / 'spin_and_win.csv'
+    if not csv_path.exists():
+        logger.warning("spin_and_win.csv not found, skipping seed")
+        return
+    
+    codes = []
+    with open(csv_path, 'r', encoding='utf-8-sig') as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            code = row.get('Code', '').strip()
+            if code:
+                codes.append(code.upper())
+    
+    if not codes:
+        logger.warning("No codes found in CSV")
+        return
+    
+    docs = [DiscountCode(code=code).model_dump() for code in codes]
+    await db.discount_codes.insert_many(docs)
+    logger.info(f"Seeded {len(docs)} discount codes from CSV")
 
 
 @app.on_event("shutdown")
