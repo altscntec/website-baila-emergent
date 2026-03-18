@@ -1,168 +1,95 @@
 # Baila Dembow - Product Requirements Document
 
 ## Original Problem Statement
-Create a cinematic, emotionally immersive, high-converting event website for Baila Dembow - a Latin cultural movement platform combining cinematic artistic design with hyper-aggressive conversion psychology.
+Create a cinematic, high-converting website for "Baila Dembow," a Latin cultural event platform. The site includes a hero section, event listings, admin panel, SEO, GDPR cookie banner, and a dedicated Kingsday Weekender 2026 campaign page with Spin & Win game.
 
-## User Personas
-- **Latin diaspora in Europe**: Dominicans, Colombians, Puerto Ricans, Mexicans, Venezuelans seeking cultural connection
-- **International students**: 18-35 age group in university cities
-- **Dutch locals**: Interested in Latin culture and nightlife
-- **Event enthusiasts**: People who follow reggaeton, dembow, and urban Latin music
-
-## Core Requirements
-- Full-screen hero with YouTube video background
-- Sticky floating "GET TICKETS" CTA button
-- Countdown timer to next event (uses both date AND time for accuracy)
-- Bento grid gallery with user-provided images
-- Event cards with urgency indicators (On Sale, Almost Sold Out)
-- Email subscription with MongoDB storage
-- SEO optimized with Open Graph, Twitter cards, JSON-LD structured data
-- Mobile-first responsive design
-- GDPR-compliant cookie consent banner
-- Mobile hamburger menu
+## Tech Stack
+- **Frontend**: React, TailwindCSS, Framer Motion, HashRouter
+- **Backend**: FastAPI, Pydantic
+- **Database**: MongoDB (Motor async driver)
+- **Email**: Resend (transactional emails)
 
 ## Architecture
-
-### Frontend Structure (REFACTORED - Feb 28, 2026)
 ```
-/app/frontend/src/
-├── App.js                    # Main entry point (~110 lines, down from ~2965)
-├── App.css                   # Styles
-├── index.js                  # React entry
-├── context/
-│   └── CookieConsentContext.jsx   # Cookie consent provider & banner
-├── utils/
-│   ├── constants.js          # Logo URLs, pixel IDs, fallback events
-│   ├── tracking.js           # Meta/TikTok pixel loading & tracking
-│   └── helpers.js            # generateEventSlug, getEventBySlug
-├── components/
-│   ├── index.js              # Barrel exports
-│   ├── common/
-│   │   ├── Navigation.jsx    # Main nav with mobile menu
-│   │   ├── FloatingCTA.jsx   # Sticky GET TICKETS button
-│   │   ├── CountdownTimer.jsx # Event countdown
-│   │   └── EventModal.jsx    # Event quick-view modal
-│   ├── sections/
-│   │   ├── HeroSection.jsx   # Hero + LatinEventSection
-│   │   ├── NextEventSection.jsx
-│   │   ├── ExperienceSection.jsx
-│   │   ├── AgendaSection.jsx
-│   │   └── CommunitySection.jsx
-│   └── pages/
-│       ├── HomePage.jsx
-│       ├── AdminPage.jsx
-│       ├── PressPage.jsx
-│       ├── AboutUsPage.jsx
-│       ├── EventsPage.jsx
-│       ├── SingleEventPage.jsx
-│       └── SEOPages.jsx      # LatinEventAmsterdamPage, LatinEventRotterdamPage
+/app
+├── backend/
+│   ├── .env
+│   ├── requirements.txt
+│   ├── server.py           # FastAPI app with all endpoints
+│   └── spin_and_win.csv    # 500 discount codes (seeded on startup)
+├── frontend/
+│   ├── src/
+│   │   ├── components/
+│   │   │   ├── common/     # Navigation, FloatingCTA
+│   │   │   ├── pages/      # HomePage, AdminPage, KingsdayWeekenderPage, etc.
+│   │   │   └── sections/   # Homepage sections
+│   │   ├── context/        # CookieConsentContext
+│   │   ├── utils/          # constants, tracking
+│   │   └── App.js          # HashRouter setup
+│   └── package.json
+└── memory/
+    └── PRD.md
 ```
 
-### Backend: FastAPI with MongoDB (Motor async driver)
-### Database: MongoDB (subscribers collection, gallery_images collection)
-### External Services: YouTube embed, user-provided images from customer-assets
+## Core Features (Completed)
 
-## What's Been Implemented
+### Homepage
+- Hero section, event listings, gallery, community signup
+- Mobile-responsive navigation with cookie consent banner
+- Meta Pixel + TikTok Pixel tracking
 
-### Mar 16, 2026 - Kingsday Weekender 2026 Page
-✅ **Created dedicated Kingsday Weekender page** at `/events/kingsday-weekender-2026`
-✅ **Hero Section** - Orange gradient (#FF6A00) with Dutch flag accents, countdown timer, crown animations
-✅ **Spin & Win Game** - Interactive prize wheel with email verification system
-   - Email normalization (prevents alias abuse like john+promo@gmail.com)
-   - Prizes: Free Ticket (2%), Backstage Pass (1%), Weekender Ticket (1%), 10% Discount (6%), Better Luck (90%)
-   - Coupon code generation for winners
-✅ **Weekender Tickets Section** - 5 ticket types displayed (Weekender Pass, Kingsnight, Rotterdam, Oliva, Street Party)
-✅ **Special Experiences** - DJ Contest, Bad Bunny Look-Alike Competition, La Casita del Baile
-✅ **Event Schedule** - Timeline view of April 26-27 events
-✅ **Email Capture Section** - Orange gradient CTA for newsletter signup
-✅ **SEO Optimization** - Meta tags, structured data for Kingsday keywords
-✅ **Backend APIs** - `/api/kingsday/subscribe`, `/api/kingsday/verify`, `/api/kingsday/spin`, `/api/kingsday/events`
+### Admin Panel (/#/admin)
+- Password-protected (bailadembow2024)
+- Gallery management (add/delete/reorder images)
+- **Discount Code Management** (added Dec 2025):
+  - Stats dashboard (total/available/assigned)
+  - Bulk upload codes (text input)
+  - View codes with filter (All/Unused/Used)
+  - Table with code, status, assigned email, timestamp
 
-### Mar 4, 2026 - Events Update & UI Changes
-✅ **Updated events list** - Removed past Feb 28 event, added new Amsterdam Mar 28 event at Oliva
-✅ **Removed countdown section** - NextEventSection removed from homepage per user request
-✅ Events now: Rotterdam (Mar 7), Leiden (Mar 14), Amsterdam Oliva (Mar 28), Kingsnight (Apr 26)
+### Kingsday Weekender 2026 Page (/#/events/kingsday-weekender-2026)
+- Premium editorial design with burnt orange color palette
+- Countdown timer, hero section, ticket section, schedule, experiences
+- **Spin & Win Game** with real discount code system
 
-### Previously Implemented
-✅ Hero section with YouTube video background
-✅ Gradient text headlines (Pink → Red → Violet)
-✅ Anton + Manrope typography
-✅ Floating navigation with glassmorphism effect
-✅ Countdown timer to next event
-✅ Next Event section with event details and ticket CTA
-✅ Experience gallery with 8 user-provided images in Bento grid
-✅ Agenda section with 4 event cards
-✅ Status badges (On Sale, Almost Sold Out) with animations
-✅ Email subscription form with MongoDB integration
-✅ Toast notifications (Sonner)
-✅ Social links (Instagram, WhatsApp, Email, TikTok, YouTube, Facebook)
-✅ Sticky floating GET TICKETS button with pulse animation
-✅ SEO meta tags, Open Graph, Twitter cards, JSON-LD schema
-✅ Mobile responsive design with hamburger menu
-✅ Grain texture overlay for premium feel
-✅ Hash-based routing (/#/about, /#/press, /#/events, /#/admin)
-✅ Password-protected Admin Panel for gallery management
-✅ Meta and TikTok tracking pixels with consent
-✅ GDPR-compliant cookie consent banner with preferences
-✅ sitemap.xml and robots.txt for SEO
-✅ City-specific photo galleries on About page (15 photos)
-✅ Hybrid event system: Quick-view modal + SEO-optimized event pages
-✅ SEO landing pages for Amsterdam and Rotterdam
+### Discount Code System (Completed Dec 2025)
+- **500 pre-generated codes** from CSV, seeded into MongoDB on startup
+- **Spin flow**: Subscribe → Verify email → Spin wheel → Prize
+- **10% Discount wins**: Code assigned from DB (atomic operation), emailed via Resend
+- **Other wins**: Auto-generated codes shown in popup
+- **Security**: One spin per user, one code per email, email normalization (Gmail alias prevention)
+- **Admin**: View/filter/upload codes, stats dashboard
+- **Email**: Branded HTML email via Resend with discount code and instructions
 
-## API Endpoints
-- `GET /api/` - Health check
-- `GET /api/events` - Returns 4 upcoming events
-- `POST /api/subscribe` - Email subscription (validates duplicates)
-- `GET /api/subscribers` - Admin endpoint for subscriber list
-- `POST /api/admin/verify` - Admin password verification
-- `GET /api/gallery` - Get gallery images
-- `POST /api/gallery` - Add gallery image
-- `DELETE /api/gallery/{id}` - Delete gallery image
+## Key DB Collections
+- `kingsday_subscribers`: email, normalized_email, verified, verification_token, has_spun, spin_result, coupon_code
+- `discount_codes`: code, type, is_used, assigned_email, assigned_at
+- `gallery`: url, alt, order
+- `subscribers`: email subscriber list
 
-## Events Data
-1. **Mar 7, 2026** - Rotterdam @ Club Reverse (€10-€25)
-2. **Mar 14, 2026** - Leiden @ Wibar Club (€10-€25)
-3. **Mar 28, 2026** - Amsterdam @ Oliva, Rembrandtplein (€10-€25) - NEW!
-4. **Apr 26, 2026** - Amsterdam Kingsnight @ IJland (€15-€30)
+## Key API Endpoints
+- `POST /api/kingsday/subscribe` - Subscribe email
+- `GET /api/kingsday/verify/{token}` - Verify email
+- `POST /api/kingsday/spin` - Spin the wheel
+- `GET /api/admin/discount-codes/stats` - Code statistics
+- `GET /api/admin/discount-codes?status=used|unused` - List codes
+- `POST /api/admin/discount-codes/upload` - Bulk upload codes
+- `POST /api/admin/verify` - Admin login
 
-## External Links
-- Tickets: https://linktr.ee/bailadembow
-- Instagram: @baila.dembow
-- WhatsApp: https://chat.whatsapp.com/EvqrDDkud6eB7JSRzPEpj6
+## Environment Variables
+- `MONGO_URL`, `DB_NAME` - MongoDB
+- `RESEND_API_KEY` - Resend email service
+- `SENDER_EMAIL` - Email sender address
+- `ADMIN_PASSWORD` - Admin panel password
 
-## Credentials
-- Admin Panel: `/#/admin`
-- Admin Password: `bailadembow2024` (stored in ADMIN_PASSWORD env var)
+## Known Limitations
+- Resend in test mode only sends to account owner email. Needs domain verification for production.
+- Spin & Win email verification is auto-verified (no real verification email sent yet)
+- Events are hardcoded in both frontend and backend
 
-## Prioritized Backlog
-
-### P0 (Critical) - DONE
-- ✅ Core website functionality
-- ✅ All sections rendering
-- ✅ Email subscription working
-- ✅ **Refactored monolithic App.js** (Feb 28, 2026)
-- ✅ Countdown timer accuracy fix
-
-### P1 (Important) - Pending User Verification
-- Admin panel access on live domain (bailadembow.com/#/admin) - requires user to redeploy
-
-### P2 (Future)
-- Image optimization for faster loading (implement compression on upload)
-- Real ticket integration (Weeztix API)
-- Analytics tracking (GA4)
-- Multi-language support (Dutch, Spanish, English)
-- Admin dashboard for managing events
-- Blog/news section
-- Artist/DJ profiles
-- Loyalty program integration
-
-## File Locations
-- City photos: `/app/frontend/public/city-photos/`
-- Gallery photos: `/app/frontend/public/gallery/`
-- Main styles: `/app/frontend/src/App.css`
-
-## Notes for Future Agents
-1. **Component Structure**: The app is now properly modularized. Each component is in its logical location.
-2. **Domain/DNS Issues**: Live domain issues are USER-SIDE (DNS configuration). Direct users to "Link domain" feature in Emergent platform.
-3. **Admin Password**: Sourced from `ADMIN_PASSWORD` environment variable in `/app/backend/.env`
-4. **Routing**: Uses hash-based routing for SPA compatibility with static hosting.
+## Backlog (P2)
+- Move hardcoded events to MongoDB
+- Add real email verification flow (send actual verification links)
+- IP-based abuse prevention for Spin & Win
+- Image optimization for admin uploads
+- Refactor server.py into modular routes with APIRouter
