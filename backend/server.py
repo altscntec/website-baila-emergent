@@ -200,7 +200,7 @@ async def get_events():
             "status": "upcoming",
             "price_from": "€10",
             "price_door": "€25",
-            "image_url": "https://customer-assets.emergentagent.com/job_latinevents/artifacts/ww7bm8cu_1600%20X%20900%20%281920%20x%201005%20px%29%20%284%29.png"
+            "image_url": "https://customer-assets.emergentagent.com/job_6f6a7dfa-4ba2-45da-a0d7-cabd89498e04/artifacts/pb0bj0h6_2.png"
         },
         {
             "id": "groningen-april-2026",
@@ -214,7 +214,7 @@ async def get_events():
             "status": "upcoming",
             "price_from": "€10",
             "price_door": "€25",
-            "image_url": "https://customer-assets.emergentagent.com/job_latinevents/artifacts/541u3qiq_1600%20X%20900%20%281920%20x%201005%20px%29%20%281%29.png"
+            "image_url": "https://customer-assets.emergentagent.com/job_6f6a7dfa-4ba2-45da-a0d7-cabd89498e04/artifacts/o855nyo1_3.png"
         },
         {
             "id": "rotterdam-kingsnight-2026",
@@ -228,7 +228,7 @@ async def get_events():
             "status": "upcoming",
             "price_from": "€12",
             "price_door": "€25",
-            "image_url": "https://customer-assets.emergentagent.com/job_latinevents/artifacts/ww7bm8cu_1600%20X%20900%20%281920%20x%201005%20px%29%20%284%29.png"
+            "image_url": "https://customer-assets.emergentagent.com/job_6f6a7dfa-4ba2-45da-a0d7-cabd89498e04/artifacts/xy2dceom_5.png"
         },
         {
             "id": "amsterdam-kingsnight-2026",
@@ -256,7 +256,7 @@ async def get_events():
             "status": "upcoming",
             "price_from": "FREE",
             "price_door": "FREE",
-            "image_url": "https://customer-assets.emergentagent.com/job_baila-dembow/artifacts/d4cz8fiu_26%3A04%20Amsterdam.png"
+            "image_url": "https://customer-assets.emergentagent.com/job_6f6a7dfa-4ba2-45da-a0d7-cabd89498e04/artifacts/zsicqqq5_6.png"
         },
         {
             "id": "amsterdam-oliva-kingsday-2026",
@@ -270,7 +270,7 @@ async def get_events():
             "status": "upcoming",
             "price_from": "€15",
             "price_door": "€25",
-            "image_url": "https://customer-assets.emergentagent.com/job_6f6a7dfa-4ba2-45da-a0d7-cabd89498e04/artifacts/1jkedt5t_1600%20X%20900%20%281920%20x%201005%20px%29%20%281920%20x%201080%20px%29.png"
+            "image_url": "https://customer-assets.emergentagent.com/job_6f6a7dfa-4ba2-45da-a0d7-cabd89498e04/artifacts/9tn4xu43_4.png"
         }
     ]
     return events
