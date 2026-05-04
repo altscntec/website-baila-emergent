@@ -85,3 +85,7 @@ android-sdk/ -e
 # Environment files
 *.env
 *.env.*
+frontend/public/videos/kingsnight-baila-dembow.mp4
+frontend/public/videos/superbowl-baila-dembow.mp4
+frontend/build/videos/kingsnight-baila-dembow.mp4
+frontend/build/videos/superbowl-baila-dembow.mp4

@@ -1,30 +1,13 @@
-import { useState, useEffect } from 'react';
-import axios from 'axios';
+import { useState } from 'react';
 import { MapPin, Calendar, Clock, ArrowRight } from 'lucide-react';
 import { EventModal } from '../common/EventModal';
-import { API, FALLBACK_EVENTS } from '../../utils/constants';
+import { FALLBACK_EVENTS } from '../../utils/constants';
 import { generateEventSlug } from '../../utils/helpers';
 import { trackTicketClick } from '../../utils/tracking';
 
 export const EventsPage = ({ events: propEvents }) => {
-  const [events, setEvents] = useState(propEvents || FALLBACK_EVENTS);
+  const events = propEvents || FALLBACK_EVENTS;
   const [selectedEvent, setSelectedEvent] = useState(null);
-
-  useEffect(() => {
-    if (!propEvents) {
-      const fetchEvents = async () => {
-        try {
-          const response = await axios.get(`${API}/events`);
-          if (response.data && response.data.length > 0) {
-            setEvents(response.data);
-          }
-        } catch (error) {
-          console.error("Failed to fetch events:", error);
-        }
-      };
-      fetchEvents();
-    }
-  }, [propEvents]);
 
   return (
     <>

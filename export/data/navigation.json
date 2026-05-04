@@ -1,0 +1,23 @@
+{
+  "main_nav": [
+    { "label": "Events", "href": "#agenda", "type": "scroll" },
+    { "label": "Experience", "href": "#experience", "type": "scroll" },
+    { "label": "Community", "href": "#community", "type": "scroll" },
+    { "label": "Press", "href": "#/press", "type": "route" },
+    { "label": "About", "href": "#/about", "type": "route" }
+  ],
+  "pages": [
+    { "path": "/", "title": "Home", "component": "HomePage" },
+    { "path": "/events", "title": "Events", "component": "EventsPage" },
+    { "path": "/events/:slug", "title": "Event Detail", "component": "SingleEventPage" },
+    { "path": "/events/kingsday-weekender-2026", "title": "Kingsday Weekender 2026", "component": "KingsdayWeekenderPage" },
+    { "path": "/about", "title": "About Us", "component": "AboutUsPage" },
+    { "path": "/press", "title": "Press", "component": "PressPage" },
+    { "path": "/latin-event-amsterdam", "title": "Latin Event Amsterdam", "component": "LatinEventAmsterdamPage" },
+    { "path": "/latin-event-rotterdam", "title": "Latin Event Rotterdam", "component": "LatinEventRotterdamPage" }
+  ],
+  "footer_links": {
+    "back_to_homepage": "#/",
+    "cookie_settings": "managed via CookieConsentContext"
+  }
+}

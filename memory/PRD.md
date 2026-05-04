@@ -1,105 +1,51 @@
 # Baila Dembow - Product Requirements Document
 
 ## Original Problem Statement
-Create a cinematic, high-converting website for "Baila Dembow," a Latin cultural event platform. The site includes a hero section, event listings, admin panel, SEO, GDPR cookie banner, and a dedicated Kingsday Weekender 2026 campaign page with Spin & Win game.
+Create a cinematic, high-converting website for "Baila Dembow," a Latin cultural event platform in the Netherlands. Fully migrated to a static React site for self-hosted deployment.
 
 ## Tech Stack
-- **Frontend**: React, TailwindCSS, Framer Motion, HashRouter
-- **Backend**: FastAPI, Pydantic
-- **Database**: MongoDB (Motor async driver)
-- **Email**: Resend (transactional emails)
+- **Frontend**: React (CRA + CRACO), TailwindCSS, Framer Motion
+- **Routing**: Hash-based (`/#/page`)
+- **No Backend** — fully static site (backend removed during migration)
 
-## Architecture
-```
-/app
-├── backend/
-│   ├── .env
-│   ├── requirements.txt
-│   ├── server.py           # FastAPI app with all endpoints
-│   └── spin_and_win.csv    # 500 discount codes (seeded on startup)
-├── frontend/
-│   ├── src/
-│   │   ├── components/
-│   │   │   ├── common/     # Navigation, FloatingCTA
-│   │   │   ├── pages/      # HomePage, AdminPage, KingsdayWeekenderPage, etc.
-│   │   │   └── sections/   # Homepage sections
-│   │   ├── context/        # CookieConsentContext
-│   │   ├── utils/          # constants, tracking
-│   │   └── App.js          # HashRouter setup
-│   └── package.json
-└── memory/
-    └── PRD.md
-```
+## Current Status: MIGRATED TO STATIC
+- All backend dependencies removed
+- All external CDN URLs replaced with local paths
+- MongoDB data exported to JSON
+- Ready for deployment on Vercel/Netlify/Cloudflare Pages
 
-## Core Features (Completed)
+## Pages
+| Route | Page |
+|-------|------|
+| `/#/` | Homepage |
+| `/#/events` | Events listing |
+| `/#/events/:slug` | Single event detail |
+| `/#/events/kingsday-weekender-2026` | Kingsday Weekender campaign |
+| `/#/about` | About Us |
+| `/#/press` | Press |
+| `/#/latin-event-amsterdam` | SEO page |
+| `/#/latin-event-rotterdam` | SEO page |
 
-### Homepage
-- Hero section with **video background** (dimmed overlay for readability)
-- Fully dark-themed throughout - no jarring color transitions
-- Smooth gradient transitions between all sections
-- Event listings, gallery, community signup
-- Mobile-responsive navigation with cookie consent banner
+## Features Preserved
+- Hero section with video background
+- Event listings with ticket links
+- Casa De Baila Dembow section (photos + videos)
+- Experience gallery
+- Community section
+- Cookie consent (GDPR)
 - Meta Pixel + TikTok Pixel tracking
-- **Casa De Baila Dembow section** (Casita Experience):
-  - Cinematic dark section with warm nightlife gradients
-  - 2 autoplay videos (Kingsnight + Super Bowl edition) with poster fallbacks
-  - 8-image bento grid (event recap style)
-  - Copy about La Casita concept
-  - WhatsApp Community CTA button
-  - Grain texture overlay, warm ambient glows
+- SEO structured data (MusicEvent, Organization)
+- robots.txt + sitemap.xml
 
-### Admin Panel (/#/admin)
-- Password-protected (bailadembow2024)
-- Gallery management (add/delete/reorder images)
-- **Discount Code Management** (added Dec 2025):
-  - Stats dashboard (total/available/assigned)
-  - Bulk upload codes (text input)
-  - View codes with filter (All/Unused/Used)
-  - Table with code, status, assigned email, timestamp
+## Features Removed (Required Backend)
+- Spin & Win interactive game → replaced with static promo CTA
+- Community signup form → shows success toast only
+- Admin panel → deleted
+- Discount code system → data exported to JSON
+- Email integration (Resend) → removed
 
-### Kingsday Weekender 2026 Page (/#/events/kingsday-weekender-2026)
-- Premium editorial design with burnt orange color palette
-- Countdown timer, hero section, ticket section, schedule, experiences
-- **Spin & Win Game** with real discount code system
-
-### Discount Code System (Completed Dec 2025)
-- **500 pre-generated codes** from CSV, seeded into MongoDB on startup
-- **Spin flow**: Subscribe → Verify email → Spin wheel → Prize
-- **10% Discount wins**: Code assigned from DB (atomic operation), emailed via Resend
-- **Other wins**: Auto-generated codes shown in popup
-- **Security**: One spin per user, one code per email, email normalization (Gmail alias prevention)
-- **Admin**: View/filter/upload codes, stats dashboard
-- **Email**: Branded HTML email via Resend with discount code and instructions
-
-## Key DB Collections
-- `kingsday_subscribers`: email, normalized_email, verified, verification_token, has_spun, spin_result, coupon_code
-- `discount_codes`: code, type, is_used, assigned_email, assigned_at
-- `gallery`: url, alt, order
-- `subscribers`: email subscriber list
-
-## Key API Endpoints
-- `POST /api/kingsday/subscribe` - Subscribe email
-- `GET /api/kingsday/verify/{token}` - Verify email
-- `POST /api/kingsday/spin` - Spin the wheel
-- `GET /api/admin/discount-codes/stats` - Code statistics
-- `GET /api/admin/discount-codes?status=used|unused` - List codes
-- `POST /api/admin/discount-codes/upload` - Bulk upload codes
-- `POST /api/admin/verify` - Admin login
-
-## Environment Variables
-- `MONGO_URL`, `DB_NAME` - MongoDB
-- `RESEND_API_KEY` - Resend email service
-- `SENDER_EMAIL` - Email sender address
-- `ADMIN_PASSWORD` - Admin panel password
-
-## Known Limitations
-- Resend in test mode only sends to account owner email. Needs domain verification for production.
-- Spin & Win email verification is auto-verified (no real verification email sent yet)
-- Events are hardcoded in both frontend and backend
-
-## Backlog (P2)
-- Move hardcoded events to MongoDB
-- Add real email verification flow (send actual verification links)
-- IP-based abuse prevention for Spin & Win
-- Image optimization for admin uploads
-- Refactor server.py into modular routes with APIRouter
+## Documentation
+- `/docs/migration-log.md` — full migration changelog
+- `/docs/deployment-guide.md` — Vercel/Netlify/Cloudflare deployment instructions + DNS
+- `/docs/github-setup.md` — GitHub repo creation instructions
+- `/export/data/` — all exported MongoDB data as JSON

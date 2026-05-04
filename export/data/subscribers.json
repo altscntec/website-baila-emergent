@@ -1,0 +1,26 @@
+[
+  {
+    "id": "75f349ce-94c1-47c4-a7f1-40b435c4e413",
+    "email": "test_20260217_123444@example.com",
+    "subscribed_at": "2026-02-17T12:34:44.834981+00:00",
+    "source": "website"
+  },
+  {
+    "id": "05071fee-0f7a-4624-aed4-deb79d226387",
+    "email": "frontend_test_1771331763860@example.com",
+    "subscribed_at": "2026-02-17T12:36:04.843177+00:00",
+    "source": "website"
+  },
+  {
+    "id": "1b5dd984-04be-4985-a4a6-e799f474d11e",
+    "email": "test-final@bailadembow.com",
+    "subscribed_at": "2026-02-17T12:37:47.438561+00:00",
+    "source": "website"
+  },
+  {
+    "id": "e9065773-2bb5-4433-b327-150458a0bb6e",
+    "email": "ask@housedecoded.com",
+    "subscribed_at": "2026-02-17T13:16:07.298220+00:00",
+    "source": "website"
+  }
+]

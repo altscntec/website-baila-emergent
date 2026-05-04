@@ -1,7 +1,7 @@
-// Logo URLs
-export const BAILA_LOGO = "https://customer-assets.emergentagent.com/job_baila-dembow/artifacts/yu24u3j0_White%20Baila%20Logo%20%284%29.png";
-export const BUNNY_LOGO = "https://customer-assets.emergentagent.com/job_baila-dembow/artifacts/funee3te_Copy%20of%2029-11-25%20%2826%29.png";
-export const BUNNY_GLASSES = "https://customer-assets.emergentagent.com/job_baila-dembow/artifacts/uigi9j0z_bunny%20with%20Baila%20Dembow%20glasses%20.png";
+// Logo URLs - local paths
+export const BAILA_LOGO = "/images/branding/baila-logo-white.png";
+export const BUNNY_LOGO = "/images/branding/bunny-logo.png";
+export const BUNNY_GLASSES = "/images/branding/bunny-glasses.png";
 
 // Pixel IDs
 export const META_PIXEL_ID = '179511642577064';
@@ -12,10 +12,6 @@ export const CONSENT_KEY = 'baila_cookie_consent';
 
 // YouTube video
 export const YOUTUBE_VIDEO_ID = "wnHQetmyGHQ";
-
-// API Configuration
-export const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
-export const API = `${BACKEND_URL}/api`;
 
 // Gallery images for the Experience section
 export const GALLERY_IMAGES = [
@@ -29,8 +25,8 @@ export const GALLERY_IMAGES = [
   { id: "gallery-8", url: "/gallery/gallery8.jpg", alt: "Baila Dembow party scene" }
 ];
 
-// Fallback events data
-export const FALLBACK_EVENTS = [
+// Events data (static)
+export const EVENTS = [
   {
     id: "amsterdam-march-2026",
     city: "Amsterdam",
@@ -43,7 +39,7 @@ export const FALLBACK_EVENTS = [
     status: "upcoming",
     price_from: "€10",
     price_door: "€25",
-    image_url: "https://customer-assets.emergentagent.com/job_6f6a7dfa-4ba2-45da-a0d7-cabd89498e04/artifacts/1jkedt5t_1600%20X%20900%20%281920%20x%201005%20px%29%20%281920%20x%201080%20px%29.png"
+    image_url: "/images/events/amsterdam-march-2026.png"
   },
   {
     id: "rotterdam-april-2026",
@@ -57,7 +53,7 @@ export const FALLBACK_EVENTS = [
     status: "upcoming",
     price_from: "€10",
     price_door: "€25",
-    image_url: "https://customer-assets.emergentagent.com/job_6f6a7dfa-4ba2-45da-a0d7-cabd89498e04/artifacts/pb0bj0h6_2.png"
+    image_url: "/images/events/rotterdam-april-2026.png"
   },
   {
     id: "groningen-april-2026",
@@ -71,7 +67,7 @@ export const FALLBACK_EVENTS = [
     status: "upcoming",
     price_from: "€10",
     price_door: "€25",
-    image_url: "https://customer-assets.emergentagent.com/job_6f6a7dfa-4ba2-45da-a0d7-cabd89498e04/artifacts/o855nyo1_3.png"
+    image_url: "/images/events/groningen-april-2026.png"
   },
   {
     id: "rotterdam-kingsnight-2026",
@@ -85,7 +81,7 @@ export const FALLBACK_EVENTS = [
     status: "upcoming",
     price_from: "€12",
     price_door: "€25",
-    image_url: "https://customer-assets.emergentagent.com/job_6f6a7dfa-4ba2-45da-a0d7-cabd89498e04/artifacts/xy2dceom_5.png"
+    image_url: "/images/events/rotterdam-kingsnight-2026.png"
   },
   {
     id: "amsterdam-kingsnight-2026",
@@ -99,7 +95,7 @@ export const FALLBACK_EVENTS = [
     status: "upcoming",
     price_from: "€15",
     price_door: "€30",
-    image_url: "https://customer-assets.emergentagent.com/job_baila-dembow/artifacts/d4cz8fiu_26%3A04%20Amsterdam.png"
+    image_url: "/images/events/amsterdam-kingsnight-2026.png"
   },
   {
     id: "amsterdam-blockparty-kingsday-2026",
@@ -113,7 +109,7 @@ export const FALLBACK_EVENTS = [
     status: "upcoming",
     price_from: "FREE",
     price_door: "FREE",
-    image_url: "https://customer-assets.emergentagent.com/job_6f6a7dfa-4ba2-45da-a0d7-cabd89498e04/artifacts/zsicqqq5_6.png"
+    image_url: "/images/events/amsterdam-blockparty-2026.png"
   },
   {
     id: "amsterdam-oliva-kingsday-2026",
@@ -127,6 +123,9 @@ export const FALLBACK_EVENTS = [
     status: "upcoming",
     price_from: "€15",
     price_door: "€25",
-    image_url: "https://customer-assets.emergentagent.com/job_6f6a7dfa-4ba2-45da-a0d7-cabd89498e04/artifacts/9tn4xu43_4.png"
+    image_url: "/images/events/amsterdam-oliva-kingsday-2026.png"
   }
 ];
+
+// Backward compat alias
+export const FALLBACK_EVENTS = EVENTS;

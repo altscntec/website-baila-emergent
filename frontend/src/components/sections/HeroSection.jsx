@@ -24,7 +24,7 @@ export const HeroSection = () => {
         style={{ opacity: 0.35 }}
         data-testid="hero-video"
       >
-        <source src="https://customer-assets.emergentagent.com/job_694aaf51-5947-4a3c-b1ec-bff2c9c5c497/artifacts/psrpsc0d_0501%20%281%29%281%29.mp4" type="video/mp4" />
+        <source src="/videos/hero-background.mp4" type="video/mp4" />
       </video>
       {/* Dark overlay for readability */}
       <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-black/70" />

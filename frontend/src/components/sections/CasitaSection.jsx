@@ -3,49 +3,19 @@ import { motion, useInView } from 'framer-motion';
 import { MessageCircle, ArrowRight } from 'lucide-react';
 
 const CASITA_IMAGES = [
-  {
-    url: "https://customer-assets.emergentagent.com/job_694aaf51-5947-4a3c-b1ec-bff2c9c5c497/artifacts/qt9a32xs_BAILADEMBOW%20IJLAND%2026-04-2026%20NO%20LOGO-47.jpg",
-    alt: "La Casita stage with crowd and straw hats"
-  },
-  {
-    url: "https://customer-assets.emergentagent.com/job_694aaf51-5947-4a3c-b1ec-bff2c9c5c497/artifacts/8g4te7vd_BAILADEMBOW%20IJLAND%2026-04-2026%20NO%20LOGO-237.jpg",
-    alt: "Crowd facing La Casita with plastic chair hanging from ceiling"
-  },
-  {
-    url: "https://customer-assets.emergentagent.com/job_694aaf51-5947-4a3c-b1ec-bff2c9c5c497/artifacts/a5y349lq_BAILADEMBOW%20IJLAND%2026-04-2026%20NO%20LOGO-135.jpg",
-    alt: "Girls posing in front of casita wall"
-  },
-  {
-    url: "https://customer-assets.emergentagent.com/job_694aaf51-5947-4a3c-b1ec-bff2c9c5c497/artifacts/dtf72czo_BAILADEMBOW%20IJLAND%2026-04-2026%20NO%20LOGO-180.jpg",
-    alt: "MC in Brady jersey with straw hat"
-  },
-  {
-    url: "https://customer-assets.emergentagent.com/job_694aaf51-5947-4a3c-b1ec-bff2c9c5c497/artifacts/wrp71lqg_BAILADEMBOW%20IJLAND%2026-04-2026%20NO%20LOGO-138.jpg",
-    alt: "Girl with red glasses and orange bandana"
-  },
-  {
-    url: "https://customer-assets.emergentagent.com/job_694aaf51-5947-4a3c-b1ec-bff2c9c5c497/artifacts/kqb0uvie_BAILADEMBOW%20IJLAND%2026-04-2026%20NO%20LOGO-241.jpg",
-    alt: "Red confetti crowd moment"
-  },
-  {
-    url: "https://customer-assets.emergentagent.com/job_694aaf51-5947-4a3c-b1ec-bff2c9c5c497/artifacts/lruqrvo5_BAILADEMBOW%20IJLAND%2026-04-2026%20NO%20LOGO-196.jpg",
-    alt: "MCs on La Casita stage with arches and lights"
-  },
-  {
-    url: "https://customer-assets.emergentagent.com/job_694aaf51-5947-4a3c-b1ec-bff2c9c5c497/artifacts/tjpu28g4_BAILADEMBOW%20IJLAND%2026-04-2026%20NO%20LOGO-167.jpg",
-    alt: "MC with mic under Baila Dembow sign"
-  }
+  { url: "/images/casita/casita-stage.jpg", alt: "La Casita stage with crowd and straw hats" },
+  { url: "/images/casita/casita-crowd.jpg", alt: "Crowd facing La Casita with plastic chair hanging from ceiling" },
+  { url: "/images/casita/casita-girls.jpg", alt: "Girls posing in front of casita wall" },
+  { url: "/images/casita/casita-mc-brady.jpg", alt: "MC in Brady jersey with straw hat" },
+  { url: "/images/casita/casita-girl-glasses.jpg", alt: "Girl with red glasses and orange bandana" },
+  { url: "/images/casita/casita-confetti.jpg", alt: "Red confetti crowd moment" },
+  { url: "/images/casita/casita-mcs-stage.jpg", alt: "MCs on La Casita stage with arches and lights" },
+  { url: "/images/casita/casita-mc-sign.jpg", alt: "MC with mic under Baila Dembow sign" }
 ];
 
 const CASITA_VIDEOS = [
-  {
-    url: "https://customer-assets.emergentagent.com/job_694aaf51-5947-4a3c-b1ec-bff2c9c5c497/artifacts/k8qv83bv_KING%20NIGHT%201%20BAILA%20DEMBOW.MP4",
-    alt: "Kingsnight Baila Dembow"
-  },
-  {
-    url: "https://customer-assets.emergentagent.com/job_694aaf51-5947-4a3c-b1ec-bff2c9c5c497/artifacts/2plr90vk_BAILA%20DEMBOW%20SUPER%20BOWL%201080X1350.mp4",
-    alt: "Super Bowl edition Baila Dembow"
-  }
+  { url: "/videos/kingsnight-baila-dembow.mp4", alt: "Kingsnight Baila Dembow" },
+  { url: "/videos/superbowl-baila-dembow.mp4", alt: "Super Bowl edition Baila Dembow" }
 ];
 
 export const CasitaSection = () => {
@@ -129,8 +99,8 @@ export const CasitaSection = () => {
               <video
                 src={video.url}
                 poster={index === 0 
-                  ? "https://customer-assets.emergentagent.com/job_694aaf51-5947-4a3c-b1ec-bff2c9c5c497/artifacts/8g4te7vd_BAILADEMBOW%20IJLAND%2026-04-2026%20NO%20LOGO-237.jpg"
-                  : "https://customer-assets.emergentagent.com/job_694aaf51-5947-4a3c-b1ec-bff2c9c5c497/artifacts/qt9a32xs_BAILADEMBOW%20IJLAND%2026-04-2026%20NO%20LOGO-47.jpg"
+                  ? "/images/casita/casita-crowd.jpg"
+                  : "/images/casita/casita-stage.jpg"
                 }
                 autoPlay
                 muted

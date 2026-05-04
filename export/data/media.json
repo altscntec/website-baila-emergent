@@ -1,0 +1,33 @@
+{
+  "branding": {
+    "logo_white": "/images/branding/baila-logo-white.png",
+    "bunny_logo": "/images/branding/bunny-logo.png",
+    "bunny_glasses": "/images/branding/bunny-glasses.png",
+    "og_image": "/images/branding/og-image.png"
+  },
+  "gallery": [
+    { "id": "gallery-1", "path": "/gallery/gallery1.jpg", "alt": "Baila Dembow event crowd" },
+    { "id": "gallery-2", "path": "/gallery/gallery2.jpg", "alt": "Baila Dembow party atmosphere" },
+    { "id": "gallery-3", "path": "/gallery/gallery3.jpg", "alt": "Baila Dembow dance floor" },
+    { "id": "gallery-4", "path": "/gallery/gallery4.jpg", "alt": "Baila Dembow event energy" },
+    { "id": "gallery-5", "path": "/gallery/gallery5.jpg", "alt": "Baila Dembow club night" },
+    { "id": "gallery-6", "path": "/gallery/gallery6.jpg", "alt": "Baila Dembow Latin vibes" },
+    { "id": "gallery-7", "path": "/gallery/gallery7.jpg", "alt": "Baila Dembow crowd experience" },
+    { "id": "gallery-8", "path": "/gallery/gallery8.jpg", "alt": "Baila Dembow party scene" }
+  ],
+  "casita_photos": [
+    { "path": "/images/casita/casita-stage.jpg", "alt": "La Casita stage with crowd and straw hats" },
+    { "path": "/images/casita/casita-crowd.jpg", "alt": "Crowd facing La Casita with plastic chair hanging from ceiling" },
+    { "path": "/images/casita/casita-girls.jpg", "alt": "Girls posing in front of casita wall" },
+    { "path": "/images/casita/casita-mc-brady.jpg", "alt": "MC in Brady jersey with straw hat" },
+    { "path": "/images/casita/casita-girl-glasses.jpg", "alt": "Girl with red glasses and orange bandana" },
+    { "path": "/images/casita/casita-confetti.jpg", "alt": "Red confetti crowd moment" },
+    { "path": "/images/casita/casita-mcs-stage.jpg", "alt": "MCs on La Casita stage with arches and lights" },
+    { "path": "/images/casita/casita-mc-sign.jpg", "alt": "MC with mic under Baila Dembow sign" }
+  ],
+  "videos": [
+    { "path": "/videos/hero-background.mp4", "description": "Hero background video" },
+    { "path": "/videos/kingsnight-baila-dembow.mp4", "description": "Kingsnight Baila Dembow event recap" },
+    { "path": "/videos/superbowl-baila-dembow.mp4", "description": "Super Bowl edition Baila Dembow" }
+  ]
+}

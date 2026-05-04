@@ -1,9 +1,8 @@
 import { useRef, useState } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { Instagram, MessageCircle, Mail, Users } from 'lucide-react';
-import axios from 'axios';
 import { toast } from 'sonner';
-import { API, BUNNY_GLASSES } from '../../utils/constants';
+import { BUNNY_GLASSES } from '../../utils/constants';
 import { trackFormSubmission } from '../../utils/tracking';
 import { CookieSettingsLink } from '../../context/CookieConsentContext';
 
@@ -30,16 +29,11 @@ export const CommunitySection = () => {
     
     setIsSubmitting(true);
     try {
-      await axios.post(`${API}/subscribe`, { ...formData, source: "website" });
       trackFormSubmission(formData);
       toast.success("Welcome to the movement! You're now part of Baila Dembow.");
       setFormData({ name: "", email: "", city: "", country: "", age: "" });
     } catch (error) {
-      if (error.response?.status === 400) {
-        toast.info("You're already part of the family!");
-      } else {
-        toast.error("Something went wrong. Please try again.");
-      }
+      toast.error("Something went wrong. Please try again.");
     } finally {
       setIsSubmitting(false);
     }

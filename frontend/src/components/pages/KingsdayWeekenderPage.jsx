@@ -2,12 +2,9 @@ import { useState, useEffect, useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { 
   Calendar, Clock, MapPin, Ticket, Crown, Music, Users, 
-  Mail, CheckCircle, Loader2, Star, Mic2, PartyPopper,
-  Gift, ArrowRight, Sparkles, Check, X
+  Mail, CheckCircle, Star, Mic2, PartyPopper,
+  Gift, ArrowRight, Sparkles, Check
 } from 'lucide-react';
-import axios from 'axios';
-import { toast } from 'sonner';
-import { API } from '../../utils/constants';
 
 // Premium Color Palette
 const COLORS = {
@@ -188,313 +185,10 @@ const HeroSection = () => {
   );
 };
 
-// Premium Spin Wheel Component
-const PremiumSpinWheel = ({ onSpin, isSpinning, disabled }) => {
-  const [rotation, setRotation] = useState(0);
-
-  const handleSpin = () => {
-    if (disabled || isSpinning) return;
-    const spins = 5 + Math.random() * 5;
-    const newRotation = rotation + (spins * 360) + Math.random() * 360;
-    setRotation(newRotation);
-    onSpin();
-  };
-
-  // Premium wheel segments with refined colors
-  const segments = [
-    { label: 'Free Ticket', color: COLORS.burntOrange },
-    { label: 'Try Again', color: COLORS.mutedBlue },
-    { label: '10% Off', color: COLORS.mutedRed },
-    { label: 'Try Again', color: '#4A4440' },
-    { label: 'VIP Pass', color: COLORS.gold },
-    { label: 'Try Again', color: COLORS.mutedBlue },
-    { label: 'Weekender', color: COLORS.deepOrange },
-    { label: 'Try Again', color: '#4A4440' },
-  ];
-
-  const segmentAngle = 360 / segments.length;
-
-  return (
-    <div className="relative flex flex-col items-center">
-      {/* Wheel Container with Glow */}
-      <div className="relative w-64 h-64 md:w-80 md:h-80">
-        {/* Outer Glow */}
-        <div 
-          className="absolute -inset-4 rounded-full blur-xl opacity-40"
-          style={{ background: `radial-gradient(circle, ${COLORS.burntOrange} 0%, transparent 70%)` }}
-        />
-        
-        {/* Pointer - Refined */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1 z-20">
-          <div 
-            className="w-0 h-0 border-l-[14px] border-r-[14px] border-t-[24px] border-l-transparent border-r-transparent"
-            style={{ 
-              borderTopColor: COLORS.ivory,
-              filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.3))'
-            }}
-          />
-        </div>
-        
-        {/* Wheel */}
-        <motion.div
-          className="w-full h-full rounded-full overflow-hidden relative"
-          style={{ 
-            boxShadow: `
-              0 0 0 8px ${COLORS.ivory},
-              0 0 0 12px ${COLORS.warmBeige},
-              0 20px 60px rgba(0,0,0,0.3),
-              inset 0 0 40px rgba(0,0,0,0.2)
-            `
-          }}
-          animate={{ rotate: rotation }}
-          transition={{ duration: 4, ease: [0.17, 0.67, 0.12, 0.99] }}
-        >
-          {/* SVG Wheel */}
-          <svg viewBox="0 0 200 200" className="w-full h-full">
-            {segments.map((segment, index) => {
-              const startAngle = index * segmentAngle - 90;
-              const endAngle = startAngle + segmentAngle;
-              const startRad = (startAngle * Math.PI) / 180;
-              const endRad = (endAngle * Math.PI) / 180;
-              const x1 = 100 + 100 * Math.cos(startRad);
-              const y1 = 100 + 100 * Math.sin(startRad);
-              const x2 = 100 + 100 * Math.cos(endRad);
-              const y2 = 100 + 100 * Math.sin(endRad);
-              const labelAngle = startAngle + segmentAngle / 2;
-              const labelRad = (labelAngle * Math.PI) / 180;
-              const labelX = 100 + 60 * Math.cos(labelRad);
-              const labelY = 100 + 60 * Math.sin(labelRad);
-
-              return (
-                <g key={index}>
-                  <path
-                    d={`M100,100 L${x1},${y1} A100,100 0 0,1 ${x2},${y2} Z`}
-                    fill={segment.color}
-                    stroke="rgba(255,255,255,0.1)"
-                    strokeWidth="0.5"
-                  />
-                  <text
-                    x={labelX}
-                    y={labelY}
-                    fill="white"
-                    fontSize="7"
-                    fontWeight="600"
-                    textAnchor="middle"
-                    dominantBaseline="middle"
-                    transform={`rotate(${labelAngle + 90}, ${labelX}, ${labelY})`}
-                    style={{ textShadow: '0 1px 2px rgba(0,0,0,0.5)' }}
-                  >
-                    {segment.label}
-                  </text>
-                </g>
-              );
-            })}
-          </svg>
-          
-          {/* Center Hub */}
-          <div 
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 md:w-20 md:h-20 rounded-full flex items-center justify-center z-10"
-            style={{ 
-              background: `linear-gradient(135deg, ${COLORS.ivory} 0%, ${COLORS.cream} 100%)`,
-              boxShadow: '0 4px 20px rgba(0,0,0,0.2), inset 0 -2px 4px rgba(0,0,0,0.1)'
-            }}
-          >
-            <Crown className="w-7 h-7 md:w-8 md:h-8" style={{ color: COLORS.burntOrange }} />
-          </div>
-        </motion.div>
-      </div>
-
-      {/* Spin Button */}
-      <button
-        onClick={handleSpin}
-        disabled={disabled || isSpinning}
-        className={`mt-10 px-10 py-4 rounded-full font-semibold text-base transition-all duration-300 ${
-          disabled || isSpinning
-            ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-            : 'text-white shadow-lg hover:shadow-xl hover:scale-[1.02]'
-        }`}
-        style={!disabled && !isSpinning ? {
-          background: `linear-gradient(135deg, ${COLORS.burntOrange} 0%, ${COLORS.deepOrange} 100%)`,
-          boxShadow: `0 4px 24px ${COLORS.softGlow}`
-        } : {}}
-        data-testid="spin-button"
-      >
-        {isSpinning ? (
-          <span className="flex items-center gap-2">
-            <Loader2 className="w-5 h-5 animate-spin" />
-            Spinning...
-          </span>
-        ) : (
-          <span className="flex items-center gap-2">
-            <Sparkles className="w-5 h-5" />
-            Spin the Wheel
-          </span>
-        )}
-      </button>
-    </div>
-  );
-};
-
-// Spin Result Modal
-const SpinResultModal = ({ result, couponCode, onClose }) => {
-  if (!result) return null;
-  const isWinner = result !== 'Better Luck Next Time';
-  const isDiscount = result === '10% Discount';
-
-  return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm"
-      onClick={onClose}
-      data-testid="spin-result-modal"
-    >
-      <motion.div
-        initial={{ scale: 0.9, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        onClick={(e) => e.stopPropagation()}
-        className="rounded-3xl p-10 max-w-md w-full text-center relative"
-        style={{ backgroundColor: COLORS.ivory }}
-      >
-        <div 
-          className={`w-20 h-20 rounded-full mx-auto mb-6 flex items-center justify-center`}
-          style={{ backgroundColor: isWinner ? COLORS.softGlow : COLORS.warmBeige }}
-        >
-          {isWinner ? (
-            <Crown className="w-10 h-10" style={{ color: COLORS.burntOrange }} />
-          ) : (
-            <Gift className="w-10 h-10" style={{ color: COLORS.warmGray }} />
-          )}
-        </div>
-
-        <h3 className="font-display text-2xl mb-3" style={{ color: COLORS.espresso }} data-testid="spin-result-title">
-          {isWinner ? 'Congratulations!' : 'Not This Time'}
-        </h3>
-        
-        {isDiscount ? (
-          <p className="mb-6" style={{ color: COLORS.warmGray }} data-testid="spin-result-message">
-            You unlocked a 10% discount. Check your email to claim it.
-          </p>
-        ) : (
-          <p className="mb-6" style={{ color: COLORS.warmGray }}>
-            {isWinner ? `You won: ${result}` : "Join us at Kingsday Weekender anyway!"}
-          </p>
-        )}
-
-        {couponCode && !isDiscount && (
-          <div className="rounded-2xl p-5 mb-6" style={{ backgroundColor: COLORS.cream }}>
-            <p className="text-xs uppercase tracking-wider mb-2" style={{ color: COLORS.warmGray }}>Your Code</p>
-            <p className="font-mono text-xl font-bold" style={{ color: COLORS.burntOrange }}>{couponCode}</p>
-          </div>
-        )}
-
-        {isDiscount && (
-          <div className="rounded-2xl p-5 mb-6" style={{ backgroundColor: COLORS.cream }}>
-            <div className="flex items-center justify-center gap-2 mb-2">
-              <Mail className="w-4 h-4" style={{ color: COLORS.burntOrange }} />
-              <p className="text-xs uppercase tracking-wider" style={{ color: COLORS.warmGray }}>Sent to your inbox</p>
-            </div>
-            <p className="text-sm" style={{ color: COLORS.charcoal }}>Your discount code has been emailed to you.</p>
-          </div>
-        )}
-
-        <div className="flex flex-col gap-3">
-          {isWinner && (
-            <a
-              href="#tickets"
-              onClick={onClose}
-              className="px-8 py-3 rounded-full font-semibold text-white transition-all hover:scale-[1.02] flex items-center justify-center gap-2"
-              style={{ background: `linear-gradient(135deg, ${COLORS.burntOrange} 0%, ${COLORS.deepOrange} 100%)` }}
-              data-testid="spin-result-view-tickets"
-            >
-              <Ticket className="w-4 h-4" />
-              View Tickets
-            </a>
-          )}
-          <button
-            onClick={onClose}
-            className={`px-8 py-3 rounded-full font-semibold transition-all hover:scale-[1.02] ${
-              isWinner 
-                ? 'border-2 hover:bg-gray-50' 
-                : 'text-white'
-            }`}
-            style={isWinner 
-              ? { borderColor: COLORS.warmBeige, color: COLORS.charcoal }
-              : { background: `linear-gradient(135deg, ${COLORS.burntOrange} 0%, ${COLORS.deepOrange} 100%)` }
-            }
-            data-testid="spin-result-close"
-          >
-            {isWinner ? 'Close' : 'Continue'}
-          </button>
-        </div>
-      </motion.div>
-    </motion.div>
-  );
-};
-
-// Premium Spin & Win Section
-const SpinWinSection = () => {
+// Static Promo Section (replaces interactive Spin & Win - backend removed)
+const PromoSection = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
-  
-  const [email, setEmail] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const [isVerified, setIsVerified] = useState(false);
-  const [isSpinning, setIsSpinning] = useState(false);
-  const [hasSpun, setHasSpun] = useState(false);
-  const [spinResult, setSpinResult] = useState(null);
-  const [couponCode, setCouponCode] = useState(null);
-  const [showResult, setShowResult] = useState(false);
-
-  const handleSubscribe = async (e) => {
-    e.preventDefault();
-    if (!email) return;
-    
-    setIsLoading(true);
-    try {
-      const response = await axios.post(`${API}/kingsday/subscribe`, { email });
-      if (response.data.verified) {
-        setIsVerified(true);
-        setHasSpun(response.data.has_spun);
-        toast.success("You're verified! Spin the wheel.");
-      } else {
-        setTimeout(async () => {
-          try {
-            await axios.get(`${API}/kingsday/verify/${response.data.verification_token}`);
-            setIsVerified(true);
-            toast.success("Verified! Spin now.");
-          } catch (error) {
-            console.error("Verify failed:", error);
-          }
-        }, 2000);
-        toast.success("Check your email to verify.");
-      }
-    } catch (error) {
-      toast.error("Something went wrong");
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleSpin = async () => {
-    if (!isVerified || hasSpun || isSpinning) return;
-    setIsSpinning(true);
-    
-    setTimeout(async () => {
-      try {
-        const response = await axios.post(`${API}/kingsday/spin`, { email });
-        setSpinResult(response.data.prize);
-        setCouponCode(response.data.coupon_code);
-        setHasSpun(true);
-        setShowResult(true);
-      } catch (error) {
-        toast.error("Spin failed");
-      } finally {
-        setIsSpinning(false);
-      }
-    }, 4000);
-  };
 
   return (
     <section 
@@ -502,9 +196,8 @@ const SpinWinSection = () => {
       ref={ref}
       className="py-24 md:py-32 relative overflow-hidden"
       style={{ backgroundColor: COLORS.ivory }}
-      data-testid="spin-win-section"
+      data-testid="promo-section"
     >
-      {/* Subtle Background Pattern */}
       <div 
         className="absolute inset-0 opacity-[0.02]"
         style={{
@@ -514,168 +207,52 @@ const SpinWinSection = () => {
       />
 
       <div className="container-custom relative">
-        {/* Section Header */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8 }}
-          className="text-center mb-16"
+          className="text-center max-w-2xl mx-auto"
         >
           <p 
             className="text-xs tracking-[0.3em] uppercase mb-4 font-medium"
             style={{ color: COLORS.burntOrange }}
           >
-            Exclusive Activation
+            Don't Miss Out
           </p>
           <h2 className="font-display text-4xl md:text-5xl mb-4" style={{ color: COLORS.espresso }}>
-            Spin & Win
+            Get Your Tickets Now
           </h2>
-          <p className="max-w-md mx-auto" style={{ color: COLORS.warmGray }}>
-            Enter your email for a chance to win exclusive prizes including free tickets and VIP access.
+          <p className="max-w-md mx-auto mb-8" style={{ color: COLORS.warmGray }}>
+            The Kingsday Weekender is the ultimate Latin celebration. Grab your tickets before they sell out.
           </p>
-        </motion.div>
-
-        <div className="max-w-5xl mx-auto">
-          <div className="grid md:grid-cols-2 gap-12 md:gap-16 items-center">
-            {/* Left Panel - Editorial Email Block */}
-            <motion.div
-              initial={{ opacity: 0, x: -40 }}
-              animate={isInView ? { opacity: 1, x: 0 } : {}}
-              transition={{ duration: 0.8, delay: 0.2 }}
+          
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <a
+              href="#tickets"
+              className="px-10 py-4 rounded-full font-semibold text-white transition-all hover:scale-[1.02]"
+              style={{ background: `linear-gradient(135deg, ${COLORS.burntOrange} 0%, ${COLORS.deepOrange} 100%)` }}
             >
-              <div 
-                className="rounded-3xl p-8 md:p-10 relative overflow-hidden"
-                style={{ 
-                  backgroundColor: COLORS.cream,
-                  boxShadow: '0 20px 60px rgba(0,0,0,0.08)'
-                }}
-              >
-                {/* Decorative Corner */}
-                <div 
-                  className="absolute top-0 right-0 w-32 h-32 opacity-50"
-                  style={{ 
-                    background: `radial-gradient(circle at top right, ${COLORS.softGlow} 0%, transparent 70%)`
-                  }}
-                />
-
-                <div className="relative">
-                  <Crown className="w-10 h-10 mb-6" style={{ color: COLORS.burntOrange }} />
-                  
-                  <h3 className="font-display text-2xl mb-3" style={{ color: COLORS.espresso }}>
-                    {isVerified ? "You're In" : "Enter to Win"}
-                  </h3>
-                  
-                  <p className="text-sm mb-8 leading-relaxed" style={{ color: COLORS.warmGray }}>
-                    {isVerified 
-                      ? "Your entry is confirmed. Spin the wheel for your prize."
-                      : "Subscribe and verify your email to unlock the wheel. One spin per person."
-                    }
-                  </p>
-
-                  {!isVerified ? (
-                    <form onSubmit={handleSubscribe} className="space-y-4">
-                      <div>
-                        <input
-                          type="email"
-                          value={email}
-                          onChange={(e) => setEmail(e.target.value)}
-                          placeholder="your@email.com"
-                          className="w-full px-5 py-4 rounded-xl border-2 text-base transition-all duration-300 outline-none"
-                          style={{ 
-                            backgroundColor: COLORS.ivory,
-                            borderColor: COLORS.warmBeige,
-                            color: COLORS.espresso
-                          }}
-                          onFocus={(e) => e.target.style.borderColor = COLORS.burntOrange}
-                          onBlur={(e) => e.target.style.borderColor = COLORS.warmBeige}
-                          required
-                          data-testid="spin-email-input"
-                        />
-                      </div>
-                      <button
-                        type="submit"
-                        disabled={isLoading}
-                        className="w-full py-4 rounded-xl font-semibold text-white transition-all duration-300 hover:scale-[1.02] flex items-center justify-center gap-2"
-                        style={{ 
-                          background: `linear-gradient(135deg, ${COLORS.burntOrange} 0%, ${COLORS.deepOrange} 100%)`,
-                          boxShadow: `0 4px 20px ${COLORS.softGlow}`
-                        }}
-                        data-testid="spin-subscribe-btn"
-                      >
-                        {isLoading ? (
-                          <Loader2 className="w-5 h-5 animate-spin" />
-                        ) : (
-                          <>
-                            <Mail className="w-5 h-5" />
-                            Verify & Unlock
-                          </>
-                        )}
-                      </button>
-                    </form>
-                  ) : (
-                    <div className="text-center py-6">
-                      <div 
-                        className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4"
-                        style={{ backgroundColor: COLORS.softGlow }}
-                      >
-                        <CheckCircle className="w-8 h-8" style={{ color: COLORS.burntOrange }} />
-                      </div>
-                      <p className="font-semibold mb-1" style={{ color: COLORS.espresso }}>Verified</p>
-                      <p className="text-sm" style={{ color: COLORS.warmGray }}>{email}</p>
-                      {hasSpun && spinResult && (
-                        <div className="mt-6 p-4 rounded-xl" style={{ backgroundColor: COLORS.ivory }}>
-                          <p className="text-xs uppercase tracking-wider mb-1" style={{ color: COLORS.warmGray }}>Your Result</p>
-                          <p className="font-semibold" style={{ color: COLORS.burntOrange }}>{spinResult}</p>
-                        </div>
-                      )}
-                    </div>
-                  )}
-
-                  {/* Prize List */}
-                  <div className="mt-8 pt-6 border-t" style={{ borderColor: COLORS.warmBeige }}>
-                    <p className="text-xs uppercase tracking-wider mb-4 font-medium" style={{ color: COLORS.warmGray }}>
-                      Prize Pool
-                    </p>
-                    <div className="grid grid-cols-2 gap-3 text-sm">
-                      {['Free Ticket', 'VIP Pass', 'Weekender', '10% Off'].map((prize) => (
-                        <div key={prize} className="flex items-center gap-2" style={{ color: COLORS.charcoal }}>
-                          <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: COLORS.burntOrange }} />
-                          {prize}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-
-            {/* Right Panel - Premium Wheel */}
-            <motion.div
-              initial={{ opacity: 0, x: 40 }}
-              animate={isInView ? { opacity: 1, x: 0 } : {}}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              className="flex justify-center"
+              <span className="flex items-center gap-2">
+                <Ticket className="w-5 h-5" />
+                View Tickets
+              </span>
+            </a>
+            <a
+              href="https://chat.whatsapp.com/EvqrDDkud6eB7JSRzPEpj6"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-10 py-4 rounded-full font-semibold border-2 transition-all hover:scale-[1.02]"
+              style={{ borderColor: COLORS.warmBeige, color: COLORS.charcoal }}
             >
-              <PremiumSpinWheel
-                onSpin={handleSpin}
-                isSpinning={isSpinning}
-                disabled={!isVerified || hasSpun}
-              />
-            </motion.div>
+              Join Community
+            </a>
           </div>
-        </div>
+        </motion.div>
       </div>
-
-      {showResult && (
-        <SpinResultModal
-          result={spinResult}
-          couponCode={couponCode}
-          onClose={() => setShowResult(false)}
-        />
-      )}
     </section>
   );
 };
+
 
 // Premium Ticket Card Component
 const TicketCard = ({ ticket, index, isInView, isHero = false }) => {
@@ -1178,23 +755,6 @@ const ScheduleSection = () => {
 const EmailCaptureSection = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
-  const [email, setEmail] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!email) return;
-    setIsLoading(true);
-    try {
-      await axios.post(`${API}/kingsday/subscribe`, { email });
-      toast.success("You're on the list!");
-      setEmail('');
-    } catch (error) {
-      toast.info("You're already subscribed!");
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   return (
     <section 
@@ -1222,35 +782,18 @@ const EmailCaptureSection = () => {
             Stay in the Loop
           </h2>
           <p className="text-white/50 mb-10">
-            Get exclusive updates, early access, and special offers.
+            Follow us for exclusive updates, early access, and special offers.
           </p>
 
-          <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3">
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="your@email.com"
-              className="flex-1 px-6 py-4 rounded-full text-base outline-none transition-all"
-              style={{ 
-                backgroundColor: 'rgba(255,255,255,0.1)',
-                border: '1px solid rgba(255,255,255,0.1)',
-                color: 'white'
-              }}
-              required
-            />
-            <button
-              type="submit"
-              disabled={isLoading}
-              className="px-8 py-4 rounded-full font-semibold text-white transition-all hover:scale-[1.02]"
-              style={{ 
-                background: `linear-gradient(135deg, ${COLORS.burntOrange} 0%, ${COLORS.deepOrange} 100%)`,
-                boxShadow: `0 4px 24px ${COLORS.softGlow}`
-              }}
-            >
-              {isLoading ? <Loader2 className="w-5 h-5 animate-spin mx-auto" /> : 'Subscribe'}
-            </button>
-          </form>
+          <a
+            href="https://chat.whatsapp.com/EvqrDDkud6eB7JSRzPEpj6"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-3 px-10 py-4 rounded-full text-white font-semibold transition-all hover:scale-[1.02]"
+            style={{ background: `linear-gradient(135deg, ${COLORS.burntOrange} 0%, ${COLORS.deepOrange} 100%)` }}
+          >
+            Join WhatsApp Community
+          </a>
         </motion.div>
       </div>
     </section>
@@ -1303,7 +846,7 @@ export const KingsdayWeekenderPage = () => {
   return (
     <div className="min-h-screen" style={{ backgroundColor: COLORS.ivory }} data-testid="kingsday-page">
       <HeroSection />
-      <SpinWinSection />
+      <PromoSection />
       <TicketsSection />
       <ExperienceSection />
       <ScheduleSection />
