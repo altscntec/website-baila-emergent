@@ -28,6 +28,20 @@ export const GALLERY_IMAGES = [
 // Events data (static)
 export const EVENTS = [
   {
+    id: "tilburg-may-2026",
+    city: "Tilburg",
+    venue: "Carpe Noctem, Heuvelring 45, Tilburg",
+    date: "2026-05-16",
+    time: "23:00 - 05:00",
+    title: "BAILA DEMBOW // TILBURG",
+    description: "TILBURG, VOLVEMOS POR TI. The last time Baila Dembow hit Tilburg, tickets sold out. The room was packed, the floor didn't stop, and the city got a taste of what Amsterdam, Rotterdam, London, and Groningen already know. Now we're coming back. Saturday, May 16th, we take over Carpe Noctem together with ESN Tilburg for a full night of reggaeton, dembow, and perreo that doesn't let up until the lights come on. Bad Bunny, El Alfa, Feid, Karol G, Daddy Yankee, and everything your playlist has been building up to. Six hours. One room. No filler. Last time sold out before the door opened — ticket prices go up as the date gets closer and they won't come back down. 18+ event, ID required. La última vez se agotó. No te quedes afuera.",
+    ticket_url: "https://weeztix.shop/satj77mx",
+    status: "upcoming",
+    price_from: "",
+    price_door: "",
+    image_url: "/images/events/tilburg-may-2026.png"
+  },
+  {
     id: "coffee-day-rave-amsterdam-2026",
     city: "Amsterdam",
     venue: "IJland, Amsterdam",
