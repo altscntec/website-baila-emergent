@@ -96,7 +96,7 @@ export const HalloweenSection = () => {
               key={index}
               className="relative rounded-2xl overflow-hidden group"
               style={{
-                aspectRatio: '16/9',
+                aspectRatio: '4/5',
                 boxShadow: '0 20px 60px rgba(150, 0, 200, 0.18), 0 0 0 1px rgba(255,255,255,0.05)'
               }}
               data-testid={`halloween-video-${index}`}

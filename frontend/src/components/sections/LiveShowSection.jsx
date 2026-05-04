@@ -81,8 +81,8 @@ export const LiveShowSection = () => {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="relative rounded-2xl overflow-hidden mx-auto"
           style={{
-            aspectRatio: '16/9',
-            maxWidth: '1100px',
+            aspectRatio: '4/5',
+            maxWidth: '700px',
             boxShadow: '0 20px 60px rgba(255, 180, 60, 0.18), 0 0 0 1px rgba(255,255,255,0.05)'
           }}
           data-testid="liveshow-video"

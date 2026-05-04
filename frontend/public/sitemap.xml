@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
-  
+
   <!-- Homepage - Latin Event in Amsterdam & Netherlands -->
   <url>
     <loc>https://bailadembow.com/</loc>
-    <lastmod>2026-02-24</lastmod>
+    <lastmod>2026-05-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <image:image>
@@ -13,11 +13,11 @@
       <image:title>Baila Dembow - Latin Event in Amsterdam - Reggaeton Dembow Party Netherlands</image:title>
     </image:image>
   </url>
-  
+
   <!-- SEO Landing Page: Latin Event in Amsterdam -->
   <url>
     <loc>https://bailadembow.com/latin-event-amsterdam</loc>
-    <lastmod>2026-02-24</lastmod>
+    <lastmod>2026-05-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.95</priority>
     <image:image>
@@ -25,11 +25,11 @@
       <image:title>Latin Event in Amsterdam - Reggaeton Dembow Party - Baila Dembow</image:title>
     </image:image>
   </url>
-  
+
   <!-- SEO Landing Page: Latin Event in Rotterdam -->
   <url>
     <loc>https://bailadembow.com/latin-event-rotterdam</loc>
-    <lastmod>2026-02-24</lastmod>
+    <lastmod>2026-05-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.95</priority>
     <image:image>
@@ -37,75 +37,63 @@
       <image:title>Latin Event in Rotterdam - Reggaeton Dembow Party - Baila Dembow</image:title>
     </image:image>
   </url>
-  
+
+  <!-- SEO Landing Page: Latin Event in Tilburg -->
+  <url>
+    <loc>https://bailadembow.com/latin-event-tilburg</loc>
+    <lastmod>2026-05-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+    <image:image>
+      <image:loc>https://customer-assets.emergentagent.com/job_baila-dembow/artifacts/c61u2vl4_1600%20X%20900%20%281920%20x%201005%20px%29%20%282%29.png</image:loc>
+      <image:title>Latin Event in Tilburg - Reggaeton Dembow Party - Baila Dembow</image:title>
+    </image:image>
+  </url>
+
   <!-- Events Page - All Latin Events in Netherlands -->
   <url>
     <loc>https://bailadembow.com/events</loc>
-    <lastmod>2026-02-24</lastmod>
+    <lastmod>2026-05-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.95</priority>
   </url>
-  
-  <!-- Event: Latin Event Amsterdam - Juan Luis Guerra Tribute - Feb 28, 2026 -->
+
+  <!-- Event: Latin Event Tilburg - May 16, 2026 -->
   <url>
-    <loc>https://bailadembow.com/events/amsterdam-28-february-2026</loc>
-    <lastmod>2026-02-24</lastmod>
+    <loc>https://bailadembow.com/events/tilburg-16-may-2026</loc>
+    <lastmod>2026-05-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
     <image:image>
       <image:loc>https://customer-assets.emergentagent.com/job_baila-dembow/artifacts/c61u2vl4_1600%20X%20900%20%281920%20x%201005%20px%29%20%282%29.png</image:loc>
-      <image:title>Latin Event Amsterdam - Juan Luis Guerra Tribute - Reggaeton Dembow Party</image:title>
+      <image:title>Latin Event Tilburg - Baila Dembow at Carpe Noctem - May 16 2026</image:title>
     </image:image>
   </url>
-  
-  <!-- Event: Latin Event Rotterdam - Mar 7, 2026 -->
+
+  <!-- Event: Coffee Day Rave Amsterdam - Jun 14, 2026 -->
   <url>
-    <loc>https://bailadembow.com/events/rotterdam-7-march-2026</loc>
-    <lastmod>2026-02-24</lastmod>
+    <loc>https://bailadembow.com/events/amsterdam-14-june-2026</loc>
+    <lastmod>2026-05-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
     <image:image>
-      <image:loc>https://customer-assets.emergentagent.com/job_latinevents/artifacts/ww7bm8cu_1600%20X%20900%20%281920%20x%201005%20px%29%20%284%29.png</image:loc>
-      <image:title>Latin Event Rotterdam - Reggaeton Dembow Party Netherlands</image:title>
+      <image:loc>https://customer-assets.emergentagent.com/job_baila-dembow/artifacts/c61u2vl4_1600%20X%20900%20%281920%20x%201005%20px%29%20%282%29.png</image:loc>
+      <image:title>Coffee Day Rave Amsterdam - Baila Dembow at IJland - June 14 2026</image:title>
     </image:image>
   </url>
-  
-  <!-- Event: Latin Event Leiden - Mar 14, 2026 -->
-  <url>
-    <loc>https://bailadembow.com/events/leiden-14-march-2026</loc>
-    <lastmod>2026-02-24</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-    <image:image>
-      <image:loc>https://customer-assets.emergentagent.com/job_latinevents/artifacts/541u3qiq_1600%20X%20900%20%281920%20x%201005%20px%29%20%281%29.png</image:loc>
-      <image:title>Latin Event Leiden - Reggaeton Dembow Party Netherlands</image:title>
-    </image:image>
-  </url>
-  
-  <!-- Event: Latin Event Amsterdam Kingsnight XL - Apr 26, 2026 -->
-  <url>
-    <loc>https://bailadembow.com/events/amsterdam-26-april-2026</loc>
-    <lastmod>2026-02-24</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-    <image:image>
-      <image:loc>https://customer-assets.emergentagent.com/job_baila-dembow/artifacts/d4cz8fiu_26%3A04%20Amsterdam.png</image:loc>
-      <image:title>Latin Event Amsterdam Kingsnight - Reggaeton Dembow Party</image:title>
-    </image:image>
-  </url>
-  
+
   <!-- About Us Page -->
   <url>
     <loc>https://bailadembow.com/about</loc>
-    <lastmod>2026-02-24</lastmod>
+    <lastmod>2026-05-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
-  
+
   <!-- Press Page -->
   <url>
     <loc>https://bailadembow.com/press</loc>
-    <lastmod>2026-02-24</lastmod>
+    <lastmod>2026-05-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
