@@ -1,39 +1,75 @@
 import { useRef, useState } from 'react';
 import { motion, useInView } from 'framer-motion';
-import { Instagram, MessageCircle, Mail, Users } from 'lucide-react';
+import { Instagram, MessageCircle, Mail, Send } from 'lucide-react';
 import { toast } from 'sonner';
 import { BUNNY_GLASSES } from '../../utils/constants';
-import { trackFormSubmission } from '../../utils/tracking';
 import { CookieSettingsLink } from '../../context/CookieConsentContext';
+
+// Personal / generic email domains — company emails only
+const BLOCKED_DOMAINS = [
+  'gmail.com', 'googlemail.com',
+  'hotmail.com', 'hotmail.co.uk', 'hotmail.fr', 'hotmail.de', 'hotmail.nl',
+  'outlook.com', 'outlook.co.uk', 'outlook.fr', 'outlook.de', 'outlook.nl',
+  'live.com', 'live.co.uk', 'live.fr', 'live.de', 'live.nl',
+  'yahoo.com', 'yahoo.co.uk', 'yahoo.fr', 'yahoo.de', 'yahoo.nl', 'ymail.com',
+  'icloud.com', 'me.com', 'mac.com',
+  'aol.com', 'msn.com',
+  'protonmail.com', 'proton.me',
+];
+
+const isGenericEmail = (email) => {
+  const domain = email.split('@')[1]?.toLowerCase().trim();
+  if (!domain) return true;
+  return BLOCKED_DOMAINS.includes(domain);
+};
 
 export const CommunitySection = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    city: "",
-    country: "",
-    age: ""
+    fullName: '',
+    companyName: '',
+    companyEmail: '',
+    message: '',
   });
+  const [emailError, setEmailError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
+    if (name === 'companyEmail') setEmailError('');
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    if (!formData.name || !formData.email || !formData.city || !formData.country || !formData.age) return;
-    
+    const { fullName, companyName, companyEmail, message } = formData;
+    if (!fullName || !companyName || !companyEmail || !message) return;
+
+    if (isGenericEmail(companyEmail)) {
+      setEmailError(
+        'Please use your company email address. Generic providers such as Gmail, Hotmail, Yahoo, and iCloud are not accepted.'
+      );
+      return;
+    }
+
     setIsSubmitting(true);
+
+    // Open email client with pre-filled content
     try {
-      trackFormSubmission(formData);
-      toast.success("Welcome to the movement! You're now part of Baila Dembow.");
-      setFormData({ name: "", email: "", city: "", country: "", age: "" });
-    } catch (error) {
-      toast.error("Something went wrong. Please try again.");
+      const subject = encodeURIComponent(`Collab Inquiry — ${companyName}`);
+      const body = encodeURIComponent(
+        `Full Name: ${fullName}\nCompany: ${companyName}\nEmail: ${companyEmail}\n\nHow we'd like to collab:\n${message}`
+      );
+      const link = document.createElement('a');
+      link.href = `mailto:ask@housedecoded.com?subject=${subject}&body=${body}`;
+      link.click();
+      setSubmitted(true);
+      toast.success("Your email client is opening. We'll get back to you within 48 hours.");
+      setFormData({ fullName: '', companyName: '', companyEmail: '', message: '' });
+    } catch {
+      toast.error('Something went wrong. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
@@ -48,81 +84,92 @@ export const CommunitySection = () => {
           transition={{ duration: 0.8 }}
           className="max-w-3xl mx-auto text-center"
         >
-          <p className="text-sm tracking-[0.2em] uppercase text-[#FF0080] font-semibold mb-4">Join Us</p>
+          <p className="text-sm tracking-[0.2em] uppercase text-[#FF0080] font-semibold mb-4">Work With Us</p>
           <h2 className="font-display text-4xl md:text-6xl mb-6 text-white">
-            BECOME PART OF<br /><span className="gradient-text">THE MOVEMENT.</span>
+            BRANDS &amp; CLUBS,<br /><span className="gradient-text">LET'S BUILD TOGETHER.</span>
           </h2>
           <p className="text-lg text-gray-400 mb-10 max-w-xl mx-auto">
-            This isn't just about events. It's about culture, belonging, and connection. 
-            Strangers becoming family. One rhythm, one night, one community.
+            We're open to partnerships, venue takeovers, brand activations, and creative
+            collaborations. If you want to be part of what Baila Dembow is building across
+            Europe, reach out below.
           </p>
-          
-          <form onSubmit={handleSubmit} className="max-w-md mx-auto mb-12 space-y-4">
-            <input
-              type="text"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              placeholder="Name *"
-              className="input-styled w-full"
-              required
-              data-testid="name-input"
-            />
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              placeholder="Email Address *"
-              className="input-styled w-full"
-              required
-              data-testid="email-input"
-            />
-            <div className="grid grid-cols-2 gap-4">
-              <input
-                type="text"
-                name="city"
-                value={formData.city}
-                onChange={handleChange}
-                placeholder="City *"
-                className="input-styled w-full"
-                required
-                data-testid="city-input"
-              />
-              <input
-                type="text"
-                name="country"
-                value={formData.country}
-                onChange={handleChange}
-                placeholder="Country *"
-                className="input-styled w-full"
-                required
-                data-testid="country-input"
-              />
-            </div>
-            <input
-              type="number"
-              name="age"
-              value={formData.age}
-              onChange={handleChange}
-              placeholder="Age *"
-              className="input-styled w-full"
-              required
-              min="18"
-              max="99"
-              data-testid="age-input"
-            />
-            <button 
-              type="submit" 
-              className="w-full bg-[#FF0080] text-white font-bold py-4 px-8 rounded-full text-lg hover:bg-[#FF3B30] transition-colors duration-300 flex items-center justify-center gap-2"
-              disabled={isSubmitting}
-              data-testid="subscribe-btn"
+
+          {submitted ? (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="bg-white/5 border border-white/10 rounded-2xl p-10 mb-12 text-center"
             >
-              <Users size={18} />
-              {isSubmitting ? "Joining..." : "Join Community"}
-            </button>
-          </form>
-          
+              <p className="text-2xl font-display text-white mb-2">Message sent.</p>
+              <p className="text-gray-400">We'll review your proposal and get back to you within 48 hours.</p>
+            </motion.div>
+          ) : (
+            <form onSubmit={handleSubmit} className="max-w-md mx-auto mb-12 space-y-4 text-left">
+              <div>
+                <input
+                  type="text"
+                  name="fullName"
+                  value={formData.fullName}
+                  onChange={handleChange}
+                  placeholder="Full Name *"
+                  className="input-styled w-full"
+                  required
+                  data-testid="fullname-input"
+                />
+              </div>
+              <div>
+                <input
+                  type="text"
+                  name="companyName"
+                  value={formData.companyName}
+                  onChange={handleChange}
+                  placeholder="Company Name *"
+                  className="input-styled w-full"
+                  required
+                  data-testid="company-input"
+                />
+              </div>
+              <div>
+                <input
+                  type="email"
+                  name="companyEmail"
+                  value={formData.companyEmail}
+                  onChange={handleChange}
+                  placeholder="Company Email *"
+                  className="input-styled w-full"
+                  style={emailError ? { borderColor: '#ef4444' } : undefined}
+                  required
+                  data-testid="company-email-input"
+                />
+                {emailError && (
+                  <p className="mt-2 text-sm text-red-400">{emailError}</p>
+                )}
+              </div>
+              <div>
+                <textarea
+                  name="message"
+                  value={formData.message}
+                  onChange={handleChange}
+                  placeholder="How would you like to collab? *"
+                  rows={5}
+                  className="input-styled w-full resize-none"
+                  required
+                  data-testid="message-input"
+                />
+              </div>
+              <button
+                type="submit"
+                className="w-full bg-[#FF0080] text-white font-bold py-4 px-8 rounded-full text-lg hover:bg-[#FF3B30] transition-colors duration-300 flex items-center justify-center gap-2 disabled:opacity-60"
+                disabled={isSubmitting}
+                data-testid="collab-submit-btn"
+              >
+                <Send size={18} />
+                {isSubmitting ? 'Sending…' : 'Send Proposal'}
+              </button>
+            </form>
+          )}
+
+          {/* Social links */}
           <div className="flex justify-center gap-4 flex-wrap">
             <a href="https://www.instagram.com/baila.dembow/" target="_blank" rel="noopener noreferrer" className="social-link" data-testid="social-instagram" aria-label="Instagram">
               <Instagram size={22} />
@@ -145,34 +192,34 @@ export const CommunitySection = () => {
           </div>
         </motion.div>
       </div>
-      
+
       {/* Footer */}
       <div className="container-custom mt-20 pt-8 border-t border-white/10">
-        <motion.div 
+        <motion.div
           className="flex justify-center mb-8"
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8 }}
         >
-          <motion.img 
+          <motion.img
             src={BUNNY_GLASSES}
             alt="Baila Dembow Bunny"
             className="h-32 md:h-40 w-auto"
-            animate={{ 
+            animate={{
               y: [0, -10, 0],
-              rotate: [0, 2, -2, 0]
+              rotate: [0, 2, -2, 0],
             }}
-            transition={{ 
+            transition={{
               duration: 3,
               repeat: Infinity,
-              ease: "easeInOut"
+              ease: 'easeInOut',
             }}
           />
         </motion.div>
-        
+
         <div className="flex flex-col items-center gap-4 text-sm text-gray-500 text-center">
           <span className="font-display text-xl text-white">BAILA DEMBOW<span className="gradient-text">.</span></span>
-          <span>© {new Date().getFullYear()} Baila Dembow. All rights reserved. Part of House Decoded events, Amsterdam KVK 67994725</span>
+          <span>© {new Date().getFullYear()} Baila Dembow. All rights reserved. Part of House Decoded Events, Amsterdam — KVK 67994725</span>
           <CookieSettingsLink />
         </div>
       </div>
