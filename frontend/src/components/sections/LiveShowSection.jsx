@@ -70,11 +70,6 @@ export const LiveShowSection = () => {
           <p className="text-base md:text-lg text-gray-400 max-w-2xl leading-relaxed mt-4">
             Two experiences. One night. The roots and the future, back to back.
           </p>
-          <p className="text-base md:text-lg text-white max-w-2xl leading-relaxed mt-4 font-semibold">
-            This is Baila Dembow doing what no other Latin event in Europe is doing, and our
-            crowd keeps asking for more. If you know, you know. And if you don't, your first
-            one will tell you everything.
-          </p>
         </motion.div>
       </div>
 
