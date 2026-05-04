@@ -77,7 +77,9 @@ export const AgendaSection = ({ events }) => {
                     </div>
                     <p className="text-sm text-gray-400 mb-4 line-clamp-2">{event.description.substring(0, 100)}...</p>
                     <div className="flex items-center justify-between">
-                      <span className="text-sm text-gray-300">From <span className="font-bold text-lg text-white">{event.price_from}</span></span>
+                      {event.price_from ? (
+                        <span className="text-sm text-gray-300">From <span className="font-bold text-lg text-white">{event.price_from}</span></span>
+                      ) : <span />}
                       <div className="flex items-center gap-3">
                         <button
                           onClick={() => setSelectedEvent(event)}

@@ -55,8 +55,7 @@ export const SingleEventPage = ({ eventSlug, events }) => {
         "offers": {
           "@type": "Offer",
           "url": event.ticket_url,
-          "price": event.price_from.replace("€", ""),
-          "priceCurrency": "EUR",
+          ...(event.price_from ? { "price": event.price_from.replace("€", ""), "priceCurrency": "EUR" } : {}),
           "availability": "https://schema.org/InStock"
         },
         "organizer": {
@@ -177,11 +176,13 @@ export const SingleEventPage = ({ eventSlug, events }) => {
           
           <div className="lg:col-span-1">
             <div className="sticky top-24 bg-white rounded-2xl shadow-xl border border-gray-100 p-6">
-              <div className="text-center mb-6">
-                <span className="text-sm text-gray-500">Tickets from</span>
-                <div className="font-display text-4xl text-[#FF0080]">{event.price_from}</div>
-                <span className="text-sm text-gray-400">Door price: {event.price_door}</span>
-              </div>
+              {event.price_from && (
+                <div className="text-center mb-6">
+                  <span className="text-sm text-gray-500">Tickets from</span>
+                  <div className="font-display text-4xl text-[#FF0080]">{event.price_from}</div>
+                  {event.price_door && <span className="text-sm text-gray-400">Door price: {event.price_door}</span>}
+                </div>
+              )}
               
               <a
                 href={event.ticket_url}

@@ -113,11 +113,13 @@ export const EventModal = ({ event, isOpen, onClose }) => {
               <p className="text-gray-600 leading-relaxed">{event.description}</p>
             </div>
 
-            <div className="flex items-center gap-4 mb-6">
-              <span className="text-sm text-gray-500">From</span>
-              <span className="font-display text-3xl text-[#FF0080]">{event.price_from}</span>
-              <span className="text-sm text-gray-400">| Door: {event.price_door}</span>
-            </div>
+            {event.price_from && (
+              <div className="flex items-center gap-4 mb-6">
+                <span className="text-sm text-gray-500">From</span>
+                <span className="font-display text-3xl text-[#FF0080]">{event.price_from}</span>
+                {event.price_door && <span className="text-sm text-gray-400">| Door: {event.price_door}</span>}
+              </div>
+            )}
 
             <div className="flex flex-col sm:flex-row gap-3">
               <a

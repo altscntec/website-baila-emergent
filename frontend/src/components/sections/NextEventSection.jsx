@@ -56,10 +56,12 @@ export const NextEventSection = ({ events }) => {
                   <span className="flex items-center gap-2"><Clock size={16} /> {nextEvent.time}</span>
                 </div>
                 <p className="mt-4 text-gray-600 max-w-xl">{nextEvent.description.substring(0, 150)}...</p>
-                <div className="mt-4 flex items-center gap-4">
-                  <span className="text-sm">From <span className="font-bold text-xl text-[#FF0080]">{nextEvent.price_from}</span></span>
-                  <span className="text-xs text-gray-400">Door: {nextEvent.price_door}</span>
-                </div>
+                {nextEvent.price_from && (
+                  <div className="mt-4 flex items-center gap-4">
+                    <span className="text-sm">From <span className="font-bold text-xl text-[#FF0080]">{nextEvent.price_from}</span></span>
+                    {nextEvent.price_door && <span className="text-xs text-gray-400">Door: {nextEvent.price_door}</span>}
+                  </div>
+                )}
               </div>
               <a 
                 href={nextEvent.ticket_url}
