@@ -37,6 +37,13 @@ Create a cinematic, high-converting website for "Baila Dembow," a Latin cultural
 - Hero section, event listings, gallery, community signup
 - Mobile-responsive navigation with cookie consent banner
 - Meta Pixel + TikTok Pixel tracking
+- **La Casita Experience section** (added Dec 2025):
+  - Cinematic dark section with warm nightlife gradients
+  - 2 autoplay videos (Kingsnight + Super Bowl edition) with poster fallbacks
+  - 8-image bento grid (event recap style)
+  - Copy about La Casita concept
+  - WhatsApp Community CTA button
+  - Grain texture overlay, warm ambient glows
 
 ### Admin Panel (/#/admin)
 - Password-protected (bailadembow2024)
