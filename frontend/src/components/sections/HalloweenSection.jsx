@@ -89,14 +89,14 @@ export const HalloweenSection = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="grid grid-cols-2 gap-3 md:gap-6 max-w-2xl mx-auto"
+          className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6"
         >
           {HALLOWEEN_VIDEOS.map((video, index) => (
             <div
               key={index}
               className="relative rounded-2xl overflow-hidden group"
               style={{
-                aspectRatio: '4/5',
+                aspectRatio: '16/9',
                 boxShadow: '0 20px 60px rgba(150, 0, 200, 0.18), 0 0 0 1px rgba(255,255,255,0.05)'
               }}
               data-testid={`halloween-video-${index}`}
