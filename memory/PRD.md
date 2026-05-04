@@ -34,10 +34,13 @@ Create a cinematic, high-converting website for "Baila Dembow," a Latin cultural
 ## Core Features (Completed)
 
 ### Homepage
-- Hero section, event listings, gallery, community signup
+- Hero section with **video background** (dimmed overlay for readability)
+- Fully dark-themed throughout - no jarring color transitions
+- Smooth gradient transitions between all sections
+- Event listings, gallery, community signup
 - Mobile-responsive navigation with cookie consent banner
 - Meta Pixel + TikTok Pixel tracking
-- **La Casita Experience section** (added Dec 2025):
+- **Casa De Baila Dembow section** (Casita Experience):
   - Cinematic dark section with warm nightlife gradients
   - 2 autoplay videos (Kingsnight + Super Bowl edition) with poster fallbacks
   - 8-image bento grid (event recap style)

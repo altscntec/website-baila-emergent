@@ -22,8 +22,10 @@ export const AgendaSection = ({ events }) => {
 
   return (
     <>
-      <section id="agenda" className="section-spacing bg-[#FAFAFA]" ref={ref} data-testid="agenda-section">
-        <div className="container-custom">
+      <section id="agenda" className="section-spacing relative" ref={ref} data-testid="agenda-section" style={{ background: '#111111' }}>
+        {/* Gradient transition from casita */}
+        <div className="absolute top-0 left-0 right-0 h-32 pointer-events-none" style={{ background: 'linear-gradient(to bottom, #0A0A0A, #111111)' }} />
+        <div className="container-custom relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -31,7 +33,7 @@ export const AgendaSection = ({ events }) => {
             className="text-center mb-12"
           >
             <p className="text-sm tracking-[0.2em] uppercase text-[#FF0080] font-semibold mb-4">Upcoming Events</p>
-            <h2 className="font-display text-4xl md:text-6xl">
+            <h2 className="font-display text-4xl md:text-6xl text-white">
               <span className="gradient-text">AGENDA</span>
             </h2>
           </motion.div>
@@ -68,18 +70,18 @@ export const AgendaSection = ({ events }) => {
                       <MapPin size={14} />
                       {event.city}
                     </div>
-                    <h3 className="font-display text-xl mb-2">{event.title}</h3>
-                    <div className="flex flex-wrap gap-3 text-sm text-gray-500 mb-4">
+                    <h3 className="font-display text-xl mb-2 text-white">{event.title}</h3>
+                    <div className="flex flex-wrap gap-3 text-sm text-gray-400 mb-4">
                       <span className="flex items-center gap-1"><Calendar size={14} /> {new Date(event.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</span>
                       <span className="flex items-center gap-1"><Clock size={14} /> {event.time}</span>
                     </div>
-                    <p className="text-sm text-gray-600 mb-4 line-clamp-2">{event.description.substring(0, 100)}...</p>
+                    <p className="text-sm text-gray-400 mb-4 line-clamp-2">{event.description.substring(0, 100)}...</p>
                     <div className="flex items-center justify-between">
-                      <span className="text-sm">From <span className="font-bold text-lg">{event.price_from}</span></span>
+                      <span className="text-sm text-gray-300">From <span className="font-bold text-lg text-white">{event.price_from}</span></span>
                       <div className="flex items-center gap-3">
                         <button
                           onClick={() => setSelectedEvent(event)}
-                          className="text-sm text-gray-500 hover:text-[#FF0080] transition-colors underline underline-offset-2"
+                          className="text-sm text-gray-400 hover:text-[#FF0080] transition-colors underline underline-offset-2"
                           data-testid={`event-details-${index}`}
                         >
                           More Details

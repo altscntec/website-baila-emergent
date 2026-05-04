@@ -86,21 +86,21 @@ export const CasitaSection = () => {
             Our Signature
           </p>
           <h2 className="font-display text-4xl sm:text-5xl md:text-7xl text-white mb-8 leading-[0.95]">
-            THE CASITA<br />
-            <span className="gradient-text">EXPERIENCE.</span>
+            CASA DE<br />
+            <span className="gradient-text">BAILA DEMBOW.</span>
           </h2>
           <p className="text-base md:text-lg text-gray-400 max-w-2xl leading-relaxed">
-            Every Baila Dembow event is built around La Casita — a full-scale Caribbean house
-            fa&ccedil;ade that transforms any venue into a Latin American street party. Think
-            orange-and-red archways, tropical plants, festoon lights, pennant bunting, Latin
-            American flags overhead, and the iconic Baila Dembow neon sign glowing above the DJ booth.
+            Some Baila Dembow events are built around La Casita - a full-scale house that transforms
+            any venue into a Latin American street party. Think orange-and-red archways, tropical
+            plants, festoon lights, pennant bunting, Latin American flags overhead, and the iconic
+            Baila Dembow neon sign glowing above the DJ booth.
           </p>
           <p className="text-base md:text-lg text-gray-400 max-w-2xl leading-relaxed mt-4">
-            Everyone gets a straw hat — the signature look that ties the whole crowd together.
+            Everyone gets a straw hat - the signature look that ties the whole crowd together.
             And yes, there's a plastic chair hanging from the ceiling. If you know, you know.
           </p>
           <p className="text-base md:text-lg text-gray-400 max-w-2xl leading-relaxed mt-4">
-            The casita isn't just a stage — it's where the action happens. The MC hosts look-alike
+            The casita isn't just a stage - it's where the action happens. The MC hosts look-alike
             competitions, the DJs spin from inside the set, and themed editions (like our Super Bowl
             night with Brady jerseys and straw hats) keep every event fresh while the core vibe stays
             the same: loud, sweaty, and unmistakably Baila Dembow.

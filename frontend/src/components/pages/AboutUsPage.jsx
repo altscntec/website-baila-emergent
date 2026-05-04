@@ -26,12 +26,12 @@ export const AboutUsPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white pt-24">
+    <div className="min-h-screen bg-[#0A0A0A] pt-24">
       <div className="container-custom py-12">
         
         {/* Hero Section */}
         <div className="text-center mb-16">
-          <h1 className="font-display text-4xl md:text-6xl mb-6">
+          <h1 className="font-display text-4xl md:text-6xl mb-6 text-white">
             BAILA DEMBOW<br /><span className="gradient-text">ABOUT US</span>
           </h1>
           <span className="sr-only" aria-hidden="true">The #1 Latin Event in Amsterdam and the Netherlands</span>
@@ -39,13 +39,13 @@ export const AboutUsPage = () => {
 
         {/* Main Story Section */}
         <div className="max-w-4xl mx-auto mb-20">
-          <h2 className="font-display text-3xl md:text-4xl mb-8 text-center">
+          <h2 className="font-display text-3xl md:text-4xl mb-8 text-center text-white">
             WHERE LATIN CULTURE <span className="gradient-text">COMES ALIVE</span>
           </h2>
-          <div className="space-y-6 text-lg text-gray-700 leading-relaxed">
+          <div className="space-y-6 text-lg text-gray-300 leading-relaxed">
             <p>
-              There's a moment — right when the bass drops, the CO2 cannon fires, and confetti rains down on a 
-              600-person dance floor — when you realize this isn't just a party. <strong>This is a movement.</strong>
+              There's a moment - right when the bass drops, the CO2 cannon fires, and confetti rains down on a 
+              600-person dance floor - when you realize this isn't just a party. <strong>This is a movement.</strong>
             </p>
             <p>
               Baila Dembow is the #1 Latin event in Amsterdam and the Netherlands, delivering sold-out nights of 
@@ -71,13 +71,13 @@ export const AboutUsPage = () => {
           { emoji: "🔵", city: "TILBURG", subtitle: "THE SOUTH'S LATIN HEARTBEAT", photos: ["tilburg1", "tilburg2", "tilburg3"] },
           { emoji: "🇬🇧", city: "LONDON", subtitle: "BAILA DEMBOW GOES INTERNATIONAL", photos: ["london1", "london2", "london3"] }
         ].map((section) => (
-          <div key={section.city} className="mb-20 bg-gray-50 rounded-3xl p-8 md:p-12">
+          <div key={section.city} className="mb-20 bg-white/5 rounded-3xl p-8 md:p-12">
             <div className="flex items-center gap-3 mb-6">
               <span className="text-4xl">{section.emoji}</span>
-              <h3 className="font-display text-3xl md:text-4xl">{section.city} — <span className="gradient-text">{section.subtitle}</span></h3>
+              <h3 className="font-display text-3xl md:text-4xl text-white">{section.city} - <span className="gradient-text">{section.subtitle}</span></h3>
             </div>
             <div className="mt-8">
-              <h4 className="font-display text-lg mb-4">📸 {section.city.charAt(0) + section.city.slice(1).toLowerCase()} Photo Gallery</h4>
+              <h4 className="font-display text-lg mb-4 text-white">📸 {section.city.charAt(0) + section.city.slice(1).toLowerCase()} Photo Gallery</h4>
               <div className="grid grid-cols-3 gap-4">
                 {section.photos.map((photo, i) => (
                   <img key={i} src={`/city-photos/${photo}.jpg`} alt={`Baila Dembow ${section.city} event ${i + 1}`} className="aspect-video object-cover rounded-xl w-full" loading="lazy" />
@@ -89,20 +89,20 @@ export const AboutUsPage = () => {
 
         {/* FAQ Section */}
         <div className="mb-20 max-w-4xl mx-auto">
-          <h2 className="font-display text-3xl md:text-4xl mb-8 text-center">
+          <h2 className="font-display text-3xl md:text-4xl mb-8 text-center text-white">
             FREQUENTLY ASKED <span className="gradient-text">QUESTIONS</span>
           </h2>
           <div className="space-y-6">
             {[
               { q: "What kind of music plays at Baila Dembow events?", a: "Every night features a curated mix of Reggaeton, Dembow, Latin urban hits, Bachata, Salsa, and Merengue." },
               { q: "Where does Baila Dembow host events?", a: "Baila Dembow runs a multi-city circuit across Amsterdam, Rotterdam, Utrecht, Tilburg, and London." },
-              { q: "Do Baila Dembow events sell out?", a: "Yes — consistently. Venue capacities run between 450 and 700 people, and demand regularly exceeds availability." },
+              { q: "Do Baila Dembow events sell out?", a: "Yes - consistently. Venue capacities run between 450 and 700 people, and demand regularly exceeds availability." },
               { q: "What makes Baila Dembow different from other Latin nights?", a: "Production quality and cultural authenticity. CO2 cannons, confetti, immersive lighting, and headline DJ lineups." },
               { q: "How do I buy tickets for the next Baila Dembow event?", a: "Tickets are available through bailadembow.com/agenda, as well as on Fatsoma, Skiddle, Eventbrite, and TicketSwap." }
             ].map((faq, i) => (
-              <div key={i} className="bg-gray-50 rounded-2xl p-6">
-                <h4 className="font-bold text-lg mb-2">{faq.q}</h4>
-                <p className="text-gray-700">{faq.a}</p>
+              <div key={i} className="bg-white/5 rounded-2xl p-6">
+                <h4 className="font-bold text-lg mb-2 text-white">{faq.q}</h4>
+                <p className="text-gray-300">{faq.a}</p>
               </div>
             ))}
           </div>
@@ -127,11 +127,11 @@ export const AboutUsPage = () => {
 
         {/* Contact Form */}
         <div className="max-w-2xl mx-auto">
-          <h3 className="font-display text-3xl md:text-4xl mb-4 text-center">
+          <h3 className="font-display text-3xl md:text-4xl mb-4 text-center text-white">
             WORK <span className="gradient-text">WITH US</span>
           </h3>
-          <p className="text-gray-600 text-center mb-8">
-            For bookings, partnerships, venue collaborations and press — reach out to the Baila Dembow team.
+          <p className="text-gray-400 text-center mb-8">
+            For bookings, partnerships, venue collaborations and press - reach out to the Baila Dembow team.
           </p>
           
           <form onSubmit={handleContactSubmit} className="space-y-4">
@@ -151,7 +151,7 @@ export const AboutUsPage = () => {
             </button>
           </form>
           
-          <div className="flex justify-center gap-6 mt-8 text-sm text-gray-600">
+          <div className="flex justify-center gap-6 mt-8 text-sm text-gray-400">
             <a href="https://www.instagram.com/baila.dembow/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:text-[#FF0080] transition-colors">
               <Instagram size={18} /> @baila.dembow
             </a>

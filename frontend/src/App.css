@@ -197,14 +197,15 @@
 
 /* Input styling */
 .input-styled {
-  background: #F5F5F5;
-  border: 2px solid transparent;
+  background: rgba(255, 255, 255, 0.06);
+  border: 2px solid rgba(255, 255, 255, 0.1);
   border-radius: 9999px;
   padding: 1rem 1.5rem;
   font-size: 1rem;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
   outline: none;
   width: 100%;
+  color: #FFFFFF;
 }
 
 .input-styled:focus {
@@ -213,12 +214,12 @@
 }
 
 .input-styled::placeholder {
-  color: #999;
+  color: rgba(255, 255, 255, 0.4);
 }
 
 /* Footer */
 .footer-gradient {
-  background: linear-gradient(to top, rgba(255, 0, 128, 0.05), transparent);
+  background: #0F0F0F;
 }
 
 /* Social links */
@@ -229,8 +230,8 @@
   width: 48px;
   height: 48px;
   border-radius: 50%;
-  background: #F5F5F5;
-  color: #0A0A0A;
+  background: rgba(255, 255, 255, 0.08);
+  color: #FFFFFF;
   transition: background-color 0.3s ease, transform 0.3s ease;
 }
 

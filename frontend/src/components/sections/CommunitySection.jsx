@@ -55,10 +55,10 @@ export const CommunitySection = () => {
           className="max-w-3xl mx-auto text-center"
         >
           <p className="text-sm tracking-[0.2em] uppercase text-[#FF0080] font-semibold mb-4">Join Us</p>
-          <h2 className="font-display text-4xl md:text-6xl mb-6">
+          <h2 className="font-display text-4xl md:text-6xl mb-6 text-white">
             BECOME PART OF<br /><span className="gradient-text">THE MOVEMENT.</span>
           </h2>
-          <p className="text-lg text-gray-600 mb-10 max-w-xl mx-auto">
+          <p className="text-lg text-gray-400 mb-10 max-w-xl mx-auto">
             This isn't just about events. It's about culture, belonging, and connection. 
             Strangers becoming family. One rhythm, one night, one community.
           </p>
@@ -153,7 +153,7 @@ export const CommunitySection = () => {
       </div>
       
       {/* Footer */}
-      <div className="container-custom mt-20 pt-8 border-t border-gray-200">
+      <div className="container-custom mt-20 pt-8 border-t border-white/10">
         <motion.div 
           className="flex justify-center mb-8"
           initial={{ opacity: 0, y: 20 }}
@@ -177,7 +177,7 @@ export const CommunitySection = () => {
         </motion.div>
         
         <div className="flex flex-col items-center gap-4 text-sm text-gray-500 text-center">
-          <span className="font-display text-xl text-black">BAILA DEMBOW<span className="gradient-text">.</span></span>
+          <span className="font-display text-xl text-white">BAILA DEMBOW<span className="gradient-text">.</span></span>
           <span>© {new Date().getFullYear()} Baila Dembow. All rights reserved. Part of House Decoded events, Amsterdam KVK 67994725</span>
           <CookieSettingsLink />
         </div>

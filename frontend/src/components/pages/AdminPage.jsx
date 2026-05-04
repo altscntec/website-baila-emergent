@@ -10,15 +10,15 @@ const AdminTabs = ({ activeTab, setActiveTab }) => {
   ];
 
   return (
-    <div className="flex gap-1 bg-gray-100 rounded-xl p-1 mb-8" data-testid="admin-tabs">
+    <div className="flex gap-1 bg-white/5 rounded-xl p-1 mb-8" data-testid="admin-tabs">
       {tabs.map((tab) => (
         <button
           key={tab.id}
           onClick={() => setActiveTab(tab.id)}
           className={`flex-1 py-2.5 px-4 rounded-lg text-sm font-semibold transition-all ${
             activeTab === tab.id
-              ? 'bg-white text-gray-900 shadow-sm'
-              : 'text-gray-500 hover:text-gray-700'
+              ? 'bg-white/10 text-white shadow-sm'
+              : 'text-gray-400 hover:text-white'
           }`}
           data-testid={`admin-tab-${tab.id}`}
         >
@@ -76,11 +76,11 @@ const GalleryPanel = () => {
 
   return (
     <>
-      <div className="bg-gray-50 rounded-2xl p-6 mb-8">
-        <h2 className="font-display text-xl mb-4">Add New Image</h2>
+      <div className="bg-white/5 rounded-2xl p-6 mb-8">
+        <h2 className="font-display text-xl mb-4 text-white">Add New Image</h2>
         <form onSubmit={handleAddImage} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Image URL *</label>
+            <label className="block text-sm font-medium text-gray-300 mb-1">Image URL *</label>
             <input
               type="url"
               value={newImageUrl}
@@ -93,7 +93,7 @@ const GalleryPanel = () => {
             <p className="text-xs text-gray-500 mt-1">Upload images to Google Drive, Imgur, or any image hosting service and paste the direct URL here</p>
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Alt Text (optional)</label>
+            <label className="block text-sm font-medium text-gray-300 mb-1">Alt Text (optional)</label>
             <input
               type="text"
               value={newImageAlt}
@@ -115,9 +115,9 @@ const GalleryPanel = () => {
       </div>
 
       <div>
-        <h2 className="font-display text-xl mb-4">Current Gallery ({galleryImages.length} images)</h2>
+        <h2 className="font-display text-xl mb-4 text-white">Current Gallery ({galleryImages.length} images)</h2>
         {galleryImages.length === 0 ? (
-          <p className="text-gray-500">No images in gallery yet. Add some above!</p>
+          <p className="text-gray-400">No images in gallery yet. Add some above!</p>
         ) : (
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             {galleryImages.map((image, index) => (
@@ -196,27 +196,27 @@ const DiscountCodesPanel = () => {
       {/* Stats Cards */}
       {stats && (
         <div className="grid grid-cols-3 gap-4 mb-8" data-testid="discount-stats">
-          <div className="bg-gray-50 rounded-2xl p-5 text-center">
-            <p className="text-3xl font-bold text-gray-900" data-testid="stats-total">{stats.total}</p>
-            <p className="text-sm text-gray-500 mt-1">Total Codes</p>
+          <div className="bg-white/5 rounded-2xl p-5 text-center">
+            <p className="text-3xl font-bold text-white" data-testid="stats-total">{stats.total}</p>
+            <p className="text-sm text-gray-400 mt-1">Total Codes</p>
           </div>
-          <div className="bg-green-50 rounded-2xl p-5 text-center">
-            <p className="text-3xl font-bold text-green-600" data-testid="stats-unused">{stats.unused}</p>
-            <p className="text-sm text-gray-500 mt-1">Available</p>
+          <div className="bg-green-500/10 rounded-2xl p-5 text-center">
+            <p className="text-3xl font-bold text-green-400" data-testid="stats-unused">{stats.unused}</p>
+            <p className="text-sm text-gray-400 mt-1">Available</p>
           </div>
-          <div className="bg-orange-50 rounded-2xl p-5 text-center">
-            <p className="text-3xl font-bold text-orange-600" data-testid="stats-used">{stats.used}</p>
-            <p className="text-sm text-gray-500 mt-1">Assigned</p>
+          <div className="bg-orange-500/10 rounded-2xl p-5 text-center">
+            <p className="text-3xl font-bold text-orange-400" data-testid="stats-used">{stats.used}</p>
+            <p className="text-sm text-gray-400 mt-1">Assigned</p>
           </div>
         </div>
       )}
 
       {/* Bulk Upload */}
-      <div className="bg-gray-50 rounded-2xl p-6 mb-8">
-        <h2 className="font-display text-xl mb-4">Upload Discount Codes</h2>
+      <div className="bg-white/5 rounded-2xl p-6 mb-8">
+        <h2 className="font-display text-xl mb-4 text-white">Upload Discount Codes</h2>
         <form onSubmit={handleBulkUpload} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Paste codes (one per line, comma, or semicolon separated)</label>
+            <label className="block text-sm font-medium text-gray-300 mb-1">Paste codes (one per line, comma, or semicolon separated)</label>
             <textarea
               value={bulkCodes}
               onChange={(e) => setBulkCodes(e.target.value)}
@@ -239,14 +239,14 @@ const DiscountCodesPanel = () => {
       {/* Codes List */}
       <div>
         <div className="flex items-center justify-between mb-4">
-          <h2 className="font-display text-xl">Discount Codes</h2>
-          <div className="flex gap-1 bg-gray-100 rounded-lg p-1">
+          <h2 className="font-display text-xl text-white">Discount Codes</h2>
+          <div className="flex gap-1 bg-white/5 rounded-lg p-1">
             {['all', 'unused', 'used'].map((f) => (
               <button
                 key={f}
                 onClick={() => setFilter(f)}
                 className={`px-3 py-1.5 rounded-md text-xs font-semibold capitalize transition-all ${
-                  filter === f ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500 hover:text-gray-700'
+                  filter === f ? 'bg-white/10 text-white shadow-sm' : 'text-gray-400 hover:text-white'
                 }`}
                 data-testid={`filter-${f}`}
               >
@@ -257,24 +257,24 @@ const DiscountCodesPanel = () => {
         </div>
 
         {isLoading ? (
-          <p className="text-gray-500 text-center py-8">Loading...</p>
+          <p className="text-gray-400 text-center py-8">Loading...</p>
         ) : codes.length === 0 ? (
-          <p className="text-gray-500 text-center py-8">No codes found</p>
+          <p className="text-gray-400 text-center py-8">No codes found</p>
         ) : (
-          <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+          <div className="bg-white/5 rounded-xl border border-white/10 overflow-hidden">
             <table className="w-full text-sm">
               <thead>
-                <tr className="bg-gray-50 border-b border-gray-200">
-                  <th className="text-left px-4 py-3 font-semibold text-gray-600">Code</th>
-                  <th className="text-left px-4 py-3 font-semibold text-gray-600">Status</th>
-                  <th className="text-left px-4 py-3 font-semibold text-gray-600 hidden md:table-cell">Assigned To</th>
-                  <th className="text-left px-4 py-3 font-semibold text-gray-600 hidden md:table-cell">Assigned At</th>
+                <tr className="bg-white/5 border-b border-white/10">
+                  <th className="text-left px-4 py-3 font-semibold text-gray-300">Code</th>
+                  <th className="text-left px-4 py-3 font-semibold text-gray-300">Status</th>
+                  <th className="text-left px-4 py-3 font-semibold text-gray-300 hidden md:table-cell">Assigned To</th>
+                  <th className="text-left px-4 py-3 font-semibold text-gray-300 hidden md:table-cell">Assigned At</th>
                 </tr>
               </thead>
               <tbody>
                 {codes.slice(0, 50).map((code) => (
-                  <tr key={code.id} className="border-b border-gray-100 last:border-0 hover:bg-gray-50">
-                    <td className="px-4 py-3 font-mono font-bold text-gray-900" data-testid={`code-${code.code}`}>{code.code}</td>
+                  <tr key={code.id} className="border-b border-white/5 last:border-0 hover:bg-white/5">
+                    <td className="px-4 py-3 font-mono font-bold text-white" data-testid={`code-${code.code}`}>{code.code}</td>
                     <td className="px-4 py-3">
                       <span className={`inline-flex px-2 py-1 rounded-full text-xs font-semibold ${
                         code.is_used ? 'bg-orange-100 text-orange-700' : 'bg-green-100 text-green-700'
@@ -282,7 +282,7 @@ const DiscountCodesPanel = () => {
                         {code.is_used ? 'Used' : 'Available'}
                       </span>
                     </td>
-                    <td className="px-4 py-3 text-gray-600 hidden md:table-cell">{code.assigned_email || '-'}</td>
+                    <td className="px-4 py-3 text-gray-400 hidden md:table-cell">{code.assigned_email || '-'}</td>
                     <td className="px-4 py-3 text-gray-500 hidden md:table-cell text-xs">
                       {code.assigned_at ? new Date(code.assigned_at).toLocaleString() : '-'}
                     </td>
@@ -291,7 +291,7 @@ const DiscountCodesPanel = () => {
               </tbody>
             </table>
             {codes.length > 50 && (
-              <div className="px-4 py-3 bg-gray-50 text-sm text-gray-500 text-center">
+              <div className="px-4 py-3 bg-white/5 text-sm text-gray-400 text-center">
                 Showing 50 of {codes.length} codes
               </div>
             )}
@@ -320,9 +320,9 @@ export const AdminPage = () => {
 
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen bg-white pt-24 flex items-center justify-center">
+      <div className="min-h-screen bg-[#0A0A0A] pt-24 flex items-center justify-center">
         <div className="max-w-md w-full p-8">
-          <h1 className="font-display text-3xl mb-8 text-center">
+          <h1 className="font-display text-3xl mb-8 text-center text-white">
             ADMIN <span className="gradient-text">LOGIN</span>
           </h1>
           <form onSubmit={handleLogin} className="space-y-4">
@@ -352,15 +352,15 @@ export const AdminPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-white pt-24">
+    <div className="min-h-screen bg-[#0A0A0A] pt-24">
       <div className="container-custom py-12">
         <div className="flex items-center justify-between mb-8">
-          <h1 className="font-display text-3xl">
+          <h1 className="font-display text-3xl text-white">
             ADMIN <span className="gradient-text">PANEL</span>
           </h1>
           <button
             onClick={() => setIsAuthenticated(false)}
-            className="text-gray-500 hover:text-[#FF0080]"
+            className="text-gray-400 hover:text-[#FF0080]"
             data-testid="admin-logout"
           >
             Logout
