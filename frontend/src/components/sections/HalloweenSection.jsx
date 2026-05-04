@@ -4,9 +4,7 @@ import { MessageCircle, ArrowRight } from 'lucide-react';
 
 const HALLOWEEN_VIDEOS = [
   { url: "/videos/halloween-1.mp4", alt: "Halloween Baila Dembow recap" },
-  { url: "/videos/halloween-2.mp4", alt: "Halloween party highlights" },
-  { url: "/videos/halloween-3.mp4", alt: "Halloween crowd moments" },
-  { url: "/videos/halloween-4.mp4", alt: "Halloween 2025 edition" }
+  { url: "/videos/halloween-2.mp4", alt: "Halloween party highlights" }
 ];
 
 const HALLOWEEN_IMAGES = Array.from({ length: 15 }, (_, i) => ({
@@ -91,7 +89,7 @@ export const HalloweenSection = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-5"
+          className="grid grid-cols-2 gap-3 md:gap-6 max-w-2xl mx-auto"
         >
           {HALLOWEEN_VIDEOS.map((video, index) => (
             <div
