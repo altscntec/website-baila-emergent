@@ -89,3 +89,12 @@ frontend/public/videos/kingsnight-baila-dembow.mp4
 frontend/public/videos/superbowl-baila-dembow.mp4
 frontend/build/videos/kingsnight-baila-dembow.mp4
 frontend/build/videos/superbowl-baila-dembow.mp4
+-e 
+# Environment and credential files
+.env
+.env.*
+*.env
+credentials.json
+*.pem
+*.key
+.credentials
