@@ -42,6 +42,20 @@ export const EVENTS = [
     image_url: "/images/events/tilburg-may-2026.png"
   },
   {
+    id: "amsterdam-oliva-may30-2026",
+    city: "Amsterdam",
+    venue: "Oliva, Rembrandtplein 17, Amsterdam",
+    date: "2026-05-30",
+    time: "23:00 – 05:00",
+    title: "BAILA DEMBOW // AMSTERDAM",
+    description: "¡AMSTERDAM, PREPÁRATE! Saturday, May 30th. Oliva. Baila Dembow is back, and this one hits different. Reggaeton loud enough to feel in your chest, dembow that doesn't let your hips rest, and the kind of Latin Caribbean heat that turns Rembrandtplein into Santo Domingo for one night only. Bad Bunny, Karol G, El Alfa, Rauw Alejandro, Anuel, Tokischa. Six hours of perreo. Zero pauses. The room knows what to do when the bass drops. Question is, do you? Tickets are already moving and the early bird wins every time. The longer you wait, the more you pay at the door. Don't be the friend explaining why everyone got in cheaper. 18+ — ID required.",
+    ticket_url: "https://ticketapp.shop/jvgfntuvxs",
+    status: "upcoming",
+    price_from: "",
+    price_door: "",
+    image_url: "/images/events/amsterdam-oliva-may30-2026.png"
+  },
+  {
     id: "coffee-day-rave-amsterdam-2026",
     city: "Amsterdam",
     venue: "IJland, Amsterdam",

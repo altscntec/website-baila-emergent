@@ -70,6 +70,18 @@
     </image:image>
   </url>
 
+  <!-- Event: Latin Event Amsterdam Oliva - May 30, 2026 -->
+  <url>
+    <loc>https://bailadembow.com/events/amsterdam-30-may-2026</loc>
+    <lastmod>2026-05-05</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://bailadembow.com/images/events/amsterdam-oliva-may30-2026.png</image:loc>
+      <image:title>Latin Event Amsterdam - Baila Dembow at Oliva Rembrandtplein - May 30 2026</image:title>
+    </image:image>
+  </url>
+
   <!-- Event: Coffee Day Rave Amsterdam - Jun 14, 2026 -->
   <url>
     <loc>https://bailadembow.com/events/amsterdam-14-june-2026</loc>
