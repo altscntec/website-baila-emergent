@@ -56,24 +56,17 @@
   margin: 0;
 }
 
-/* ── MAP ── */
+/* ── MAP — static image, no pins, no animation ── */
 .vm-map-frame {
   position: relative;
   width: 100%;
   border: 1.5px solid rgba(244,233,206,.2);
   overflow: hidden;
+  background: #000;
 }
 .vm-map-img {
   width: 100%;
   display: block;
-  aspect-ratio: 16/9;
-  object-fit: cover;
-  filter: brightness(.55) saturate(1.1) contrast(1.05);
-}
-.vm-overlay {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
 }
 
 /* ── PINS ── */
@@ -272,13 +265,8 @@
   gap: 10px;
   padding: 14px 16px;
   border-right: 1.5px solid rgba(244,233,206,.1);
-  transition: background .2s;
-  cursor: pointer;
-  outline: none;
 }
 .vm-leg:last-child { border-right: none; }
-.vm-leg:hover,
-.vm-leg.vm-active { background: rgba(244,233,206,.06); }
 .vm-leg-num {
   font-family: 'Anton', sans-serif;
   font-size: 20px;
