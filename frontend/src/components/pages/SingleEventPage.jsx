@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { MapPin, Calendar, Clock, Ticket, Flame, Users, Sparkles } from 'lucide-react';
 import { getEventBySlug, generateEventSlug } from '../../utils/helpers';
 import { trackTicketClick } from '../../utils/tracking';
+import VenueMapSection from '../sections/VenueMapSection';
 
 export const SingleEventPage = ({ eventSlug, events }) => {
   const event = getEventBySlug(eventSlug, events);
@@ -134,6 +135,9 @@ export const SingleEventPage = ({ eventSlug, events }) => {
         </div>
       </div>
       
+      {/* Venue Map — Coffee Day Rave only */}
+      {eventSlug === 'amsterdam-14-june-2026' && <VenueMapSection />}
+
       <div className="container-custom py-12">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2">
