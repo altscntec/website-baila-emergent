@@ -5,10 +5,13 @@ import { BAILA_LOGO } from '../../utils/constants';
 import { trackTicketClick } from '../../utils/tracking';
 
 export const HeroSection = () => {
-  const scrollToNextEvent = () => {
-    const element = document.getElementById('next-event');
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
+  const goToEvents = () => {
+    // Try same-page scroll to the agenda first; fall back to the EventsPage route.
+    const agenda = document.getElementById('agenda');
+    if (agenda) {
+      agenda.scrollIntoView({ behavior: "smooth" });
+    } else {
+      window.location.hash = '#events';
     }
   };
 
@@ -76,8 +79,8 @@ export const HeroSection = () => {
             <Ticket size={20} />
             GET TICKETS
           </a>
-          <button 
-            onClick={scrollToNextEvent}
+          <button
+            onClick={goToEvents}
             className="inline-flex items-center gap-2 bg-transparent text-white font-bold py-4 px-8 rounded-full text-lg border-2 border-white hover:bg-white hover:text-black transition-colors duration-300"
             data-testid="hero-cta-events"
           >

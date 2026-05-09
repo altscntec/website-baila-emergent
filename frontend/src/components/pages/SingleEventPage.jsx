@@ -115,13 +115,16 @@ export const SingleEventPage = ({ eventSlug, events }) => {
   });
 
   return (
-    <div className="min-h-screen bg-white">
-      {/* Hero Section */}
-      <div className="relative h-[50vh] md:h-[60vh] overflow-hidden">
-        <img src={event.image_url} alt={event.title} className="w-full h-full object-cover" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
-        <div className="absolute bottom-0 left-0 right-0 p-6 md:p-12">
-          <div className="container-custom">
+    <div className="min-h-screen bg-white pt-20">
+      {/* Hero Section — full poster, no crop, padded below the fixed nav */}
+      <div className="relative bg-black overflow-hidden">
+        <img
+          src={event.image_url}
+          alt={event.title}
+          className="w-full h-auto max-h-[80vh] object-contain mx-auto"
+        />
+        <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black via-black/70 to-transparent pt-20 pb-6 md:pb-10">
+          <div className="container-custom px-6 md:px-12">
             <div className="flex items-center gap-2 text-[#FF0080] font-semibold mb-3">
               <MapPin size={18} />
               <span>{event.city}, Netherlands</span>
@@ -134,9 +137,6 @@ export const SingleEventPage = ({ eventSlug, events }) => {
           </div>
         </div>
       </div>
-      
-      {/* Venue Map — Coffee Day Rave only */}
-      {eventSlug === 'amsterdam-14-june-2026' && <VenueMapSection />}
 
       <div className="container-custom py-12">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -217,6 +217,9 @@ export const SingleEventPage = ({ eventSlug, events }) => {
           <a href="#/events" className="text-gray-600 hover:text-[#FF0080] transition-colors">View All Events →</a>
         </div>
       </div>
+
+      {/* Venue Map — Coffee Day Rave only — placed at end so the red→white transition isn't mid-content */}
+      {eventSlug === 'amsterdam-14-june-2026' && <VenueMapSection />}
     </div>
   );
 };

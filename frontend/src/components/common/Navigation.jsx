@@ -6,14 +6,28 @@ import { BUNNY_LOGO } from '../../utils/constants';
 export const Navigation = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [hash, setHash] = useState(typeof window !== 'undefined' ? window.location.hash : '');
 
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
     };
+    const handleHashChange = () => setHash(window.location.hash);
     window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    window.addEventListener("hashchange", handleHashChange);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("hashchange", handleHashChange);
+    };
   }, []);
+
+  // Pages with a light/white background — force the "scrolled" nav style so
+  // text isn't white-on-white at the top of the page.
+  const isLightPage =
+    hash === '#press' ||
+    hash === '#/press' ||
+    hash.startsWith('#/events/'); // SingleEventPage uses bg-white
+  const showSolidNav = scrolled || isLightPage;
 
   useEffect(() => {
     if (mobileMenuOpen) {
@@ -54,7 +68,7 @@ export const Navigation = () => {
       data-testid="main-navigation"
       data-mobile-menu
     >
-      <div className={`flex items-center justify-between gap-4 px-4 py-2 rounded-full transition-all duration-300 ${scrolled ? 'bg-white shadow-lg border border-gray-200' : 'bg-white/10 backdrop-blur-sm'}`}>
+      <div className={`flex items-center justify-between gap-4 px-4 py-2 rounded-full transition-all duration-300 ${showSolidNav ? 'bg-white shadow-lg border border-gray-200' : 'bg-white/10 backdrop-blur-sm'}`}>
         <img 
           src={BUNNY_LOGO} 
           alt="Baila Dembow" 
@@ -63,7 +77,7 @@ export const Navigation = () => {
         />
         
         {/* Desktop Navigation */}
-        <div className={`hidden md:flex items-center gap-6 text-sm font-medium ${scrolled ? 'text-black' : 'text-white'}`}>
+        <div className={`hidden md:flex items-center gap-6 text-sm font-medium ${showSolidNav ? 'text-black' : 'text-white'}`}>
           <a href="#events" className="hover:text-[#FF0080] transition-colors" data-testid="nav-events">Events</a>
           <a href="#about" className="hover:text-[#FF0080] transition-colors" data-testid="nav-about">About</a>
           <button onClick={() => scrollToSection('experience')} className="hover:text-[#FF0080] transition-colors" data-testid="nav-gallery">Gallery</button>
@@ -73,7 +87,7 @@ export const Navigation = () => {
 
         {/* Mobile Hamburger Button */}
         <button
-          className={`md:hidden p-2 rounded-lg transition-colors ${scrolled ? 'text-black hover:bg-gray-100' : 'text-white hover:bg-white/20'}`}
+          className={`md:hidden p-2 rounded-lg transition-colors ${showSolidNav ? 'text-black hover:bg-gray-100' : 'text-white hover:bg-white/20'}`}
           onClick={(e) => {
             e.stopPropagation();
             setMobileMenuOpen(!mobileMenuOpen);
@@ -82,9 +96,9 @@ export const Navigation = () => {
           aria-label="Toggle menu"
         >
           <div className="w-6 h-5 flex flex-col justify-between">
-            <span className={`block h-0.5 w-full rounded-full transition-all duration-300 ${scrolled ? 'bg-black' : 'bg-white'} ${mobileMenuOpen ? 'rotate-45 translate-y-2' : ''}`} />
-            <span className={`block h-0.5 w-full rounded-full transition-all duration-300 ${scrolled ? 'bg-black' : 'bg-white'} ${mobileMenuOpen ? 'opacity-0' : ''}`} />
-            <span className={`block h-0.5 w-full rounded-full transition-all duration-300 ${scrolled ? 'bg-black' : 'bg-white'} ${mobileMenuOpen ? '-rotate-45 -translate-y-2' : ''}`} />
+            <span className={`block h-0.5 w-full rounded-full transition-all duration-300 ${showSolidNav ? 'bg-black' : 'bg-white'} ${mobileMenuOpen ? 'rotate-45 translate-y-2' : ''}`} />
+            <span className={`block h-0.5 w-full rounded-full transition-all duration-300 ${showSolidNav ? 'bg-black' : 'bg-white'} ${mobileMenuOpen ? 'opacity-0' : ''}`} />
+            <span className={`block h-0.5 w-full rounded-full transition-all duration-300 ${showSolidNav ? 'bg-black' : 'bg-white'} ${mobileMenuOpen ? '-rotate-45 -translate-y-2' : ''}`} />
           </div>
         </button>
       </div>
