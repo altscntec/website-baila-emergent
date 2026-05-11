@@ -219,6 +219,19 @@ export const CommunitySection = () => {
 
         <div className="flex flex-col items-center gap-4 text-sm text-gray-500 text-center">
           <span className="font-display text-xl text-white">BAILA DEMBOW<span className="gradient-text">.</span></span>
+          {/* Sister-site cross-link — Playbook Block 2 (APPROVED) */}
+          <span>
+            Sister event:{' '}
+            <a
+              href="https://www.thedayrave.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-gray-300 hover:text-[#FF0080] underline underline-offset-2 transition-colors"
+              data-testid="footer-sister-site-tdr"
+            >
+              The Day Rave - Coffee Rave, 14 June 2026
+            </a>
+          </span>
           <span>© {new Date().getFullYear()} Baila Dembow. All rights reserved. Part of House Decoded Events, Amsterdam — KVK 67994725</span>
           <CookieSettingsLink />
         </div>

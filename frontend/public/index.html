@@ -405,7 +405,19 @@
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
   </head>
   <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <!--
+      SEO + AI-search crawlable fallback. Visible to GPTBot, ClaudeBot,
+      PerplexityBot, CCBot and any other crawler that does not execute
+      JavaScript. Wording locked in the Developer Playbook (Week 1 Brief,
+      Block 1, approved by Hari).
+    -->
+    <noscript>
+      <h1>Baila Dembow - Reggaeton &amp; Latin Party</h1>
+      <p>The leading Latin party in Amsterdam and around the Netherlands. Reggaeton, Dembow, Salsa, Bachata and Latin Hits</p>
+      <p><a href="https://bailadembow.com/#agenda">Next event</a></p>
+      <p><strong>Venue:</strong> Amsterdam</p>
+      <p><strong>Tickets:</strong> <a href="https://bailadembow.com/tickets">Buy tickets</a></p>
+    </noscript>
     <div id="root"></div>
   </body>
 </html>
