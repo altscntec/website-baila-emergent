@@ -1075,18 +1075,18 @@ const Tickets = ({ ticketsRef, onOpenRegistration }) => {
 /* ─────────── MODAL ─────────── */
 
 /**
- * Web3Forms access key. Get one free at https://web3forms.com — enter
- * ask@housedecoded.com as the destination, copy the access key, and paste
- * it here (or override via process.env.REACT_APP_PADEL_W3F_KEY at build time).
- *
- * Free tier: 250 submissions/month. Each POST delivers the registration
- * straight to the destination inbox — no email-client handoff. If the
- * key is missing or the POST fails for any reason, the form falls back
- * to opening a pre-filled mailto: as a last-resort backup.
+ * Web3Forms access key — bound to ask@housedecoded.com. This is the
+ * intentionally-public client-side key (Web3Forms docs: "you can use it
+ * in client side code"). Each POST delivers a formatted email with all
+ * 6 answers to ask@housedecoded.com the moment the user clicks Submit.
+ * Free tier: 250 submissions/month. Env var `REACT_APP_PADEL_W3F_KEY`
+ * overrides this for staging/preview builds if ever needed. If the POST
+ * fails for any reason (offline, rate limit, etc.) the form falls back
+ * to a pre-filled mailto: so the registration is never lost.
  */
 const WEB3FORMS_ACCESS_KEY =
   (typeof process !== 'undefined' && process.env && process.env.REACT_APP_PADEL_W3F_KEY) ||
-  'PASTE_WEB3FORMS_ACCESS_KEY_HERE';
+  'e3fb20ee-ee63-420c-8126-e44eac23ca56';
 const WEB3FORMS_ENDPOINT = 'https://api.web3forms.com/submit';
 const REGISTRATION_DESTINATION = 'ask@housedecoded.com';
 
