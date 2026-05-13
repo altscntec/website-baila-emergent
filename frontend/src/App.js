@@ -20,6 +20,7 @@ import { EventsPage } from "./components/pages/EventsPage";
 import { SingleEventPage } from "./components/pages/SingleEventPage";
 import { LatinEventAmsterdamPage, LatinEventRotterdamPage } from "./components/pages/SEOPages";
 import { KingsdayWeekenderPage } from "./components/pages/KingsdayWeekenderPage";
+import { PadelXReggaetonPage } from "./components/pages/PadelXReggaetonPage";
 
 // Main App Component
 function App() {
@@ -73,11 +74,15 @@ function App() {
   const isEventPage = effectivePath.startsWith('/events/') || effectivePath.startsWith('events/');
   const eventSlug = isEventPage ? effectivePath.replace(/^\/?events\//, '') : null;
   const isKingsdayPage = eventSlug === 'kingsday-weekender-2026';
+  // Padel × Reggaeton — accept both CamelCase and kebab-case slug forms
+  const isPadelPage = eventSlug === 'PadelXReggaeton' || eventSlug === 'padel-x-reggaeton';
+  // Standalone branded landing pages hide the global Nav + FloatingCTA chrome
+  const isStandalonePage = isKingsdayPage || isPadelPage;
 
   return (
     <CookieConsentProvider>
       <div className="grain-overlay" />
-      {!isKingsdayPage && <Navigation />}
+      {!isStandalonePage && <Navigation />}
       <main>
         {effectivePath === '/press' || effectivePath === 'press' ? (
           <PressPage />
@@ -87,6 +92,8 @@ function App() {
           <LatinEventRotterdamPage events={events} />
         ) : isKingsdayPage ? (
           <KingsdayWeekenderPage />
+        ) : isPadelPage ? (
+          <PadelXReggaetonPage />
         ) : isEventPage && eventSlug ? (
           <SingleEventPage eventSlug={eventSlug} events={events} />
         ) : effectivePath === '/events' || effectivePath === 'events' ? (
@@ -97,7 +104,7 @@ function App() {
           <HomePage events={events} />
         )}
       </main>
-      {!isKingsdayPage && <FloatingCTA />}
+      {!isStandalonePage && <FloatingCTA />}
       <Toaster position="top-center" richColors />
     </CookieConsentProvider>
   );
