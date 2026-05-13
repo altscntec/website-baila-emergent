@@ -110,9 +110,12 @@ const COPY = {
     q5: '05. Full name (same as ticket)',
     q6: '06. Email (same as ticket)',
     submit: 'Submit Registration →',
-    submit_help: 'Submitting will open your email app to send the form to ask@housedecoded.com.',
-    success_title: 'Almost there.',
-    success_body: 'Your email app just opened with the registration ready to send to ask@housedecoded.com. Press Send to confirm — we\'ll come back to you with your doubles seeding and partner pairing.',
+    submit_help: 'We\'ll come back to you with your doubles seeding and partner pairing.',
+    submitting: 'Submitting…',
+    success_title: 'Registration received.',
+    success_body: 'Thanks — we\'ve got your details. We\'ll come back to you with your doubles seeding and partner pairing. See you on court.',
+    error_title: 'Couldn\'t submit just now.',
+    error_body: 'Our system didn\'t respond. We\'ve opened your email app as a backup — please tap Send to deliver the registration directly.',
     close: 'Close',
 
     liability_kicker: 'The Fine Print',
@@ -229,9 +232,12 @@ const COPY = {
     q5: '05. Volledige naam (zoals op ticket)',
     q6: '06. E-mailadres (zoals op ticket)',
     submit: 'Registratie Indienen →',
-    submit_help: 'Bij indienen opent je e-mailapp om het formulier naar ask@housedecoded.com te sturen.',
-    success_title: 'Bijna klaar.',
-    success_body: 'Je e-mailapp is zojuist geopend met de registratie klaar om verzonden te worden naar ask@housedecoded.com. Druk op Verzenden om te bevestigen — we komen bij je terug met je dubbelloting en partnertoewijzing.',
+    submit_help: 'We komen bij je terug met je dubbel-seeding en partnertoewijzing.',
+    submitting: 'Bezig met indienen…',
+    success_title: 'Registratie ontvangen.',
+    success_body: 'Dank je — we hebben je gegevens binnen. We komen bij je terug met je dubbel-seeding en partnertoewijzing. Tot op de baan.',
+    error_title: 'Kon nu niet versturen.',
+    error_body: 'Onze server reageerde niet. We hebben je e-mailapp geopend als backup — druk op Verzenden om de registratie direct te bezorgen.',
     close: 'Sluiten',
 
     liability_kicker: 'De kleine lettertjes',
@@ -1067,6 +1073,41 @@ const Tickets = ({ ticketsRef, onOpenRegistration }) => {
 };
 
 /* ─────────── MODAL ─────────── */
+
+/**
+ * Web3Forms access key. Get one free at https://web3forms.com — enter
+ * ask@housedecoded.com as the destination, copy the access key, and paste
+ * it here (or override via process.env.REACT_APP_PADEL_W3F_KEY at build time).
+ *
+ * Free tier: 250 submissions/month. Each POST delivers the registration
+ * straight to the destination inbox — no email-client handoff. If the
+ * key is missing or the POST fails for any reason, the form falls back
+ * to opening a pre-filled mailto: as a last-resort backup.
+ */
+const WEB3FORMS_ACCESS_KEY =
+  (typeof process !== 'undefined' && process.env && process.env.REACT_APP_PADEL_W3F_KEY) ||
+  'PASTE_WEB3FORMS_ACCESS_KEY_HERE';
+const WEB3FORMS_ENDPOINT = 'https://api.web3forms.com/submit';
+const REGISTRATION_DESTINATION = 'ask@housedecoded.com';
+
+const buildMailtoFallback = (form) => {
+  const subject = encodeURIComponent('Padel × Reggaeton — Doubles Tournament Registration');
+  const body = encodeURIComponent([
+    'PADEL × REGGAETON — DOUBLES TOURNAMENT REGISTRATION',
+    '────────────────────────────────────────────',
+    '',
+    `1. Join doubles tournament: ${form.joinTournament}`,
+    `2. Times per month playing padel: ${form.playsPerMonth}`,
+    `3. Playtomic score: ${form.playtomicScore}`,
+    `4. Partner preference: ${form.partnerPreference}`,
+    `5. Full name (as on ticket): ${form.fullName}`,
+    `6. Email (as on ticket): ${form.email}`,
+    '',
+    'Submitted from: https://bailadembow.com/#/events/PadelXReggaeton',
+  ].join('\n'));
+  return `mailto:${REGISTRATION_DESTINATION}?subject=${subject}&body=${body}`;
+};
+
 const RegistrationModal = ({ open, onClose }) => {
   const { t } = useT();
   const [form, setForm] = useState({
@@ -1077,7 +1118,7 @@ const RegistrationModal = ({ open, onClose }) => {
     fullName: '',
     email: '',
   });
-  const [submitted, setSubmitted] = useState(false);
+  const [status, setStatus] = useState('idle'); // 'idle' | 'submitting' | 'success' | 'error'
   const dialogRef = useRef(null);
 
   useEffect(() => {
@@ -1097,29 +1138,54 @@ const RegistrationModal = ({ open, onClose }) => {
 
   const update = (k) => (e) => setForm((f) => ({ ...f, [k]: e.target.value }));
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    if (status === 'submitting') return;
     const required = ['joinTournament','playsPerMonth','playtomicScore','partnerPreference','fullName','email'];
     for (const k of required) if (!String(form[k]).trim()) return;
 
-    const subject = encodeURIComponent('Padel × Reggaeton — Doubles Tournament Registration');
-    const lines = [
-      'PADEL × REGGAETON — DOUBLES TOURNAMENT REGISTRATION',
-      '────────────────────────────────────────────',
-      '',
-      `1. Join doubles tournament: ${form.joinTournament}`,
-      `2. Times per month playing padel: ${form.playsPerMonth}`,
-      `3. Playtomic score: ${form.playtomicScore}`,
-      `4. Partner preference: ${form.partnerPreference}`,
-      `5. Full name (as on ticket): ${form.fullName}`,
-      `6. Email (as on ticket): ${form.email}`,
-      '',
-      'Submitted from: https://bailadembow.com/#/events/PadelXReggaeton',
-    ];
-    const body = encodeURIComponent(lines.join('\n'));
-    window.location.href = `mailto:ask@housedecoded.com?subject=${subject}&body=${body}`;
-    setSubmitted(true);
+    setStatus('submitting');
+
+    // POST to Web3Forms — delivers straight to ask@housedecoded.com
+    try {
+      const payload = new FormData();
+      payload.append('access_key', WEB3FORMS_ACCESS_KEY);
+      payload.append('subject', 'Padel × Reggaeton — Doubles Tournament Registration');
+      payload.append('from_name', `${form.fullName} (Padel × Reggaeton)`);
+      payload.append('name', form.fullName);
+      payload.append('email', form.email);
+      payload.append('replyto', form.email);
+      payload.append('Q1 — Join doubles tournament', form.joinTournament);
+      payload.append('Q2 — Padel sessions per month', form.playsPerMonth);
+      payload.append('Q3 — Playtomic score', form.playtomicScore);
+      payload.append('Q4 — Partner preference', form.partnerPreference);
+      payload.append('Q5 — Full name (as on ticket)', form.fullName);
+      payload.append('Q6 — Email (as on ticket)', form.email);
+      payload.append('Submitted from', 'https://bailadembow.com/#/events/PadelXReggaeton');
+      payload.append('botcheck', '');
+
+      const response = await fetch(WEB3FORMS_ENDPOINT, {
+        method: 'POST',
+        body: payload,
+      });
+      const data = await response.json().catch(() => ({}));
+
+      if (response.ok && data && data.success) {
+        setStatus('success');
+        return;
+      }
+      throw new Error(data?.message || `HTTP ${response.status}`);
+    } catch (err) {
+      // POST failed (no access key configured yet, offline, or service error)
+      // Fall back to mailto: so the user never loses their submission.
+      // eslint-disable-next-line no-console
+      console.warn('Padel registration POST failed — falling back to mailto:', err);
+      window.location.href = buildMailtoFallback(form);
+      setStatus('error');
+    }
   };
+
+  const submitted = status === 'success' || status === 'error';
 
   const labelStyle = {
     display: 'block',
@@ -1181,12 +1247,14 @@ const RegistrationModal = ({ open, onClose }) => {
 
         {submitted ? (
           <div className="px-6 md:px-10 py-12 text-center">
-            <div className="text-4xl mb-4" aria-hidden="true">✉️</div>
-            <SerifHeading style={{ fontSize: 28 }}>{t.success_title}</SerifHeading>
+            <div className="text-4xl mb-4" aria-hidden="true">{status === 'success' ? '🎾' : '✉️'}</div>
+            <SerifHeading style={{ fontSize: 28 }}>
+              {status === 'success' ? t.success_title : t.error_title}
+            </SerifHeading>
             <p className="mt-4 mx-auto max-w-md" style={{
               fontFamily: "'Archivo', sans-serif", fontSize: 14, lineHeight: 1.6, color: C.charcoal,
             }}>
-              {t.success_body}
+              {status === 'success' ? t.success_body : t.error_body}
             </p>
             <button
               type="button"
@@ -1197,6 +1265,7 @@ const RegistrationModal = ({ open, onClose }) => {
                 fontFamily: "'JetBrains Mono', monospace",
                 fontSize: 11, letterSpacing: '0.26em', textTransform: 'uppercase',
                 fontWeight: 600, border: `1px solid ${C.green}`, borderRadius: 999,
+                cursor: 'pointer',
               }}
             >{t.close}</button>
           </div>
@@ -1304,17 +1373,22 @@ const RegistrationModal = ({ open, onClose }) => {
 
             <div className="pt-2">
               <button type="submit"
+                disabled={status === 'submitting'}
                 className="w-full inline-flex items-center justify-center gap-2 px-6 py-4"
                 style={{
-                  background: C.green, color: C.ivory,
+                  background: status === 'submitting' ? C.greenDk : C.green,
+                  color: C.ivory,
                   fontFamily: "'JetBrains Mono', monospace",
                   fontSize: 11, letterSpacing: '0.28em', textTransform: 'uppercase',
                   fontWeight: 600, border: `1px solid ${C.green}`, borderRadius: 999,
+                  cursor: status === 'submitting' ? 'wait' : 'pointer',
+                  opacity: status === 'submitting' ? 0.8 : 1,
+                  transition: 'background .2s, opacity .2s',
                 }}
-                onMouseOver={(e) => { e.currentTarget.style.background = C.greenDk; }}
-                onMouseOut={(e) => { e.currentTarget.style.background = C.green; }}
+                onMouseOver={(e) => { if (status !== 'submitting') e.currentTarget.style.background = C.greenDk; }}
+                onMouseOut={(e) => { if (status !== 'submitting') e.currentTarget.style.background = C.green; }}
               >
-                {t.submit}
+                {status === 'submitting' ? t.submitting : t.submit}
               </button>
               <p className="mt-3 text-center" style={{
                 fontFamily: "'Archivo', sans-serif", fontSize: 11, color: C.charcoal, opacity: 0.7,
