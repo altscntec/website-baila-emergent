@@ -106,7 +106,6 @@ const COPY = {
     q4_opts: [
       { v: 'I have a partner',                  d: 'I will register and bring my partner.' },
       { v: 'Pair me by skill / Playtomic score', d: 'Assign me a partner that matches my level.' },
-      { v: 'Either is fine',                    d: 'Happy either way — surprise me.' },
     ],
     q5: '05. Full name (same as ticket)',
     q6: '06. Email (same as ticket)',
@@ -226,7 +225,6 @@ const COPY = {
     q4_opts: [
       { v: 'Ik heb een partner',                  d: 'Ik registreer en breng mijn partner mee.' },
       { v: 'Koppel me op niveau / Playtomic-score', d: 'Wijs me een partner toe die bij mijn niveau past.' },
-      { v: 'Maakt niet uit',                      d: 'Beide is prima — verras me.' },
     ],
     q5: '05. Volledige naam (zoals op ticket)',
     q6: '06. E-mailadres (zoals op ticket)',
