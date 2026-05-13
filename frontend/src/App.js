@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import "@/App.css";
 import { Toaster } from "@/components/ui/sonner";
+import { SpeedInsights } from "@vercel/speed-insights/react";
 
 // Context
 import { CookieConsentProvider } from "./context/CookieConsentContext";
@@ -106,6 +107,7 @@ function App() {
       </main>
       {!isStandalonePage && <FloatingCTA />}
       <Toaster position="top-center" richColors />
+      <SpeedInsights />
     </CookieConsentProvider>
   );
 }
