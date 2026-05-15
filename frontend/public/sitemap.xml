@@ -94,6 +94,18 @@
     </image:image>
   </url>
 
+  <!-- Event: Latin Event Den Haag Westwood - Jun 13, 2026 -->
+  <url>
+    <loc>https://bailadembow.com/events/den-haag-13-june-2026</loc>
+    <lastmod>2026-05-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://bailadembow.com/images/events/den-haag-westwood-june13-2026.png</image:loc>
+      <image:title>Latin Event Den Haag - Baila Dembow at Westwood - June 13 2026</image:title>
+    </image:image>
+  </url>
+
   <!-- Event: Coffee Day Rave Amsterdam - Jun 14, 2026 -->
   <url>
     <loc>https://bailadembow.com/events/amsterdam-14-june-2026</loc>

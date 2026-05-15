@@ -70,6 +70,20 @@ export const EVENTS = [
     image_url: "/images/events/rotterdam-reverse-june-2026.png"
   },
   {
+    id: "den-haag-westwood-june13-2026",
+    city: "Den Haag",
+    venue: "Westwood, Laan van Poot 7, 2566 EV Den Haag",
+    date: "2026-06-13",
+    time: "23:00 – 05:00",
+    title: "BAILA DEMBOW // DEN HAAG",
+    description: "¡KLK DEN HAAG, LLEGAMOS! History is about to be made. Saturday, June 13th, Baila Dembow lands in Den Haag for the very first time, and we're doing it big at Westwood. After years of taking over Amsterdam, Rotterdam, Leiden and London, the bunny is finally coming to your city, and trust us when we say this one is going to hit different. Six full hours of reggaeton, dembow, salsa, bachata, and every Latin Caribbean hit that makes the floor shake. Bad Bunny, Karol G, El Alfa, Rauw Alejandro, Daddy Yankee, Anuel AA, all night, no breaks, pure perreo from the first track to the last. For the Dominicans, Colombians, Mexicans, Venezuelans, Puerto Ricans who've been waiting for your sound in your city, no more trains to Amsterdam. For the international students and expats who miss home, this is it. For the Dutch crowd ready to see what's been shaking Latin America, welcome to the party. Westwood becomes Santo Domingo, Medellín and San Juan all in one night. Tickets are already moving fast and early bird is always the smart move. The closer we get to the door, the more you pay, so don't sleep on this one. First Den Haag edition means limited capacity and once we're sold out, we're sold out. 📍 Location: Westwood, Laan van Poot 7, 2566 EV Den Haag · 🗓️ Date: Saturday, June 13, 2026 · ⏰ Time: 23:00 till 05:00 · 🔞 18+ event, ID required. Don't miss the night Den Haag finally gets put on the map. See you on the floor. 🐰🔥",
+    ticket_url: "https://weeztix.shop/z9xgcjv6",
+    status: "upcoming",
+    price_from: "",
+    price_door: "",
+    image_url: "/images/events/den-haag-westwood-june13-2026.png"
+  },
+  {
     id: "coffee-day-rave-amsterdam-2026",
     city: "Amsterdam",
     venue: "IJland, Amsterdam",
