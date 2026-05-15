@@ -56,6 +56,20 @@ export const EVENTS = [
     image_url: "/images/events/amsterdam-oliva-may30-2026.png"
   },
   {
+    id: "rotterdam-reverse-june6-2026",
+    city: "Rotterdam",
+    venue: "Club Reverse, Rotterdam",
+    date: "2026-06-06",
+    time: "23:00 – 05:00",
+    title: "BAILA DEMBOW // ROTTERDAM",
+    description: "¡ROTTERDAM, AQUÍ VAMOS DE NUEVO! Saturday, June 6th, Baila Dembow returns to Club Reverse for a full night of reggaeton, dembow, salsa, bachata and every Latin hit that hits different at 2 AM. The room already knows what to do. The bunny is back in town and he's catching passes all night long. You already know how Rotterdam moves on our nights. Perreo from the first beat with no breaks, no soft tracks, just real Latin Caribbean energy until the lights come on. Bad Bunny, Karol G, El Alfa, Feid, Rauw Alejandro and the whole roster on rotation. Early bird tickets are already going fast. The longer you wait, the more you pay at the door, so lock yours in now and bring the crew with you. 📍 Location: Club Reverse, Rotterdam · 🗓️ Date: Saturday, June 6, 2026 · ⏰ Time: 23:00 till 05:00 · 🔞 18+ event, ID required. Grab your ticket before prices climb and we will see you on the floor.",
+    ticket_url: "https://weeztix.shop/erxqk52c",
+    status: "upcoming",
+    price_from: "",
+    price_door: "",
+    image_url: "/images/events/rotterdam-reverse-june-2026.png"
+  },
+  {
     id: "coffee-day-rave-amsterdam-2026",
     city: "Amsterdam",
     venue: "IJland, Amsterdam",
