@@ -32,10 +32,10 @@ const COPY = {
     cta_register: 'Tournament Registration',
     cta_whatsapp: 'Join the Padel Community',
 
-    strip_discipline_k: 'Discipline', strip_discipline_v: 'Padel · Volleyball',
-    strip_soundtrack_k: 'Soundtrack', strip_soundtrack_v: 'Reggaeton · Dembow',
-    strip_format_k: 'Format',          strip_format_v: 'Open Play & Doubles',
-    strip_tickets_k: 'Tickets',        strip_tickets_v: 'Live Below',
+    strip_discipline_k: 'Date',     strip_discipline_v: 'Sun · 7 Jun 2026',
+    strip_soundtrack_k: 'Time',      strip_soundtrack_v: '16:00 – 21:30',
+    strip_format_k: 'Venue',         strip_format_v: 'Padeldam · Amsterdam',
+    strip_tickets_k: 'Tickets',      strip_tickets_v: 'Live Below',
 
     marquee: ['Where the court meets the dance floor', 'PADEL × REGGAETON', 'House Decoded · Baila Dembow', 'Open Play · Doubles · Live DJ', 'Amsterdam 2026'],
 
@@ -154,10 +154,10 @@ const COPY = {
     cta_register: 'Toernooi Registratie',
     cta_whatsapp: 'Word lid van de Padel Community',
 
-    strip_discipline_k: 'Disciplines', strip_discipline_v: 'Padel · Volleybal',
-    strip_soundtrack_k: 'Soundtrack',  strip_soundtrack_v: 'Reggaeton · Dembow',
-    strip_format_k: 'Opzet',           strip_format_v: 'Open Play & Dubbel',
-    strip_tickets_k: 'Tickets',        strip_tickets_v: 'Hieronder',
+    strip_discipline_k: 'Datum',     strip_discipline_v: 'Zo · 7 jun 2026',
+    strip_soundtrack_k: 'Tijd',       strip_soundtrack_v: '16:00 – 21:30',
+    strip_format_k: 'Locatie',        strip_format_v: 'Padeldam · Amsterdam',
+    strip_tickets_k: 'Tickets',       strip_tickets_v: 'Hieronder',
 
     marquee: ['Waar de baan de dansvloer ontmoet', 'PADEL × REGGAETON', 'House Decoded · Baila Dembow', 'Open Play · Dubbel · Live DJ', 'Amsterdam 2026'],
 
@@ -699,16 +699,17 @@ const Hero = ({ onScrollToTickets, onOpenRegistration }) => {
             <span className="sr-only" style={{
               position: 'absolute', width: 1, height: 1, padding: 0, margin: -1,
               overflow: 'hidden', clip: 'rect(0,0,0,0)', whiteSpace: 'nowrap', border: 0,
-            }}>Padel × Reggaeton — The Day Rave by Baila Dembow</span>
+            }}>Padeldam — Padel × Reggaeton by Baila Dembow · Sunday 7 June 2026 · Amsterdam</span>
             <img
-              src="/images/events/padel-x-reggaeton-badge.png"
-              alt="Padel × Reggaeton — The Day Rave · Baila Dembow · 2026"
-              className="block mx-auto"
+              src="/images/events/padeldam-poster.png"
+              alt="PADELDAM — Padel × Reggaeton by Baila Dembow · Sunday 7 June 2026 · 16:00–21:30 · Amsterdam"
+              className="block mx-auto w-full"
               style={{
-                width: 'clamp(280px, 42vw, 500px)',
+                maxWidth: 'min(960px, 100%)',
                 height: 'auto',
                 userSelect: 'none',
-                filter: 'drop-shadow(0 18px 34px rgba(10,40,28,0.18))',
+                borderRadius: 4,
+                boxShadow: '0 22px 50px rgba(10,40,28,0.22), 0 0 0 1px rgba(200,166,89,0.35)',
               }}
               draggable={false}
             />
@@ -1748,15 +1749,24 @@ const SeoHead = ({ lang }) => {
     const ld = {
       '@context': 'https://schema.org',
       '@type': 'SportsEvent',
-      name: 'Padel × Reggaeton',
-      description: 'Padel X Reggaeton is a day event combining padel open play, mini tournaments and a free volleyball court with live Reggaeton, Dembow and Latin hits by Baila Dembow DJs.',
+      name: 'PADELDAM — Padel × Reggaeton by Baila Dembow',
+      description: 'PADELDAM is a Sunday afternoon padel + reggaeton event at Padeldam Amsterdam. Open play, mini tournaments and a free volleyball court with live Reggaeton, Dembow and Latin hits by Baila Dembow DJs.',
       sport: 'Padel',
+      startDate: '2026-06-07T16:00:00+02:00',
+      endDate: '2026-06-07T21:30:00+02:00',
       eventStatus: 'https://schema.org/EventScheduled',
       eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
       inLanguage: ['en', 'nl'],
+      image: 'https://bailadembow.com/images/events/padeldam-poster.png',
       organizer: { '@type': 'Organization', name: 'House Decoded Events', url: 'https://bailadembow.com' },
       performer: { '@type': 'PerformingGroup', name: 'Baila Dembow DJs' },
-      offers: { '@type': 'Offer', url: 'https://weeztix.shop/mqt2ja7s', availability: 'https://schema.org/InStock' },
+      offers: {
+        '@type': 'Offer',
+        url: 'https://weeztix.shop/mqt2ja7s',
+        availability: 'https://schema.org/InStock',
+        priceCurrency: 'EUR',
+        validFrom: '2026-05-01',
+      },
       location: {
         '@type': 'Place',
         name: 'Padeldam',
@@ -1815,26 +1825,24 @@ export const PadelXReggaetonPage = () => {
     <LangCtx.Provider value={ctx}>
       <SeoHead lang={lang} />
       <PadelGlobalAnimations />
-      <PasswordGate>
-        <div style={{ background: C.cream, color: C.ink, minHeight: '100vh' }} data-testid="padel-page">
-          <Hero
-            onScrollToTickets={scrollToTickets}
-            onOpenRegistration={() => setModalOpen(true)}
-          />
-          <Marquee />
-          <About />
-          <Included />
-          <BringAndPrize />
-          <Tickets
-            ticketsRef={ticketsRef}
-            onOpenRegistration={() => setModalOpen(true)}
-          />
-          <Venue />
-          <Liability />
-          <PadelFooter />
-          <RegistrationModal open={modalOpen} onClose={() => setModalOpen(false)} />
-        </div>
-      </PasswordGate>
+      <div style={{ background: C.cream, color: C.ink, minHeight: '100vh' }} data-testid="padel-page">
+        <Hero
+          onScrollToTickets={scrollToTickets}
+          onOpenRegistration={() => setModalOpen(true)}
+        />
+        <Marquee />
+        <About />
+        <Included />
+        <BringAndPrize />
+        <Tickets
+          ticketsRef={ticketsRef}
+          onOpenRegistration={() => setModalOpen(true)}
+        />
+        <Venue />
+        <Liability />
+        <PadelFooter />
+        <RegistrationModal open={modalOpen} onClose={() => setModalOpen(false)} />
+      </div>
     </LangCtx.Provider>
   );
 };

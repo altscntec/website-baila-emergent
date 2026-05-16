@@ -70,6 +70,21 @@ export const EVENTS = [
     image_url: "/images/events/rotterdam-reverse-june-2026.png"
   },
   {
+    id: "padeldam-amsterdam-june7-2026",
+    customSlug: "PadelXReggaeton",
+    city: "Amsterdam",
+    venue: "Padeldam, Tom Schreursweg 16, 1067 MC Amsterdam",
+    date: "2026-06-07",
+    time: "16:00 – 21:30",
+    title: "PADELDAM // PADEL × REGGAETON",
+    description: "Where the court meets the dance floor. PADELDAM is a Sunday afternoon padel × reggaeton takeover at Padeldam Amsterdam. Open play on the padel courts, mini doubles tournaments, a free volleyball court, and live DJs running Reggaeton, Dembow, Bachata, Salsa and Latin hits all day. Bring your racquet, bring your crew. Aperol Spritz at the side of the court. 18+ event — ID required.",
+    ticket_url: "https://weeztix.shop/mqt2ja7s",
+    status: "upcoming",
+    price_from: "",
+    price_door: "",
+    image_url: "/images/events/padeldam-poster.png"
+  },
+  {
     id: "den-haag-westwood-june13-2026",
     city: "Den Haag",
     venue: "Westwood, Laan van Poot 7, 2566 EV Den Haag",
