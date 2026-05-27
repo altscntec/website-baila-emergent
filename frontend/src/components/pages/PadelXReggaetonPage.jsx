@@ -71,8 +71,14 @@ const COPY = {
 
     prize_kicker: 'The Trophy',
     prize_h2: 'Tournament Prize.',
-    prize_value: 'TBA',
-    prize_note: 'The trophy is being polished. Final prize details revealed at opening ceremony.',
+    prize_value: '€150',
+    prize_value_sub: '+ Baila Dembow VIP Pass',
+    prize_note: 'Doubles tournament winners take the cash and a Baila Dembow VIP Pass for the full 2026 season.',
+    prize_vip_kicker: "What's the Baila Dembow VIP Pass?",
+    prize_vip_items: [
+      'Free +1 — Guest list for all Baila Dembow 2026 events',
+      'VIP entry — Skip the line at every door',
+    ],
 
     tickets_kicker: 'Official Ticketing',
     tickets_h2: 'Secure your spot.',
@@ -193,8 +199,14 @@ const COPY = {
 
     prize_kicker: 'De Trofee',
     prize_h2: 'Toernooiprijs.',
-    prize_value: 'TBA',
-    prize_note: 'De trofee wordt opgepoetst. De definitieve prijsdetails worden onthuld bij de openingsceremonie.',
+    prize_value: '€150',
+    prize_value_sub: '+ Baila Dembow VIP Pass',
+    prize_note: 'De winnaars van het dubbeltoernooi krijgen het geldbedrag plus een Baila Dembow VIP Pass voor het hele seizoen 2026.',
+    prize_vip_kicker: 'Wat is de Baila Dembow VIP Pass?',
+    prize_vip_items: [
+      'Gratis +1 — Gastenlijst voor alle Baila Dembow events in 2026',
+      'VIP entree — Sla de rij over bij elke deur',
+    ],
 
     tickets_kicker: 'Officiële Ticketverkoop',
     tickets_h2: 'Reserveer je plek.',
@@ -972,20 +984,51 @@ const BringAndPrize = () => {
             {t.prize_h2}
           </SerifHeading>
           <Pinstripe className="mt-6 max-w-[140px]" />
+
+          {/* Headline prize value */}
           <p className="mt-8" style={{
-            fontFamily: "'Anton', sans-serif", fontSize: 'clamp(56px, 8vw, 96px)',
-            lineHeight: 0.95, letterSpacing: '0.04em', color: C.gold,
-            textTransform: 'uppercase',
+            fontFamily: "'Anton', sans-serif", fontSize: 'clamp(64px, 9vw, 108px)',
+            lineHeight: 0.9, letterSpacing: '0.02em', color: C.gold,
+            textTransform: 'uppercase', margin: 0,
           }}>
             {t.prize_value}
           </p>
-          <p className="mt-6" style={{
+          <p className="mt-2" style={{
             fontFamily: "'Playfair Display', Georgia, serif",
-            fontStyle: 'italic', fontSize: 17, lineHeight: 1.5,
-            color: C.cream, opacity: 0.85,
+            fontStyle: 'italic', fontWeight: 500,
+            fontSize: 'clamp(20px, 2.2vw, 26px)',
+            lineHeight: 1.25, color: C.cream, margin: 0,
+          }}>
+            {t.prize_value_sub}
+          </p>
+
+          <p className="mt-5" style={{
+            fontFamily: "'Archivo', sans-serif", fontSize: 13,
+            lineHeight: 1.6, color: C.cream, opacity: 0.85, margin: 0,
           }}>
             {t.prize_note}
           </p>
+
+          {/* VIP Pass explainer */}
+          <div className="mt-8 pt-6" style={{ borderTop: `1px solid ${C.gold}55` }}>
+            <KickerLabel color={C.gold}>{t.prize_vip_kicker}</KickerLabel>
+            <ul className="mt-4 space-y-3" style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+              {t.prize_vip_items.map((item, i) => (
+                <li key={i} className="flex items-start gap-3" style={{
+                  fontFamily: "'Archivo', sans-serif", fontSize: 14,
+                  lineHeight: 1.5, color: C.cream,
+                }}>
+                  <svg aria-hidden="true" width="14" height="14" viewBox="0 0 14 14"
+                    style={{ marginTop: 4, flexShrink: 0 }}>
+                    <circle cx="7" cy="7" r="6" fill="none" stroke={C.gold} strokeWidth="1.2" />
+                    <path d="M4 7l2.2 2.2L10 5" fill="none" stroke={C.gold} strokeWidth="1.6"
+                      strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
     </section>
