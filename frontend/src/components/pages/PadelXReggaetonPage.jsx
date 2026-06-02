@@ -84,12 +84,8 @@ const COPY = {
     tickets_h2: 'Secure your spot.',
     tickets_intro: 'Tickets are released via Weeztix below. Capacity is limited — choose your category, select your seats, and confirm in a single checkout.',
     tickets_banner_kicker: 'Doubles Tournament',
-    tickets_banner_body_pre: 'Buying a ',
-    tickets_banner_body_strong_1: 'Solo Player Ticket for Doubles Tournament',
-    tickets_banner_body_or: ' or a ',
-    tickets_banner_body_strong_2: 'Doubles Ticket for Doubles Tournament',
-    tickets_banner_body_post: '? Please complete the short registration form so we can seed the draw and (if you\'ve asked us to) find you a partner.',
-    tickets_banner_cta: 'Open Registration Form →',
+    tickets_banner_status: 'Sold Out',
+    tickets_banner_body: 'Tournament tickets are sold out and registration is now closed. Thanks to everyone who signed up — the draw is set. General-admission day-pass tickets are still available below.',
 
     venue_kicker: 'The Venue',
     venue_h2: 'Padeldam.',
@@ -212,12 +208,8 @@ const COPY = {
     tickets_h2: 'Reserveer je plek.',
     tickets_intro: 'Tickets worden hieronder uitgegeven via Weeztix. De capaciteit is beperkt — kies je categorie, selecteer je plek en bevestig in één checkout.',
     tickets_banner_kicker: 'Dubbel Toernooi',
-    tickets_banner_body_pre: 'Koop je een ',
-    tickets_banner_body_strong_1: 'Solo Player Ticket for Doubles Tournament',
-    tickets_banner_body_or: ' of een ',
-    tickets_banner_body_strong_2: 'Doubles Ticket for Doubles Tournament',
-    tickets_banner_body_post: '? Vul dan het korte registratieformulier in zodat we de loting kunnen samenstellen en (indien gewenst) een partner voor je kunnen vinden.',
-    tickets_banner_cta: 'Open Registratieformulier →',
+    tickets_banner_status: 'Uitverkocht',
+    tickets_banner_body: 'De toernooitickets zijn uitverkocht en de registratie is gesloten. Dank aan iedereen die zich heeft aangemeld — de loting staat vast. Normale dagtickets zijn hieronder nog wel beschikbaar.',
 
     venue_kicker: 'De Locatie',
     venue_h2: 'Padeldam.',
@@ -746,23 +738,6 @@ const Hero = ({ onScrollToTickets, onOpenRegistration }) => {
               {t.cta_tickets}
             </button>
 
-            <button
-              type="button"
-              onClick={onOpenRegistration}
-              className="inline-flex items-center gap-2 px-7 py-4 transition-all"
-              style={{
-                background: 'transparent', color: C.ink,
-                fontFamily: "'JetBrains Mono', monospace",
-                fontSize: 11, letterSpacing: '0.28em', textTransform: 'uppercase',
-                fontWeight: 600, border: `1px solid ${C.ink}`, borderRadius: 999,
-              }}
-              data-testid="padel-cta-registration"
-              onMouseOver={(e) => { e.currentTarget.style.background = C.ink; e.currentTarget.style.color = C.ivory; }}
-              onMouseOut={(e) => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = C.ink; }}
-            >
-              {t.cta_register} <span aria-hidden="true">→</span>
-            </button>
-
             <a
               href="https://chat.whatsapp.com/GYlKv3pxMwzJ40K7RVglIb"
               target="_blank"
@@ -1070,38 +1045,57 @@ const Tickets = ({ ticketsRef, onOpenRegistration }) => {
 
         <div
           className="text-left mb-10 p-6 md:p-8"
-          style={{ background: C.ivory, border: `1px solid ${C.gold}`, borderRadius: 4 }}
+          style={{
+            background: C.ivory,
+            border: `1px solid ${C.clay}`,
+            borderRadius: 4,
+            position: 'relative',
+            overflow: 'hidden',
+          }}
+          data-testid="padel-tournament-soldout"
         >
+          {/* "Closed" ribbon in the top-right corner */}
+          <span aria-hidden="true" style={{
+            position: 'absolute', top: 0, right: 0,
+            background: C.clay, color: C.ivory,
+            fontFamily: "'JetBrains Mono', monospace",
+            fontSize: 9, letterSpacing: '0.3em', textTransform: 'uppercase',
+            fontWeight: 700, padding: '4px 14px',
+            borderBottomLeftRadius: 4,
+          }}>
+            Closed
+          </span>
+
           <div className="flex items-start gap-4">
-            <span className="text-2xl mt-0.5" aria-hidden="true">🏆</span>
+            {/* Lock icon */}
+            <span aria-hidden="true" style={{ marginTop: 4, color: C.clay, flexShrink: 0 }}>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                <rect x="4" y="11" width="16" height="10" rx="2" stroke="currentColor" strokeWidth="1.6" />
+                <path d="M8 11V8a4 4 0 0 1 8 0v3" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+              </svg>
+            </span>
             <div className="flex-1">
-              <KickerLabel color={C.goldDk}>{t.tickets_banner_kicker}</KickerLabel>
-              <p className="mt-2 mb-4" style={{
-                fontFamily: "'Archivo', sans-serif", fontSize: 14, lineHeight: 1.6, color: C.charcoal,
+              <KickerLabel color={C.clay}>{t.tickets_banner_kicker}</KickerLabel>
+              <p className="mt-2" style={{
+                fontFamily: "'Anton', sans-serif",
+                fontSize: 'clamp(28px, 3.4vw, 40px)',
+                letterSpacing: '0.04em',
+                textTransform: 'uppercase',
+                color: C.clay,
+                margin: 0,
+                lineHeight: 1.05,
               }}>
-                {t.tickets_banner_body_pre}
-                <strong>{t.tickets_banner_body_strong_1}</strong>
-                {t.tickets_banner_body_or}
-                <strong>{t.tickets_banner_body_strong_2}</strong>
-                {t.tickets_banner_body_post}
+                {t.tickets_banner_status}
               </p>
-              <button
-                type="button"
-                onClick={onOpenRegistration}
-                className="padel-cta-tickets inline-flex items-center gap-2 px-5 py-3"
-                style={{
-                  background: C.green, color: C.ivory,
-                  fontFamily: "'JetBrains Mono', monospace",
-                  fontSize: 11, letterSpacing: '0.26em', textTransform: 'uppercase',
-                  fontWeight: 600, border: `1px solid ${C.green}`, borderRadius: 999,
-                  cursor: 'pointer',
-                }}
-                data-testid="padel-cta-inline-registration"
-                onMouseOver={(e) => { e.currentTarget.style.background = C.greenDk; }}
-                onMouseOut={(e) => { e.currentTarget.style.background = C.green; }}
-              >
-                {t.tickets_banner_cta}
-              </button>
+              <p className="mt-3" style={{
+                fontFamily: "'Archivo', sans-serif",
+                fontSize: 14,
+                lineHeight: 1.6,
+                color: C.charcoal,
+                margin: 0,
+              }}>
+                {t.tickets_banner_body}
+              </p>
             </div>
           </div>
         </div>
@@ -1152,6 +1146,12 @@ const buildMailtoFallback = (form) => {
   return `mailto:${REGISTRATION_DESTINATION}?subject=${subject}&body=${body}`;
 };
 
+// HARD-CLOSED — tournament tickets are sold out, registration is no longer
+// accepted. Flip back to true once a future tournament opens; all the form
+// wiring (state, fields, Web3Forms POST, mailto fallback) is kept in place
+// for instant re-enablement.
+const TOURNAMENT_REGISTRATION_OPEN = false;
+
 const RegistrationModal = ({ open, onClose }) => {
   const { t } = useT();
   const [form, setForm] = useState({
@@ -1178,7 +1178,9 @@ const RegistrationModal = ({ open, onClose }) => {
     };
   }, [open, onClose]);
 
-  if (!open) return null;
+  // Belt-and-braces: even if `open` becomes true via injected JS, the modal
+  // refuses to render while the tournament registration is closed.
+  if (!open || !TOURNAMENT_REGISTRATION_OPEN) return null;
 
   const update = (k) => (e) => setForm((f) => ({ ...f, [k]: e.target.value }));
 
