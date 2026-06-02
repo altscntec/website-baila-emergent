@@ -58,19 +58,7 @@
     <priority>0.95</priority>
   </url>
 
-  <!-- Event: Latin Event Amsterdam Oliva - May 30, 2026 -->
-  <url>
-    <loc>https://bailadembow.com/events/amsterdam-30-may-2026</loc>
-    <lastmod>2026-05-08</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-    <image:image>
-      <image:loc>https://bailadembow.com/images/events/amsterdam-oliva-may30-2026.png</image:loc>
-      <image:title>Latin Event Amsterdam - Baila Dembow at Oliva Rembrandtplein - May 30 2026</image:title>
-    </image:image>
-  </url>
-
-  <!-- Event: Latin Event Rotterdam Reverse - Jun 6, 2026 -->
+<!-- Event: Latin Event Rotterdam Reverse - Jun 6, 2026 -->
   <url>
     <loc>https://bailadembow.com/events/rotterdam-6-june-2026</loc>
     <lastmod>2026-05-15</lastmod>
