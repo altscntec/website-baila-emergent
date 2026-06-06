@@ -32,6 +32,15 @@ const COPY = {
     cta_register: 'Tournament Registration',
     cta_whatsapp: 'Join the Padel Community',
 
+    countdown_kicker: 'First Serve In',
+    countdown_unit_days: 'Days',
+    countdown_unit_hours: 'Hours',
+    countdown_unit_minutes: 'Minutes',
+    countdown_unit_seconds: 'Seconds',
+    countdown_subline: 'Sunday 7 June 2026 · 16:00 CEST · Padeldam Amsterdam',
+    countdown_live: "We're on court — gates are open.",
+    countdown_passed: 'See you at the next edition.',
+
     strip_discipline_k: 'Date',     strip_discipline_v: 'Sun · 7 Jun 2026',
     strip_soundtrack_k: 'Time',      strip_soundtrack_v: '16:00 – 21:30',
     strip_format_k: 'Venue',         strip_format_v: 'Padeldam · Amsterdam',
@@ -155,6 +164,15 @@ const COPY = {
     cta_tickets: 'Koop Tickets',
     cta_register: 'Toernooi Registratie',
     cta_whatsapp: 'Word lid van de Padel Community',
+
+    countdown_kicker: 'Eerste opslag over',
+    countdown_unit_days: 'Dagen',
+    countdown_unit_hours: 'Uren',
+    countdown_unit_minutes: 'Minuten',
+    countdown_unit_seconds: 'Seconden',
+    countdown_subline: 'Zondag 7 juni 2026 · 16:00 CEST · Padeldam Amsterdam',
+    countdown_live: 'We zijn live — de baan is open.',
+    countdown_passed: 'Tot de volgende editie.',
 
     strip_discipline_k: 'Datum',     strip_discipline_v: 'Zo · 7 jun 2026',
     strip_soundtrack_k: 'Tijd',       strip_soundtrack_v: '16:00 – 21:30',
@@ -631,6 +649,112 @@ const LangToggle = () => {
   );
 };
 
+/* ─────────── COUNTDOWN ─────────── */
+const PADEL_EVENT_START = Date.UTC(2026, 5, 7, 14, 0, 0); // 07 Jun 2026 16:00 CEST → 14:00 UTC
+const PADEL_EVENT_END   = Date.UTC(2026, 5, 7, 19, 30, 0); // 07 Jun 2026 21:30 CEST → 19:30 UTC
+
+const PadelCountdownCell = ({ value, label }) => (
+  <div
+    className="text-center"
+    style={{
+      flex: 1,
+      minWidth: 78,
+      padding: '14px 8px 10px',
+      background: 'rgba(244,237,224,0.55)',
+      border: `1px solid ${C.gold}55`,
+      borderRadius: 4,
+      boxShadow: 'inset 0 0 0 1px rgba(200,166,89,0.12)',
+    }}
+    aria-hidden={false}
+  >
+    <span
+      style={{
+        display: 'block',
+        fontFamily: "'Anton', sans-serif",
+        fontSize: 'clamp(38px, 6vw, 62px)',
+        lineHeight: 1,
+        letterSpacing: '0.02em',
+        color: C.ink,
+        fontVariantNumeric: 'tabular-nums',
+      }}
+    >{String(value).padStart(2, '0')}</span>
+    <span
+      style={{
+        display: 'block',
+        marginTop: 8,
+        fontFamily: "'JetBrains Mono', monospace",
+        fontSize: 9,
+        letterSpacing: '0.32em',
+        textTransform: 'uppercase',
+        color: C.charcoal,
+        opacity: 0.7,
+      }}
+    >{label}</span>
+  </div>
+);
+
+const PadelCountdown = () => {
+  const { t } = useT();
+  const [now, setNow] = useState(() => Date.now());
+
+  useEffect(() => {
+    const id = setInterval(() => setNow(Date.now()), 1000);
+    return () => clearInterval(id);
+  }, []);
+
+  // Three states: counting down → live (during event window) → passed
+  const phase = now < PADEL_EVENT_START ? 'counting'
+              : now <= PADEL_EVENT_END  ? 'live'
+              : 'passed';
+
+  const ms = Math.max(0, PADEL_EVENT_START - now);
+  const days    = Math.floor(ms / 86400000);
+  const hours   = Math.floor((ms % 86400000) / 3600000);
+  const minutes = Math.floor((ms % 3600000) / 60000);
+  const seconds = Math.floor((ms % 60000) / 1000);
+
+  return (
+    <div className="mt-12 md:mt-14 mx-auto" style={{ maxWidth: 640 }} data-testid="padel-countdown">
+      <div className="flex items-center justify-center gap-3">
+        <span aria-hidden="true" style={{ width: 28, height: 1, background: C.gold }} />
+        <KickerLabel color={C.goldDk}>
+          {phase === 'counting' ? t.countdown_kicker
+            : phase === 'live'  ? t.countdown_live
+            : t.countdown_passed}
+        </KickerLabel>
+        <span aria-hidden="true" style={{ width: 28, height: 1, background: C.gold }} />
+      </div>
+
+      {phase === 'counting' && (
+        <>
+          <div
+            className="mt-5 grid grid-cols-4 gap-2 sm:gap-3"
+            role="timer"
+            aria-live="off"
+            aria-label={`${days} days, ${hours} hours, ${minutes} minutes, ${seconds} seconds until PADELDAM`}
+          >
+            <PadelCountdownCell value={days}    label={t.countdown_unit_days} />
+            <PadelCountdownCell value={hours}   label={t.countdown_unit_hours} />
+            <PadelCountdownCell value={minutes} label={t.countdown_unit_minutes} />
+            <PadelCountdownCell value={seconds} label={t.countdown_unit_seconds} />
+          </div>
+
+          <p className="mt-4 text-center" style={{
+            fontFamily: "'Playfair Display', Georgia, serif",
+            fontStyle: 'italic',
+            fontSize: 14,
+            color: C.charcoal,
+            opacity: 0.8,
+            margin: 0,
+          }}>
+            {t.countdown_subline}
+          </p>
+        </>
+      )}
+    </div>
+  );
+};
+
 /* ─────────── HERO ─────────── */
 const Hero = ({ onScrollToTickets, onOpenRegistration }) => {
   const { t } = useT();
@@ -757,6 +881,9 @@ const Hero = ({ onScrollToTickets, onOpenRegistration }) => {
               <span aria-hidden="true">●</span> {t.cta_whatsapp}
             </a>
           </div>
+
+          {/* Countdown — bridges the CTAs and the metadata strip */}
+          <PadelCountdown />
 
           <div className="mt-14 md:mt-20">
             <Pinstripe className="mb-6" />
