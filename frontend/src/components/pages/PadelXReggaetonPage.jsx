@@ -84,8 +84,8 @@ const COPY = {
     tickets_h2: 'Secure your spot.',
     tickets_intro: 'Tickets are released via Weeztix below. Capacity is limited — choose your category, select your seats, and confirm in a single checkout.',
     tickets_banner_kicker: 'Doubles Tournament',
-    tickets_banner_status: 'Sold Out',
-    tickets_banner_body: 'Tournament tickets are sold out and registration is now closed. Thanks to everyone who signed up — the draw is set. General-admission day-pass tickets are still available below.',
+    tickets_banner_status: 'Tournament Capacity Full',
+    tickets_banner_body: 'Registration for the doubles tournament is now closed and the draw is set. Thanks to everyone who signed up. General-admission day-pass tickets are still available below.',
 
     venue_kicker: 'The Venue',
     venue_h2: 'Padeldam.',
@@ -208,8 +208,8 @@ const COPY = {
     tickets_h2: 'Reserveer je plek.',
     tickets_intro: 'Tickets worden hieronder uitgegeven via Weeztix. De capaciteit is beperkt — kies je categorie, selecteer je plek en bevestig in één checkout.',
     tickets_banner_kicker: 'Dubbel Toernooi',
-    tickets_banner_status: 'Uitverkocht',
-    tickets_banner_body: 'De toernooitickets zijn uitverkocht en de registratie is gesloten. Dank aan iedereen die zich heeft aangemeld — de loting staat vast. Normale dagtickets zijn hieronder nog wel beschikbaar.',
+    tickets_banner_status: 'Toernooi Vol',
+    tickets_banner_body: 'De registratie voor het dubbeltoernooi is gesloten en de loting staat vast. Dank aan iedereen die zich heeft aangemeld. Normale dagtickets zijn hieronder nog wel beschikbaar.',
 
     venue_kicker: 'De Locatie',
     venue_h2: 'Padeldam.',
