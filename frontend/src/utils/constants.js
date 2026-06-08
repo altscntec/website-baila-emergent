@@ -26,36 +26,10 @@ export const GALLERY_IMAGES = [
 ];
 
 // Events data (static)
+// NOTE: Rotterdam (2026-06-06) and PADELDAM (2026-06-07) removed on 2026-06-08
+// after they passed. The /events/PadelXReggaeton standalone route still exists
+// in App.js for any inbound bookmarks but is no longer linked from the grid.
 export const EVENTS = [
-  {
-    id: "rotterdam-reverse-june6-2026",
-    city: "Rotterdam",
-    venue: "Club Reverse, Rotterdam",
-    date: "2026-06-06",
-    time: "23:00 – 05:00",
-    title: "BAILA DEMBOW // ROTTERDAM",
-    description: "¡ROTTERDAM, AQUÍ VAMOS DE NUEVO! Saturday, June 6th, Baila Dembow returns to Club Reverse for a full night of reggaeton, dembow, salsa, bachata and every Latin hit that hits different at 2 AM. The room already knows what to do. The bunny is back in town and he's catching passes all night long. You already know how Rotterdam moves on our nights. Perreo from the first beat with no breaks, no soft tracks, just real Latin Caribbean energy until the lights come on. Bad Bunny, Karol G, El Alfa, Feid, Rauw Alejandro and the whole roster on rotation. Early bird tickets are already going fast. The longer you wait, the more you pay at the door, so lock yours in now and bring the crew with you. 📍 Location: Club Reverse, Rotterdam · 🗓️ Date: Saturday, June 6, 2026 · ⏰ Time: 23:00 till 05:00 · 🔞 18+ event, ID required. Grab your ticket before prices climb and we will see you on the floor.",
-    ticket_url: "https://weeztix.shop/erxqk52c",
-    status: "upcoming",
-    price_from: "",
-    price_door: "",
-    image_url: "/images/events/rotterdam-reverse-june-2026.png"
-  },
-  {
-    id: "padeldam-amsterdam-june7-2026",
-    customSlug: "PadelXReggaeton",
-    city: "Amsterdam",
-    venue: "Padeldam, Tom Schreursweg 16, 1067 MC Amsterdam",
-    date: "2026-06-07",
-    time: "16:00 – 21:30",
-    title: "PADELDAM // PADEL × REGGAETON",
-    description: "Where the court meets the dance floor. PADELDAM is a Sunday afternoon padel × reggaeton takeover at Padeldam Amsterdam. Open play on the padel courts, mini doubles tournaments, a free volleyball court, and live DJs running Reggaeton, Dembow, Bachata, Salsa and Latin hits all day. Bring your racquet, bring your crew. Aperol Spritz at the side of the court. 18+ event — ID required.",
-    ticket_url: "https://weeztix.shop/mqt2ja7s",
-    status: "upcoming",
-    price_from: "",
-    price_door: "",
-    image_url: "/images/events/padeldam-poster.png"
-  },
   {
     id: "den-haag-westwood-june13-2026",
     city: "Den Haag",

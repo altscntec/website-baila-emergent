@@ -53,33 +53,9 @@
   <!-- Events Page - All Latin Events in Netherlands -->
   <url>
     <loc>https://bailadembow.com/events</loc>
-    <lastmod>2026-05-08</lastmod>
+    <lastmod>2026-06-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.95</priority>
-  </url>
-
-<!-- Event: Latin Event Rotterdam Reverse - Jun 6, 2026 -->
-  <url>
-    <loc>https://bailadembow.com/events/rotterdam-6-june-2026</loc>
-    <lastmod>2026-05-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-    <image:image>
-      <image:loc>https://bailadembow.com/images/events/rotterdam-reverse-june-2026.png</image:loc>
-      <image:title>Latin Event Rotterdam - Baila Dembow at Club Reverse - June 6 2026</image:title>
-    </image:image>
-  </url>
-
-  <!-- Event: PADELDAM (Padel × Reggaeton standalone) - Jun 7, 2026 -->
-  <url>
-    <loc>https://bailadembow.com/events/PadelXReggaeton</loc>
-    <lastmod>2026-05-16</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-    <image:image>
-      <image:loc>https://bailadembow.com/images/events/padeldam-poster.png</image:loc>
-      <image:title>PADELDAM - Padel × Reggaeton by Baila Dembow - Amsterdam Sunday 7 June 2026</image:title>
-    </image:image>
   </url>
 
   <!-- Event: Latin Event Den Haag Westwood - Jun 13, 2026 -->
