@@ -38,6 +38,41 @@ export const AgendaSection = ({ events }) => {
             </h2>
           </motion.div>
           
+          {events.length === 0 && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.6 }}
+              data-testid="agenda-empty-state"
+              className="max-w-xl mx-auto text-center border border-white/10 rounded-2xl py-12 px-8 bg-white/[0.02]"
+            >
+              <div className="text-5xl mb-4">🐰</div>
+              <h3 className="font-display text-2xl md:text-3xl text-white mb-3">
+                New dates dropping soon
+              </h3>
+              <p className="text-gray-400 mb-6">
+                The next Baila Dembow edition is being announced. Follow along
+                so you're the first to know when tickets open.
+              </p>
+              <div className="flex flex-wrap items-center justify-center gap-3">
+                <a
+                  href="https://www.instagram.com/baila.dembow/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#FF0080] text-white font-semibold hover:opacity-90 transition"
+                >
+                  Follow @baila.dembow
+                </a>
+                <a
+                  href="#community"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-white/20 text-white font-semibold hover:border-white/40 transition"
+                >
+                  Join the Community
+                </a>
+              </div>
+            </motion.div>
+          )}
+
           <div className="events-grid">
             {events.map((event, index) => {
               const statusBadge = getStatusBadge(event.status);

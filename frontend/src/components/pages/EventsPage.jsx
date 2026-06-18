@@ -20,6 +20,38 @@ export const EventsPage = ({ events: propEvents }) => {
             Experience the best Reggaeton, Dembow, and Latin Party events in the Netherlands.
           </p>
           
+          {events.length === 0 && (
+            <div
+              data-testid="events-empty-state"
+              className="max-w-xl mx-auto text-center border border-white/10 rounded-2xl py-16 px-8 bg-white/[0.02]"
+            >
+              <div className="text-5xl mb-4">🐰</div>
+              <h2 className="font-display text-2xl md:text-3xl text-white mb-3">
+                New dates dropping soon
+              </h2>
+              <p className="text-gray-400 mb-6">
+                The next Baila Dembow edition is being announced. Follow along so
+                you're the first to know when tickets open.
+              </p>
+              <div className="flex flex-wrap items-center justify-center gap-3">
+                <a
+                  href="https://www.instagram.com/baila.dembow/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#FF0080] text-white font-semibold hover:opacity-90 transition"
+                >
+                  Follow @baila.dembow
+                </a>
+                <a
+                  href="#community"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-white/20 text-white font-semibold hover:border-white/40 transition"
+                >
+                  Join the Community
+                </a>
+              </div>
+            </div>
+          )}
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {events.map((event, index) => (
               <div key={event.id} className="event-card" data-testid={`events-page-card-${index}`}>
