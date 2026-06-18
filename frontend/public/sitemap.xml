@@ -58,6 +58,54 @@
     <priority>0.95</priority>
   </url>
 
+  <!-- Event: Latin Event Rotterdam Reverse - Jul 4, 2026 -->
+  <url>
+    <loc>https://bailadembow.com/events/rotterdam-4-july-2026</loc>
+    <lastmod>2026-06-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://bailadembow.com/images/events/rotterdam-reverse-july4-2026.png</image:loc>
+      <image:title>Latin Event Rotterdam - Baila Dembow at Club Reverse - July 4 2026</image:title>
+    </image:image>
+  </url>
+
+  <!-- Event: Latin Event Leiden Wibar - Jul 11, 2026 -->
+  <url>
+    <loc>https://bailadembow.com/events/leiden-11-july-2026</loc>
+    <lastmod>2026-06-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://bailadembow.com/images/events/leiden-wibar-july11-2026.png</image:loc>
+      <image:title>Latin Event Leiden - Baila Dembow at Wibar - July 11 2026</image:title>
+    </image:image>
+  </url>
+
+  <!-- Event: Latin Event Amsterdam Oliva - Jul 18, 2026 -->
+  <url>
+    <loc>https://bailadembow.com/events/amsterdam-18-july-2026</loc>
+    <lastmod>2026-06-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://bailadembow.com/images/events/amsterdam-oliva-july18-2026.png</image:loc>
+      <image:title>Latin Event Amsterdam - Baila Dembow at Oliva Rembrandtplein - July 18 2026</image:title>
+    </image:image>
+  </url>
+
+  <!-- Event: Latin Event Groningen Huize Maas - Jul 25, 2026 -->
+  <url>
+    <loc>https://bailadembow.com/events/groningen-25-july-2026</loc>
+    <lastmod>2026-06-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://bailadembow.com/images/events/groningen-huizemaas-july25-2026.png</image:loc>
+      <image:title>Latin Event Groningen - Baila Dembow at Huize Maas - July 25 2026</image:title>
+    </image:image>
+  </url>
+
   <!-- About Us Page -->
   <url>
     <loc>https://bailadembow.com/about</loc>
