@@ -42,7 +42,7 @@ export const CommunitySection = () => {
     if (name === 'companyEmail') setEmailError('');
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const { fullName, companyName, companyEmail, message } = formData;
     if (!fullName || !companyName || !companyEmail || !message) return;
@@ -56,20 +56,37 @@ export const CommunitySection = () => {
 
     setIsSubmitting(true);
 
-    // Open email client with pre-filled content
+    // Submit to FormSubmit (AJAX endpoint) — delivers every submission to the
+    // inbox below. No email client required on the sender's side.
     try {
-      const subject = encodeURIComponent(`Collab Inquiry — ${companyName}`);
-      const body = encodeURIComponent(
-        `Full Name: ${fullName}\nCompany: ${companyName}\nEmail: ${companyEmail}\n\nHow we'd like to collab:\n${message}`
-      );
-      const link = document.createElement('a');
-      link.href = `mailto:ask@housedecoded.com?subject=${subject}&body=${body}`;
-      link.click();
-      setSubmitted(true);
-      toast.success("Your email client is opening. We'll get back to you within 48 hours.");
-      setFormData({ fullName: '', companyName: '', companyEmail: '', message: '' });
+      const response = await fetch('https://formsubmit.co/ajax/altscantec@gmail.com', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify({
+          name: fullName,
+          company: companyName,
+          email: companyEmail,
+          message,
+          _subject: `Collab Inquiry — ${companyName}`,
+          _template: 'table',
+          _captcha: 'false',
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.success === 'true') {
+        setSubmitted(true);
+        toast.success("Proposal sent. We'll get back to you within 48 hours.");
+        setFormData({ fullName: '', companyName: '', companyEmail: '', message: '' });
+      } else {
+        throw new Error(data.message || 'Submission failed');
+      }
     } catch {
-      toast.error('Something went wrong. Please try again.');
+      toast.error('Something went wrong. Please try again, or email altscantec@gmail.com directly.');
     } finally {
       setIsSubmitting(false);
     }
