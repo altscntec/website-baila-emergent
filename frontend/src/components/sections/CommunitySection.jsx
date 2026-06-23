@@ -249,7 +249,7 @@ export const CommunitySection = () => {
               The Day Rave
             </a>
           </span>
-          <span>© {new Date().getFullYear()} Baila Dembow. All rights reserved. Part of House Decoded Events, Amsterdam — KVK 67994725</span>
+          <span>© {new Date().getFullYear()} Baila Dembow. All rights reserved. Part of <a href="https://www.housedecoded.com" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-[#FF0080] underline underline-offset-2 transition-colors">House Decoded</a> Events, Amsterdam — KVK 67994725</span>
           <CookieSettingsLink />
         </div>
       </div>
