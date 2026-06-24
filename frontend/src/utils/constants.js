@@ -35,6 +35,20 @@ export const GALLERY_IMAGES = [
 // any inbound bookmarks but is no longer linked from the grid.
 export const EVENTS = [
   {
+    id: "amsterdam-ijland-july5-2026",
+    city: "Amsterdam",
+    venue: "IJland, Amsterdam Noord",
+    date: "2026-07-05",
+    time: "13:00 – 17:00",
+    title: "DAY PARTY // LA CASITA EDITION",
+    description: "AMSTERDAM, LLEGÓ EL VERANO ☀️🐇 There is a particular kind of joy that only arrives in the afternoon, when the sun is still high and the reggaeton starts before the night has any say in it. On Sunday the 5th of July we open La Casita at IJland, and we build it the way we remember home: palm trees standing tall, the yellow walls catching the light, the whole patio arranged so that the latin america feels close enough to touch. From one in the afternoon until five we move through reggaeton, dembow, salsa, bachata, and every Latin record that refuses to let a floor stay still. Anyone who has danced perreo in daylight understands that it carries a warmth the night cannot quite reproduce, and anyone who has not is welcome to learn it here. A word on the tickets, since it matters. The earlier you decide, the less you pay, and the price rises steadily as we approach the door. Limited ticket for this edition. Those who choose early are simply choosing well. 📍 Location: IJland, Amsterdam Noord · 🗓️ Date: Sunday, 5 July 2026 · ⏰ Time: 13:00 till 17:00 · 🔞 18+ event, ID required",
+    ticket_url: "https://weeztix.shop/wxxgve8j",
+    status: "upcoming",
+    price_from: "",
+    price_door: "",
+    image_url: "/images/events/amsterdam-ijland-july5-2026.png"
+  },
+  {
     id: "rotterdam-reverse-july4-2026",
     city: "Rotterdam",
     venue: "Club Reverse, Rotterdam",
