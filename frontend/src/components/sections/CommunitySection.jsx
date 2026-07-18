@@ -101,9 +101,9 @@ export const CommunitySection = () => {
           transition={{ duration: 0.8 }}
           className="max-w-3xl mx-auto text-center"
         >
-          <p className="text-sm tracking-[0.2em] uppercase text-[#FF0080] font-semibold mb-4">Work With Us</p>
+          <p className="text-sm tracking-[0.35em] uppercase text-[#FFE14D] font-extrabold mb-4">Work With Us</p>
           <h2 className="font-display text-4xl md:text-6xl mb-6 text-white">
-            BRANDS &amp; CLUBS,<br /><span className="gradient-text">LET'S BUILD TOGETHER.</span>
+            BRANDS &amp; CLUBS,<br /><span className="text-[#FF0080]">LET'S BUILD TOGETHER.</span>
           </h2>
           <p className="text-lg text-gray-400 mb-10 max-w-xl mx-auto">
             We're open to partnerships, venue takeovers, brand activations, and creative

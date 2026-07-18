@@ -1,92 +1,110 @@
 import { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { Ticket } from 'lucide-react';
-import { BAILA_LOGO } from '../../utils/constants';
+import { EVENTS, BUNNY_GLASSES } from '../../utils/constants';
 import { trackTicketClick } from '../../utils/tracking';
 
+// Next upcoming event drives the hero's dominant date line
+const getNextEvent = () => {
+  const today = new Date().toISOString().slice(0, 10);
+  return [...EVENTS]
+    .filter((e) => e.date >= today)
+    .sort((a, b) => a.date.localeCompare(b.date))[0];
+};
+
 export const HeroSection = () => {
-  const goToEvents = () => {
-    // Try same-page scroll to the agenda first; fall back to the EventsPage route.
-    const agenda = document.getElementById('agenda');
-    if (agenda) {
-      agenda.scrollIntoView({ behavior: "smooth" });
-    } else {
-      window.location.hash = '#events';
-    }
-  };
+  const next = getNextEvent();
+  const nextDate = next
+    ? new Date(next.date).toLocaleDateString('en-GB', { weekday: 'short', day: '2-digit', month: 'long' })
+    : null;
 
   return (
-    <section id="hero" className="hero-section bg-black relative overflow-hidden" data-testid="hero-section">
-      {/* Background Video */}
-      <video
-        autoPlay
-        muted
-        loop
-        playsInline
-        className="absolute inset-0 w-full h-full object-cover"
-        style={{ opacity: 0.35 }}
-        data-testid="hero-video"
-      >
-        <source src="/videos/hero-background.mp4" type="video/mp4" />
-      </video>
-      {/* Dark overlay for readability */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-black/70" />
-      
-      <div className="hero-content relative z-10">
-        <motion.img
-          src={BAILA_LOGO}
-          alt="Baila Dembow"
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, delay: 0.3 }}
-          className="w-64 sm:w-80 md:w-96 lg:w-[500px] mx-auto mb-8"
-          data-testid="hero-logo"
-        />
-        
+    <section
+      id="hero"
+      className="relative min-h-screen flex items-center justify-center overflow-hidden"
+      style={{ background: '#5B1FE8' }}
+      data-testid="hero-section"
+    >
+      <div className="container-custom relative z-10 text-center" style={{ paddingTop: '11rem', paddingBottom: '6rem' }}>
         <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.5 }}
-          className="text-white/80 text-sm md:text-base tracking-[0.3em] uppercase mb-6"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="text-white font-extrabold text-xs md:text-sm tracking-[0.35em] uppercase mb-6"
         >
-          Reggaeton. Dembow & Latin Hits
+          Reggaeton · Dembow · Latin Hits
         </motion.p>
-        
+
         <motion.h1
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.7 }}
-          className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl gradient-text mb-8"
+          transition={{ duration: 0.8, delay: 0.3 }}
+          className="font-display text-[#FFE14D] text-[clamp(4.5rem,15vw,13rem)] leading-[0.85]"
           data-testid="hero-headline"
         >
-          Perreo Para El Mundo.
+          Baila<br />Dembow.
         </motion.h1>
-        
+
+        <motion.img
+          src={BUNNY_GLASSES}
+          alt="Baila Dembow bunny mascot"
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.6, delay: 0.6 }}
+          className="h-24 md:h-32 w-auto mx-auto my-8"
+          data-testid="hero-bunny"
+        />
+
+        {next && (
+          <motion.a
+            href={`#/events`}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.7 }}
+            className="block font-display text-white text-[clamp(1.8rem,5vw,4rem)] mb-10 hover:text-[#FFE14D] transition-colors"
+            data-testid="hero-next-event"
+          >
+            Next up — {nextDate} · {next.city}
+          </motion.a>
+        )}
+
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.9 }}
           className="flex flex-col sm:flex-row gap-4 justify-center items-center"
         >
-          <a 
-            href="https://linktr.ee/bailadembow" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 bg-[#FF0080] text-white font-bold py-4 px-8 rounded-full text-lg hover:bg-[#FF3B30] transition-colors duration-300"
-            data-testid="hero-cta-tickets"
-            onClick={() => trackTicketClick('Baila Dembow - Hero CTA', 'https://linktr.ee/bailadembow')}
+          {next && (
+            <a
+              href={next.ticket_url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 bg-[#FFE14D] text-black font-extrabold py-4 px-10 rounded-full text-lg hover:bg-white transition-colors duration-300"
+              data-testid="hero-cta-tickets"
+              onClick={() => trackTicketClick(`${next.title} - Hero CTA`, next.ticket_url)}
+            >
+              <Ticket size={20} />
+              GET TICKETS
+            </a>
+          )}
+          <a
+            href="/play.html"
+            className="inline-flex items-center gap-2 text-white font-extrabold py-4 px-6 text-lg underline underline-offset-4 decoration-2 hover:text-[#FFE14D] transition-colors"
+            data-testid="hero-cta-play"
           >
-            <Ticket size={20} />
-            GET TICKETS
+            PLAY & WIN →
           </a>
-          <button
-            onClick={goToEvents}
-            className="inline-flex items-center gap-2 bg-transparent text-white font-bold py-4 px-8 rounded-full text-lg border-2 border-white hover:bg-white hover:text-black transition-colors duration-300"
-            data-testid="hero-cta-events"
-          >
-            View Upcoming Events
-          </button>
         </motion.div>
+
+        {/* SEO line (keeps homepage keyword presence after LatinEventSection moved off) */}
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6, delay: 1.1 }}
+          className="text-white/60 text-sm mt-14 max-w-xl mx-auto"
+        >
+          The leading Latin event in Amsterdam &amp; the Netherlands — 25,000+ dancers since 2023.
+        </motion.p>
       </div>
     </section>
   );
@@ -113,15 +131,15 @@ export const LatinEventSection = () => {
               <span className="gradient-text">Latin Event in Amsterdam</span> & Netherlands
             </h1>
             <p className="text-gray-600 text-lg leading-relaxed mb-6">
-              Baila Dembow is the leading <strong>Latin Event in Amsterdam</strong> and the <strong>Netherlands</strong>. 
-              We bring the authentic sounds of <strong>Reggaeton</strong> and <strong>Dembow</strong> to Dutch dance floors, 
-              creating the ultimate <strong>Latin Party</strong> experience. From <strong>Amsterdam</strong> to <strong>Rotterdam</strong>, 
-              our events unite thousands of Latin music lovers for nights of non-stop dancing, world-class production, 
+              Baila Dembow is the leading <strong>Latin Event in Amsterdam</strong> and the <strong>Netherlands</strong>.
+              We bring the authentic sounds of <strong>Reggaeton</strong> and <strong>Dembow</strong> to Dutch dance floors,
+              creating the ultimate <strong>Latin Party</strong> experience. From <strong>Amsterdam</strong> to <strong>Rotterdam</strong>,
+              our events unite thousands of Latin music lovers for nights of non-stop dancing, world-class production,
               and unforgettable energy.
             </p>
             <p className="text-gray-500 text-base leading-relaxed mb-8">
-              Whether you're looking for a <strong>Latin Event in Rotterdam</strong>, a <strong>Reggaeton</strong> party in Amsterdam, 
-              or the biggest <strong>Dembow</strong> nights in the Netherlands, Baila Dembow delivers. 
+              Whether you're looking for a <strong>Latin Event in Rotterdam</strong>, a <strong>Reggaeton</strong> party in Amsterdam,
+              or the biggest <strong>Dembow</strong> nights in the Netherlands, Baila Dembow delivers.
               Join our community of 25,000+ Latin music fans and experience why we're the #1 <strong>Latin Party</strong> brand in the country.
             </p>
             <div className="flex flex-wrap justify-center gap-3 text-sm mb-8">

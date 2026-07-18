@@ -30,52 +30,11 @@ export const GALLERY_IMAGES = [
 //   2026-06-08 — Rotterdam (06 Jun) + PADELDAM (07 Jun) removed (past)
 //   2026-06-18 — Den Haag (13 Jun) + Coffee Day Rave (14 Jun) removed (past)
 //   2026-06-18 — July 2026 agenda added: Rotterdam, Leiden, Amsterdam, Groningen
+//   2026-07-17 — Past July events removed (Rotterdam 04, IJland 05, Leiden 11); Rotterdam Reverse Summer Special (01 Aug) added
 //
 // The /events/PadelXReggaeton standalone route still exists in App.js for
 // any inbound bookmarks but is no longer linked from the grid.
 export const EVENTS = [
-  {
-    id: "amsterdam-ijland-july5-2026",
-    city: "Amsterdam",
-    venue: "IJland, Amsterdam Noord",
-    date: "2026-07-05",
-    time: "13:00 – 17:00",
-    title: "REGGAETON DAY PARTY // LA CASITA EDITION",
-    description: "AMSTERDAM, LLEGÓ EL VERANO ☀️🐇 There is a particular kind of joy that only arrives in the afternoon, when the sun is still high and the reggaeton starts before the night has any say in it. On Sunday the 5th of July we open La Casita at IJland, and we build it the way we remember home: palm trees standing tall, the yellow walls catching the light, the whole patio arranged so that the latin america feels close enough to touch. From one in the afternoon until five we move through reggaeton, dembow, salsa, bachata, and every Latin record that refuses to let a floor stay still. Anyone who has danced perreo in daylight understands that it carries a warmth the night cannot quite reproduce, and anyone who has not is welcome to learn it here. A word on the tickets, since it matters. The earlier you decide, the less you pay, and the price rises steadily as we approach the door. Limited ticket for this edition. Those who choose early are simply choosing well. 📍 Location: IJland, Amsterdam Noord · 🗓️ Date: Sunday, 5 July 2026 · ⏰ Time: 13:00 till 17:00 · 🔞 18+ event, ID required",
-    ticket_url: "https://weeztix.shop/wxxgve8j",
-    status: "upcoming",
-    price_from: "",
-    price_door: "",
-    image_url: "/images/events/amsterdam-ijland-july5-2026.png"
-  },
-  {
-    id: "rotterdam-reverse-july4-2026",
-    city: "Rotterdam",
-    venue: "Club Reverse, Rotterdam",
-    date: "2026-07-04",
-    time: "23:00 – 05:00",
-    title: "BAILA DEMBOW // ROTTERDAM",
-    description: "¡ROTTERDAM, VOLVEMOS! Saturday the 4th of July we take over Club Reverse again for a full night of reggaeton, dembow and Latin Caribbean heat. If you caught us here before you already know how this room moves, the floor packed wall to wall and the perreo running nonstop from the first track to the last. Bad Bunny, Karol G, El Alfa, Daddy Yankee and the whole sound that keeps our dancefloors alive. Tickets are already moving and the early bird is always the smart play, because the closer we get to the door the more you end up paying. Grab yours now and save yourself the full price at the entrance. 📍 Location: Club Reverse, Rotterdam · 🗓️ Date: Saturday, July 4, 2026 · ⏰ Time: 23:00 till 05:00 · 🔞 ID required. This one fills up fast, so do not sleep on it. 🐇",
-    ticket_url: "https://weeztix.shop/erxqk52c",
-    status: "upcoming",
-    price_from: "",
-    price_door: "",
-    image_url: "/images/events/rotterdam-reverse-july4-2026.png"
-  },
-  {
-    id: "leiden-wibar-july11-2026",
-    city: "Leiden",
-    venue: "Wibar, Leiden",
-    date: "2026-07-11",
-    time: "23:00 – 05:00",
-    title: "BAILA DEMBOW // LEIDEN",
-    description: "KLK LEIDEN !!! Saturday the 11th of July we are back at Wibar for another night of reggaeton, dembow and straight Latin Caribbean energy. If you were there last time you already know what this room does once the floor fills up, the bass hitting hard and the perreo running nonstop from the first track to the last. Bad Bunny, Karol G, El Alfa, Daddy Yankee and the whole sound that keeps our dancefloors moving until sunrise. Tickets are already going and the early bird is always the smart play, because the closer we get to the door the more you end up paying. Grab yours now and skip the full price at the entrance. 📍 Location: Wibar, Leiden · 🗓️ Date: Saturday, July 11, 2026 · ⏰ Time: 23:00 till 05:00 · 🔞 ID required. Leiden always shows up, so do not wait on this one. 🐇",
-    ticket_url: "https://weeztix.shop/qa84k5a6",
-    status: "upcoming",
-    price_from: "",
-    price_door: "",
-    image_url: "/images/events/leiden-wibar-july11-2026.png"
-  },
   {
     id: "amsterdam-oliva-july18-2026",
     city: "Amsterdam",
@@ -103,6 +62,20 @@ export const EVENTS = [
     price_from: "",
     price_door: "",
     image_url: "/images/events/groningen-huizemaas-july25-2026.png"
+  },
+  {
+    id: "rotterdam-reverse-aug1-2026",
+    city: "Rotterdam",
+    venue: "Club Reverse, Rotterdam",
+    date: "2026-08-01",
+    time: "23:00 – 05:00",
+    title: "BAILA DEMBOW // ROTTERDAM — SUMMER SPECIAL",
+    description: "KLK ROTTERDAM, ¡el verano llegó! Reverse is about to turn into a full Caribbean block party. Saturday, August 1st, Baila Dembow brings the Summer Special to Reverse — dembow, reggaeton and Latin heat all night long, no breaks, no holding back. Early birds pay less, so lock your ticket in now before prices climb. Get yours now. 📍 Location: Club Reverse, Rotterdam · 🗓️ Date: Saturday, August 1, 2026 · ⏰ Time: 23:00 till 05:00 · 🔞 18+, ID required.",
+    ticket_url: "https://weeztix.shop/4s84rxxa",
+    status: "upcoming",
+    price_from: "",
+    price_door: "",
+    image_url: "/images/events/rotterdam-reverse-aug1-2026.png"
   }
 ];
 

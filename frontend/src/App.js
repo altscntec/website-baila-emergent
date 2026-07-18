@@ -22,6 +22,7 @@ import { SingleEventPage } from "./components/pages/SingleEventPage";
 import { LatinEventAmsterdamPage, LatinEventRotterdamPage } from "./components/pages/SEOPages";
 import { KingsdayWeekenderPage } from "./components/pages/KingsdayWeekenderPage";
 import { PadelXReggaetonPage } from "./components/pages/PadelXReggaetonPage";
+import { HalloweenExperiencePage, LiveShowExperiencePage, CasitaExperiencePage } from "./components/pages/ExperiencePages";
 
 // Main App Component
 function App() {
@@ -91,6 +92,12 @@ function App() {
           <LatinEventAmsterdamPage events={events} />
         ) : effectivePath === '/latin-event-rotterdam' || effectivePath === 'latin-event-rotterdam' ? (
           <LatinEventRotterdamPage events={events} />
+        ) : effectivePath === '/experiences/halloween' || effectivePath === 'experiences/halloween' ? (
+          <HalloweenExperiencePage />
+        ) : effectivePath === '/experiences/live-tribute' || effectivePath === 'experiences/live-tribute' ? (
+          <LiveShowExperiencePage />
+        ) : effectivePath === '/experiences/casita' || effectivePath === 'experiences/casita' ? (
+          <CasitaExperiencePage />
         ) : isKingsdayPage ? (
           <KingsdayWeekenderPage />
         ) : isPadelPage ? (
