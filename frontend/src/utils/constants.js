@@ -76,6 +76,23 @@ export const EVENTS = [
     price_from: "",
     price_door: "",
     image_url: "/images/events/rotterdam-reverse-aug1-2026.png"
+  },
+  {
+    id: "ijland-summer-of-love-aug29-2026",
+    city: "Amsterdam",
+    venue: "IJland, Amsterdam",
+    date: "2026-08-29",
+    time: "23:00 – 05:00",
+    title: "BAILA DEMBOW XL // SUMMER OF LOVE",
+    featured: true,
+    dress_code: "Pastel & summery",
+    tagline: "Our biggest room yet, dressed in every shade of summer.",
+    description: "¡Ámsterdam, se siente el amor! The summer of 2026 has been something special, all long days and warm nights, and on Saturday, August 29th we throw the party it deserves. Baila Dembow goes XL at IJland, right on the water, with a Summer of Love theme built for exactly this season. Picture pastel everywhere, soft golden light and one full night of reggaeton, dembow and Latin club heat. You already know how the last one ended, with the floor packed and nobody willing to sit down. This time the room is bigger, the sound hits harder, and the perreo has real space to breathe. Bad Bunny, Karol G, El Alfa, Rauw Alejandro, Daddy Yankee and the whole Caribbean playlist, running all night with no breaks. Dress code is pastel and summery, so bring your softest colors and your best summer fit. Here is the part your wallet cares about. Tickets start low and they climb as the date gets closer, so the crew that moves early always pays the least. The last editions burned through their cheap tiers fast, and plenty of people ended up at door price or standing outside. Do not let that be you this time. Grab your ticket now, lock the low rate, and bring the whole group before the next tier kicks in. 📍 Location: IJland, Amsterdam · 🗓️ Date: Saturday, August 29, 2026 · ⏰ Time: 23:00 – 05:00 · 👗 Dress code: pastel and summery · 🔞 18+ event, ID required. This is our biggest room yet, dressed in every shade of summer. Come in your pastels, bring your people, and help us send this season off loud.",
+    ticket_url: "https://weeztix.shop/v9f38e5c",
+    status: "upcoming",
+    price_from: "",
+    price_door: "",
+    image_url: "/images/events/ijland-summer-of-love-aug29-2026.png"
   }
 ];
 
