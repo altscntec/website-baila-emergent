@@ -36,20 +36,6 @@ export const GALLERY_IMAGES = [
 // any inbound bookmarks but is no longer linked from the grid.
 export const EVENTS = [
   {
-    id: "amsterdam-oliva-july18-2026",
-    city: "Amsterdam",
-    venue: "Oliva, Rembrandtplein 17, Amsterdam",
-    date: "2026-07-18",
-    time: "23:00 – 05:00",
-    title: "BAILA DEMBOW // AMSTERDAM",
-    description: "KLK AMSTERDAM !!! Saturday the 18th of July we take over Oliva again for a full night of reggaeton, dembow and pure Latin Caribbean energy. You already know what this room does once it fills up, the bass hitting different, the floor never stopping, and the perreo running nonstop from the first track to the last. Bad Bunny, Karol G, El Alfa, Daddy Yankee and the whole sound that keeps our dancefloors alive until sunrise. Tickets are already moving and the early bird is always the smart play, because the closer we get to the door the more you end up paying. Grab yours now and save yourself the full price at the entrance. 📍 Location: Oliva, Rembrandtplein 17, Amsterdam · 🗓️ Date: Saturday, July 18, 2026 · ⏰ Time: 23:00 till 05:00 · 🔞 ID required. Oliva sells out every time, so do not wait on this one. 🐇",
-    ticket_url: "https://ticketapp.shop/jvgfntufir",
-    status: "upcoming",
-    price_from: "",
-    price_door: "",
-    image_url: "/images/events/amsterdam-oliva-july18-2026.png"
-  },
-  {
     id: "groningen-huizemaas-july25-2026",
     city: "Groningen",
     venue: "Huize Maas, Groningen",
@@ -76,6 +62,20 @@ export const EVENTS = [
     price_from: "",
     price_door: "",
     image_url: "/images/events/rotterdam-reverse-aug1-2026.png"
+  },
+  {
+    id: "amsterdam-supperclub-aug7-2026",
+    city: "Amsterdam",
+    venue: "Supper Club, Singel 460, Amsterdam",
+    date: "2026-08-07",
+    time: "23:30 – 05:00",
+    title: "BAILA DEMBOW × SUPPER CLUB // AMSTERDAM",
+    description: "DIME AMSTERDAM !!! Friday, August 7th, Baila Dembow is hosting a Latin Night together with Supper Club for the very first time. Reggaeton, dembow, salsa and bachata from 23:30 until 05:00, plus a guest behind the decks that we are not naming yet. Early bird is live and it is the cheapest ticket you will find all week. La última vez se agotó, so do not wait on this one. 📍 Location: Supper Club, Singel 460, 1017 AW Amsterdam · 🗓️ Date: Friday, August 7, 2026 · ⏰ Time: 23:30 – 05:00 · 🔞 18+ event, ID required. First time in this venue, and we only get one of those. Nos vemos en la pista 🐇",
+    ticket_url: "https://weeztix.shop/rw9qseqg",
+    status: "upcoming",
+    price_from: "",
+    price_door: "",
+    image_url: "/images/events/amsterdam-supperclub-aug7-2026.png"
   },
   {
     id: "ijland-summer-of-love-aug29-2026",
