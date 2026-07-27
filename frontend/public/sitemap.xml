@@ -58,18 +58,6 @@
     <priority>0.95</priority>
   </url>
 
-  <!-- Event: Latin Event Groningen Huize Maas - Jul 25, 2026 -->
-  <url>
-    <loc>https://bailadembow.com/events/groningen-25-july-2026</loc>
-    <lastmod>2026-06-18</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-    <image:image>
-      <image:loc>https://bailadembow.com/images/events/groningen-huizemaas-july25-2026.png</image:loc>
-      <image:title>Latin Event Groningen - Baila Dembow at Huize Maas - July 25 2026</image:title>
-    </image:image>
-  </url>
-
   <!-- Event: Latin Event Rotterdam Reverse Summer Special - Aug 1, 2026 -->
   <url>
     <loc>https://bailadembow.com/events/rotterdam-1-august-2026</loc>

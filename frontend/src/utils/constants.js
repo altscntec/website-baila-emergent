@@ -31,24 +31,12 @@ export const GALLERY_IMAGES = [
 //   2026-06-18 — Den Haag (13 Jun) + Coffee Day Rave (14 Jun) removed (past)
 //   2026-06-18 — July 2026 agenda added: Rotterdam, Leiden, Amsterdam, Groningen
 //   2026-07-17 — Past July events removed (Rotterdam 04, IJland 05, Leiden 11); Rotterdam Reverse Summer Special (01 Aug) added
+//   2026-07-18 — Amsterdam Oliva (18 Jul) removed; Supper Club (07 Aug) + Summer of Love XL (29 Aug) added
+//   2026-07-27 — Groningen (25 Jul) removed (past). Live: Rotterdam 01 Aug, Supper Club 07 Aug, Summer of Love 29 Aug
 //
 // The /events/PadelXReggaeton standalone route still exists in App.js for
 // any inbound bookmarks but is no longer linked from the grid.
 export const EVENTS = [
-  {
-    id: "groningen-huizemaas-july25-2026",
-    city: "Groningen",
-    venue: "Huize Maas, Groningen",
-    date: "2026-07-25",
-    time: "23:00 – 05:00",
-    title: "BAILA DEMBOW // GRONINGEN",
-    description: "KLK GRONINGEN !!! Saturday the 25th of July we bring Baila Dembow to Huize Maas for a full night of reggaeton, dembow and pure Latin Caribbean energy. The north has been waiting and we are pulling up, the floor about to run wall to wall and the perreo nonstop from the first track to the last. Bad Bunny, Karol G, El Alfa, Daddy Yankee and the whole sound that keeps our dancefloors moving until sunrise. Tickets are already going and the early bird is always the smart play, because the closer we get to the door the more you end up paying. Grab yours now and skip the full price at the entrance. 📍 Location: Huize Maas, Groningen · 🗓️ Date: Saturday, July 25, 2026 · ⏰ Time: 23:00 till 05:00 · 🔞 ID required. Groningen, this is your night, so do not wait on it. 🐇",
-    ticket_url: "https://weeztix.shop/n9q3madk",
-    status: "upcoming",
-    price_from: "",
-    price_door: "",
-    image_url: "/images/events/groningen-huizemaas-july25-2026.png"
-  },
   {
     id: "rotterdam-reverse-aug1-2026",
     city: "Rotterdam",
