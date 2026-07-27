@@ -66,6 +66,20 @@ export const EVENTS = [
     image_url: "/images/events/amsterdam-supperclub-aug7-2026.png"
   },
   {
+    id: "groningen-huizemaas-allwhite-aug22-2026",
+    city: "Groningen",
+    venue: "Huize Maas, Groningen",
+    date: "2026-08-22",
+    time: "22:00 – 04:00",
+    title: "BAILA DEMBOW // GRONINGEN — ALL WHITE EDITION",
+    description: "¡GRONINGEN, TODO DE BLANCO! After sold out last 2 editions, on Saturday, August 22nd we are back at Huize Maas for the All White Edition. Everyone in white, one colour across the whole room, with reggaeton, dembow, salsa and bachata from 22:00 until 04:00. The perfect goodbye to amazing Summer 2026. La última vez se agotó while the night was still running. Early bird is the cheapest it gets and the price only climbs from there, so grab yours before we sold out again. 📍 Location: Huize Maas, Groningen · 🗓️ Date: Saturday, August 22, 2026 · ⏰ Time: 22:00 till 04:00, last entry 01:30 · 🔞 ID required. Nos vemos en la pista 🐇",
+    ticket_url: "https://weeztix.shop/n9q3madk",
+    status: "upcoming",
+    price_from: "",
+    price_door: "",
+    image_url: "/images/events/groningen-allwhite-aug22-2026.png"
+  },
+  {
     id: "ijland-summer-of-love-aug29-2026",
     city: "Amsterdam",
     venue: "IJland, Amsterdam",
