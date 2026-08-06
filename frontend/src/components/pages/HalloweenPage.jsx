@@ -2,11 +2,25 @@ import { useEffect, useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { MessageCircle, Ghost, Sparkles, Music, Ticket } from 'lucide-react';
 import { CommunitySection } from '../sections/CommunitySection';
+import { CountdownTimer } from '../common/CountdownTimer';
 import { trackTicketClick } from '../../utils/tracking';
 
 const WHATSAPP_URL = 'https://chat.whatsapp.com/EvqrDDkud6eB7JSRzPEpj6';
 const TICKET_URL = 'https://weeztix.shop/nxaqrkdz';
 const EVENT_NAME = 'Latin Halloween Festival 2026';
+const EVENT_DATE = '2026-10-31';
+const EVENT_TIME = '23:00 – 05:00';
+const TEASER_VIDEO = '/videos/halloween-teaser.mp4';
+const POSTER_IMG = '/images/events/halloween-ijland-oct31-2026.png';
+
+const PERKS = [
+  'Cash prize for best costume',
+  'Full haunted club transformation',
+  'Free trick-and-treat sweets',
+  'Spooky photobooth',
+  '2 areas',
+  'Food trucks on site',
+];
 
 // Curated from the Halloween 2025 shoot (no-logo originals, web-optimised)
 const HERO_IMG = '/images/halloween/hw-crowd-hero.jpg';   // the packed room
@@ -95,7 +109,7 @@ export const HalloweenPage = () => {
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6, delay: 0.3 }}
             className="font-extrabold text-xs md:text-sm tracking-[0.4em] uppercase mb-5 text-[#FF6B00]"
           >
-            Amsterdam · 4 years running · Sold out every time
+            Sat 31 October 2026 · IJLAND Amsterdam · 23:00–05:00
           </motion.p>
           <motion.h1
             initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.4 }}
@@ -109,9 +123,18 @@ export const HalloweenPage = () => {
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6, delay: 0.6 }}
             className="text-white/85 text-base md:text-xl font-semibold max-w-2xl mx-auto mb-10"
           >
-            The one night Amsterdam goes full spooky for Latin music. Reggaeton, dembow and a room
-            that gets rebuilt from scratch every single year.
+            The nightmare wakes up all over again. Vampires, ghouls and restless spirits take over
+            every dark corner while our DJs run reggaeton, dembow and Caribbean heat till sunrise.
           </motion.p>
+
+          {/* Countdown */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.7 }}
+            className="mb-10"
+          >
+            <p className="text-white font-extrabold text-xs tracking-[0.3em] uppercase mb-4">The gates open in</p>
+            <CountdownTimer targetDate={EVENT_DATE} targetTime={EVENT_TIME} />
+          </motion.div>
           <motion.div
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.8 }}
             className="flex flex-col sm:flex-row gap-4 justify-center items-center"
@@ -151,6 +174,65 @@ export const HalloweenPage = () => {
               <p className="text-gray-400 text-xs md:text-sm uppercase tracking-wider font-semibold">{s.label}</p>
             </Reveal>
           ))}
+        </div>
+      </section>
+
+      {/* ── TEASER + POSTER ──────────────────────────────── */}
+      <section className="py-20 md:py-28" style={{ background: '#08060B' }} data-testid="halloween-teaser">
+        <div className="container-custom">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center">
+            {/* teaser video */}
+            <Reveal>
+              <div
+                className="relative rounded-2xl overflow-hidden mx-auto w-full max-w-[420px]"
+                style={{ aspectRatio: '9/16', boxShadow: '0 25px 70px rgba(255,107,0,.18), 0 0 0 1px rgba(255,255,255,.07)' }}
+                data-testid="halloween-teaser-video"
+              >
+                <video
+                  src={TEASER_VIDEO}
+                  poster={POSTER_IMG}
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  preload="metadata"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            </Reveal>
+
+            {/* poster + perks */}
+            <Reveal delay={0.15} className="text-center lg:text-left">
+              <p className="font-extrabold text-xs md:text-sm tracking-[0.35em] uppercase mb-4 text-[#FF6B00]">
+                Most awaited event
+              </p>
+              <h2 className="font-display text-white text-[clamp(2.4rem,6vw,4.5rem)] leading-[0.95] mb-6">
+                What to expect.
+              </h2>
+              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3 mb-8 text-left">
+                {PERKS.map((p) => (
+                  <li key={p} className="flex items-start gap-2.5 text-gray-300 text-sm md:text-base">
+                    <Ghost size={17} className="text-[#FF6B00] shrink-0 mt-0.5" />
+                    <span>{p}</span>
+                  </li>
+                ))}
+              </ul>
+              <a
+                href={TICKET_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => trackTicketClick(`${EVENT_NAME} — Teaser CTA`, TICKET_URL)}
+                className="inline-flex items-center gap-3 bg-[#FF6B00] text-black font-extrabold py-4 px-10 rounded-full text-lg hover:bg-white transition-colors duration-300"
+                data-testid="halloween-teaser-cta"
+              >
+                <Ticket size={20} />
+                GET TICKETS
+              </a>
+              <p className="text-gray-500 text-sm mt-4">
+                Early Death is the lowest price of the whole event — every tier climbs from there.
+              </p>
+            </Reveal>
+          </div>
         </div>
       </section>
 
@@ -198,13 +280,6 @@ export const HalloweenPage = () => {
             ))}
           </div>
 
-          <Reveal delay={0.2} className="mt-10 flex flex-wrap gap-3">
-            {['Best costume prizes', 'Full-build looks', 'Crowd runway at the door'].map((t) => (
-              <span key={t} className="inline-flex items-center gap-2 text-sm font-bold text-white bg-white/[0.07] border border-white/10 rounded-full px-5 py-2.5">
-                <Ghost size={15} className="text-[#FF6B00]" /> {t}
-              </span>
-            ))}
-          </Reveal>
         </div>
       </section>
 

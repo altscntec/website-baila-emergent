@@ -58,15 +58,27 @@
     <priority>0.95</priority>
   </url>
 
-  <!-- Event: Latin Event Rotterdam Reverse Summer Special - Aug 1, 2026 -->
+  <!-- The Latin Halloween Festival landing page -->
   <url>
-    <loc>https://bailadembow.com/events/rotterdam-1-august-2026</loc>
-    <lastmod>2026-07-17</lastmod>
+    <loc>https://bailadembow.com/halloween</loc>
+    <lastmod>2026-08-06</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <priority>1.0</priority>
     <image:image>
-      <image:loc>https://bailadembow.com/images/events/rotterdam-reverse-aug1-2026.png</image:loc>
-      <image:title>Latin Event Rotterdam Summer Special - Baila Dembow at Club Reverse - August 1 2026</image:title>
+      <image:loc>https://bailadembow.com/images/events/halloween-ijland-oct31-2026.png</image:loc>
+      <image:title>The Latin Halloween Festival - Baila Dembow at IJLAND Amsterdam - October 31 2026</image:title>
+    </image:image>
+  </url>
+
+  <!-- Event: The Latin Halloween Festival - IJLAND Amsterdam - Oct 31, 2026 -->
+  <url>
+    <loc>https://bailadembow.com/events/halloween-31-october-2026</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://bailadembow.com/images/events/halloween-ijland-oct31-2026.png</image:loc>
+      <image:title>Latin Halloween Party Amsterdam - Baila Dembow at IJLAND - October 31 2026</image:title>
     </image:image>
   </url>
 

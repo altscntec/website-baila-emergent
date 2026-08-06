@@ -38,20 +38,6 @@ export const GALLERY_IMAGES = [
 // any inbound bookmarks but is no longer linked from the grid.
 export const EVENTS = [
   {
-    id: "rotterdam-reverse-aug1-2026",
-    city: "Rotterdam",
-    venue: "Club Reverse, Rotterdam",
-    date: "2026-08-01",
-    time: "23:00 – 05:00",
-    title: "BAILA DEMBOW // ROTTERDAM — SUMMER SPECIAL",
-    description: "KLK ROTTERDAM, ¡el verano llegó! Reverse is about to turn into a full Caribbean block party. Saturday, August 1st, Baila Dembow brings the Summer Special to Reverse — dembow, reggaeton and Latin heat all night long, no breaks, no holding back. Early birds pay less, so lock your ticket in now before prices climb. Get yours now. 📍 Location: Club Reverse, Rotterdam · 🗓️ Date: Saturday, August 1, 2026 · ⏰ Time: 23:00 till 05:00 · 🔞 18+, ID required.",
-    ticket_url: "https://weeztix.shop/4s84rxxa",
-    status: "upcoming",
-    price_from: "",
-    price_door: "",
-    image_url: "/images/events/rotterdam-reverse-aug1-2026.png"
-  },
-  {
     id: "amsterdam-supperclub-aug7-2026",
     city: "Amsterdam",
     venue: "Supper Club, Singel 460, Amsterdam",
@@ -95,6 +81,25 @@ export const EVENTS = [
     price_from: "",
     price_door: "",
     image_url: "/images/events/ijland-summer-of-love-aug29-2026.png"
+  },
+  {
+    id: "ijland-halloween-oct31-2026",
+    city: "Amsterdam",
+    venue: "IJLAND, TT Vasumweg 171, Amsterdam",
+    date: "2026-10-31",
+    time: "23:00 – 05:00",
+    title: "THE LATIN HALLOWEEN FESTIVAL",
+    featured: true,
+    dress_code: "Scary, Sexy or Scary-Sexy",
+    tagline: "The nightmare wakes up all over again.",
+    landing_page: "#/halloween",
+    teaser_video: "/videos/halloween-teaser.mp4",
+    description: "MOST AWAITED EVENT !! The nightmare wakes up all over again. On Saturday, October 31st, the gates of IJLAND swing open one more time and the whole venue turns into a haunted inferno. Last edition we packed the room wall to wall, and this year the creatures crawl back thirstier for blood than ever. Vampires, ghouls, zombies and restless spirits take over every dark corner while our Baila Dembow DJs run reggaeton, dembow, Latin and Caribbean heat with zero breaks until the sun comes up. Bad Bunny, Karol G, El Alfa, Rauw Alejandro, Daddy Yankee and more shake the walls straight through the night. The capital of the Netherlands will not feel the same after this one. Here is the part you really should not sleep on. Every tier climbs in price as the night sells through, so the earlier you grab your ticket the cheaper it stays locked. Early Death is the lowest price of the whole event and it moves fast once the word spreads. Waiting until the door means paying the most and staring down a sold out sign. Secure your spot now while it is still cheap and drag the whole crew in with you. What to expect: cash prize for the best costume of the night · full haunted club transformation · free trick and treat sweets · spooky photobooth for the crew · costumes everywhere you look · Latin and Caribbean energy on full blast · 2 areas · food trucks on site · y mucho más. 📍 Location: IJLAND, TT Vasumweg 171, Amsterdam · 🗓️ Date: Saturday, October 31, 2026 · ⏰ Time: 23:00 to 05:00 · 🔞 18+ event, ID required · 👗 Dress code: Scary, Sexy or Scary-Sexy. Music: Reggaeton, Dembow, Dancehall, Salsa, Bachata, Merengue. Come in costume, come correct, and do not be the one hearing about it on Sunday.",
+    ticket_url: "https://weeztix.shop/nxaqrkdz",
+    status: "upcoming",
+    price_from: "",
+    price_door: "",
+    image_url: "/images/events/halloween-ijland-oct31-2026.png"
   }
 ];
 
