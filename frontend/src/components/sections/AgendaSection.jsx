@@ -80,6 +80,15 @@ export const AgendaSection = ({ events }) => {
                 >
                   GET TICKETS
                 </a>
+                {event.landing_page && (
+                  <a
+                    href={event.landing_page}
+                    className="block w-full text-center mt-3 border-2 border-white/25 text-white font-extrabold py-3.5 rounded-full text-base hover:bg-white hover:text-black hover:border-white transition-colors duration-300"
+                    data-testid={`event-more-info-${index}`}
+                  >
+                    MORE INFO
+                  </a>
+                )}
               </div>
             </motion.div>
           ))}
