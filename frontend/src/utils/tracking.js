@@ -1,9 +1,34 @@
 import { META_PIXEL_ID, TIKTOK_PIXEL_ID } from './constants';
 
-// Load Meta Pixel with Advanced Matching support
+// Build a Meta Advanced Matching object containing ONLY the fields we
+// actually have a value for. Empty/blank fields are omitted entirely —
+// sending empty strings (em: '', ph: '', ...) is what makes Meta flag the
+// pixel as "advanced matching not set up". The pixel hashes these values
+// with SHA-256 automatically, so we pass them lightly normalised (trimmed
+// and lower-cased; phone reduced to digits) for the best match rate.
+const buildAdvancedMatching = (userData = {}) => {
+  const firstName = userData.firstName || userData.name?.split(' ')[0] || '';
+  const lastName = userData.lastName || userData.name?.split(' ').slice(1).join(' ') || '';
+  const candidates = {
+    em: userData.email,
+    ph: userData.phone ? String(userData.phone).replace(/[^0-9]/g, '') : '',
+    fn: firstName,
+    ln: lastName,
+    ct: userData.city,
+    country: userData.country,
+  };
+  const am = {};
+  Object.entries(candidates).forEach(([key, value]) => {
+    if (value && String(value).trim()) am[key] = String(value).trim().toLowerCase();
+  });
+  return am;
+};
+
+// Load Meta Pixel. Advanced matching data is only attached when we have it
+// (e.g. after a form submission); a plain page-load init sends no PII.
 export const loadMetaPixel = (userData = {}) => {
   if (window.fbq) return;
-  
+
   !function(f,b,e,v,n,t,s) {
     if(f.fbq)return;n=f.fbq=function(){n.callMethod?
     n.callMethod.apply(n,arguments):n.queue.push(arguments)};
@@ -12,30 +37,23 @@ export const loadMetaPixel = (userData = {}) => {
     t.src=v;s=b.getElementsByTagName(e)[0];
     s.parentNode.insertBefore(t,s)
   }(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
-  
-  // Initialize with Advanced Matching - values will be hashed automatically by the pixel using SHA-256
-  window.fbq('init', META_PIXEL_ID, {
-    em: userData.email || '',      // Email - hashed automatically
-    ph: userData.phone || '',      // Phone number - hashed automatically
-    fn: userData.firstName || '',  // First name - hashed automatically
-    ln: userData.lastName || '',   // Last name - hashed automatically
-    ct: userData.city || '',       // City - hashed automatically
-    country: userData.country || '' // Country - hashed automatically
-  });
+
+  const am = buildAdvancedMatching(userData);
+  if (Object.keys(am).length > 0) {
+    window.fbq('init', META_PIXEL_ID, am);
+  } else {
+    window.fbq('init', META_PIXEL_ID);
+  }
   window.fbq('track', 'PageView');
 };
 
-// Update user data for Advanced Matching after form submission
+// Re-init the pixel with real Advanced Matching data after a form submission.
 export const updateMetaPixelUserData = (userData) => {
   if (typeof window !== 'undefined' && window.fbq) {
-    window.fbq('init', META_PIXEL_ID, {
-      em: userData.email || '',
-      ph: userData.phone || '',
-      fn: userData.firstName || userData.name?.split(' ')[0] || '',
-      ln: userData.lastName || userData.name?.split(' ').slice(1).join(' ') || '',
-      ct: userData.city || '',
-      country: userData.country || ''
-    });
+    const am = buildAdvancedMatching(userData);
+    if (Object.keys(am).length > 0) {
+      window.fbq('init', META_PIXEL_ID, am);
+    }
   }
 };
 

@@ -4,6 +4,7 @@ import { Instagram, MessageCircle, Mail, Send } from 'lucide-react';
 import { toast } from 'sonner';
 import { BUNNY_GLASSES } from '../../utils/constants';
 import { CookieSettingsLink } from '../../context/CookieConsentContext';
+import { trackFormSubmission } from '../../utils/tracking';
 
 // Personal / generic email domains — company emails only
 const BLOCKED_DOMAINS = [
@@ -79,6 +80,8 @@ export const CommunitySection = () => {
       const data = await response.json();
 
       if (response.ok && data.success === 'true') {
+        // Feed real data to the Meta pixel for Advanced Matching (hashed by the pixel)
+        trackFormSubmission({ email: companyEmail, name: fullName });
         setSubmitted(true);
         toast.success("Proposal sent. We'll get back to you within 48 hours.");
         setFormData({ fullName: '', companyName: '', companyEmail: '', message: '' });
