@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Calendar, MessageCircle, Ticket, Sparkles, Mail, Users } from 'lucide-react';
+import { Calendar, MessageCircle, Ticket, Sparkles, Mail, Users, Heart } from 'lucide-react';
 import { BUNNY_LOGO } from '../../utils/constants';
 
 export const Navigation = ({ currentPath = '/' }) => {
@@ -78,6 +78,17 @@ export const Navigation = ({ currentPath = '/' }) => {
           <button onClick={() => scrollToSection('experience')} className="hover:text-[#FF0080] transition-colors" data-testid="nav-gallery">Experiences</button>
           <button onClick={() => scrollToSection('community')} className="hover:text-[#FF0080] transition-colors" data-testid="nav-community">Community</button>
           <a href="/press" className="hover:text-[#FF0080] transition-colors" data-testid="nav-press">Press</a>
+          {/* Emergency appeal — colour adapts so it stays legible on both the
+              transparent nav and the solid white one */}
+          <button
+            onClick={() => scrollToSection('fundraiser')}
+            className="inline-flex items-center gap-1.5 font-bold transition-colors hover:opacity-75"
+            style={{ color: showSolidNav ? '#9A6B00' : '#FCD116' }}
+            data-testid="nav-fundraiser"
+          >
+            <Heart size={15} />
+            Colombia
+          </button>
         </div>
 
         {/* Mobile Hamburger Button */}
@@ -156,7 +167,15 @@ export const Navigation = ({ currentPath = '/' }) => {
                   <Mail className="w-5 h-5" />
                   Press
                 </a>
-                
+                <button
+                  onClick={() => scrollToSection('fundraiser')}
+                  className="flex items-center gap-3 px-4 py-3 rounded-xl text-[#9A6B00] hover:bg-amber-50 transition-colors font-bold text-left"
+                  data-testid="mobile-nav-fundraiser"
+                >
+                  <Heart className="w-5 h-5" />
+                  Todos por Colombia
+                </button>
+
                 <div className="mt-2 pt-2 border-t border-gray-100">
                   <a 
                     href="https://linktr.ee/bailadembow"
