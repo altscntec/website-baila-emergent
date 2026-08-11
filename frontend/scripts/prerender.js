@@ -42,19 +42,39 @@ const MIME = {
   '.txt': 'text/plain', '.xml': 'application/xml',
 };
 
+// Marker stamped into every snapshot so a re-run can tell it is looking at
+// already-prerendered output rather than the original SPA shell.
+const MARKER = '<!-- prerendered -->';
+
+// The pristine SPA shell. `npm run build` always regenerates build/index.html,
+// so this is clean in CI and locally. If prerender is invoked twice without a
+// rebuild we bail out instead of rendering on top of a previous snapshot
+// (which would compound injected <style> tags on every pass).
+const SHELL = (() => {
+  const raw = fs.readFileSync(path.join(BUILD, 'index.html'), 'utf8');
+  if (raw.includes(MARKER)) {
+    console.warn('[prerender] build/index.html is already prerendered — run a full build first. Skipping.');
+    process.exit(0);
+  }
+  return Buffer.from(raw);
+})();
+
 const serve = () =>
   http.createServer((req, res) => {
     const urlPath = decodeURIComponent(req.url.split('?')[0]);
-    let filePath = path.join(BUILD, urlPath);
+    const filePath = path.join(BUILD, urlPath);
     if (!filePath.startsWith(BUILD)) return res.writeHead(403).end();
-    if (!fs.existsSync(filePath) || fs.statSync(filePath).isDirectory()) {
-      const asDir = path.join(filePath, 'index.html');
-      // SPA fallback so client routing can resolve any path
-      filePath = fs.existsSync(asDir) ? asDir : path.join(BUILD, 'index.html');
+    const isRealAsset =
+      fs.existsSync(filePath) &&
+      fs.statSync(filePath).isFile() &&
+      path.extname(filePath) !== '.html';
+    if (isRealAsset) {
+      res.writeHead(200, { 'Content-Type': MIME[path.extname(filePath)] || 'application/octet-stream' });
+      return res.end(fs.readFileSync(filePath));
     }
-    const body = fs.readFileSync(filePath);
-    res.writeHead(200, { 'Content-Type': MIME[path.extname(filePath)] || 'application/octet-stream' });
-    res.end(body);
+    // Any route (or .html request) gets the clean shell; React does the routing
+    res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
+    res.end(SHELL);
   });
 
 (async () => {
@@ -63,23 +83,31 @@ const serve = () =>
     process.exit(0);
   }
 
-  let puppeteer;
-  try {
-    puppeteer = require('puppeteer');
-  } catch (e) {
-    console.warn('[prerender] puppeteer unavailable — skipping prerender, shipping SPA build.');
-    process.exit(0);
-  }
-
   const server = serve();
   await new Promise((resolve) => server.listen(PORT, resolve));
 
+  // On Vercel the build image lacks Chrome's shared libraries, so use the
+  // serverless Chromium build. Locally, use the full puppeteer download.
+  const onVercel = !!process.env.VERCEL;
   let browser;
   try {
-    browser = await puppeteer.launch({
-      headless: 'shell',
-      args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage', '--mute-audio'],
-    });
+    if (onVercel) {
+      const chromium = require('@sparticuz/chromium');
+      const puppeteerCore = require('puppeteer-core');
+      browser = await puppeteerCore.launch({
+        args: [...chromium.args, '--no-sandbox', '--disable-dev-shm-usage', '--mute-audio'],
+        executablePath: await chromium.executablePath(),
+        headless: true,
+      });
+      console.log('[prerender] using @sparticuz/chromium');
+    } else {
+      const puppeteer = require('puppeteer');
+      browser = await puppeteer.launch({
+        headless: 'shell',
+        args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage', '--mute-audio'],
+      });
+      console.log('[prerender] using local puppeteer');
+    }
   } catch (e) {
     console.warn('[prerender] could not launch Chrome — skipping prerender:', e.message);
     server.close();
@@ -114,7 +142,7 @@ const serve = () =>
       const html = await page.evaluate(() => {
         // Drop the noscript fallback — real content is now in the HTML
         document.querySelectorAll('noscript').forEach((n) => n.remove());
-        return '<!doctype html>\n' + document.documentElement.outerHTML;
+        return '<!doctype html>\n<!-- prerendered -->\n' + document.documentElement.outerHTML;
       });
       await page.close();
 
