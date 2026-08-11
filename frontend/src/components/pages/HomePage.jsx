@@ -1,4 +1,5 @@
 import { WorldHero } from '../sections/WorldHero';
+import { FundraiserSection } from '../sections/FundraiserSection';
 import { FeaturedEventSection } from '../sections/FeaturedEventSection';
 import { AgendaSection } from '../sections/AgendaSection';
 import { ExperiencesRow } from '../sections/ExperiencesRow';
@@ -14,6 +15,7 @@ export const HomePage = ({ events }) => {
   return (
     <>
       <WorldHero />
+      <FundraiserSection />
       {featured && <FeaturedEventSection event={featured} />}
       <AgendaSection events={events} />
       <ExperiencesRow />
