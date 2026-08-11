@@ -2,6 +2,7 @@ import { WorldHero } from '../sections/WorldHero';
 import { FeaturedEventSection } from '../sections/FeaturedEventSection';
 import { AgendaSection } from '../sections/AgendaSection';
 import { ExperiencesRow } from '../sections/ExperiencesRow';
+import { FAQSection } from '../sections/FAQSection';
 import { CommunitySection } from '../sections/CommunitySection';
 
 export const HomePage = ({ events }) => {
@@ -16,6 +17,7 @@ export const HomePage = ({ events }) => {
       {featured && <FeaturedEventSection event={featured} />}
       <AgendaSection events={events} />
       <ExperiencesRow />
+      <FAQSection />
       <CommunitySection />
     </>
   );

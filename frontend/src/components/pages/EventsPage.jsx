@@ -43,7 +43,7 @@ export const EventsPage = ({ events: propEvents }) => {
                   Follow @baila.dembow
                 </a>
                 <a
-                  href="#community"
+                  href="/?scrollTo=community"
                   className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-white/20 text-white font-semibold hover:border-white/40 transition"
                 >
                   Join the Community
@@ -55,7 +55,7 @@ export const EventsPage = ({ events: propEvents }) => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {events.map((event, index) => (
               <div key={event.id} className="event-card" data-testid={`events-page-card-${index}`}>
-                <a href={`#/events/${generateEventSlug(event)}`} className="block">
+                <a href={`/events/${generateEventSlug(event)}`} className="block">
                   <div className="relative h-56 overflow-hidden">
                     <img src={event.image_url} alt={event.title} className="w-full h-full object-cover" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
@@ -104,7 +104,7 @@ export const EventsPage = ({ events: propEvents }) => {
           </div>
           
           <div className="text-center mt-12">
-            <a href="#/" className="inline-flex items-center gap-2 text-[#FF0080] font-semibold hover:underline">
+            <a href="/" className="inline-flex items-center gap-2 text-[#FF0080] font-semibold hover:underline">
               ← Back to Homepage
             </a>
           </div>

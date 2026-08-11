@@ -862,7 +862,7 @@ export const KingsdayWeekenderPage = () => {
           </div>
           <p className="font-display text-lg text-white/80 mb-2">BAILA DEMBOW</p>
           <p className="text-white/40 text-sm mb-4">© 2026 House Decoded Events</p>
-          <a href="#/" className="text-sm transition-colors hover:opacity-80" style={{ color: COLORS.burntOrange }}>
+          <a href="/" className="text-sm transition-colors hover:opacity-80" style={{ color: COLORS.burntOrange }}>
             ← Back to Main Site
           </a>
         </div>

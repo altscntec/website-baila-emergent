@@ -9,21 +9,7 @@ export const SingleEventPage = ({ eventSlug, events }) => {
   
   useEffect(() => {
     if (event) {
-      document.title = `Latin Event in ${event.city} | ${event.title} – Reggaeton & Dembow Party Netherlands`;
-      
-      const metaDesc = document.querySelector('meta[name="description"]');
-      if (metaDesc) {
-        metaDesc.setAttribute('content', `${event.title} - The best Latin Event in ${event.city}. Experience Reggaeton, Dembow, and the ultimate Latin Party in the Netherlands at ${event.venue}. Get tickets now.`);
-      }
-      
-      let canonical = document.querySelector('link[rel="canonical"]');
-      if (!canonical) {
-        canonical = document.createElement('link');
-        canonical.rel = 'canonical';
-        document.head.appendChild(canonical);
-      }
-      canonical.href = `https://bailadembow.com/events/${eventSlug}`;
-      
+      // Title, description and canonical are set centrally by <Seo> in App.js
       // Remove existing schemas
       const existingEventScript = document.querySelector('#event-jsonld');
       if (existingEventScript) existingEventScript.remove();
@@ -103,7 +89,7 @@ export const SingleEventPage = ({ eventSlug, events }) => {
         <div className="text-center">
           <h1 className="font-display text-4xl mb-4">Event Not Found</h1>
           <p className="text-gray-600 mb-8">The event you're looking for doesn't exist or has ended.</p>
-          <a href="#/events" className="cta-primary inline-flex items-center gap-2">View All Events</a>
+          <a href="/events" className="cta-primary inline-flex items-center gap-2">View All Events</a>
         </div>
       </div>
     );
@@ -213,8 +199,8 @@ export const SingleEventPage = ({ eventSlug, events }) => {
         </div>
         
         <div className="flex flex-wrap gap-4 mt-12 pt-8 border-t border-gray-100">
-          <a href="#/" className="text-gray-600 hover:text-[#FF0080] transition-colors">← Back to Homepage</a>
-          <a href="#/events" className="text-gray-600 hover:text-[#FF0080] transition-colors">View All Events →</a>
+          <a href="/" className="text-gray-600 hover:text-[#FF0080] transition-colors">← Back to Homepage</a>
+          <a href="/events" className="text-gray-600 hover:text-[#FF0080] transition-colors">View All Events →</a>
         </div>
       </div>
 

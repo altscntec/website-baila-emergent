@@ -1,9 +1,9 @@
 import { motion } from 'framer-motion';
 
 const EXPERIENCES = [
-  { title: 'The Latin Halloween Fest', href: '#/experiences/halloween', bg: '#7F00FF', fg: '#FFE14D' },
-  { title: 'Live Tribute Shows', href: '#/experiences/live-tribute', bg: '#0A0A0A', fg: '#FFB43C' },
-  { title: 'Casa de Baila Dembow', href: '#/experiences/casita', bg: '#FF3B30', fg: '#FFE14D' },
+  { title: 'The Latin Halloween Fest', href: '/halloween', bg: '#7F00FF', fg: '#FFE14D' },
+  { title: 'Live Tribute Shows', href: '/experiences/live-tribute', bg: '#0A0A0A', fg: '#FFB43C' },
+  { title: 'Casa de Baila Dembow', href: '/experiences/casita', bg: '#FF3B30', fg: '#FFE14D' },
 ];
 
 export const ExperiencesRow = () => (

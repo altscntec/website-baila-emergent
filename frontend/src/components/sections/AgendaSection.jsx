@@ -93,6 +93,53 @@ export const AgendaSection = ({ events }) => {
             </motion.div>
           ))}
         </div>
+
+        {/* Crawlable at-a-glance table — snippet-friendly summary of all dates */}
+        {events.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6, delay: 0.3 }}
+            className="max-w-5xl mx-auto mt-16 overflow-x-auto"
+            data-testid="agenda-table"
+          >
+            <h3 className="font-display text-white text-2xl md:text-3xl mb-5 text-center">All upcoming Baila Dembow events</h3>
+            <table className="w-full text-left text-sm md:text-base border-collapse">
+              <thead>
+                <tr className="text-[#FFE14D] uppercase tracking-wider text-xs md:text-sm">
+                  <th className="py-3 px-4 border-b border-white/15 font-extrabold">Date</th>
+                  <th className="py-3 px-4 border-b border-white/15 font-extrabold">Event</th>
+                  <th className="py-3 px-4 border-b border-white/15 font-extrabold">City</th>
+                  <th className="py-3 px-4 border-b border-white/15 font-extrabold">Venue</th>
+                  <th className="py-3 px-4 border-b border-white/15 font-extrabold">Doors</th>
+                  <th className="py-3 px-4 border-b border-white/15 font-extrabold">Tickets</th>
+                </tr>
+              </thead>
+              <tbody className="text-gray-300">
+                {[...events].sort((a, b) => a.date.localeCompare(b.date)).map((e) => (
+                  <tr key={e.id} className="hover:bg-white/[0.04]">
+                    <td className="py-3 px-4 border-b border-white/10 whitespace-nowrap font-semibold text-white">{formatDate(e.date)}</td>
+                    <td className="py-3 px-4 border-b border-white/10">{e.title}</td>
+                    <td className="py-3 px-4 border-b border-white/10">{e.city}</td>
+                    <td className="py-3 px-4 border-b border-white/10">{e.venue}</td>
+                    <td className="py-3 px-4 border-b border-white/10 whitespace-nowrap">{e.time}</td>
+                    <td className="py-3 px-4 border-b border-white/10">
+                      <a
+                        href={e.ticket_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-[#FFE14D] font-bold hover:text-white transition-colors underline underline-offset-2"
+                        onClick={() => trackTicketClick(`${e.title} - table`, e.ticket_url)}
+                      >
+                        Get tickets
+                      </a>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </motion.div>
+        )}
       </div>
     </section>
   );

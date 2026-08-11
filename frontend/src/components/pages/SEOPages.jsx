@@ -4,11 +4,7 @@ import { generateEventSlug } from '../../utils/helpers';
 
 export const LatinEventAmsterdamPage = ({ events }) => {
   useEffect(() => {
-    document.title = "Latin Event in Amsterdam | Reggaeton & Dembow Party – Baila Dembow";
-    const metaDesc = document.querySelector('meta[name="description"]');
-    if (metaDesc) {
-      metaDesc.setAttribute('content', 'Looking for the best Latin Event in Amsterdam? Baila Dembow hosts the biggest Reggaeton and Dembow parties in Amsterdam.');
-    }
+    // Head tags are set centrally by <Seo> in App.js
     let canonical = document.querySelector('link[rel="canonical"]');
     if (canonical) canonical.href = 'https://bailadembow.com/latin-event-amsterdam';
   }, []);
@@ -49,7 +45,7 @@ export const LatinEventAmsterdamPage = ({ events }) => {
               <h3 className="font-display text-xl mb-6 text-center">Upcoming Amsterdam Events</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {amsterdamEvents.map((event) => (
-                  <a key={event.id} href={`#/events/${generateEventSlug(event)}`} className="event-card block hover:shadow-lg transition-shadow">
+                  <a key={event.id} href={`/events/${generateEventSlug(event)}`} className="event-card block hover:shadow-lg transition-shadow">
                     <div className="relative h-48 overflow-hidden">
                       <img src={event.image_url} alt={event.title} className="w-full h-full object-cover" />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
@@ -69,15 +65,15 @@ export const LatinEventAmsterdamPage = ({ events }) => {
 
           <div className="text-center bg-gradient-to-r from-[#FF0080]/10 to-[#8B5CF6]/10 rounded-2xl p-8">
             <h3 className="font-display text-2xl mb-4">Ready to Experience the Best Latin Event in Amsterdam?</h3>
-            <a href="#/events" className="cta-primary inline-flex items-center gap-2">
+            <a href="/events" className="cta-primary inline-flex items-center gap-2">
               <Ticket className="w-5 h-5" />
               View All Events
             </a>
           </div>
 
           <div className="mt-12 pt-8 border-t border-gray-100 flex flex-wrap gap-4 justify-center">
-            <a href="#/" className="text-gray-600 hover:text-[#FF0080] transition-colors">← Homepage</a>
-            <a href="#/latin-event-rotterdam" className="text-gray-600 hover:text-[#FF0080] transition-colors">Latin Event in Rotterdam →</a>
+            <a href="/" className="text-gray-600 hover:text-[#FF0080] transition-colors">← Homepage</a>
+            <a href="/latin-event-rotterdam" className="text-gray-600 hover:text-[#FF0080] transition-colors">Latin Event in Rotterdam →</a>
           </div>
         </div>
       </div>
@@ -87,11 +83,7 @@ export const LatinEventAmsterdamPage = ({ events }) => {
 
 export const LatinEventRotterdamPage = ({ events }) => {
   useEffect(() => {
-    document.title = "Latin Event in Rotterdam | Reggaeton & Dembow Party – Baila Dembow";
-    const metaDesc = document.querySelector('meta[name="description"]');
-    if (metaDesc) {
-      metaDesc.setAttribute('content', 'Discover the best Latin Event in Rotterdam. Baila Dembow brings Reggaeton and Dembow parties to Rotterdam.');
-    }
+    // Head tags are set centrally by <Seo> in App.js
     let canonical = document.querySelector('link[rel="canonical"]');
     if (canonical) canonical.href = 'https://bailadembow.com/latin-event-rotterdam';
   }, []);
@@ -131,7 +123,7 @@ export const LatinEventRotterdamPage = ({ events }) => {
               <h3 className="font-display text-xl mb-6 text-center">Upcoming Rotterdam Events</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {rotterdamEvents.map((event) => (
-                  <a key={event.id} href={`#/events/${generateEventSlug(event)}`} className="event-card block hover:shadow-lg transition-shadow">
+                  <a key={event.id} href={`/events/${generateEventSlug(event)}`} className="event-card block hover:shadow-lg transition-shadow">
                     <div className="relative h-48 overflow-hidden">
                       <img src={event.image_url} alt={event.title} className="w-full h-full object-cover" />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
@@ -151,15 +143,15 @@ export const LatinEventRotterdamPage = ({ events }) => {
 
           <div className="text-center bg-gradient-to-r from-[#FF0080]/10 to-[#8B5CF6]/10 rounded-2xl p-8">
             <h3 className="font-display text-2xl mb-4">Experience the Best Latin Event in Rotterdam</h3>
-            <a href="#/events" className="cta-primary inline-flex items-center gap-2">
+            <a href="/events" className="cta-primary inline-flex items-center gap-2">
               <Ticket className="w-5 h-5" />
               Get Tickets Now
             </a>
           </div>
 
           <div className="mt-12 pt-8 border-t border-gray-100 flex flex-wrap gap-4 justify-center">
-            <a href="#/" className="text-gray-600 hover:text-[#FF0080] transition-colors">← Homepage</a>
-            <a href="#/latin-event-amsterdam" className="text-gray-600 hover:text-[#FF0080] transition-colors">Latin Event in Amsterdam →</a>
+            <a href="/" className="text-gray-600 hover:text-[#FF0080] transition-colors">← Homepage</a>
+            <a href="/latin-event-amsterdam" className="text-gray-600 hover:text-[#FF0080] transition-colors">Latin Event in Amsterdam →</a>
           </div>
         </div>
       </div>

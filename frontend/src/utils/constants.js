@@ -33,26 +33,14 @@ export const GALLERY_IMAGES = [
 //   2026-07-17 — Past July events removed (Rotterdam 04, IJland 05, Leiden 11); Rotterdam Reverse Summer Special (01 Aug) added
 //   2026-07-18 — Amsterdam Oliva (18 Jul) removed; Supper Club (07 Aug) + Summer of Love XL (29 Aug) added
 //   2026-07-27 — Groningen (25 Jul) removed (past). Live: Rotterdam 01 Aug, Supper Club 07 Aug, Summer of Love 29 Aug
+//   2026-08-11 — Supper Club (07 Aug) removed (past). customSlug added so /events/<slug> URLs match the sitemap.
 //
 // The /events/PadelXReggaeton standalone route still exists in App.js for
 // any inbound bookmarks but is no longer linked from the grid.
 export const EVENTS = [
   {
-    id: "amsterdam-supperclub-aug7-2026",
-    city: "Amsterdam",
-    venue: "Supper Club, Singel 460, Amsterdam",
-    date: "2026-08-07",
-    time: "23:30 – 05:00",
-    title: "BAILA DEMBOW × SUPPER CLUB // AMSTERDAM",
-    description: "DIME AMSTERDAM !!! Friday, August 7th, Baila Dembow is hosting a Latin Night together with Supper Club for the very first time. Reggaeton, dembow, salsa and bachata from 23:30 until 05:00, plus a guest behind the decks that we are not naming yet. Early bird is live and it is the cheapest ticket you will find all week. La última vez se agotó, so do not wait on this one. 📍 Location: Supper Club, Singel 460, 1017 AW Amsterdam · 🗓️ Date: Friday, August 7, 2026 · ⏰ Time: 23:30 – 05:00 · 🔞 18+ event, ID required. First time in this venue, and we only get one of those. Nos vemos en la pista 🐇",
-    ticket_url: "https://weeztix.shop/rw9qseqg",
-    status: "upcoming",
-    price_from: "",
-    price_door: "",
-    image_url: "/images/events/amsterdam-supperclub-aug7-2026.png"
-  },
-  {
     id: "groningen-huizemaas-allwhite-aug22-2026",
+    customSlug: "groningen-all-white-22-august-2026",
     city: "Groningen",
     venue: "Huize Maas, Groningen",
     date: "2026-08-22",
@@ -67,6 +55,7 @@ export const EVENTS = [
   },
   {
     id: "ijland-summer-of-love-aug29-2026",
+    customSlug: "summer-of-love-29-august-2026",
     city: "Amsterdam",
     venue: "IJland, Amsterdam",
     date: "2026-08-29",
@@ -84,6 +73,7 @@ export const EVENTS = [
   },
   {
     id: "ijland-halloween-oct31-2026",
+    customSlug: "halloween-31-october-2026",
     city: "Amsterdam",
     venue: "IJLAND, TT Vasumweg 171, Amsterdam",
     date: "2026-10-31",
@@ -92,7 +82,7 @@ export const EVENTS = [
     featured: true,
     dress_code: "Scary, Sexy or Scary-Sexy",
     tagline: "The nightmare wakes up all over again.",
-    landing_page: "#/halloween",
+    landing_page: "/halloween",
     teaser_video: "/videos/halloween-teaser.mp4",
     description: "MOST AWAITED EVENT !! The nightmare wakes up all over again. On Saturday, October 31st, the gates of IJLAND swing open one more time and the whole venue turns into a haunted inferno. Last edition we packed the room wall to wall, and this year the creatures crawl back thirstier for blood than ever. Vampires, ghouls, zombies and restless spirits take over every dark corner while our Baila Dembow DJs run reggaeton, dembow, Latin and Caribbean heat with zero breaks until the sun comes up. Bad Bunny, Karol G, El Alfa, Rauw Alejandro, Daddy Yankee and more shake the walls straight through the night. The capital of the Netherlands will not feel the same after this one. Here is the part you really should not sleep on. Every tier climbs in price as the night sells through, so the earlier you grab your ticket the cheaper it stays locked. Early Death is the lowest price of the whole event and it moves fast once the word spreads. Waiting until the door means paying the most and staring down a sold out sign. Secure your spot now while it is still cheap and drag the whole crew in with you. What to expect: cash prize for the best costume of the night · full haunted club transformation · free trick and treat sweets · spooky photobooth for the crew · costumes everywhere you look · Latin and Caribbean energy on full blast · 2 areas · food trucks on site · y mucho más. 📍 Location: IJLAND, TT Vasumweg 171, Amsterdam · 🗓️ Date: Saturday, October 31, 2026 · ⏰ Time: 23:00 to 05:00 · 🔞 18+ event, ID required · 👗 Dress code: Scary, Sexy or Scary-Sexy. Music: Reggaeton, Dembow, Dancehall, Salsa, Bachata, Merengue. Come in costume, come correct, and do not be the one hearing about it on Sunday.",
     ticket_url: "https://weeztix.shop/nxaqrkdz",
@@ -105,3 +95,36 @@ export const EVENTS = [
 
 // Backward compat alias
 export const FALLBACK_EVENTS = EVENTS;
+
+// FAQ — single source of truth for the visible homepage FAQ section.
+// Keep the FAQPage JSON-LD in public/index.html in sync with these answers.
+export const FAQS = [
+  {
+    q: "What is the best Latin event in Amsterdam?",
+    a: "Baila Dembow is the leading Latin event in Amsterdam and the Netherlands, running sold-out reggaeton and dembow parties since 2023. Over 25,000 fans have joined our events, from club takeovers to the XL editions at IJland and the annual Latin Halloween Festival.",
+  },
+  {
+    q: "Where can I find Latin party events in the Netherlands?",
+    a: "Baila Dembow hosts Latin parties across the Netherlands — Amsterdam, Rotterdam, Groningen and beyond. The upcoming agenda includes the Groningen All White Edition (22 August, Huize Maas), Baila Dembow XL Summer of Love (29 August, IJland Amsterdam) and the Latin Halloween Festival (31 October, IJLAND Amsterdam).",
+  },
+  {
+    q: "What is dembow music?",
+    a: "Dembow is a high-energy music genre from the Dominican Republic, built on a fast, repetitive riddim that keeps the dancefloor moving. Artists like El Alfa and Rochy RD made it a global sound, and it sits at the heart of every Baila Dembow party alongside reggaeton.",
+  },
+  {
+    q: "Are there reggaeton parties in Amsterdam?",
+    a: "Yes — Baila Dembow is Amsterdam's reggaeton party brand, playing Bad Bunny, Karol G, Rauw Alejandro, Daddy Yankee and the full Latin playlist. The next Amsterdam editions are the XL Summer of Love at IJland on 29 August and the Latin Halloween Festival on 31 October 2026.",
+  },
+  {
+    q: "How much do Baila Dembow tickets cost?",
+    a: "Tickets start from around €10 online for early birds and climb in tiers as the event date approaches. Booking early always gets the lowest price — recent editions sold out before the door. Tickets are sold via Weeztix.",
+  },
+  {
+    q: "What is the Latin Halloween Festival by Baila Dembow?",
+    a: "The Latin Halloween Festival is Amsterdam's biggest Latin Halloween party — four years running, 1500+ capacity, sold out every time. The whole venue becomes a haunted club with two areas, a cash prize for the best costume and reggaeton, dembow, salsa and bachata until 05:00. The 2026 edition is Saturday 31 October at IJLAND.",
+  },
+  {
+    q: "What are the Live Tribute Shows at Baila Dembow?",
+    a: "Live Tribute Shows are special Baila Dembow nights where world-class musicians perform live tributes to Latin legends like Juan Luis Guerra and the salsa and merengue greats. After the live set, our resident DJs take over with reggaeton and dembow until sunrise.",
+  },
+];

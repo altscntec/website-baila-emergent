@@ -60,7 +60,7 @@ export const PressPage = () => {
         </div>
         
         <div className="text-center mt-12">
-          <a href="#/" className="inline-flex items-center gap-2 text-[#FF0080] font-semibold hover:underline">
+          <a href="/" className="inline-flex items-center gap-2 text-[#FF0080] font-semibold hover:underline">
             ← Back to Homepage
           </a>
         </div>

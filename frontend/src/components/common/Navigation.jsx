@@ -3,30 +3,25 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Calendar, MessageCircle, Ticket, Sparkles, Mail, Users } from 'lucide-react';
 import { BUNNY_LOGO } from '../../utils/constants';
 
-export const Navigation = () => {
+export const Navigation = ({ currentPath = '/' }) => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [hash, setHash] = useState(typeof window !== 'undefined' ? window.location.hash : '');
 
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
     };
-    const handleHashChange = () => setHash(window.location.hash);
     window.addEventListener("scroll", handleScroll);
-    window.addEventListener("hashchange", handleHashChange);
     return () => {
       window.removeEventListener("scroll", handleScroll);
-      window.removeEventListener("hashchange", handleHashChange);
     };
   }, []);
 
   // Pages with a light/white background — force the "scrolled" nav style so
   // text isn't white-on-white at the top of the page.
   const isLightPage =
-    hash === '#press' ||
-    hash === '#/press' ||
-    hash.startsWith('#/events/'); // SingleEventPage uses bg-white
+    currentPath === '/press' ||
+    currentPath.startsWith('/events/'); // SingleEventPage uses bg-white
   const showSolidNav = scrolled || isLightPage;
 
   useEffect(() => {
@@ -43,15 +38,15 @@ export const Navigation = () => {
 
   const scrollToSection = (id) => {
     setMobileMenuOpen(false);
-    const isHomePage = window.location.hash === '' || window.location.hash === '#' || window.location.hash === '#/';
-    
+    const isHomePage = window.location.pathname === '/' || window.location.pathname === '';
+
     if (isHomePage) {
       const element = document.getElementById(id);
       if (element) {
         element.scrollIntoView({ behavior: "smooth" });
       }
     } else {
-      window.location.href = `${window.location.origin}/#/?scrollTo=${id}`;
+      window.location.href = `${window.location.origin}/?scrollTo=${id}`;
     }
   };
 
@@ -78,11 +73,11 @@ export const Navigation = () => {
         
         {/* Desktop Navigation */}
         <div className={`hidden md:flex items-center gap-6 text-sm font-medium ${showSolidNav ? 'text-black' : 'text-white'}`}>
-          <a href="#events" className="hover:text-[#FF0080] transition-colors" data-testid="nav-events">Events</a>
-          <a href="#about" className="hover:text-[#FF0080] transition-colors" data-testid="nav-about">About</a>
+          <a href="/events" className="hover:text-[#FF0080] transition-colors" data-testid="nav-events">Events</a>
+          <a href="/about" className="hover:text-[#FF0080] transition-colors" data-testid="nav-about">About</a>
           <button onClick={() => scrollToSection('experience')} className="hover:text-[#FF0080] transition-colors" data-testid="nav-gallery">Experiences</button>
           <button onClick={() => scrollToSection('community')} className="hover:text-[#FF0080] transition-colors" data-testid="nav-community">Community</button>
-          <a href="#press" className="hover:text-[#FF0080] transition-colors" data-testid="nav-press">Press</a>
+          <a href="/press" className="hover:text-[#FF0080] transition-colors" data-testid="nav-press">Press</a>
         </div>
 
         {/* Mobile Hamburger Button */}
@@ -119,7 +114,7 @@ export const Navigation = () => {
               
               <div className="p-4 flex flex-col gap-2">
                 <a 
-                  href="#events" 
+                  href="/events" 
                   onClick={handleNavClick}
                   className="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-700 hover:bg-gray-50 hover:text-[#FF0080] transition-colors font-medium"
                   data-testid="mobile-nav-events"
@@ -128,7 +123,7 @@ export const Navigation = () => {
                   Events
                 </a>
                 <a 
-                  href="#about" 
+                  href="/about" 
                   onClick={handleNavClick}
                   className="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-700 hover:bg-gray-50 hover:text-[#FF0080] transition-colors font-medium"
                   data-testid="mobile-nav-about"
@@ -153,7 +148,7 @@ export const Navigation = () => {
                   Community
                 </button>
                 <a 
-                  href="#press" 
+                  href="/press" 
                   onClick={handleNavClick}
                   className="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-700 hover:bg-gray-50 hover:text-[#FF0080] transition-colors font-medium"
                   data-testid="mobile-nav-press"

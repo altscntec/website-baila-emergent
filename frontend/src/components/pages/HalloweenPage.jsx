@@ -73,7 +73,6 @@ const SectionHeading = ({ kicker, title, accent, children }) => (
 export const HalloweenPage = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
-    document.title = 'The Latin Halloween Festival | Baila Dembow Amsterdam';
   }, []);
 
   return (
