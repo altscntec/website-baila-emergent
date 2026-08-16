@@ -90,6 +90,67 @@ export const EVENTS = [
     price_from: "",
     price_door: "",
     image_url: "/images/events/halloween-ijland-oct31-2026.png"
+  },
+  {
+    id: "rotterdam-reverse-sep5-2026",
+    customSlug: "rotterdam-5-september-2026",
+    city: "Rotterdam",
+    venue: "Club Reverse, Rotterdam",
+    date: "2026-09-05",
+    time: "23:00 – 05:00",
+    title: "BAILA DEMBOW // ROTTERDAM",
+    description: "¡ROTTERDAM, SE PRENDE OTRA VEZ! Saturday, September 5th, Baila Dembow takes over Club Reverse for six straight hours of reggaeton, dembow and Latin Caribbean heat. You know how this room goes once it fills up. The bass sits in your chest, the perreo never really stops, and nobody is checking their phone by 3am. Bad Bunny, Karol G, El Alfa, Rauw Alejandro, Daddy Yankee and everything in between, all night, no breaks. Nonstop Latin + Caribbean hits, full takeover of Reverse. We have a habit of filling rooms and closing the door early, and Rotterdam always moves quicker than people expect. Early tickets are the cheapest they will ever be, and the price only climbs from here. Get yours now instead of paying more later for the exact same night. 📍 Location: Club Reverse, Rotterdam · 🗓️ Date: Saturday, September 5, 2026 · ⏰ Time: 23:00 – 05:00 · 🔞 18+ event, ID required.",
+    ticket_url: "https://weeztix.shop/4s84rxxa",
+    status: "upcoming",
+    price_from: "",
+    price_door: "",
+    image_url: "/images/events/rotterdam-reverse-sep5-2026.png"
+  },
+  {
+    id: "denhaag-westwood-sep12-2026",
+    customSlug: "den-haag-12-september-2026",
+    city: "Den Haag",
+    venue: "Westwood, Den Haag",
+    date: "2026-09-12",
+    time: "23:00 – 04:00",
+    title: "BAILA DEMBOW // DEN HAAG",
+    description: "¡DEN HAAG, ESTO SE PONE CALIENTE! Saturday, September 12th, Baila Dembow walks into Westwood and turns it into pure Latin club territory. Five hours of reggaeton, dembow, salsa, bachata and every Caribbean hit worth screaming back at the DJ. The floor fills early here, and once it does the room stops being a club and starts being a block party. Nonstop Latin + Caribbean hits, full takeover of Westwood. Every city we hit this year filled up before the night arrived, and Den Haag is not going to be the exception. The early tickets are always the cheapest ones, and they disappear first. Secure yours now so you are inside when the room goes off, not outside reading about it. 📍 Location: Westwood, Den Haag · 🗓️ Date: Saturday, September 12, 2026 · ⏰ Time: 23:00 – 04:00 · 🔞 18+ event, ID required.",
+    ticket_url: "https://weeztix.shop/z9xgcjv6",
+    status: "upcoming",
+    price_from: "",
+    price_door: "",
+    image_url: "/images/events/denhaag-westwood-sep12-2026.png"
+  },
+  {
+    id: "amsterdam-oliva-sep26-2026",
+    customSlug: "amsterdam-26-september-2026",
+    city: "Amsterdam",
+    venue: "Oliva, Rembrandtplein 17, Amsterdam",
+    date: "2026-09-26",
+    time: "23:00 – 05:00",
+    title: "BAILA DEMBOW // AMSTERDAM",
+    description: "¡AMSTERDAM, VOLVEMOS A OLIVA! Saturday, September 26th, Baila Dembow takes the whole of Oliva again. If you were in that room the last time, you already know what happens once Rembrandtplein empties into it. The bass hits differently, the floor never settles, and the perreo runs from the first track to the last. Bad Bunny, Karol G, El Alfa, Rauw Alejandro, Daddy Yankee and more, six hours deep. Nonstop Latin + Caribbean hits, full takeover of Oliva. Oliva has closed its doors on us before because the room was simply full, and that is not a story we want you hearing secondhand again. Early tickets cost the least, and every week that passes makes them more expensive. Take the cheap one now and thank yourself later. 📍 Location: Oliva, Rembrandtplein 17, Amsterdam · 🗓️ Date: Saturday, September 26, 2026 · ⏰ Time: 23:00 – 05:00 · 🔞 21+ event, ID required.",
+    ticket_url: "https://ticketapp.shop/jvgfntnewx",
+    status: "upcoming",
+    price_from: "",
+    price_door: "",
+    image_url: "/images/events/amsterdam-oliva-sep26-2026.png"
+  },
+  {
+    id: "eindhoven-declub-oct2-2026",
+    customSlug: "eindhoven-2-october-2026",
+    city: "Eindhoven",
+    venue: "De Club, Eindhoven",
+    date: "2026-10-02",
+    time: "23:00 – 05:00",
+    title: "BAILA DEMBOW // EINDHOVEN — FIRST EDITION",
+    tagline: "Our very first night in Eindhoven.",
+    description: "¡EINDHOVEN, POR FIN TE TOCA! Friday, October 2nd, Baila Dembow lands in Eindhoven for the very first time, and De Club is where it happens. Six hours of reggaeton, dembow, salsa, bachata and Latin Caribbean hits, run the way we run every room we walk into. Amsterdam filled up. Rotterdam filled up. Now it is your turn to find out what the noise is about. Nonstop Latin + Caribbean hits, full takeover of De Club. First editions always go quickest, because everybody wants to say they were at the one that started it. Early tickets are the cheapest of the whole run and the price climbs as the date gets closer. Get yours now and be in the room for night one. 📍 Location: De Club, Eindhoven · 🗓️ Date: Friday, October 2, 2026 · ⏰ Time: 23:00 – 05:00 · 🔞 18+ event, ID required.",
+    ticket_url: "https://weeztix.shop/q24mrcf7",
+    status: "upcoming",
+    price_from: "",
+    price_door: "",
+    image_url: "/images/events/eindhoven-declub-oct2-2026.png"
   }
 ];
 

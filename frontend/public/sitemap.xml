@@ -94,6 +94,54 @@
     </image:image>
   </url>
 
+  <!-- Event: Baila Dembow Rotterdam - Club Reverse - Sep 5, 2026 -->
+  <url>
+    <loc>https://bailadembow.com/events/rotterdam-5-september-2026</loc>
+    <lastmod>2026-08-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://bailadembow.com/images/events/rotterdam-reverse-sep5-2026.png</image:loc>
+      <image:title>Latin Event Rotterdam - Baila Dembow at Club Reverse - September 5 2026</image:title>
+    </image:image>
+  </url>
+
+  <!-- Event: Baila Dembow Den Haag - Westwood - Sep 12, 2026 -->
+  <url>
+    <loc>https://bailadembow.com/events/den-haag-12-september-2026</loc>
+    <lastmod>2026-08-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://bailadembow.com/images/events/denhaag-westwood-sep12-2026.png</image:loc>
+      <image:title>Latin Event Den Haag - Baila Dembow at Westwood - September 12 2026</image:title>
+    </image:image>
+  </url>
+
+  <!-- Event: Baila Dembow Amsterdam - Oliva - Sep 26, 2026 -->
+  <url>
+    <loc>https://bailadembow.com/events/amsterdam-26-september-2026</loc>
+    <lastmod>2026-08-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://bailadembow.com/images/events/amsterdam-oliva-sep26-2026.png</image:loc>
+      <image:title>Latin Event Amsterdam - Baila Dembow at Oliva Rembrandtplein - September 26 2026</image:title>
+    </image:image>
+  </url>
+
+  <!-- Event: Baila Dembow Eindhoven First Edition - De Club - Oct 2, 2026 -->
+  <url>
+    <loc>https://bailadembow.com/events/eindhoven-2-october-2026</loc>
+    <lastmod>2026-08-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://bailadembow.com/images/events/eindhoven-declub-oct2-2026.png</image:loc>
+      <image:title>Latin Event Eindhoven First Edition - Baila Dembow at De Club - October 2 2026</image:title>
+    </image:image>
+  </url>
+
   <!-- About Us Page -->
   <url>
     <loc>https://bailadembow.com/about</loc>
