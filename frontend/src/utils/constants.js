@@ -34,25 +34,11 @@ export const GALLERY_IMAGES = [
 //   2026-07-18 — Amsterdam Oliva (18 Jul) removed; Supper Club (07 Aug) + Summer of Love XL (29 Aug) added
 //   2026-07-27 — Groningen (25 Jul) removed (past). Live: Rotterdam 01 Aug, Supper Club 07 Aug, Summer of Love 29 Aug
 //   2026-08-11 — Supper Club (07 Aug) removed (past). customSlug added so /events/<slug> URLs match the sitemap.
+//   2026-08-26 — Groningen All White Edition (22 Aug) removed (past)
 //
 // The /events/PadelXReggaeton standalone route still exists in App.js for
 // any inbound bookmarks but is no longer linked from the grid.
 export const EVENTS = [
-  {
-    id: "groningen-huizemaas-allwhite-aug22-2026",
-    customSlug: "groningen-all-white-22-august-2026",
-    city: "Groningen",
-    venue: "Huize Maas, Groningen",
-    date: "2026-08-22",
-    time: "22:00 – 04:00",
-    title: "BAILA DEMBOW // GRONINGEN — ALL WHITE EDITION",
-    description: "¡GRONINGEN, TODO DE BLANCO! After sold out last 2 editions, on Saturday, August 22nd we are back at Huize Maas for the All White Edition. Everyone in white, one colour across the whole room, with reggaeton, dembow, salsa and bachata from 22:00 until 04:00. The perfect goodbye to amazing Summer 2026. La última vez se agotó while the night was still running. Early bird is the cheapest it gets and the price only climbs from there, so grab yours before we sold out again. 📍 Location: Huize Maas, Groningen · 🗓️ Date: Saturday, August 22, 2026 · ⏰ Time: 22:00 till 04:00, last entry 01:30 · 🔞 ID required. Nos vemos en la pista 🐇",
-    ticket_url: "https://weeztix.shop/n9q3madk",
-    status: "upcoming",
-    price_from: "",
-    price_door: "",
-    image_url: "/images/events/groningen-allwhite-aug22-2026.png"
-  },
   {
     id: "ijland-summer-of-love-aug29-2026",
     customSlug: "summer-of-love-29-august-2026",
@@ -166,7 +152,7 @@ export const FAQS = [
   },
   {
     q: "Where can I find Latin party events in the Netherlands?",
-    a: "Baila Dembow hosts Latin parties across the Netherlands — Amsterdam, Rotterdam, Groningen and beyond. The upcoming agenda includes the Groningen All White Edition (22 August, Huize Maas), Baila Dembow XL Summer of Love (29 August, IJland Amsterdam) and the Latin Halloween Festival (31 October, IJLAND Amsterdam).",
+    a: "Baila Dembow hosts Latin parties across the Netherlands — Amsterdam, Rotterdam, Den Haag, Groningen, Eindhoven and beyond. The upcoming agenda includes Baila Dembow XL Summer of Love (29 August, IJland Amsterdam), Rotterdam (5 September, Club Reverse), Den Haag (12 September, Westwood), Amsterdam (26 September, Oliva), the Latin Halloween Festival (31 October, IJLAND Amsterdam) and our first-ever Eindhoven edition (2 October, De Club).",
   },
   {
     q: "What is dembow music?",

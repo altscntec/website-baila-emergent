@@ -70,18 +70,6 @@
     </image:image>
   </url>
 
-  <!-- Event: Latin Event Groningen All White Edition - Huize Maas - Aug 22, 2026 -->
-  <url>
-    <loc>https://bailadembow.com/events/groningen-all-white-22-august-2026</loc>
-    <lastmod>2026-07-27</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-    <image:image>
-      <image:loc>https://bailadembow.com/images/events/groningen-allwhite-aug22-2026.png</image:loc>
-      <image:title>Latin Event Groningen All White Edition - Baila Dembow at Huize Maas - August 22 2026</image:title>
-    </image:image>
-  </url>
-
   <!-- Event: Baila Dembow XL Summer of Love - IJland Amsterdam - Aug 29, 2026 -->
   <url>
     <loc>https://bailadembow.com/events/summer-of-love-29-august-2026</loc>
