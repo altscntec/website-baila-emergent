@@ -1,14 +1,8 @@
 import { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
-import { Ticket, MapPin, Calendar, Clock, Shirt, Music, Sun } from 'lucide-react';
+import { Ticket, MapPin, Calendar, Clock, Shirt } from 'lucide-react';
 import { CountdownTimer } from '../common/CountdownTimer';
 import { trackTicketClick } from '../../utils/tracking';
-
-// Two areas at the XL event — rename / retune freely.
-const AREAS = [
-  { name: 'Main Room', music: 'Reggaeton, Dembow & Latin Hits', Icon: Music },
-  { name: 'La Terraza', music: 'Salsa, Bachata & Merengue Clásico', Icon: Sun },
-];
 
 // XL flagship-event spotlight: poster + live countdown + big ticket CTA.
 export const FeaturedEventSection = ({ event }) => {
@@ -68,20 +62,6 @@ export const FeaturedEventSection = ({ event }) => {
             <p className="text-white/90 font-semibold text-base md:text-lg mb-8 max-w-lg mx-auto lg:mx-0">
               Amsterdam, lets do XL !! Dressed in every shade of summer. Reggaeton, dembow and Latin heat all night at IJland
             </p>
-
-            {/* Two areas */}
-            <p className="text-white font-extrabold text-xs tracking-[0.3em] uppercase mb-3">Two areas · one night</p>
-            <div className="grid grid-cols-2 gap-3 mb-8 max-w-lg mx-auto lg:mx-0">
-              {AREAS.map(({ name, music, Icon }) => (
-                <div key={name} className="bg-white/15 backdrop-blur-sm rounded-xl p-4 text-left border border-white/20" data-testid={`area-${name}`}>
-                  <div className="flex items-center gap-2 mb-1">
-                    <Icon size={18} className="text-[#FFE14D]" />
-                    <span className="font-display text-white text-lg md:text-xl">{name}</span>
-                  </div>
-                  <p className="text-white/85 text-sm">{music}</p>
-                </div>
-              ))}
-            </div>
 
             {/* Countdown */}
             <p className="text-white font-extrabold text-xs tracking-[0.3em] uppercase mb-3">Doors open in</p>
