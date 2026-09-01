@@ -56,11 +56,11 @@ export const FeaturedEventSection = ({ event }) => {
             <span className="inline-block bg-black text-[#FFE14D] font-display text-sm md:text-base tracking-[0.2em] px-4 py-1.5 rounded-full mb-5">
               XL EVENT
             </span>
-            <h2 className="font-display text-white text-[clamp(3rem,8vw,6rem)] leading-[0.9] mb-3 drop-shadow-[0_4px_20px_rgba(0,0,0,0.3)]">
-              Summer<br />of Love.
+            <h2 className="font-display text-white text-[clamp(2.4rem,6vw,4.5rem)] leading-[0.95] mb-3 drop-shadow-[0_4px_20px_rgba(0,0,0,0.3)]">
+              {event.title}
             </h2>
             <p className="text-white/90 font-semibold text-base md:text-lg mb-8 max-w-lg mx-auto lg:mx-0">
-              Amsterdam, lets do XL !! Dressed in every shade of summer. Reggaeton, dembow and Latin heat all night at IJland
+              {event.tagline || event.description}
             </p>
 
             {/* Countdown */}

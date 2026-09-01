@@ -35,28 +35,11 @@ export const GALLERY_IMAGES = [
 //   2026-07-27 — Groningen (25 Jul) removed (past). Live: Rotterdam 01 Aug, Supper Club 07 Aug, Summer of Love 29 Aug
 //   2026-08-11 — Supper Club (07 Aug) removed (past). customSlug added so /events/<slug> URLs match the sitemap.
 //   2026-08-26 — Groningen All White Edition (22 Aug) removed (past)
+//   2026-09-01 — Summer of Love XL (29 Aug) removed (past)
 //
 // The /events/PadelXReggaeton standalone route still exists in App.js for
 // any inbound bookmarks but is no longer linked from the grid.
 export const EVENTS = [
-  {
-    id: "ijland-summer-of-love-aug29-2026",
-    customSlug: "summer-of-love-29-august-2026",
-    city: "Amsterdam",
-    venue: "IJland, Amsterdam",
-    date: "2026-08-29",
-    time: "23:00 – 05:00",
-    title: "BAILA DEMBOW XL // SUMMER OF LOVE",
-    featured: true,
-    dress_code: "Pastel & summery",
-    tagline: "Our biggest room yet, dressed in every shade of summer.",
-    description: "¡Ámsterdam, se siente el amor! The summer of 2026 has been something special, all long days and warm nights, and on Saturday, August 29th we throw the party it deserves. Baila Dembow goes XL at IJland, right on the water, with a Summer of Love theme built for exactly this season. Picture pastel everywhere, soft golden light and one full night of reggaeton, dembow and Latin club heat. You already know how the last one ended, with the floor packed and nobody willing to sit down. This time the room is bigger, the sound hits harder, and the perreo has real space to breathe. Bad Bunny, Karol G, El Alfa, Rauw Alejandro, Daddy Yankee and the whole Caribbean playlist, running all night with no breaks. Dress code is pastel and summery, so bring your softest colors and your best summer fit. Here is the part your wallet cares about. Tickets start low and they climb as the date gets closer, so the crew that moves early always pays the least. The last editions burned through their cheap tiers fast, and plenty of people ended up at door price or standing outside. Do not let that be you this time. Grab your ticket now, lock the low rate, and bring the whole group before the next tier kicks in. 📍 Location: IJland, Amsterdam · 🗓️ Date: Saturday, August 29, 2026 · ⏰ Time: 23:00 – 05:00 · 👗 Dress code: pastel and summery · 🔞 18+ event, ID required. This is our biggest room yet, dressed in every shade of summer. Come in your pastels, bring your people, and help us send this season off loud.",
-    ticket_url: "https://weeztix.shop/v9f38e5c",
-    status: "upcoming",
-    price_from: "",
-    price_door: "",
-    image_url: "/images/events/ijland-summer-of-love-aug29-2026.png"
-  },
   {
     id: "ijland-halloween-oct31-2026",
     customSlug: "halloween-31-october-2026",
@@ -152,7 +135,7 @@ export const FAQS = [
   },
   {
     q: "Where can I find Latin party events in the Netherlands?",
-    a: "Baila Dembow hosts Latin parties across the Netherlands — Amsterdam, Rotterdam, Den Haag, Groningen, Eindhoven and beyond. The upcoming agenda includes Baila Dembow XL Summer of Love (29 August, IJland Amsterdam), Rotterdam (5 September, Club Reverse), Den Haag (12 September, Westwood), Amsterdam (26 September, Oliva), the Latin Halloween Festival (31 October, IJLAND Amsterdam) and our first-ever Eindhoven edition (2 October, De Club).",
+    a: "Baila Dembow hosts Latin parties across the Netherlands — Amsterdam, Rotterdam, Den Haag, Groningen, Eindhoven and beyond. The upcoming agenda includes Rotterdam (5 September, Club Reverse), Den Haag (12 September, Westwood), Amsterdam (26 September, Oliva), our first-ever Eindhoven edition (2 October, De Club) and the Latin Halloween Festival (31 October, IJLAND Amsterdam).",
   },
   {
     q: "What is dembow music?",
@@ -160,7 +143,7 @@ export const FAQS = [
   },
   {
     q: "Are there reggaeton parties in Amsterdam?",
-    a: "Yes — Baila Dembow is Amsterdam's reggaeton party brand, playing Bad Bunny, Karol G, Rauw Alejandro, Daddy Yankee and the full Latin playlist. The next Amsterdam editions are the XL Summer of Love at IJland on 29 August and the Latin Halloween Festival on 31 October 2026.",
+    a: "Yes — Baila Dembow is Amsterdam's reggaeton party brand, playing Bad Bunny, Karol G, Rauw Alejandro, Daddy Yankee and the full Latin playlist. The next Amsterdam editions are at Oliva on 26 September and the Latin Halloween Festival on 31 October 2026.",
   },
   {
     q: "How much do Baila Dembow tickets cost?",

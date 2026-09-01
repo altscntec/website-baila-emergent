@@ -70,18 +70,6 @@
     </image:image>
   </url>
 
-  <!-- Event: Baila Dembow XL Summer of Love - IJland Amsterdam - Aug 29, 2026 -->
-  <url>
-    <loc>https://bailadembow.com/events/summer-of-love-29-august-2026</loc>
-    <lastmod>2026-07-17</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
-    <image:image>
-      <image:loc>https://bailadembow.com/images/events/ijland-summer-of-love-aug29-2026.png</image:loc>
-      <image:title>Baila Dembow XL Summer of Love - Latin Event at IJland Amsterdam - August 29 2026</image:title>
-    </image:image>
-  </url>
-
   <!-- Event: Baila Dembow Rotterdam - Club Reverse - Sep 5, 2026 -->
   <url>
     <loc>https://bailadembow.com/events/rotterdam-5-september-2026</loc>
