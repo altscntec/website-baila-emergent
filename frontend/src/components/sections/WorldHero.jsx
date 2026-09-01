@@ -1,11 +1,8 @@
 import { motion } from 'framer-motion';
-import { MessageCircle } from 'lucide-react';
 import { BAILA_LOGO } from '../../utils/constants';
 
-const WHATSAPP_URL = 'https://chat.whatsapp.com/EvqrDDkud6eB7JSRzPEpj6';
-
 // The world of Baila Dembow — a rendered 3D street scene as the hero,
-// with the real logo and one community CTA on top.
+// with the real logo on top.
 export const WorldHero = () => (
   <section id="hero" className="relative min-h-screen overflow-hidden" data-testid="world-hero">
     {/* rendered world — restyled with the real Baila Dembow mascot bunny */}
@@ -45,16 +42,6 @@ export const WorldHero = () => (
           transition={{ duration: 0.6, delay: 0.7 }}
           className="flex flex-col sm:flex-row gap-4 justify-center items-center"
         >
-          <a
-            href={WHATSAPP_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 bg-[#25D366] text-black font-extrabold py-4 px-10 rounded-full text-lg hover:bg-white transition-colors duration-300 shadow-[0_10px_40px_rgba(0,0,0,0.5)]"
-            data-testid="hero-cta-community"
-          >
-            <MessageCircle size={22} />
-            JOIN THE COMMUNITY
-          </a>
           <button
             onClick={() => document.getElementById('agenda')?.scrollIntoView({ behavior: 'smooth' })}
             className="text-white font-extrabold underline underline-offset-4 decoration-2 hover:opacity-80 transition drop-shadow-lg"

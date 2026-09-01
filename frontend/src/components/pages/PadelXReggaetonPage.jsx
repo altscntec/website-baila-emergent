@@ -30,7 +30,6 @@ const COPY = {
     credit: 'A House Decoded Production',
     cta_tickets: 'Get Tickets',
     cta_register: 'Tournament Registration',
-    cta_whatsapp: 'Join the Padel Community',
 
     countdown_kicker: 'First Serve In',
     countdown_unit_days: 'Days',
@@ -144,7 +143,6 @@ const COPY = {
     liability_p2d: 'Participants are solely responsible for their personal belongings and valuables brought to the event. The organiser accepts no responsibility for lost, stolen, or damaged items.',
 
     presented: 'Presented by',
-    join_padel: 'Join the Padel Community ↗',
     back_baila: '← Back to Baila Dembow',
     copyright: 'House Decoded Events · KVK 67994725',
 
@@ -163,7 +161,6 @@ const COPY = {
     credit: 'Een productie van House Decoded',
     cta_tickets: 'Koop Tickets',
     cta_register: 'Toernooi Registratie',
-    cta_whatsapp: 'Word lid van de Padel Community',
 
     countdown_kicker: 'Eerste opslag over',
     countdown_unit_days: 'Dagen',
@@ -277,7 +274,6 @@ const COPY = {
     liability_p2d: 'Deelnemers zijn als enige verantwoordelijk voor hun persoonlijke bezittingen en waardevolle spullen die zij naar het evenement meenemen. De organisator aanvaardt geen verantwoordelijkheid voor verloren, gestolen of beschadigde voorwerpen.',
 
     presented: 'Gepresenteerd door',
-    join_padel: 'Word lid van de Padel Community ↗',
     back_baila: '← Terug naar Baila Dembow',
     copyright: 'House Decoded Events · KVK 67994725',
 
@@ -861,25 +857,6 @@ const Hero = ({ onScrollToTickets, onOpenRegistration }) => {
             >
               {t.cta_tickets}
             </button>
-
-            <a
-              href="https://chat.whatsapp.com/GYlKv3pxMwzJ40K7RVglIb"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-7 py-4 transition-all"
-              style={{
-                background: '#25D366', color: C.ivory,
-                fontFamily: "'JetBrains Mono', monospace",
-                fontSize: 11, letterSpacing: '0.28em', textTransform: 'uppercase',
-                fontWeight: 600, border: '1px solid #1FB256', borderRadius: 999,
-                textDecoration: 'none',
-              }}
-              data-testid="padel-cta-whatsapp"
-              onMouseOver={(e) => { e.currentTarget.style.background = '#1FB256'; }}
-              onMouseOut={(e) => { e.currentTarget.style.background = '#25D366'; }}
-            >
-              <span aria-hidden="true">●</span> {t.cta_whatsapp}
-            </a>
           </div>
 
           {/* Countdown — bridges the CTAs and the metadata strip */}
@@ -1871,14 +1848,6 @@ const PadelFooter = () => {
             fontFamily: "'JetBrains Mono', monospace", fontSize: 11,
             letterSpacing: '0.22em', textTransform: 'uppercase', color: C.charcoal,
           }}>
-            <a
-              href="https://chat.whatsapp.com/GYlKv3pxMwzJ40K7RVglIb"
-              target="_blank" rel="noopener noreferrer"
-              style={{ color: '#1FB256', textDecoration: 'underline', textUnderlineOffset: 3 }}
-            >
-              {t.join_padel}
-            </a>
-            <br />
             <a href="https://bailadembow.com"
               style={{ color: C.green, textDecoration: 'underline', textUnderlineOffset: 3 }}>
               {t.back_baila}

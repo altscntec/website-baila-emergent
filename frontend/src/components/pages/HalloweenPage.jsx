@@ -1,11 +1,10 @@
 import { useEffect, useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
-import { MessageCircle, Ghost, Sparkles, Music, Ticket } from 'lucide-react';
+import { Ghost, Sparkles, Music, Ticket } from 'lucide-react';
 import { CommunitySection } from '../sections/CommunitySection';
 import { CountdownTimer } from '../common/CountdownTimer';
 import { trackTicketClick } from '../../utils/tracking';
 
-const WHATSAPP_URL = 'https://chat.whatsapp.com/EvqrDDkud6eB7JSRzPEpj6';
 const TICKET_URL = 'https://weeztix.shop/nxaqrkdz';
 const EVENT_NAME = 'Latin Halloween Festival 2026';
 const EVENT_DATE = '2026-10-31';
@@ -148,16 +147,6 @@ export const HalloweenPage = () => {
             >
               <Ticket size={22} />
               GET TICKETS
-            </a>
-            <a
-              href={WHATSAPP_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-white font-extrabold underline underline-offset-4 decoration-2 hover:text-[#FF6B00] transition-colors py-3 px-4"
-              data-testid="halloween-hero-community"
-            >
-              <MessageCircle size={18} />
-              Join the community
             </a>
           </motion.div>
           <p className="text-white/50 text-sm mt-4">Early birds pay the least. It sells out — every time.</p>
@@ -420,16 +409,6 @@ export const HalloweenPage = () => {
               >
                 <Ticket size={22} />
                 GET TICKETS
-              </a>
-              <a
-                href={WHATSAPP_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-white font-extrabold underline underline-offset-4 decoration-2 hover:text-black transition-colors py-3 px-4"
-                data-testid="halloween-cta-community"
-              >
-                <MessageCircle size={18} />
-                Join the community
               </a>
             </div>
             <p className="text-white/70 text-sm mt-6">18+ · ID required · Amsterdam</p>

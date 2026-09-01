@@ -237,15 +237,6 @@ const PromoSection = () => {
                 View Tickets
               </span>
             </a>
-            <a
-              href="https://chat.whatsapp.com/EvqrDDkud6eB7JSRzPEpj6"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-10 py-4 rounded-full font-semibold border-2 transition-all hover:scale-[1.02]"
-              style={{ borderColor: COLORS.warmBeige, color: COLORS.charcoal }}
-            >
-              Join Community
-            </a>
           </div>
         </motion.div>
       </div>
@@ -751,55 +742,6 @@ const ScheduleSection = () => {
   );
 };
 
-// Email Capture - Refined
-const EmailCaptureSection = () => {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
-
-  return (
-    <section 
-      ref={ref}
-      className="py-24 md:py-32 relative overflow-hidden"
-      style={{ 
-        background: `linear-gradient(135deg, ${COLORS.espresso} 0%, #1a1512 100%)`
-      }}
-    >
-      {/* Ambient Light */}
-      <div 
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] rounded-full blur-[150px] opacity-20"
-        style={{ background: `radial-gradient(circle, ${COLORS.burntOrange} 0%, transparent 70%)` }}
-      />
-
-      <div className="container-custom relative">
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8 }}
-          className="max-w-xl mx-auto text-center"
-        >
-          <Crown className="w-12 h-12 mx-auto mb-6" style={{ color: COLORS.burntOrange }} />
-          <h2 className="font-display text-3xl md:text-4xl text-white mb-4">
-            Stay in the Loop
-          </h2>
-          <p className="text-white/50 mb-10">
-            Follow us for exclusive updates, early access, and special offers.
-          </p>
-
-          <a
-            href="https://chat.whatsapp.com/EvqrDDkud6eB7JSRzPEpj6"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-3 px-10 py-4 rounded-full text-white font-semibold transition-all hover:scale-[1.02]"
-            style={{ background: `linear-gradient(135deg, ${COLORS.burntOrange} 0%, ${COLORS.deepOrange} 100%)` }}
-          >
-            Join WhatsApp Community
-          </a>
-        </motion.div>
-      </div>
-    </section>
-  );
-};
-
 // Main Page Export
 export const KingsdayWeekenderPage = () => {
   useEffect(() => {
@@ -850,8 +792,7 @@ export const KingsdayWeekenderPage = () => {
       <TicketsSection />
       <ExperienceSection />
       <ScheduleSection />
-      <EmailCaptureSection />
-      
+
       {/* Footer */}
       <footer className="py-12" style={{ backgroundColor: COLORS.espresso }}>
         <div className="container-custom text-center">

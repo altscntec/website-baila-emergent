@@ -1,6 +1,5 @@
 import { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
-import { MessageCircle, ArrowRight } from 'lucide-react';
 
 const HALLOWEEN_VIDEOS = [
   { url: "/videos/halloween-1.mp4", alt: "Halloween Baila Dembow recap" },
@@ -145,31 +144,6 @@ export const HalloweenSection = () => {
               <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
             </motion.div>
           ))}
-        </motion.div>
-      </div>
-
-      {/* CTA Section - same WhatsApp link as Casita */}
-      <div className="container-custom py-16 md:py-24 relative z-20">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 0.6 }}
-          className="text-center"
-        >
-          <p className="text-gray-500 text-sm mb-6 tracking-wide">
-            Want to be part of this? Join the community.
-          </p>
-          <a
-            href="https://chat.whatsapp.com/EvqrDDkud6eB7JSRzPEpj6"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-3 bg-[#FF0080] text-white font-bold py-4 px-10 rounded-full text-lg hover:bg-[#FF3B30] transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_8px_30px_rgba(255,0,128,0.3)]"
-            data-testid="halloween-whatsapp-cta"
-          >
-            <MessageCircle size={20} />
-            Join WhatsApp Community
-            <ArrowRight size={18} />
-          </a>
         </motion.div>
       </div>
 

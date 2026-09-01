@@ -42,12 +42,6 @@ export const EventsPage = ({ events: propEvents }) => {
                 >
                   Follow @baila.dembow
                 </a>
-                <a
-                  href="/?scrollTo=community"
-                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-white/20 text-white font-semibold hover:border-white/40 transition"
-                >
-                  Join the Community
-                </a>
               </div>
             </div>
           )}
