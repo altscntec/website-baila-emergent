@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "@/App.css";
 import { Toaster } from "@/components/ui/sonner";
 import { Analytics } from "@vercel/analytics/react";
@@ -9,6 +9,7 @@ import { CookieConsentProvider } from "./context/CookieConsentContext";
 // Utils & Constants
 import { EVENTS } from "./utils/constants";
 import { getEventBySlug } from "./utils/helpers";
+import { trackPageView, trackViewContent } from "./utils/tracking";
 
 // Common Components
 import { Navigation } from "./components/common/Navigation";
@@ -182,6 +183,28 @@ function App() {
   const currentEvent = isEventPage && !isStandalonePage && eventSlug ? getEventBySlug(eventSlug, events) : null;
   const seoMeta = routeSeo(effectivePath, currentEvent);
 
+  // Point the floating "GET TICKETS" CTA at this event's real checkout link
+  // when we're on a page dedicated to one event, instead of the generic Linktree.
+  const floatingCtaEvent =
+    currentEvent ||
+    (effectivePath === "/halloween" || effectivePath === "/experiences/halloween"
+      ? events.find((e) => e.landing_page === "/halloween")
+      : null);
+
+  // Record every page a visitor actually hits (not just the first one on a
+  // hard load) so the Meta/TikTok pixels can build a retargeting audience out
+  // of it — e.g. "people who viewed the Halloween page". loadMetaPixel /
+  // loadTikTokPixel already send the first PageView for whichever page a
+  // visitor lands on directly, so only re-fire that on later route changes;
+  // ViewContent (ideal for retargeting a specific event page) is new, so it
+  // fires on the first render too.
+  const isFirstRender = useRef(true);
+  useEffect(() => {
+    if (!isFirstRender.current) trackPageView();
+    isFirstRender.current = false;
+    if (floatingCtaEvent) trackViewContent(floatingCtaEvent);
+  }, [effectivePath]); // eslint-disable-line react-hooks/exhaustive-deps
+
   return (
     <CookieConsentProvider>
       {/* Standalone legacy landing pages manage their own head tags */}
@@ -215,7 +238,12 @@ function App() {
           <HomePage events={events} />
         )}
       </main>
-      {!isStandalonePage && <FloatingCTA />}
+      {!isStandalonePage && (
+        <FloatingCTA
+          ticketUrl={floatingCtaEvent?.ticket_url}
+          eventName={floatingCtaEvent?.title}
+        />
+      )}
       <Toaster position="top-center" richColors />
       <Analytics />
     </CookieConsentProvider>

@@ -85,6 +85,35 @@ export const trackEvent = (eventName, eventData = {}) => {
   }
 };
 
+// Fire a PageView on client-side route changes. loadMetaPixel/loadTikTokPixel
+// already send one on the initial hard page load; this covers in-app
+// navigation (e.g. clicking through to /halloween from another page) so the
+// pixel sees every route a visitor actually hits, not just the first one.
+export const trackPageView = () => {
+  if (typeof window !== 'undefined' && window.fbq) {
+    window.fbq('track', 'PageView');
+  }
+  if (typeof window !== 'undefined' && window.ttq) {
+    window.ttq.page();
+  }
+};
+
+// Fire when someone lands on a specific event's page. This is the standard
+// Meta/TikTok signal for building a "people who viewed this event" retargeting
+// audience (Meta Ads Manager: Custom Audience > Website > ViewContent, filtered
+// by content_ids) — more reliable in an SPA than a URL-contains rule alone.
+export const trackViewContent = (event) => {
+  if (!event) return;
+  trackEvent('ViewContent', {
+    content_name: event.title,
+    content_category: 'Event',
+    content_ids: [event.id],
+    content_type: 'product',
+    currency: 'EUR',
+    value: 10,
+  });
+};
+
 export const trackTicketClick = (eventName, ticketUrl) => {
   trackEvent('InitiateCheckout', {
     content_name: eventName,

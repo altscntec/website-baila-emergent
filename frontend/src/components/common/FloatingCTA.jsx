@@ -3,7 +3,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Ticket } from 'lucide-react';
 import { trackTicketClick } from '../../utils/tracking';
 
-export const FloatingCTA = () => {
+// Defaults to the general Linktree; pass ticketUrl/eventName to point it at a
+// specific event's checkout (e.g. on that event's own landing page).
+export const FloatingCTA = ({ ticketUrl = 'https://linktr.ee/bailadembow', eventName = 'Baila Dembow' }) => {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -18,7 +20,7 @@ export const FloatingCTA = () => {
     <AnimatePresence>
       {visible && (
         <motion.a
-          href="https://linktr.ee/bailadembow"
+          href={ticketUrl}
           target="_blank"
           rel="noopener noreferrer"
           initial={{ opacity: 0, scale: 0.8, y: 20 }}
@@ -26,7 +28,7 @@ export const FloatingCTA = () => {
           exit={{ opacity: 0, scale: 0.8, y: 20 }}
           className="floating-cta"
           data-testid="floating-cta"
-          onClick={() => trackTicketClick('Baila Dembow - Floating CTA', 'https://linktr.ee/bailadembow')}
+          onClick={() => trackTicketClick(`${eventName} - Floating CTA`, ticketUrl)}
         >
           <div className="absolute inset-0 rounded-full bg-[#FF0080] pulse-ring" />
           <Ticket size={20} />
