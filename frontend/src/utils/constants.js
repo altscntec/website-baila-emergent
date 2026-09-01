@@ -36,6 +36,7 @@ export const GALLERY_IMAGES = [
 //   2026-08-11 — Supper Club (07 Aug) removed (past). customSlug added so /events/<slug> URLs match the sitemap.
 //   2026-08-26 — Groningen All White Edition (22 Aug) removed (past)
 //   2026-09-01 — Summer of Love XL (29 Aug) removed (past)
+//   2026-09-01 — Groningen (10 Oct, Huize Maas) added
 //
 // The /events/PadelXReggaeton standalone route still exists in App.js for
 // any inbound bookmarks but is no longer linked from the grid.
@@ -120,6 +121,22 @@ export const EVENTS = [
     price_from: "",
     price_door: "",
     image_url: "/images/events/eindhoven-declub-oct2-2026.png"
+  },
+  {
+    id: "groningen-huizemaas-oct10-2026",
+    customSlug: "groningen-10-october-2026",
+    city: "Groningen",
+    venue: "Huize Maas, Groningen",
+    date: "2026-10-10",
+    time: "23:00 – 05:00",
+    title: "BAILA DEMBOW // GRONINGEN",
+    tagline: "We're back at Huize Maas — same room, same energy.",
+    description: "¡GRONINGEN, VOLVEMOS! Saturday, October 10th, Baila Dembow comes back to Huize Maas and we are running it back in the same room that went off last time. You already know how that night went. The floor filled early, the perreo never slowed down, and nobody was standing around checking their phone. Reggaeton, dembow and straight Latin Caribbean heat from open to close, with Bad Bunny, Karol G, El Alfa, Rauw Alejandro, Daddy Yankee and everything in between. Six hours of nonstop Latin and Caribbean hits. Full takeover of Huize Maas. Here is the part people always learn the hard way. Early tickets are the cheapest they will ever be, and every tier that sells out pushes the price up for the next person in line. Waiting until the week of the show only costs you more, and in this city the last tier tends to go quietly. Get yours now. 📍 Location: Huize Maas, Groningen · 🗓️ Date: Saturday, October 10, 2026 · ⏰ Time: 23:00 – 05:00 · 🔞 18+ event, ID required.",
+    ticket_url: "https://weeztix.shop/n9q3madk",
+    status: "upcoming",
+    price_from: "",
+    price_door: "",
+    image_url: "/images/events/groningen-huizemaas-oct10-2026.png"
   }
 ];
 
@@ -135,7 +152,7 @@ export const FAQS = [
   },
   {
     q: "Where can I find Latin party events in the Netherlands?",
-    a: "Baila Dembow hosts Latin parties across the Netherlands — Amsterdam, Rotterdam, Den Haag, Groningen, Eindhoven and beyond. The upcoming agenda includes Rotterdam (5 September, Club Reverse), Den Haag (12 September, Westwood), Amsterdam (26 September, Oliva), our first-ever Eindhoven edition (2 October, De Club) and the Latin Halloween Festival (31 October, IJLAND Amsterdam).",
+    a: "Baila Dembow hosts Latin parties across the Netherlands — Amsterdam, Rotterdam, Den Haag, Groningen, Eindhoven and beyond. The upcoming agenda includes Rotterdam (5 September, Club Reverse), Den Haag (12 September, Westwood), Amsterdam (26 September, Oliva), our first-ever Eindhoven edition (2 October, De Club), Groningen (10 October, Huize Maas) and the Latin Halloween Festival (31 October, IJLAND Amsterdam).",
   },
   {
     q: "What is dembow music?",
