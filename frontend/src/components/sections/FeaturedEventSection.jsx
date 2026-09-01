@@ -78,17 +78,28 @@ export const FeaturedEventSection = ({ event }) => {
             </div>
 
             {/* CTA */}
-            <a
-              href={event.ticket_url}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={() => trackTicketClick(`${event.title} - Featured CTA`, event.ticket_url)}
-              className="inline-flex items-center gap-3 bg-[#FFE14D] text-black font-extrabold py-5 px-12 rounded-full text-xl hover:bg-white transition-colors duration-300 shadow-[0_12px_40px_rgba(0,0,0,0.35)]"
-              data-testid="featured-cta"
-            >
-              <Ticket size={22} />
-              GET TICKETS
-            </a>
+            <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4">
+              <a
+                href={event.ticket_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => trackTicketClick(`${event.title} - Featured CTA`, event.ticket_url)}
+                className="inline-flex items-center gap-3 bg-[#FFE14D] text-black font-extrabold py-5 px-12 rounded-full text-xl hover:bg-white transition-colors duration-300 shadow-[0_12px_40px_rgba(0,0,0,0.35)]"
+                data-testid="featured-cta"
+              >
+                <Ticket size={22} />
+                GET TICKETS
+              </a>
+              {event.landing_page && (
+                <a
+                  href={event.landing_page}
+                  className="inline-flex items-center gap-2 text-white font-bold py-5 px-8 rounded-full text-lg border-2 border-white/60 hover:bg-white/10 transition-colors duration-300"
+                  data-testid="featured-more-info"
+                >
+                  More Info
+                </a>
+              )}
+            </div>
             <p className="text-white/80 text-sm mt-4">Early birds pay the least — prices climb as the date nears. 18+, ID required.</p>
           </motion.div>
         </div>
