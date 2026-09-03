@@ -27,6 +27,7 @@ import { KingsdayWeekenderPage } from "./components/pages/KingsdayWeekenderPage"
 import { PadelXReggaetonPage } from "./components/pages/PadelXReggaetonPage";
 import { LiveShowExperiencePage, CasitaExperiencePage } from "./components/pages/ExperiencePages";
 import { HalloweenPage } from "./components/pages/HalloweenPage";
+import { TermsPage } from "./components/pages/TermsPage";
 
 // ---------------------------------------------------------------------------
 // Path-based routing (real URLs, crawlable + prerenderable).
@@ -81,6 +82,10 @@ const routeSeo = (path, event) => {
     "/press": {
       title: "Press & Media | Baila Dembow",
       description: "Press information, media assets and contact for Baila Dembow, the leading Latin event brand in the Netherlands.",
+    },
+    "/terms": {
+      title: "Terms & Conditions | Baila Dembow",
+      description: "Door policy, ticket terms, house rules and photo/video consent for Baila Dembow events.",
     },
     "/latin-event-amsterdam": {
       title: "Latin Event in Amsterdam | Baila Dembow",
@@ -214,6 +219,8 @@ function App() {
       <main>
         {effectivePath === "/press" ? (
           <PressPage />
+        ) : effectivePath === "/terms" ? (
+          <TermsPage />
         ) : effectivePath === "/latin-event-amsterdam" ? (
           <LatinEventAmsterdamPage events={events} />
         ) : effectivePath === "/latin-event-rotterdam" ? (

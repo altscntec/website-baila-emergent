@@ -87,8 +87,8 @@ const CookieConsentBanner = ({ onConsent, showPreferences, setShowPreferences })
                     <p className="text-sm text-gray-600 leading-relaxed">
                       We use cookies to enhance your experience, analyze site traffic, and for marketing purposes.
                       You can choose which cookies to accept. By accepting, you also agree to our{' '}
-                      <a href="/#house-rules" className="underline underline-offset-2 hover:text-[#FF0080]">
-                        House Rules &amp; Door Policy
+                      <a href="/terms" className="underline underline-offset-2 hover:text-[#FF0080]">
+                        Terms &amp; Conditions
                       </a>.
                     </p>
                   </div>

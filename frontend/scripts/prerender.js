@@ -25,6 +25,7 @@ const ROUTES = [
   '/halloween',
   '/about',
   '/press',
+  '/terms',
   '/latin-event-amsterdam',
   '/latin-event-rotterdam',
   '/experiences/live-tribute',
