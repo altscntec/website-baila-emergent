@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { Ticket } from 'lucide-react';
 import { BAILA_LOGO } from '../../utils/constants';
 
 // The world of Baila Dembow — a rendered 3D street scene as the hero,
@@ -44,10 +45,12 @@ export const WorldHero = () => (
         >
           <button
             onClick={() => document.getElementById('agenda')?.scrollIntoView({ behavior: 'smooth' })}
-            className="text-white font-extrabold underline underline-offset-4 decoration-2 hover:opacity-80 transition drop-shadow-lg"
+            className="relative inline-flex items-center gap-3 bg-[#FFE14D] text-black font-extrabold py-5 px-12 rounded-full text-lg md:text-xl hover:bg-white hover:scale-[1.03] transition-all duration-300 shadow-[0_10px_50px_rgba(255,225,77,0.55)]"
             data-testid="hero-cta-tickets"
           >
-            GET TICKETS ↓
+            <div className="absolute inset-0 rounded-full bg-[#FFE14D] pulse-ring" />
+            <Ticket size={22} className="relative z-10" />
+            <span className="relative z-10">GET TICKETS ↓</span>
           </button>
         </motion.div>
       </div>
