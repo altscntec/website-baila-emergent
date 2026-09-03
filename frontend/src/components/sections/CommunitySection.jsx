@@ -237,6 +237,38 @@ export const CommunitySection = () => {
           />
         </motion.div>
 
+        {/* House Rules & Door Policy — by entering an event or accepting cookies
+            on this site, you're agreeing to these. Kept in the footer so it's
+            reachable from every page without a dedicated nav item. */}
+        <details id="house-rules" className="max-w-2xl mx-auto mb-10 rounded-xl border border-white/10 bg-white/[0.03] text-left" data-testid="house-rules">
+          <summary className="cursor-pointer list-none px-6 py-4 text-sm font-bold text-white [&::-webkit-details-marker]:hidden">
+            House Rules &amp; Door Policy
+          </summary>
+          <div className="px-6 pb-6 text-xs text-gray-400 leading-relaxed space-y-3">
+            <p>
+              <span className="text-gray-300 font-semibold">Door policy:</span> No hats — unless the venue says
+              otherwise, so check with them directly. No tracksuits or trainers. No bags for men on the dancefloor.
+              Minimum age 18 unless stated otherwise for a specific event, and ID is mandatory — no ID, no entry.
+            </p>
+            <p>
+              <span className="text-gray-300 font-semibold">Tickets:</span> Non-refundable, except if an event is
+              cancelled or postponed for any reason. You're welcome to resell your ticket on TicketSwap or exchange
+              it privately with someone else.
+            </p>
+            <p>
+              <span className="text-gray-300 font-semibold">House rules:</span> Treat everyone with respect,
+              whatever their sexual preference, ethnicity or gender. Be quiet and respect our neighbours when you
+              leave, and keep the surrounding area clean. Intolerance, sexism, violence and racism are not
+              tolerated, and outside food, drinks, weapons and hard drugs are not allowed. Look after your own
+              belongings and follow staff instructions at all times.
+            </p>
+            <p>
+              <span className="text-gray-300 font-semibold">Photos &amp; video:</span> By entering a Baila Dembow
+              event, you agree that the organiser can use photos and videos taken there for marketing purposes.
+            </p>
+          </div>
+        </details>
+
         <div className="flex flex-col items-center gap-4 text-sm text-gray-500 text-center">
           <span className="font-display text-xl text-white">BAILA DEMBOW<span className="gradient-text">.</span></span>
           {/* Sister-site cross-link — Playbook Block 2 (APPROVED) */}

@@ -174,4 +174,24 @@ export const FAQS = [
     q: "What are the Live Tribute Shows at Baila Dembow?",
     a: "Live Tribute Shows are special Baila Dembow nights where world-class musicians perform live tributes to Latin legends like Juan Luis Guerra and the salsa and merengue greats. After the live set, our resident DJs take over with reggaeton and dembow until sunrise.",
   },
+  {
+    q: "What's the door policy at Baila Dembow?",
+    a: "No hats — unless the venue says otherwise, so check with them directly. No tracksuits or trainers. And no bags for men on the dancefloor.",
+  },
+  {
+    q: "Are Baila Dembow tickets refundable?",
+    a: "Tickets are non-refundable, except if an event is cancelled or postponed for any reason. You're welcome to resell your ticket on TicketSwap or exchange it privately with someone else.",
+  },
+  {
+    q: "What's the minimum age and do I need ID?",
+    a: "Minimum age is 18 unless stated otherwise for a specific event, and ID is mandatory. No ID, no entry.",
+  },
+  {
+    q: "What are Baila Dembow's house rules?",
+    a: "Treat everyone with respect, whatever their sexual preference, ethnicity or gender. Be quiet and respect our neighbours when you leave, and keep the surrounding area clean. Intolerance, sexism, violence and racism are not tolerated, and outside food, drinks, weapons and hard drugs are not allowed. Look after your own belongings and follow staff instructions at all times.",
+  },
+  {
+    q: "Can I take photos and videos at the event?",
+    a: "Yes. By entering a Baila Dembow event, you agree that the organiser can use photos and videos taken there for marketing purposes.",
+  },
 ];
