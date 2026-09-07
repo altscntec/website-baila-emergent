@@ -37,6 +37,7 @@ export const GALLERY_IMAGES = [
 //   2026-08-26 — Groningen All White Edition (22 Aug) removed (past)
 //   2026-09-01 — Summer of Love XL (29 Aug) removed (past)
 //   2026-09-01 — Groningen (10 Oct, Huize Maas) added
+//   2026-09-07 — Rotterdam Club Reverse (5 Sep) removed (past)
 //
 // The /events/PadelXReggaeton standalone route still exists in App.js for
 // any inbound bookmarks but is no longer linked from the grid.
@@ -60,21 +61,6 @@ export const EVENTS = [
     price_from: "",
     price_door: "",
     image_url: "/images/events/halloween-ijland-oct31-2026.png"
-  },
-  {
-    id: "rotterdam-reverse-sep5-2026",
-    customSlug: "rotterdam-5-september-2026",
-    city: "Rotterdam",
-    venue: "Club Reverse, Rotterdam",
-    date: "2026-09-05",
-    time: "23:00 – 05:00",
-    title: "BAILA DEMBOW // ROTTERDAM",
-    description: "¡ROTTERDAM, SE PRENDE OTRA VEZ! Saturday, September 5th, Baila Dembow takes over Club Reverse for six straight hours of reggaeton, dembow and Latin Caribbean heat. You know how this room goes once it fills up. The bass sits in your chest, the perreo never really stops, and nobody is checking their phone by 3am. Bad Bunny, Karol G, El Alfa, Rauw Alejandro, Daddy Yankee and everything in between, all night, no breaks. Nonstop Latin + Caribbean hits, full takeover of Reverse. We have a habit of filling rooms and closing the door early, and Rotterdam always moves quicker than people expect. Early tickets are the cheapest they will ever be, and the price only climbs from here. Get yours now instead of paying more later for the exact same night. 📍 Location: Club Reverse, Rotterdam · 🗓️ Date: Saturday, September 5, 2026 · ⏰ Time: 23:00 – 05:00 · 🔞 18+ event, ID required.",
-    ticket_url: "https://weeztix.shop/4s84rxxa",
-    status: "upcoming",
-    price_from: "",
-    price_door: "",
-    image_url: "/images/events/rotterdam-reverse-sep5-2026.png"
   },
   {
     id: "denhaag-westwood-sep12-2026",
@@ -152,7 +138,7 @@ export const FAQS = [
   },
   {
     q: "Where can I find Latin party events in the Netherlands?",
-    a: "Baila Dembow hosts Latin parties across the Netherlands — Amsterdam, Rotterdam, Den Haag, Groningen, Eindhoven and beyond. The upcoming agenda includes Rotterdam (5 September, Club Reverse), Den Haag (12 September, Westwood), Amsterdam (26 September, Oliva), our first-ever Eindhoven edition (2 October, De Club), Groningen (10 October, Huize Maas) and the Latin Halloween Festival (31 October, IJLAND Amsterdam).",
+    a: "Baila Dembow hosts Latin parties across the Netherlands — Amsterdam, Rotterdam, Den Haag, Groningen, Eindhoven and beyond. The upcoming agenda includes Den Haag (12 September, Westwood), Amsterdam (26 September, Oliva), our first-ever Eindhoven edition (2 October, De Club), Groningen (10 October, Huize Maas) and the Latin Halloween Festival (31 October, IJLAND Amsterdam).",
   },
   {
     q: "What is dembow music?",
