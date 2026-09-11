@@ -325,6 +325,42 @@
     }
     </script>
 
+    <!-- Structured Data - MusicEvent Leiden Oct 23 2026 -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "MusicEvent",
+      "name": "Baila Dembow Leiden at Wibar",
+      "description": "¡KLK LEIDEN!!! Baila Dembow takes over Wibar for a full night of Reggaeton, Dembow and Latin Caribbean heat. Friday October 23, 2026, 23:00–05:00.",
+      "image": "https://bailadembow.com/images/events/leiden-wibar-oct23-2026.png",
+      "url": "https://bailadembow.com/events/leiden-23-october-2026",
+      "startDate": "2026-10-23T23:00:00+02:00",
+      "endDate": "2026-10-24T05:00:00+02:00",
+      "eventStatus": "https://schema.org/EventScheduled",
+      "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+      "location": {
+        "@type": "Place",
+        "name": "Wibar",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Willem Barentszstraat 39",
+          "addressLocality": "Leiden",
+          "addressCountry": "NL"
+        }
+      },
+      "offers": {
+        "@type": "Offer",
+        "url": "https://weeztix.shop/frq6squk",
+        "priceCurrency": "EUR",
+        "availability": "https://schema.org/InStock",
+        "validFrom": "2026-09-11"
+      },
+      "performer": {"@type": "MusicGroup", "name": "Baila Dembow Resident DJs"},
+      "organizer": {"@type": "Organization", "name": "Baila Dembow", "url": "https://bailadembow.com"},
+      "about": ["Reggaeton", "Dembow", "Latin Party", "Latin Event Leiden", "Salsa", "Bachata"]
+    }
+    </script>
+
     <!-- Structured Data - FAQ for AI Search -->
     <script type="application/ld+json">
     {
@@ -344,7 +380,7 @@
           "name": "Where can I find Latin party events in the Netherlands?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Baila Dembow hosts Latin parties across the Netherlands — Amsterdam, Rotterdam, Den Haag, Groningen, Eindhoven and beyond. The upcoming agenda includes Den Haag (12 September, Westwood), Amsterdam (26 September, Oliva), our first-ever Eindhoven edition (2 October, De Club), Groningen (10 October, Huize Maas) and the Latin Halloween Festival (31 October, IJLAND Amsterdam)."
+            "text": "Baila Dembow hosts Latin parties across the Netherlands — Amsterdam, Rotterdam, Den Haag, Groningen, Leiden, Eindhoven and beyond. The upcoming agenda includes Den Haag (12 September, Westwood), Amsterdam (26 September, Oliva), our first-ever Eindhoven edition (2 October, De Club), Groningen (10 October, Huize Maas), Leiden (23 October, Wibar) and the Latin Halloween Festival (31 October, IJLAND Amsterdam)."
           }
         },
         {
@@ -480,6 +516,12 @@
           "name": "Baila Dembow Groningen at Huize Maas",
           "startDate": "2026-10-10",
           "location": {"@type": "Place", "name": "Huize Maas, Groningen"}
+        },
+        {
+          "@type": "MusicEvent",
+          "name": "Baila Dembow Leiden at Wibar",
+          "startDate": "2026-10-23",
+          "location": {"@type": "Place", "name": "Wibar, Leiden"}
         },
         {
           "@type": "MusicEvent",

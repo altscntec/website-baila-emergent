@@ -38,6 +38,8 @@ export const GALLERY_IMAGES = [
 //   2026-09-01 — Summer of Love XL (29 Aug) removed (past)
 //   2026-09-01 — Groningen (10 Oct, Huize Maas) added
 //   2026-09-07 — Rotterdam Club Reverse (5 Sep) removed (past)
+//   2026-09-11 — Leiden (23 Oct, Wibar) added
+//   2026-09-07 — Rotterdam Club Reverse (5 Sep) removed (past)
 //
 // The /events/PadelXReggaeton standalone route still exists in App.js for
 // any inbound bookmarks but is no longer linked from the grid.
@@ -123,6 +125,22 @@ export const EVENTS = [
     price_from: "",
     price_door: "",
     image_url: "/images/events/groningen-huizemaas-oct10-2026.png"
+  },
+  {
+    id: "leiden-wibar-oct23-2026",
+    customSlug: "leiden-23-october-2026",
+    city: "Leiden",
+    venue: "Wibar, Willem Barentszstraat 39, Leiden",
+    date: "2026-10-23",
+    time: "23:00 – 05:00",
+    title: "BAILA DEMBOW // LEIDEN",
+    tagline: "Leiden, this one is yours.",
+    description: "¡KLK LEIDEN!!! Friday, October 23rd, Baila Dembow takes over Wibar for a full night of reggaeton, dembow and Latin Caribbean heat, the kind of night where the floor fills before midnight and nobody remembers the walk home. Bad Bunny, Karol G, El Alfa, Rauw Alejandro, Daddy Yankee, Anuel AA, all night, no breaks. The perreo starts on the first track and it does not stop until the lights come on. Nonstop reggaeton, dembow and Latin hits. Full takeover of Wibar. Here is the honest part. Tickets go up as the date gets closer, and the first round is the cheapest it will ever be. Leiden always shows up hard, so we do not expect the door to stay open long. Grab yours early, save some money and spend it at the bar instead. Bring your crew. Wear something you can move in. No holding back. 📍 Location: Wibar, Willem Barentszstraat 39, Leiden · 🗓️ Date: Friday, October 23, 2026 · ⏰ Time: 23:00 – 05:00 · 🔞 18+ event, ID required. Leiden, this one is yours. Nos vemos en la pista 🐇",
+    ticket_url: "https://weeztix.shop/frq6squk",
+    status: "upcoming",
+    price_from: "",
+    price_door: "",
+    image_url: "/images/events/leiden-wibar-oct23-2026.png"
   }
 ];
 
@@ -138,7 +156,7 @@ export const FAQS = [
   },
   {
     q: "Where can I find Latin party events in the Netherlands?",
-    a: "Baila Dembow hosts Latin parties across the Netherlands — Amsterdam, Rotterdam, Den Haag, Groningen, Eindhoven and beyond. The upcoming agenda includes Den Haag (12 September, Westwood), Amsterdam (26 September, Oliva), our first-ever Eindhoven edition (2 October, De Club), Groningen (10 October, Huize Maas) and the Latin Halloween Festival (31 October, IJLAND Amsterdam).",
+    a: "Baila Dembow hosts Latin parties across the Netherlands — Amsterdam, Rotterdam, Den Haag, Groningen, Leiden, Eindhoven and beyond. The upcoming agenda includes Den Haag (12 September, Westwood), Amsterdam (26 September, Oliva), our first-ever Eindhoven edition (2 October, De Club), Groningen (10 October, Huize Maas), Leiden (23 October, Wibar) and the Latin Halloween Festival (31 October, IJLAND Amsterdam).",
   },
   {
     q: "What is dembow music?",
