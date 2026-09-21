@@ -40,6 +40,7 @@ export const GALLERY_IMAGES = [
 //   2026-09-07 — Rotterdam Club Reverse (5 Sep) removed (past)
 //   2026-09-11 — Leiden (23 Oct, Wibar) added
 //   2026-09-21 — Den Haag Westwood (12 Sep) removed (past)
+//   2026-09-21 — Rotterdam All White (3 Oct, Club Reverse) added
 //   2026-09-07 — Rotterdam Club Reverse (5 Sep) removed (past)
 //
 // The /events/PadelXReggaeton standalone route still exists in App.js for
@@ -127,6 +128,23 @@ export const EVENTS = [
     price_from: "",
     price_door: "",
     image_url: "/images/events/leiden-wibar-oct23-2026.png"
+  },
+  {
+    id: "rotterdam-reverse-allwhite-oct3-2026",
+    customSlug: "rotterdam-all-white-3-october-2026",
+    city: "Rotterdam",
+    venue: "Club Reverse, Rotterdam",
+    date: "2026-10-03",
+    time: "23:00 – 05:00",
+    title: "BAILA DEMBOW // ROTTERDAM — ALL WHITE",
+    tagline: "Wear white. Dance until the lights come on.",
+    dress_code: "All white",
+    description: "¡ROTTERDAM, TODO DE BLANCO! Saturday, October 3rd we're back at Club Reverse for an all white night. Wear something white, bring your people, and let the reggaeton and dembow handle the rest until the lights come on. You know how these nights go. Bad Bunny, Karol G, El Alfa, Rauw Alejandro and Daddy Yankee back to back, a packed floor that never sits down, and the perreo getting lower with every track. Nobody stands at the bar all night at Reverse. You come to dance, and in white it's going to look like something else under those lights. Early tickets are the cheap ones, so move before the price does. 📍 Location: Club Reverse, Rotterdam · 🗓️ Date: Saturday, October 3, 2026 · ⏰ Time: 23:00 – 05:00 · 🔞 18+ event, ID required.",
+    ticket_url: "https://weeztix.shop/erxqk52c",
+    status: "upcoming",
+    price_from: "",
+    price_door: "",
+    image_url: "/images/events/rotterdam-reverse-allwhite-oct3-2026.png"
   }
 ];
 
@@ -142,7 +160,7 @@ export const FAQS = [
   },
   {
     q: "Where can I find Latin party events in the Netherlands?",
-    a: "Baila Dembow hosts Latin parties across the Netherlands — Amsterdam, Rotterdam, Den Haag, Groningen, Leiden, Eindhoven and beyond. The upcoming agenda includes Amsterdam (26 September, Oliva), our first-ever Eindhoven edition (2 October, De Club), Groningen (10 October, Huize Maas), Leiden (23 October, Wibar) and the Latin Halloween Festival (31 October, IJLAND Amsterdam).",
+    a: "Baila Dembow hosts Latin parties across the Netherlands — Amsterdam, Rotterdam, Den Haag, Groningen, Leiden, Eindhoven and beyond. The upcoming agenda includes Amsterdam (26 September, Oliva), our first-ever Eindhoven edition (2 October, De Club), Rotterdam All White (3 October, Club Reverse), Groningen (10 October, Huize Maas), Leiden (23 October, Wibar) and the Latin Halloween Festival (31 October, IJLAND Amsterdam).",
   },
   {
     q: "What is dembow music?",

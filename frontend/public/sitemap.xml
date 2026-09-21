@@ -94,6 +94,18 @@
     </image:image>
   </url>
 
+  <!-- Event: Baila Dembow Rotterdam All White - Club Reverse - Oct 3, 2026 -->
+  <url>
+    <loc>https://bailadembow.com/events/rotterdam-all-white-3-october-2026</loc>
+    <lastmod>2026-09-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://bailadembow.com/images/events/rotterdam-reverse-allwhite-oct3-2026.png</image:loc>
+      <image:title>Latin Event Rotterdam All White - Baila Dembow at Club Reverse - October 3 2026</image:title>
+    </image:image>
+  </url>
+
   <!-- Event: Baila Dembow Groningen - Huize Maas - Oct 10, 2026 -->
   <url>
     <loc>https://bailadembow.com/events/groningen-10-october-2026</loc>
