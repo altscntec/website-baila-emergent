@@ -39,6 +39,7 @@ export const GALLERY_IMAGES = [
 //   2026-09-01 — Groningen (10 Oct, Huize Maas) added
 //   2026-09-07 — Rotterdam Club Reverse (5 Sep) removed (past)
 //   2026-09-11 — Leiden (23 Oct, Wibar) added
+//   2026-09-21 — Den Haag Westwood (12 Sep) removed (past)
 //   2026-09-07 — Rotterdam Club Reverse (5 Sep) removed (past)
 //
 // The /events/PadelXReggaeton standalone route still exists in App.js for
@@ -63,21 +64,6 @@ export const EVENTS = [
     price_from: "",
     price_door: "",
     image_url: "/images/events/halloween-ijland-oct31-2026.png"
-  },
-  {
-    id: "denhaag-westwood-sep12-2026",
-    customSlug: "den-haag-12-september-2026",
-    city: "Den Haag",
-    venue: "Westwood, Den Haag",
-    date: "2026-09-12",
-    time: "23:00 – 04:00",
-    title: "BAILA DEMBOW // DEN HAAG",
-    description: "¡DEN HAAG, ESTO SE PONE CALIENTE! Saturday, September 12th, Baila Dembow walks into Westwood and turns it into pure Latin club territory. Five hours of reggaeton, dembow, salsa, bachata and every Caribbean hit worth screaming back at the DJ. The floor fills early here, and once it does the room stops being a club and starts being a block party. Nonstop Latin + Caribbean hits, full takeover of Westwood. Every city we hit this year filled up before the night arrived, and Den Haag is not going to be the exception. The early tickets are always the cheapest ones, and they disappear first. Secure yours now so you are inside when the room goes off, not outside reading about it. 📍 Location: Westwood, Den Haag · 🗓️ Date: Saturday, September 12, 2026 · ⏰ Time: 23:00 – 04:00 · 🔞 18+ event, ID required.",
-    ticket_url: "https://weeztix.shop/z9xgcjv6",
-    status: "upcoming",
-    price_from: "",
-    price_door: "",
-    image_url: "/images/events/denhaag-westwood-sep12-2026.png"
   },
   {
     id: "amsterdam-oliva-sep26-2026",
@@ -156,7 +142,7 @@ export const FAQS = [
   },
   {
     q: "Where can I find Latin party events in the Netherlands?",
-    a: "Baila Dembow hosts Latin parties across the Netherlands — Amsterdam, Rotterdam, Den Haag, Groningen, Leiden, Eindhoven and beyond. The upcoming agenda includes Den Haag (12 September, Westwood), Amsterdam (26 September, Oliva), our first-ever Eindhoven edition (2 October, De Club), Groningen (10 October, Huize Maas), Leiden (23 October, Wibar) and the Latin Halloween Festival (31 October, IJLAND Amsterdam).",
+    a: "Baila Dembow hosts Latin parties across the Netherlands — Amsterdam, Rotterdam, Den Haag, Groningen, Leiden, Eindhoven and beyond. The upcoming agenda includes Amsterdam (26 September, Oliva), our first-ever Eindhoven edition (2 October, De Club), Groningen (10 October, Huize Maas), Leiden (23 October, Wibar) and the Latin Halloween Festival (31 October, IJLAND Amsterdam).",
   },
   {
     q: "What is dembow music?",
