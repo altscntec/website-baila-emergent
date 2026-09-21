@@ -47,7 +47,7 @@ export const EventsPage = ({ events: propEvents }) => {
           )}
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {events.map((event, index) => (
+            {[...events].sort((a, b) => a.date.localeCompare(b.date)).map((event, index) => (
               <div key={event.id} className="event-card" data-testid={`events-page-card-${index}`}>
                 <a href={`/events/${generateEventSlug(event)}`} className="block">
                   <div className="relative h-56 overflow-hidden">

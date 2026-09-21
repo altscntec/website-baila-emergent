@@ -41,31 +41,11 @@ export const GALLERY_IMAGES = [
 //   2026-09-11 — Leiden (23 Oct, Wibar) added
 //   2026-09-21 — Den Haag Westwood (12 Sep) removed (past)
 //   2026-09-21 — Rotterdam All White (3 Oct, Club Reverse) added
-//   2026-09-07 — Rotterdam Club Reverse (5 Sep) removed (past)
+//   Keep EVENTS in date order (pages also sort by date when rendering).
 //
 // The /events/PadelXReggaeton standalone route still exists in App.js for
 // any inbound bookmarks but is no longer linked from the grid.
 export const EVENTS = [
-  {
-    id: "ijland-halloween-oct31-2026",
-    customSlug: "halloween-31-october-2026",
-    city: "Amsterdam",
-    venue: "IJLAND, TT Vasumweg 171, Amsterdam",
-    date: "2026-10-31",
-    time: "23:00 – 05:00",
-    title: "THE LATIN HALLOWEEN FESTIVAL",
-    featured: true,
-    dress_code: "Scary, Sexy or Scary-Sexy",
-    tagline: "The nightmare wakes up all over again.",
-    landing_page: "/halloween",
-    teaser_video: "/videos/halloween-teaser.mp4",
-    description: "MOST AWAITED EVENT !! The nightmare wakes up all over again. On Saturday, October 31st, the gates of IJLAND swing open one more time and the whole venue turns into a haunted inferno. Last edition we packed the room wall to wall, and this year the creatures crawl back thirstier for blood than ever. Vampires, ghouls, zombies and restless spirits take over every dark corner while our Baila Dembow DJs run reggaeton, dembow, Latin and Caribbean heat with zero breaks until the sun comes up. Bad Bunny, Karol G, El Alfa, Rauw Alejandro, Daddy Yankee and more shake the walls straight through the night. The capital of the Netherlands will not feel the same after this one. Here is the part you really should not sleep on. Every tier climbs in price as the night sells through, so the earlier you grab your ticket the cheaper it stays locked. Early Death is the lowest price of the whole event and it moves fast once the word spreads. Waiting until the door means paying the most and staring down a sold out sign. Secure your spot now while it is still cheap and drag the whole crew in with you. What to expect: cash prize for the best costume of the night · full haunted club transformation · free trick and treat sweets · spooky photobooth for the crew · costumes everywhere you look · Latin and Caribbean energy on full blast · 2 areas · food trucks on site · y mucho más. 📍 Location: IJLAND, TT Vasumweg 171, Amsterdam · 🗓️ Date: Saturday, October 31, 2026 · ⏰ Time: 23:00 to 05:00 · 🔞 18+ event, ID required · 👗 Dress code: Scary, Sexy or Scary-Sexy. Music: Reggaeton, Dembow, Dancehall, Salsa, Bachata, Merengue. Come in costume, come correct, and do not be the one hearing about it on Sunday.",
-    ticket_url: "https://weeztix.shop/nxaqrkdz",
-    status: "upcoming",
-    price_from: "",
-    price_door: "",
-    image_url: "/images/events/halloween-ijland-oct31-2026.png"
-  },
   {
     id: "amsterdam-oliva-sep26-2026",
     customSlug: "amsterdam-26-september-2026",
@@ -96,6 +76,23 @@ export const EVENTS = [
     price_from: "",
     price_door: "",
     image_url: "/images/events/eindhoven-declub-oct2-2026.png"
+  },
+  {
+    id: "rotterdam-reverse-allwhite-oct3-2026",
+    customSlug: "rotterdam-all-white-3-october-2026",
+    city: "Rotterdam",
+    venue: "Club Reverse, Rotterdam",
+    date: "2026-10-03",
+    time: "23:00 – 05:00",
+    title: "BAILA DEMBOW // ROTTERDAM — ALL WHITE",
+    tagline: "Wear white. Dance until the lights come on.",
+    dress_code: "All white",
+    description: "¡ROTTERDAM, TODO DE BLANCO! Saturday, October 3rd we're back at Club Reverse for an all white night. Wear something white, bring your people, and let the reggaeton and dembow handle the rest until the lights come on. You know how these nights go. Bad Bunny, Karol G, El Alfa, Rauw Alejandro and Daddy Yankee back to back, a packed floor that never sits down, and the perreo getting lower with every track. Nobody stands at the bar all night at Reverse. You come to dance, and in white it's going to look like something else under those lights. Early tickets are the cheap ones, so move before the price does. 📍 Location: Club Reverse, Rotterdam · 🗓️ Date: Saturday, October 3, 2026 · ⏰ Time: 23:00 – 05:00 · 🔞 18+ event, ID required.",
+    ticket_url: "https://weeztix.shop/erxqk52c",
+    status: "upcoming",
+    price_from: "",
+    price_door: "",
+    image_url: "/images/events/rotterdam-reverse-allwhite-oct3-2026.png"
   },
   {
     id: "groningen-huizemaas-oct10-2026",
@@ -130,21 +127,24 @@ export const EVENTS = [
     image_url: "/images/events/leiden-wibar-oct23-2026.png"
   },
   {
-    id: "rotterdam-reverse-allwhite-oct3-2026",
-    customSlug: "rotterdam-all-white-3-october-2026",
-    city: "Rotterdam",
-    venue: "Club Reverse, Rotterdam",
-    date: "2026-10-03",
+    id: "ijland-halloween-oct31-2026",
+    customSlug: "halloween-31-october-2026",
+    city: "Amsterdam",
+    venue: "IJLAND, TT Vasumweg 171, Amsterdam",
+    date: "2026-10-31",
     time: "23:00 – 05:00",
-    title: "BAILA DEMBOW // ROTTERDAM — ALL WHITE",
-    tagline: "Wear white. Dance until the lights come on.",
-    dress_code: "All white",
-    description: "¡ROTTERDAM, TODO DE BLANCO! Saturday, October 3rd we're back at Club Reverse for an all white night. Wear something white, bring your people, and let the reggaeton and dembow handle the rest until the lights come on. You know how these nights go. Bad Bunny, Karol G, El Alfa, Rauw Alejandro and Daddy Yankee back to back, a packed floor that never sits down, and the perreo getting lower with every track. Nobody stands at the bar all night at Reverse. You come to dance, and in white it's going to look like something else under those lights. Early tickets are the cheap ones, so move before the price does. 📍 Location: Club Reverse, Rotterdam · 🗓️ Date: Saturday, October 3, 2026 · ⏰ Time: 23:00 – 05:00 · 🔞 18+ event, ID required.",
-    ticket_url: "https://weeztix.shop/erxqk52c",
+    title: "THE LATIN HALLOWEEN FESTIVAL",
+    featured: true,
+    dress_code: "Scary, Sexy or Scary-Sexy",
+    tagline: "The nightmare wakes up all over again.",
+    landing_page: "/halloween",
+    teaser_video: "/videos/halloween-teaser.mp4",
+    description: "MOST AWAITED EVENT !! The nightmare wakes up all over again. On Saturday, October 31st, the gates of IJLAND swing open one more time and the whole venue turns into a haunted inferno. Last edition we packed the room wall to wall, and this year the creatures crawl back thirstier for blood than ever. Vampires, ghouls, zombies and restless spirits take over every dark corner while our Baila Dembow DJs run reggaeton, dembow, Latin and Caribbean heat with zero breaks until the sun comes up. Bad Bunny, Karol G, El Alfa, Rauw Alejandro, Daddy Yankee and more shake the walls straight through the night. The capital of the Netherlands will not feel the same after this one. Here is the part you really should not sleep on. Every tier climbs in price as the night sells through, so the earlier you grab your ticket the cheaper it stays locked. Early Death is the lowest price of the whole event and it moves fast once the word spreads. Waiting until the door means paying the most and staring down a sold out sign. Secure your spot now while it is still cheap and drag the whole crew in with you. What to expect: cash prize for the best costume of the night · full haunted club transformation · free trick and treat sweets · spooky photobooth for the crew · costumes everywhere you look · Latin and Caribbean energy on full blast · 2 areas · food trucks on site · y mucho más. 📍 Location: IJLAND, TT Vasumweg 171, Amsterdam · 🗓️ Date: Saturday, October 31, 2026 · ⏰ Time: 23:00 to 05:00 · 🔞 18+ event, ID required · 👗 Dress code: Scary, Sexy or Scary-Sexy. Music: Reggaeton, Dembow, Dancehall, Salsa, Bachata, Merengue. Come in costume, come correct, and do not be the one hearing about it on Sunday.",
+    ticket_url: "https://weeztix.shop/nxaqrkdz",
     status: "upcoming",
     price_from: "",
     price_door: "",
-    image_url: "/images/events/rotterdam-reverse-allwhite-oct3-2026.png"
+    image_url: "/images/events/halloween-ijland-oct31-2026.png"
   }
 ];
 
