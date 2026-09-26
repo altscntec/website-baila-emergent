@@ -7,7 +7,7 @@ import { Analytics } from "@vercel/analytics/react";
 import { CookieConsentProvider } from "./context/CookieConsentContext";
 
 // Utils & Constants
-import { EVENTS } from "./utils/constants";
+import { EVENTS, HALLOWEEN_FAQS } from "./utils/constants";
 import { getEventBySlug } from "./utils/helpers";
 import { trackPageView, trackViewContent } from "./utils/tracking";
 
@@ -56,6 +56,30 @@ const legacyHashToUrl = (hash) => {
   return null;
 };
 
+// Page-specific structured data for /halloween: a Halloween-only FAQPage (built
+// from the same HALLOWEEN_FAQS the page renders) plus breadcrumbs. Module-level
+// so the reference is stable across renders.
+const HALLOWEEN_JSON_LD = [
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: HALLOWEEN_FAQS.map((f) => ({
+      "@type": "Question",
+      name: f.q,
+      acceptedAnswer: { "@type": "Answer", text: f.a },
+    })),
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Baila Dembow", item: "https://bailadembow.com/" },
+      { "@type": "ListItem", position: 2, name: "Events", item: "https://bailadembow.com/events" },
+      { "@type": "ListItem", position: 3, name: "Latin Halloween Festival Amsterdam", item: "https://bailadembow.com/halloween" },
+    ],
+  },
+];
+
 // Per-route head tags — unique title (<60 chars), description and canonical.
 const routeSeo = (path, event) => {
   const seo = {
@@ -70,9 +94,19 @@ const routeSeo = (path, event) => {
         "All upcoming Baila Dembow events in the Netherlands: reggaeton and dembow nights in Amsterdam, Groningen and beyond. Dates, venues and tickets.",
     },
     "/halloween": {
-      title: "Latin Halloween Festival Amsterdam | Baila Dembow",
+      title: "Halloween Party Amsterdam 2026 | Latin Halloween Festival",
       description:
-        "The Latin Halloween Festival by Baila Dembow — Sat 31 October 2026 at IJLAND Amsterdam. Haunted club, two areas, costume cash prize, reggaeton and dembow till 05:00.",
+        "Amsterdam's biggest Latin Halloween party. Sat 31 October 2026 at IJLAND: haunted club, two areas, costume cash prize, reggaeton & dembow till 05:00. 18+, tickets on sale.",
+      image: "/images/events/halloween-ijland-oct31-2026.png",
+      jsonLd: HALLOWEEN_JSON_LD,
+    },
+    "/experiences/halloween": {
+      path: "/halloween", // same page as /halloween: canonical to the main URL
+      title: "Halloween Party Amsterdam 2026 | Latin Halloween Festival",
+      description:
+        "Amsterdam's biggest Latin Halloween party. Sat 31 October 2026 at IJLAND: haunted club, two areas, costume cash prize, reggaeton & dembow till 05:00. 18+, tickets on sale.",
+      image: "/images/events/halloween-ijland-oct31-2026.png",
+      jsonLd: HALLOWEEN_JSON_LD,
     },
     "/about": {
       title: "About Baila Dembow | Latin Events Netherlands",
@@ -108,12 +142,14 @@ const routeSeo = (path, event) => {
         "La Casita: the full-scale house that turns any venue into a Latin American street party, with archways, straw hats and the iconic Baila Dembow neon.",
     },
   };
-  if (seo[path]) return { ...seo[path], path };
+  if (seo[path]) return { path, ...seo[path] };
   if (event) {
     return {
       title: `${event.title} | Baila Dembow`.slice(0, 70),
       description: `${event.city} · ${event.venue} · ${event.date} · ${event.time}. ${event.tagline || "Reggaeton, dembow and Latin hits."} Tickets on sale now.`,
-      path,
+      // Events with a dedicated landing page (Halloween) point their canonical
+      // there, so the two URLs don't compete for the same searches.
+      path: event.landing_page || path,
       image: event.image_url,
     };
   }

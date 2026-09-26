@@ -49,7 +49,7 @@
   <!-- The Latin Halloween Festival landing page -->
   <url>
     <loc>https://bailadembow.com/halloween</loc>
-    <lastmod>2026-08-06</lastmod>
+    <lastmod>2026-09-26</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <image:image>
@@ -58,17 +58,6 @@
     </image:image>
   </url>
 
-  <!-- Event: The Latin Halloween Festival - IJLAND Amsterdam - Oct 31, 2026 -->
-  <url>
-    <loc>https://bailadembow.com/events/halloween-31-october-2026</loc>
-    <lastmod>2026-08-06</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
-    <image:image>
-      <image:loc>https://bailadembow.com/images/events/halloween-ijland-oct31-2026.png</image:loc>
-      <image:title>Latin Halloween Party Amsterdam - Baila Dembow at IJLAND - October 31 2026</image:title>
-    </image:image>
-  </url>
 
   <!-- Event: Baila Dembow Amsterdam - Oliva - Sep 26, 2026 -->
   <url>

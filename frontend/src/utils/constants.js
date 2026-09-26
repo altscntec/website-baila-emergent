@@ -203,3 +203,37 @@ export const FAQS = [
     a: "Yes. By entering a Baila Dembow event, you agree that the organiser can use photos and videos taken there for marketing purposes.",
   },
 ];
+
+// Halloween-specific FAQ — rendered on /halloween and mirrored as FAQPage
+// JSON-LD for that route (see Seo + App.js). Phrased around what people
+// actually search: "halloween party amsterdam", "halloween events amsterdam".
+export const HALLOWEEN_FAQS = [
+  {
+    q: "Where is the best Halloween party in Amsterdam?",
+    a: "The Latin Halloween Festival by Baila Dembow is Amsterdam's biggest Latin Halloween party: four years running, 1500+ capacity and sold out every time. The 2026 edition is on Saturday 31 October at IJLAND, TT Vasumweg 171, Amsterdam, from 23:00 to 05:00.",
+  },
+  {
+    q: "What Halloween events are on in Amsterdam on 31 October 2026?",
+    a: "Amsterdam has Halloween parties in every music style. If you want reggaeton, dembow, salsa and bachata instead of techno, the Latin Halloween Festival at IJLAND is the one: a full haunted club transformation, two areas, a cash prize for the best costume and music until 05:00.",
+  },
+  {
+    q: "When and where is the Latin Halloween Festival?",
+    a: "Saturday 31 October 2026, 23:00 to 05:00, at IJLAND, TT Vasumweg 171, Amsterdam.",
+  },
+  {
+    q: "How much are Latin Halloween Festival tickets?",
+    a: "Tickets start from around €10 online for early birds and climb in tiers as the date gets closer, so booking early is always the cheapest. Tickets are sold via Weeztix. They are non-refundable unless the event is cancelled or postponed, and you can resell on TicketSwap or exchange privately.",
+  },
+  {
+    q: "What is the dress code, and is there a costume contest?",
+    a: "Come in costume. The dress code is Scary, Sexy or Scary-Sexy, and there is a cash prize for the best costume of the night.",
+  },
+  {
+    q: "What is the age limit for the Halloween party?",
+    a: "The Latin Halloween Festival is 18+. A valid ID is mandatory: no ID, no entry.",
+  },
+  {
+    q: "What can I expect at the Latin Halloween Festival?",
+    a: "A full haunted club transformation, two areas, free trick-and-treat sweets, a spooky photobooth, food trucks on site, and reggaeton, dembow, dancehall, salsa, bachata and merengue from open to close.",
+  },
+];

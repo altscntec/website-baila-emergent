@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
-import { Ghost, Sparkles, Music, Ticket } from 'lucide-react';
+import { Ghost, Sparkles, Music, Ticket, ChevronDown } from 'lucide-react';
+import { HALLOWEEN_FAQS } from '../../utils/constants';
 import { CommunitySection } from '../sections/CommunitySection';
 import { CountdownTimer } from '../common/CountdownTimer';
 import { trackTicketClick } from '../../utils/tracking';
@@ -116,6 +117,12 @@ export const HalloweenPage = () => {
             data-testid="halloween-title"
           >
             The Latin<br />Halloween.
+            <span
+              className="block mt-4 text-white/90 font-extrabold uppercase leading-tight tracking-[0.2em] text-[clamp(0.9rem,2.2vw,1.6rem)]"
+              style={{ textShadow: 'none' }}
+            >
+              Halloween Party Amsterdam 2026
+            </span>
           </motion.h1>
           <motion.p
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6, delay: 0.6 }}
@@ -377,6 +384,55 @@ export const HalloweenPage = () => {
               </span>
             ))}
           </Reveal>
+        </div>
+      </section>
+
+      {/* ── HALLOWEEN IN AMSTERDAM: answer-style copy + FAQ ─────────────
+          Written for the searches people actually make ("halloween party
+          amsterdam", "halloween events amsterdam") and mirrored as FAQPage
+          JSON-LD for this route (see App.js). */}
+      <section className="py-24 md:py-32" style={{ background: '#08060B' }} data-testid="halloween-about">
+        <div className="container-custom max-w-4xl">
+          <Reveal>
+            <p className="font-extrabold text-xs md:text-sm tracking-[0.35em] uppercase mb-5 text-[#FF6B00]">
+              Halloween in Amsterdam
+            </p>
+            <h2 className="font-display text-white text-[clamp(2.2rem,6vw,4rem)] leading-[0.95] mb-8">
+              The Halloween party Amsterdam dresses up for.
+            </h2>
+            <div className="space-y-5 text-gray-300 text-base md:text-lg leading-relaxed">
+              <p>
+                Looking for a Halloween party in Amsterdam? The Latin Halloween Festival is the city's biggest
+                Halloween night for Latin music: four years running, 1500+ people and sold out every time. On
+                Saturday 31 October 2026, IJLAND in Amsterdam becomes a haunted club with two areas, a cash prize
+                for the best costume, and reggaeton, dembow, salsa and bachata until 05:00.
+              </p>
+              <p>
+                Comparing Halloween events in Amsterdam? This one is for people who would rather dance perreo than
+                stand around: costumes everywhere, Latin and Caribbean hits all night, and a room built to scare and
+                make you sweat in equal measure. See all our{' '}
+                <a href="/events" className="text-[#FF6B00] underline underline-offset-4 hover:text-white">upcoming Latin events in the Netherlands</a>
+                {' '}or learn more about{' '}
+                <a href="/about" className="text-[#FF6B00] underline underline-offset-4 hover:text-white">Baila Dembow</a>.
+              </p>
+            </div>
+          </Reveal>
+
+          <div className="mt-12 space-y-3" data-testid="halloween-faq">
+            {HALLOWEEN_FAQS.map((item, i) => (
+              <details
+                key={item.q}
+                className="group rounded-xl border border-white/10 bg-white/[0.04] overflow-hidden"
+                data-testid={`halloween-faq-item-${i}`}
+              >
+                <summary className="flex items-center justify-between gap-4 cursor-pointer list-none px-6 py-5 [&::-webkit-details-marker]:hidden">
+                  <h3 className="text-white font-bold text-base md:text-lg leading-snug">{item.q}</h3>
+                  <ChevronDown size={20} className="shrink-0 text-[#FF6B00] transition-transform duration-300 group-open:rotate-180" />
+                </summary>
+                <p className="px-6 pb-6 text-gray-400 text-sm md:text-base leading-relaxed">{item.a}</p>
+              </details>
+            ))}
+          </div>
         </div>
       </section>
 

@@ -7,19 +7,40 @@
   "redirects": [
     {
       "source": "/(.*)",
-      "has": [{ "type": "host", "value": "www.bailadembow.com" }],
+      "has": [
+        {
+          "type": "host",
+          "value": "www.bailadembow.com"
+        }
+      ],
       "destination": "https://bailadembow.com/$1",
+      "permanent": true
+    },
+    {
+      "source": "/agenda/ijland-amsterdam-noord",
+      "destination": "/halloween",
+      "permanent": true
+    },
+    {
+      "source": "/agenda/:path*",
+      "destination": "/events",
       "permanent": true
     }
   ],
   "rewrites": [
-    { "source": "/(.*)", "destination": "/index.html" }
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
   ],
   "headers": [
     {
       "source": "/static/(.*)",
       "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
       ]
     }
   ]
