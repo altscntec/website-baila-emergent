@@ -59,9 +59,25 @@ export const FeaturedEventSection = ({ event }) => {
             <h2 className="font-display text-white text-[clamp(2.4rem,6vw,4.5rem)] leading-[0.95] mb-3 drop-shadow-[0_4px_20px_rgba(0,0,0,0.3)]">
               {event.title}
             </h2>
-            <p className="text-white/90 font-semibold text-base md:text-lg mb-8 max-w-lg mx-auto lg:mx-0">
+            <p className="text-white/90 font-semibold text-base md:text-lg mb-6 max-w-lg mx-auto lg:mx-0">
               {event.tagline || event.description}
             </p>
+
+            {/* Urgency: sold-out % and price deadline, when set on the event */}
+            {(event.sold_out_pct || event.price_deadline_label) && (
+              <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3 mb-8">
+                {event.sold_out_pct && (
+                  <span className="inline-flex items-center gap-1.5 bg-black text-white font-extrabold text-sm px-4 py-2 rounded-full">
+                    🔥 {event.sold_out_pct}% SOLD OUT
+                  </span>
+                )}
+                {event.price_deadline_label && (
+                  <span className="inline-flex items-center gap-1.5 bg-white/15 backdrop-blur-sm text-white font-bold text-sm px-4 py-2 rounded-full border border-white/30">
+                    Price goes up after {event.price_deadline_label}
+                  </span>
+                )}
+              </div>
+            )}
 
             {/* Countdown */}
             <p className="text-white font-extrabold text-xs tracking-[0.3em] uppercase mb-3">Doors open in</p>
@@ -88,7 +104,7 @@ export const FeaturedEventSection = ({ event }) => {
                 data-testid="featured-cta"
               >
                 <Ticket size={22} />
-                GET TICKETS
+                {event.sold_out_pct ? 'BUY NOW' : 'GET TICKETS'}
               </a>
               {event.landing_page && (
                 <a
@@ -100,7 +116,11 @@ export const FeaturedEventSection = ({ event }) => {
                 </a>
               )}
             </div>
-            <p className="text-white/80 text-sm mt-4">Early birds pay the least — prices climb as the date nears. 18+, ID required.</p>
+            <p className="text-white/80 text-sm mt-4">
+              {event.price_deadline_label
+                ? `Price rises after ${event.price_deadline_label} — lock in today's price. 18+, ID required.`
+                : 'Early birds pay the least — prices climb as the date nears. 18+, ID required.'}
+            </p>
           </motion.div>
         </div>
       </div>

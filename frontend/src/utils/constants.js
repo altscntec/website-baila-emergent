@@ -41,59 +41,13 @@ export const GALLERY_IMAGES = [
 //   2026-09-11 — Leiden (23 Oct, Wibar) added
 //   2026-09-21 — Den Haag Westwood (12 Sep) removed (past)
 //   2026-09-21 — Rotterdam All White (3 Oct, Club Reverse) added
+//   2026-10-05 — Amsterdam Oliva (26 Sep), Eindhoven (2 Oct), Rotterdam All White
+//                (3 Oct) removed (past)
 //   Keep EVENTS in date order (pages also sort by date when rendering).
 //
 // The /events/PadelXReggaeton standalone route still exists in App.js for
 // any inbound bookmarks but is no longer linked from the grid.
 export const EVENTS = [
-  {
-    id: "amsterdam-oliva-sep26-2026",
-    customSlug: "amsterdam-26-september-2026",
-    city: "Amsterdam",
-    venue: "Oliva, Rembrandtplein 17, Amsterdam",
-    date: "2026-09-26",
-    time: "23:00 – 05:00",
-    title: "BAILA DEMBOW // AMSTERDAM",
-    description: "¡AMSTERDAM, VOLVEMOS A OLIVA! Saturday, September 26th, Baila Dembow takes the whole of Oliva again. If you were in that room the last time, you already know what happens once Rembrandtplein empties into it. The bass hits differently, the floor never settles, and the perreo runs from the first track to the last. Bad Bunny, Karol G, El Alfa, Rauw Alejandro, Daddy Yankee and more, six hours deep. Nonstop Latin + Caribbean hits, full takeover of Oliva. Oliva has closed its doors on us before because the room was simply full, and that is not a story we want you hearing secondhand again. Early tickets cost the least, and every week that passes makes them more expensive. Take the cheap one now and thank yourself later. 📍 Location: Oliva, Rembrandtplein 17, Amsterdam · 🗓️ Date: Saturday, September 26, 2026 · ⏰ Time: 23:00 – 05:00 · 🔞 21+ event, ID required.",
-    ticket_url: "https://ticketapp.shop/jvgfntnewx",
-    status: "upcoming",
-    price_from: "",
-    price_door: "",
-    image_url: "/images/events/amsterdam-oliva-sep26-2026.png"
-  },
-  {
-    id: "eindhoven-declub-oct2-2026",
-    customSlug: "eindhoven-2-october-2026",
-    city: "Eindhoven",
-    venue: "De Club, Eindhoven",
-    date: "2026-10-02",
-    time: "23:00 – 05:00",
-    title: "BAILA DEMBOW // EINDHOVEN — FIRST EDITION",
-    tagline: "Our very first night in Eindhoven.",
-    description: "¡EINDHOVEN, POR FIN TE TOCA! Friday, October 2nd, Baila Dembow lands in Eindhoven for the very first time, and De Club is where it happens. Six hours of reggaeton, dembow, salsa, bachata and Latin Caribbean hits, run the way we run every room we walk into. Amsterdam filled up. Rotterdam filled up. Now it is your turn to find out what the noise is about. Nonstop Latin + Caribbean hits, full takeover of De Club. First editions always go quickest, because everybody wants to say they were at the one that started it. Early tickets are the cheapest of the whole run and the price climbs as the date gets closer. Get yours now and be in the room for night one. 📍 Location: De Club, Eindhoven · 🗓️ Date: Friday, October 2, 2026 · ⏰ Time: 23:00 – 05:00 · 🔞 18+ event, ID required.",
-    ticket_url: "https://weeztix.shop/q24mrcf7",
-    status: "upcoming",
-    price_from: "",
-    price_door: "",
-    image_url: "/images/events/eindhoven-declub-oct2-2026.png"
-  },
-  {
-    id: "rotterdam-reverse-allwhite-oct3-2026",
-    customSlug: "rotterdam-all-white-3-october-2026",
-    city: "Rotterdam",
-    venue: "Club Reverse, Rotterdam",
-    date: "2026-10-03",
-    time: "23:00 – 05:00",
-    title: "BAILA DEMBOW // ROTTERDAM — ALL WHITE",
-    tagline: "Wear white. Dance until the lights come on.",
-    dress_code: "All white",
-    description: "¡ROTTERDAM, TODO DE BLANCO! Saturday, October 3rd we're back at Club Reverse for an all white night. Wear something white, bring your people, and let the reggaeton and dembow handle the rest until the lights come on. You know how these nights go. Bad Bunny, Karol G, El Alfa, Rauw Alejandro and Daddy Yankee back to back, a packed floor that never sits down, and the perreo getting lower with every track. Nobody stands at the bar all night at Reverse. You come to dance, and in white it's going to look like something else under those lights. Early tickets are the cheap ones, so move before the price does. 📍 Location: Club Reverse, Rotterdam · 🗓️ Date: Saturday, October 3, 2026 · ⏰ Time: 23:00 – 05:00 · 🔞 18+ event, ID required.",
-    ticket_url: "https://weeztix.shop/erxqk52c",
-    status: "upcoming",
-    price_from: "",
-    price_door: "",
-    image_url: "/images/events/rotterdam-reverse-allwhite-oct3-2026.png"
-  },
   {
     id: "groningen-huizemaas-oct10-2026",
     customSlug: "groningen-10-october-2026",
@@ -139,6 +93,12 @@ export const EVENTS = [
     tagline: "The nightmare wakes up all over again.",
     landing_page: "/halloween",
     teaser_video: "/videos/halloween-teaser.mp4",
+    // Urgency messaging shown on the homepage spotlight and the /halloween
+    // page. Update sold_out_pct as capacity fills; price_deadline is the
+    // last day of the current price tier (shown as "price rises after").
+    sold_out_pct: 72,
+    price_deadline: "2026-10-15",
+    price_deadline_label: "15 October",
     description: "MOST AWAITED EVENT !! The nightmare wakes up all over again. On Saturday, October 31st, the gates of IJLAND swing open one more time and the whole venue turns into a haunted inferno. Last edition we packed the room wall to wall, and this year the creatures crawl back thirstier for blood than ever. Vampires, ghouls, zombies and restless spirits take over every dark corner while our Baila Dembow DJs run reggaeton, dembow, Latin and Caribbean heat with zero breaks until the sun comes up. Bad Bunny, Karol G, El Alfa, Rauw Alejandro, Daddy Yankee and more shake the walls straight through the night. The capital of the Netherlands will not feel the same after this one. Here is the part you really should not sleep on. Every tier climbs in price as the night sells through, so the earlier you grab your ticket the cheaper it stays locked. Early Death is the lowest price of the whole event and it moves fast once the word spreads. Waiting until the door means paying the most and staring down a sold out sign. Secure your spot now while it is still cheap and drag the whole crew in with you. What to expect: cash prize for the best costume of the night · full haunted club transformation · free trick and treat sweets · spooky photobooth for the crew · costumes everywhere you look · Latin and Caribbean energy on full blast · 2 areas · food trucks on site · y mucho más. 📍 Location: IJLAND, TT Vasumweg 171, Amsterdam · 🗓️ Date: Saturday, October 31, 2026 · ⏰ Time: 23:00 to 05:00 · 🔞 18+ event, ID required · 👗 Dress code: Scary, Sexy or Scary-Sexy. Music: Reggaeton, Dembow, Dancehall, Salsa, Bachata, Merengue. Come in costume, come correct, and do not be the one hearing about it on Sunday.",
     ticket_url: "https://weeztix.shop/nxaqrkdz",
     status: "upcoming",
@@ -160,7 +120,7 @@ export const FAQS = [
   },
   {
     q: "Where can I find Latin party events in the Netherlands?",
-    a: "Baila Dembow hosts Latin parties across the Netherlands — Amsterdam, Rotterdam, Den Haag, Groningen, Leiden, Eindhoven and beyond. The upcoming agenda includes Amsterdam (26 September, Oliva), our first-ever Eindhoven edition (2 October, De Club), Rotterdam All White (3 October, Club Reverse), Groningen (10 October, Huize Maas), Leiden (23 October, Wibar) and the Latin Halloween Festival (31 October, IJLAND Amsterdam).",
+    a: "Baila Dembow hosts Latin parties across the Netherlands — Amsterdam, Rotterdam, Den Haag, Groningen, Leiden, Eindhoven and beyond. The upcoming agenda includes Groningen (10 October, Huize Maas), Leiden (23 October, Wibar) and the Latin Halloween Festival (31 October, IJLAND Amsterdam).",
   },
   {
     q: "What is dembow music?",
