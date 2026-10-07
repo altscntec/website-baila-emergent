@@ -2,7 +2,7 @@ import { createContext, useContext, useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Shield, Settings, BarChart3, Target, X } from 'lucide-react';
 import { CONSENT_KEY } from '../utils/constants';
-import { loadMetaPixel, loadTikTokPixel } from '../utils/tracking';
+import { loadMetaPixel, loadTikTokPixel, loadGTM } from '../utils/tracking';
 
 // Create context
 const CookieConsentContext = createContext(null);
@@ -247,6 +247,13 @@ export const CookieConsentProvider = ({ children }) => {
         loadMetaPixel();
         loadTikTokPixel();
       }
+      // GTM carries Google Analytics (GA4) right now, which is an analytics
+      // tool, not a marketing one — so it loads on either consent, not just
+      // marketing. Any ad-remarketing tag added inside GTM later should
+      // respect marketing consent itself, via GTM's own consent mode.
+      if (stored.analytics || stored.marketing) {
+        loadGTM();
+      }
     } else {
       setShowBanner(true);
     }
@@ -257,10 +264,13 @@ export const CookieConsentProvider = ({ children }) => {
     setConsent(newConsent);
     saveConsent(newConsent);
     setShowBanner(false);
-    
+
     if (newConsent.marketing) {
       loadMetaPixel();
       loadTikTokPixel();
+    }
+    if (newConsent.analytics || newConsent.marketing) {
+      loadGTM();
     }
   };
 

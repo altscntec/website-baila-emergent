@@ -1,4 +1,4 @@
-import { META_PIXEL_ID, TIKTOK_PIXEL_ID } from './constants';
+import { META_PIXEL_ID, TIKTOK_PIXEL_ID, GTM_CONTAINER_ID } from './constants';
 
 // Build a Meta Advanced Matching object containing ONLY the fields we
 // actually have a value for. Empty/blank fields are omitted entirely —
@@ -71,6 +71,26 @@ export const loadTikTokPixel = () => {
     ttq.load(TIKTOK_PIXEL_ID);
     ttq.page();
   }(window, document, 'ttq');
+};
+
+// Load Google Tag Manager (GTM-M3Z7P43H, the Web container for this site —
+// see the comment on GTM_CONTAINER_ID in constants.js). This is separate from
+// the Meta/TikTok pixels above: it's a tag-management container, meant for
+// Google Analytics (GA4) and, later, Google Ads tags configured in the GTM
+// web UI without needing a code change here. Standard GTM snippet, minus the
+// <noscript> iframe fallback — that one fires unconditionally for no-JS
+// visitors, bypassing cookie consent entirely, which this codebase avoids
+// doing for any tracking script.
+export const loadGTM = () => {
+  if (window.google_tag_manager && window.google_tag_manager[GTM_CONTAINER_ID]) return;
+
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+
+  const script = document.createElement('script');
+  script.async = true;
+  script.src = `https://www.googletagmanager.com/gtm.js?id=${GTM_CONTAINER_ID}`;
+  document.head.appendChild(script);
 };
 
 // Track events

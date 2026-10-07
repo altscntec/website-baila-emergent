@@ -6,6 +6,11 @@ export const BUNNY_GLASSES = "/images/branding/bunny-glasses.png";
 // Pixel IDs
 export const META_PIXEL_ID = '179511642577064';
 export const TIKTOK_PIXEL_ID = 'C189G8RC77UBJAEBRS80';
+// GTM-M3Z7P43H is the Web container for bailadembow.com (Baila Dembow account).
+// Two other containers exist and are NOT this one: GTM-PJRVC7CQ ("Baila Server")
+// is a server-side container, and GTM-TJSSP3R lives under a separate
+// "EventixGTM" account — neither belongs in this site's HTML.
+export const GTM_CONTAINER_ID = 'GTM-M3Z7P43H';
 
 // Cookie consent storage key
 export const CONSENT_KEY = 'baila_cookie_consent';
