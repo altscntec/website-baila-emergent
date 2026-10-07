@@ -89,13 +89,34 @@ export const trackEvent = (eventName, eventData = {}) => {
 // already send one on the initial hard page load; this covers in-app
 // navigation (e.g. clicking through to /halloween from another page) so the
 // pixel sees every route a visitor actually hits, not just the first one.
+//
+// On the very first render of a cold page load, this (and trackViewContent
+// below) can run in the same effect-flush as the pixel's own init — whether
+// window.fbq/ttq already exist yet depends on effect ordering we don't fully
+// control, and this is exactly the traffic that matters most (a paid ad click
+// landing cold on /halloween). So rather than silently dropping the event
+// when the check fails once, retry briefly until the pixel is ready.
+const withPixelReady = (fn, attemptsLeft = 20) => {
+  const fbqReady = typeof window !== 'undefined' && !!window.fbq;
+  const ttqReady = typeof window !== 'undefined' && !!window.ttq;
+  if (fbqReady || ttqReady || attemptsLeft <= 0) {
+    fn();
+    return;
+  }
+  // No consent granted yet = neither pixel ever loads = this just quietly
+  // stops retrying after ~3s, same as the rest of this file's no-consent behaviour.
+  setTimeout(() => withPixelReady(fn, attemptsLeft - 1), 150);
+};
+
 export const trackPageView = () => {
-  if (typeof window !== 'undefined' && window.fbq) {
-    window.fbq('track', 'PageView');
-  }
-  if (typeof window !== 'undefined' && window.ttq) {
-    window.ttq.page();
-  }
+  withPixelReady(() => {
+    if (typeof window !== 'undefined' && window.fbq) {
+      window.fbq('track', 'PageView');
+    }
+    if (typeof window !== 'undefined' && window.ttq) {
+      window.ttq.page();
+    }
+  });
 };
 
 // Fire when someone lands on a specific event's page. This is the standard
@@ -104,14 +125,14 @@ export const trackPageView = () => {
 // by content_ids) — more reliable in an SPA than a URL-contains rule alone.
 export const trackViewContent = (event) => {
   if (!event) return;
-  trackEvent('ViewContent', {
+  withPixelReady(() => trackEvent('ViewContent', {
     content_name: event.title,
     content_category: 'Event',
     content_ids: [event.id],
     content_type: 'product',
     currency: 'EUR',
     value: 10,
-  });
+  }));
 };
 
 export const trackTicketClick = (eventName, ticketUrl) => {
