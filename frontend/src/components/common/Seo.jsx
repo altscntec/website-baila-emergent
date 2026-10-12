@@ -30,7 +30,7 @@ const ldType = (el) => {
 // `jsonLd` (object or array) is added as extra structured data for this route.
 // If it contains a FAQPage, the sitewide FAQPage from index.html is swapped out
 // for this route, since Google flags two FAQPage blocks on one page.
-export const Seo = ({ title, description, path, image, jsonLd }) => {
+export const Seo = ({ title, description, path, image, imageWidth, imageHeight, jsonLd }) => {
   useEffect(() => {
     if (title) document.title = title;
     setMeta('name', 'description', description);
@@ -41,6 +41,18 @@ export const Seo = ({ title, description, path, image, jsonLd }) => {
       const abs = image.startsWith('http') ? image : ORIGIN + image;
       setMeta('property', 'og:image', abs);
       setMeta('name', 'twitter:image', abs);
+      // index.html declares the default card's size. A page that supplies its
+      // own image (e.g. a raw portrait poster) must either state its real size
+      // or drop the hint — a wrong width/height is worse than none.
+      if (imageWidth && imageHeight) {
+        setMeta('property', 'og:image:width', String(imageWidth));
+        setMeta('property', 'og:image:height', String(imageHeight));
+        setMeta('property', 'og:image:type', 'image/jpeg');
+      } else {
+        ['og:image:width', 'og:image:height', 'og:image:type'].forEach((k) => {
+          document.head.querySelector(`meta[property="${k}"]`)?.remove();
+        });
+      }
     }
     setMeta('name', 'twitter:title', title);
     setMeta('name', 'twitter:description', description);
@@ -52,7 +64,7 @@ export const Seo = ({ title, description, path, image, jsonLd }) => {
       document.head.appendChild(canonical);
     }
     canonical.setAttribute('href', ORIGIN + (path || '/'));
-  }, [title, description, path, image]);
+  }, [title, description, path, image, imageWidth, imageHeight]);
 
   useEffect(() => {
     if (!jsonLd) return undefined;

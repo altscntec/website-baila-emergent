@@ -7,7 +7,7 @@ import { Analytics } from "@vercel/analytics/react";
 import { CookieConsentProvider } from "./context/CookieConsentContext";
 
 // Utils & Constants
-import { EVENTS, HALLOWEEN_FAQS } from "./utils/constants";
+import { EVENTS, HALLOWEEN_FAQS, DEFAULT_OG_IMAGE } from "./utils/constants";
 import { getEventBySlug } from "./utils/helpers";
 import { trackPageView, trackViewContent } from "./utils/tracking";
 
@@ -81,23 +81,43 @@ const HALLOWEEN_JSON_LD = [
 ];
 
 // Per-route head tags — unique title (<60 chars), description and canonical.
+// Link-preview card for the homepage and /events: the soonest upcoming
+// featured event's own card (og_image), else the evergreen brand card. This is
+// baked into the prerendered HTML at build time, so once a flagship event is
+// past it falls back by itself on the next deploy — it can't strand last
+// season's poster as the site-wide share image again.
+const OG_CARD_SIZE = { imageWidth: 1200, imageHeight: 630 };
+const sharedCard = () => {
+  const today = new Date().toISOString().slice(0, 10);
+  const featured = EVENTS
+    .filter((e) => e.featured && e.date >= today && e.og_image)
+    .sort((a, b) => a.date.localeCompare(b.date))[0];
+  return { image: featured?.og_image || DEFAULT_OG_IMAGE, ...OG_CARD_SIZE };
+};
+const halloweenCard = () => ({
+  image: EVENTS.find((e) => e.landing_page === "/halloween")?.og_image || DEFAULT_OG_IMAGE,
+  ...OG_CARD_SIZE,
+});
+
 const routeSeo = (path, event) => {
   const seo = {
     "/": {
       title: "Latin Event Amsterdam | Reggaeton & Dembow – Baila Dembow",
       description:
         "Baila Dembow is the leading Latin event in Amsterdam and the Netherlands. Reggaeton, dembow, salsa and bachata parties — see upcoming dates and get tickets.",
+      ...sharedCard(),
     },
     "/events": {
       title: "Upcoming Latin Events & Parties | Baila Dembow",
       description:
         "All upcoming Baila Dembow events in the Netherlands: reggaeton and dembow nights in Amsterdam, Groningen and beyond. Dates, venues and tickets.",
+      ...sharedCard(),
     },
     "/halloween": {
       title: "Halloween Party Amsterdam 2026 | Latin Halloween Festival",
       description:
         "Amsterdam's biggest Latin Halloween party. Sat 31 October 2026 at IJLAND: haunted club, two areas, costume cash prize, reggaeton & dembow till 05:00. 18+, tickets on sale.",
-      image: "/images/events/halloween-ijland-oct31-2026.png",
+      ...halloweenCard(),
       jsonLd: HALLOWEEN_JSON_LD,
     },
     "/experiences/halloween": {
@@ -105,7 +125,7 @@ const routeSeo = (path, event) => {
       title: "Halloween Party Amsterdam 2026 | Latin Halloween Festival",
       description:
         "Amsterdam's biggest Latin Halloween party. Sat 31 October 2026 at IJLAND: haunted club, two areas, costume cash prize, reggaeton & dembow till 05:00. 18+, tickets on sale.",
-      image: "/images/events/halloween-ijland-oct31-2026.png",
+      ...halloweenCard(),
       jsonLd: HALLOWEEN_JSON_LD,
     },
     "/about": {
@@ -150,7 +170,8 @@ const routeSeo = (path, event) => {
       // Events with a dedicated landing page (Halloween) point their canonical
       // there, so the two URLs don't compete for the same searches.
       path: event.landing_page || path,
-      image: event.image_url,
+      image: event.og_image || event.image_url,
+      ...(event.og_image ? OG_CARD_SIZE : {}),
     };
   }
   return { ...seo["/"], path: "/" };
