@@ -22,6 +22,12 @@ node server/test/browser-e2e.js && node server/test/browser-tracking.js   # real
 | Music control in a real browser (separate build, generated test tone) | pass |
 | Full production build including prerender | pass (14/14 routes, `spa-shell.html` written) |
 
+## Vercel preview deployment (branch `feature/halloween-quiz`)
+
+Preview: `https://baila-dembow-git-feature-hal-bbeb33-housedecoded-9614s-projects.vercel.app/halloween/quiz` (behind your Vercel login, as all previews are).
+
+Checked on the real deployment: the full build succeeded; `/halloween/quiz` is served from the noindex shell with `X-Robots-Tag: noindex, nofollow, noarchive`; the API function deploys and routes (`/api/quiz/config` and `/api/admin/overview` answer `503 not_configured` listing the missing `DATABASE_URL` and `APP_SECRET`, with `Cache-Control: no-store` and noindex). **The quiz cannot run end to end there until you set the environment variables**, so the preview shows the "temporarily unavailable" state. Real defect found and fixed on this deployment: a file-based catch-all (`api/[...route].js`) only matched one path segment on Vercel, so `/api/quiz/config` returned 404; it is now `api/index.js` plus a rewrite, covered by a unit test and a config test.
+
 ## What each requirement was checked with
 
 | Requirement | Evidence |
