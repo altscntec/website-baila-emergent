@@ -144,3 +144,26 @@ test('question validation: structure, translations, correct option, duplicate op
   const dup = { ...ok, options: ok.options.map((o, i) => (i === 1 ? { ...o, text: ok.options[0].text } : o)) };
   assert.ok(validateQuestion(dup).some((e) => /duplicate/.test(e)));
 });
+
+test('Resend adapter: request shape, idempotency header, error classification (fake fetch; NOT a live Resend call)', async () => {
+  const { createResendAdapter, MailError } = require('../mail/resend');
+  const calls = [];
+  const mk = (res) => createResendAdapter({ apiKey: 're_test', from: 'Test <t@test.invalid>', replyTo: 'r@test.invalid', fetchImpl: async (url, init) => { calls.push({ url, init }); if (res instanceof Error) throw res; return { ok: res.status < 300, status: res.status, json: async () => res.body }; } });
+  const ok = await mk({ status: 200, body: { id: 'em_123' } }).send({ to: 'a@test.invalid', subject: 'S', html: '<p>x</p>', text: 'x', idempotencyKey: 'reward:abc', tags: [{ name: 'kind', value: 'reward kind!' }] });
+  assert.deepEqual(ok, { providerMessageId: 'em_123' });
+  const sent = JSON.parse(calls[0].init.body);
+  assert.equal(calls[0].url, 'https://api.resend.com/emails'); assert.equal(calls[0].init.headers['Idempotency-Key'], 'reward:abc');
+  assert.equal(calls[0].init.headers.Authorization, 'Bearer re_test'); assert.deepEqual(sent.to, ['a@test.invalid']); assert.equal(sent.reply_to, 'r@test.invalid');
+  assert.equal(sent.tags[0].value, 'reward_kind_', 'tag values are sanitised to the characters Resend accepts');
+  const cls = async (res) => { try { await mk(res).send({ to: 'a@test.invalid', subject: 's', html: 'h', text: 't' }); return 'sent'; } catch (e) { assert.ok(e instanceof MailError); return e.permanent ? 'permanent' : 'transient'; } };
+  assert.equal(await cls({ status: 422, body: { message: 'invalid' } }), 'permanent');
+  assert.equal(await cls({ status: 400, body: {} }), 'permanent');
+  assert.equal(await cls({ status: 429, body: {} }), 'transient');
+  assert.equal(await cls({ status: 409, body: {} }), 'transient');
+  assert.equal(await cls({ status: 500, body: {} }), 'transient');
+  assert.equal(await cls({ status: 503, body: null }), 'transient');
+  assert.equal(await cls(new Error('ECONNRESET')), 'transient');
+  const unconfigured = createResendAdapter({ apiKey: null, from: null });
+  assert.equal(unconfigured.configured, false);
+  await assert.rejects(unconfigured.send({ to: 'a@test.invalid', subject: 's', html: 'h', text: 't' }), /mail_not_configured/);
+});

@@ -26,8 +26,10 @@ const readBody = (req, limit = 32 * 1024) =>
       return resolve(req.body);
     }
     let size = 0; const chunks = [];
-    req.on('data', (c) => { size += c.length; if (size > limit) { reject(new HttpError(413, 'too_large')); req.destroy(); } else chunks.push(c); });
+    let tooBig = false;
+    req.on('data', (c) => { size += c.length; if (size > limit) { if (!tooBig) { tooBig = true; reject(new HttpError(413, 'too_large')); } } else chunks.push(c); });
     req.on('end', () => {
+      if (tooBig) return;   // already rejected; the body was drained so the 413 response can be delivered
       const raw = Buffer.concat(chunks).toString('utf8');
       if (!raw) return resolve({});
       try { resolve(JSON.parse(raw)); } catch { reject(new HttpError(400, 'bad_json')); }
@@ -38,6 +40,9 @@ const readBody = (req, limit = 32 * 1024) =>
 const readRaw = (req, limit = 256 * 1024) =>
   new Promise((resolve, reject) => {
     if (typeof req.rawBody === 'string' || Buffer.isBuffer(req.rawBody)) return resolve(String(req.rawBody));
+    // If a platform body parser already consumed the stream (bodyParser not disabled), never hang: fall back to a
+    // re-serialised body. Its signature will normally not match, so the webhook is refused (401) and the problem is visible.
+    if (req.readableEnded && req.body !== undefined) return resolve(typeof req.body === 'string' ? req.body : JSON.stringify(req.body));
     let size = 0; const chunks = [];
     req.on('data', (c) => { size += c.length; if (size > limit) { reject(new HttpError(413, 'too_large')); req.destroy(); } else chunks.push(c); });
     req.on('end', () => resolve(Buffer.concat(chunks).toString('utf8')));

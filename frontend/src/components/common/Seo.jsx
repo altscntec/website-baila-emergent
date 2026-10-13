@@ -30,7 +30,7 @@ const ldType = (el) => {
 // `jsonLd` (object or array) is added as extra structured data for this route.
 // If it contains a FAQPage, the sitewide FAQPage from index.html is swapped out
 // for this route, since Google flags two FAQPage blocks on one page.
-export const Seo = ({ title, description, path, image, imageWidth, imageHeight, jsonLd }) => {
+export const Seo = ({ title, description, path, image, imageWidth, imageHeight, jsonLd, noindex }) => {
   useEffect(() => {
     if (title) document.title = title;
     setMeta('name', 'description', description);
@@ -58,13 +58,21 @@ export const Seo = ({ title, description, path, image, imageWidth, imageHeight, 
     setMeta('name', 'twitter:description', description);
 
     let canonical = document.head.querySelector('link[rel="canonical"]');
-    if (!canonical) {
-      canonical = document.createElement('link');
-      canonical.setAttribute('rel', 'canonical');
-      document.head.appendChild(canonical);
+    if (noindex) {
+      // Unlisted campaign pages: no canonical (nothing to consolidate), explicit noindex. The same directive is
+      // also sent as an X-Robots-Tag response header by vercel.json, which is what crawlers that skip JS see.
+      if (canonical) canonical.remove();
+      setMeta('name', 'robots', 'noindex, nofollow, noarchive');
+    } else {
+      document.head.querySelector('meta[name="robots"][content*="noindex"]')?.remove();
+      if (!canonical) {
+        canonical = document.createElement('link');
+        canonical.setAttribute('rel', 'canonical');
+        document.head.appendChild(canonical);
+      }
+      canonical.setAttribute('href', ORIGIN + (path || '/'));
     }
-    canonical.setAttribute('href', ORIGIN + (path || '/'));
-  }, [title, description, path, image, imageWidth, imageHeight]);
+  }, [title, description, path, image, imageWidth, imageHeight, noindex]);
 
   useEffect(() => {
     if (!jsonLd) return undefined;

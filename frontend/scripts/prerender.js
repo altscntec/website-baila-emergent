@@ -26,6 +26,7 @@ const ROUTES = [
   '/about',
   '/press',
   '/terms',
+  '/privacy',
   '/latin-event-amsterdam',
   '/latin-event-rotterdam',
   '/experiences/live-tribute',
@@ -60,6 +61,26 @@ const SHELL = (() => {
   return Buffer.from(raw);
 })();
 
+// Unlisted routes (the Halloween quiz) are NOT prerendered or indexed. They are served from a clean copy of the
+// SPA shell, with noindex baked in, so a crawler or link preview never sees the homepage's title and canonical.
+// vercel.json rewrites /halloween/quiz* to this file and adds the same directive as an X-Robots-Tag header.
+const writeQuizShell = () => {
+  const html = SHELL.toString('utf8')
+    .replace(/<title>[\s\S]*?<\/title>/i, '<title>Halloween Quiz | Baila Dembow</title>')
+    .replace(/<link rel="canonical"[^>]*>/gi, '')
+    .replace(/<meta name="description"[^>]*>/gi, '<meta name="description" content="Five questions. One Halloween reward.">')
+    .replace(/<meta name="title"[^>]*>/gi, '<meta name="title" content="Halloween Quiz | Baila Dembow"/>')
+    .replace(/<meta property="og:title"[^>]*>/gi, '<meta property="og:title" content="Halloween Quiz | Baila Dembow"/>')
+    .replace(/<meta property="og:description"[^>]*>/gi, '<meta property="og:description" content="Five questions. One Halloween reward."/>')
+    .replace(/<meta property="og:url"[^>]*>/gi, '<meta property="og:url" content="https://bailadembow.com/halloween/quiz"/>')
+    .replace(/<meta name="twitter:title"[^>]*>/gi, '<meta name="twitter:title" content="Halloween Quiz | Baila Dembow"/>')
+    .replace(/<meta name="twitter:description"[^>]*>/gi, '<meta name="twitter:description" content="Five questions. One Halloween reward."/>')
+    .replace(/<meta name="robots"[^>]*>/gi, '')
+    .replace('<head>', '<head><meta name="robots" content="noindex, nofollow, noarchive">');
+  fs.writeFileSync(path.join(BUILD, 'spa-shell.html'), html);
+  console.log('[prerender] wrote spa-shell.html (noindex shell for unlisted routes)');
+};
+
 const serve = () =>
   http.createServer((req, res) => {
     const urlPath = decodeURIComponent(req.url.split('?')[0]);
@@ -83,6 +104,8 @@ const serve = () =>
     console.error('[prerender] build/index.html not found — run the build first.');
     process.exit(0);
   }
+  writeQuizShell();   // before any snapshot overwrites build/index.html; needs no browser, so runs even if Chrome is unavailable
+  if (process.env.PRERENDER_SHELL_ONLY) process.exit(0);   // fast local testing: skip the (slow) page snapshots
 
   const server = serve();
   await new Promise((resolve) => server.listen(PORT, resolve));

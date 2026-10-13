@@ -274,3 +274,13 @@ test('mail provider not configured: nothing is sent, nothing is lost, the owner 
   assert.equal(out.result.email, 'queued'); env.mail.configured = true;
   assert.equal((await rows('SELECT count(*)::int n FROM quiz.rewards'))[0].n, 1);
 });
+
+test('request size limits: public endpoints cap at 32KB (clean 413); authenticated bulk imports accept large payloads; unauthenticated bulk is refused before reading', async () => {
+  const big = await env.api('POST', '/api/quiz/signup', { body: JSON.stringify({ fullName: 'x'.repeat(40 * 1024) }), headers: { 'Content-Type': 'application/json' }, ip: '11.1.1.1' });
+  assert.equal(big.status, 413);
+  const codes = Array.from({ length: 3000 }, (_, i) => `BULKCODE${String(i).padStart(5, '0')}`);
+  const ok = await env.admin('POST', '/api/admin/codes/import', { tier: 5, codes });
+  assert.equal(ok.status, 200); assert.equal(ok.json.inserted, 3000);
+  const noauth = await env.api('POST', '/api/admin/codes/import', { body: { tier: 5, codes }, ip: '11.1.1.2' });
+  assert.equal(noauth.status, 401);
+});

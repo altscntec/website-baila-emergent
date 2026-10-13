@@ -3,10 +3,14 @@
   "private": true,
   "version": "1.0.0",
   "description": "Serverless API for the Baila Dembow Halloween quiz campaign (Vercel functions + Postgres)",
-  "engines": { "node": ">=20" },
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
     "migrate": "node server/migrate.js",
-    "test": "node --test --test-concurrency=1 server/test/"
+    "test": "node --test --test-concurrency=1 \"server/test/*.test.js\"",
+    "test:browser": "node server/test/browser-e2e.js && node server/test/browser-tracking.js",
+    "dev:quiz": "node server/dev-server.js"
   },
   "dependencies": {
     "pg": "^8.23.1"

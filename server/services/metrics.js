@@ -11,7 +11,7 @@ const metrics = async (db, { from, to }) => {
       (SELECT max(at) FROM quiz.funnel_events) AS last_funnel_event,
       (SELECT max(received_at) FROM quiz.email_events) AS last_email_webhook,
       (SELECT max(imported_at) FROM quiz.redemptions) AS last_redemption_import,
-      (SELECT max(day) FROM quiz.daily_counters) AS last_counter_day`);
+      (SELECT max(day)::text FROM quiz.daily_counters) AS last_counter_day`);
 
   const counters = await q(
     `SELECT metric, dims->>'utm_source' AS source, dims->>'utm_medium' AS medium, dims->>'utm_campaign' AS campaign,

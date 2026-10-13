@@ -94,4 +94,12 @@
     <priority>0.5</priority>
   </url>
 
+  <!-- Privacy Notice -->
+  <url>
+    <loc>https://bailadembow.com/privacy</loc>
+    <lastmod>2026-10-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.3</priority>
+  </url>
+
 </urlset>

@@ -28,6 +28,10 @@ import { PadelXReggaetonPage } from "./components/pages/PadelXReggaetonPage";
 import { LiveShowExperiencePage, CasitaExperiencePage } from "./components/pages/ExperiencePages";
 import { HalloweenPage } from "./components/pages/HalloweenPage";
 import { TermsPage } from "./components/pages/TermsPage";
+import { PrivacyPage } from "./components/pages/PrivacyPage";
+import { QuizPage } from "./quiz/QuizPage";
+import { QuizAdminPage } from "./quiz/QuizAdminPage";
+import { UnsubscribePage } from "./quiz/UnsubscribePage";
 
 // ---------------------------------------------------------------------------
 // Path-based routing (real URLs, crawlable + prerenderable).
@@ -137,6 +141,10 @@ const routeSeo = (path, event) => {
       title: "Press & Media | Baila Dembow",
       description: "Press information, media assets and contact for Baila Dembow, the leading Latin event brand in the Netherlands.",
     },
+    "/privacy": {
+      title: "Privacy Notice | Baila Dembow",
+      description: "How Baila Dembow handles your data: the Halloween quiz, email, cookies and your rights.",
+    },
     "/terms": {
       title: "Terms & Conditions | Baila Dembow",
       description: "Door policy, ticket terms, house rules and photo/video consent for Baila Dembow events.",
@@ -240,7 +248,10 @@ function App() {
   // Padel × Reggaeton — accept both CamelCase and kebab-case slug forms
   const isPadelPage = eventSlug === "PadelXReggaeton" || eventSlug === "padel-x-reggaeton";
   // Standalone branded landing pages hide the global Nav + FloatingCTA chrome
-  const isStandalonePage = isKingsdayPage || isPadelPage;
+  // The unlisted Halloween quiz campaign (/halloween/quiz and its verify/admin/unsubscribe pages) is
+  // standalone too: no global nav, no floating ticket CTA, and always noindex.
+  const isQuizRoute = effectivePath === "/halloween/quiz" || effectivePath.startsWith("/halloween/quiz/");
+  const isStandalonePage = isKingsdayPage || isPadelPage || isQuizRoute;
 
   const currentEvent = isEventPage && !isStandalonePage && eventSlug ? getEventBySlug(eventSlug, events) : null;
   const seoMeta = routeSeo(effectivePath, currentEvent);
@@ -271,10 +282,28 @@ function App() {
     <CookieConsentProvider>
       {/* Standalone legacy landing pages manage their own head tags */}
       {!isStandalonePage && <Seo {...seoMeta} />}
+      {isQuizRoute && (
+        <Seo
+          noindex
+          title="Halloween Quiz | Baila Dembow"
+          description="Five questions. One Halloween reward."
+          path="/halloween/quiz"
+        />
+      )}
       <div className="grain-overlay" />
       {!isStandalonePage && <Navigation currentPath={effectivePath} />}
       <main>
-        {effectivePath === "/press" ? (
+        {effectivePath === "/halloween/quiz/admin" ? (
+          <QuizAdminPage />
+        ) : effectivePath === "/halloween/quiz/unsubscribe" ? (
+          <UnsubscribePage />
+        ) : effectivePath === "/halloween/quiz/verify" ? (
+          <QuizPage mode="verify" />
+        ) : effectivePath === "/halloween/quiz" ? (
+          <QuizPage />
+        ) : effectivePath === "/privacy" ? (
+          <PrivacyPage />
+        ) : effectivePath === "/press" ? (
           <PressPage />
         ) : effectivePath === "/terms" ? (
           <TermsPage />

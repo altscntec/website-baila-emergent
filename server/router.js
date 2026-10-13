@@ -52,7 +52,7 @@ const routes = [
     const s = await getSettings(ctx.db);
     return { body: {
       state: campaignState(s, ctx.now()), opensAt: s.opens_at, closesAt: s.closes_at, codeExpiresAt: s.code_expires_at,
-      timezone: 'Europe/Amsterdam', marketing: { version: auth.WORDING_VERSION, wording: auth.MARKETING_WORDING }, termsVersion: auth.TERMS_VERSION,
+      timezone: 'Europe/Amsterdam', retentionDays: s.retention_days, marketing: { version: auth.WORDING_VERSION, wording: auth.MARKETING_WORDING }, termsVersion: auth.TERMS_VERSION,
     } };
   }],
 
@@ -151,9 +151,9 @@ const routes = [
   // ---- Owner controls (Bearer ADMIN_API_KEY) ----
   ['GET', '/api/admin/overview', async (ctx, req) => { await requireAdmin(ctx, req); return { body: await admin.overview(ctx) }; }, { noOrigin: true }],
   ['PUT', '/api/admin/settings', async (ctx, req, body) => { const a = await requireAdmin(ctx, req); return { body: await admin.updateSettings(ctx, body, a) }; }],
-  ['POST', '/api/admin/codes/import', async (ctx, req, body) => { const a = await requireAdmin(ctx, req); return { body: await admin.importCodes(ctx, body, a) }; }],
+  ['POST', '/api/admin/codes/import', async (ctx, req, body) => { const a = await requireAdmin(ctx, req); return { body: await admin.importCodes(ctx, body, a) }; }, { maxBody: 4 * 1024 * 1024 }],
   ['GET', '/api/admin/questions', async (ctx, req) => { await requireAdmin(ctx, req); return { body: { questions: await admin.listQuestions(ctx) } }; }, { noOrigin: true }],
-  ['POST', '/api/admin/questions/import', async (ctx, req, body) => { const a = await requireAdmin(ctx, req); return { body: await admin.importQuestions(ctx, body.questions, a) }; }],
+  ['POST', '/api/admin/questions/import', async (ctx, req, body) => { const a = await requireAdmin(ctx, req); return { body: await admin.importQuestions(ctx, body.questions, a) }; }, { maxBody: 4 * 1024 * 1024 }],
   ['POST', '/api/admin/questions/active', async (ctx, req, body) => { const a = await requireAdmin(ctx, req); return { body: await admin.setQuestionActive(ctx, body.id, body.active, a) }; }],
   ['GET', '/api/admin/emails', async (ctx, req, _b, url) => { await requireAdmin(ctx, req); return { body: { emails: await admin.listEmails(ctx, url.searchParams.get('status')) } }; }, { noOrigin: true }],
   ['POST', '/api/admin/emails/retry', async (ctx, req, body) => { const a = await requireAdmin(ctx, req); return { body: await admin.retryEmail(ctx, body.id, a) }; }],
@@ -163,7 +163,7 @@ const routes = [
     return { body: await admin.deleteParticipant(ctx, e, a) };
   }],
   ['POST', '/api/admin/retention/run', async (ctx, req, body) => { const a = await requireAdmin(ctx, req); return { body: await admin.runRetention(ctx, a, { dryRun: body.dryRun !== false }) }; }],
-  ['POST', '/api/admin/redemptions/import', async (ctx, req, body) => { const a = await requireAdmin(ctx, req); return { body: await admin.importRedemptions(ctx, body, a) }; }],
+  ['POST', '/api/admin/redemptions/import', async (ctx, req, body) => { const a = await requireAdmin(ctx, req); return { body: await admin.importRedemptions(ctx, body, a) }; }, { maxBody: 4 * 1024 * 1024 }],
   ['POST', '/api/admin/alerts/resolve', async (ctx, req, body) => { const a = await requireAdmin(ctx, req); return { body: await admin.resolveAlert(ctx, body.id, a) }; }],
   // Read-only aggregate metrics: also available to the separate ANALYTICS_API_KEY used by the daily agent.
   ['GET', '/api/admin/metrics', async (ctx, req, _b, url) => {
@@ -189,9 +189,10 @@ const createHandler = (ctx) => async (req, res) => {
     if (problems.length) throw new HttpError(503, 'not_configured', { missing: ctx.cfg.isProd ? undefined : problems });
     const opts = route[3] || {};
     if (req.method !== 'GET' && !opts.noOrigin) checkOrigin(ctx, req);
+    if (opts.maxBody) await requireAdmin(ctx, req);   // big bodies are only read for authenticated callers
     let raw = null; let body = {};
     if (opts.raw) raw = await readRaw(req);
-    else if (req.method !== 'GET') body = await readBody(req);
+    else if (req.method !== 'GET') body = await readBody(req, opts.maxBody || 32 * 1024);
     if (body === null || typeof body !== 'object') body = {};
     const out = await route[2](ctx, req, body, url, raw);
     if (out.text !== undefined) return send(res, 200, out.text, out.headers);
