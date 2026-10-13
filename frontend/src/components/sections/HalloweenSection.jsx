@@ -8,7 +8,7 @@ const HALLOWEEN_VIDEOS = [
 
 const HALLOWEEN_IMAGES = Array.from({ length: 15 }, (_, i) => ({
   url: `/images/halloween/halloween-${i + 1}.jpg`,
-  alt: `Latin Halloween Festival by Baila Dembow — moment ${i + 1}`
+  alt: `Amsterdam Latin Halloween Festival by Baila Dembow — moment ${i + 1}`
 }));
 
 export const HalloweenSection = () => {

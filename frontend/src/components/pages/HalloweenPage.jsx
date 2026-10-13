@@ -7,7 +7,7 @@ import { CountdownTimer } from '../common/CountdownTimer';
 import { trackTicketClick } from '../../utils/tracking';
 
 const TICKET_URL = 'https://weeztix.shop/nxaqrkdz';
-const EVENT_NAME = 'Latin Halloween Festival 2026';
+const EVENT_NAME = 'Latin Halloween Festival 2026'; // tracking label: kept stable for ad audiences
 const EVENT_DATE = '2026-10-31';
 const EVENT_TIME = '23:00 – 05:00';
 // Urgency messaging — keep in sync with the Halloween event's
@@ -85,7 +85,7 @@ export const HalloweenPage = () => {
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden" data-testid="halloween-hero">
         <img
           src={HERO_IMG}
-          alt="The Latin Halloween Festival by Baila Dembow"
+          alt="The Amsterdam Latin Halloween Festival by Baila Dembow"
           className="absolute inset-0 w-full h-full object-cover"
           style={{ filter: 'saturate(1.15)' }}
         />
@@ -245,7 +245,7 @@ export const HalloweenPage = () => {
 
       {/* ── PACKED ROOM BAND ─────────────────────────────── */}
       <section className="relative h-[55vh] md:h-[70vh] overflow-hidden" data-testid="halloween-room-band">
-        <img src={CROWD_WIDE} alt="A packed room at the Latin Halloween Festival" className="absolute inset-0 w-full h-full object-cover" />
+        <img src={CROWD_WIDE} alt="A packed room at the Amsterdam Latin Halloween Festival" className="absolute inset-0 w-full h-full object-cover" />
         <div className="absolute inset-0" style={{ background: 'linear-gradient(180deg, #08060B 0%, rgba(8,6,11,.25) 30%, rgba(8,6,11,.55) 70%, #08060B 100%)' }} />
         <div className="relative z-10 h-full flex items-end justify-center pb-14 md:pb-20 px-5">
           <Reveal className="text-center max-w-3xl">
@@ -414,7 +414,7 @@ export const HalloweenPage = () => {
             </h2>
             <div className="space-y-5 text-gray-300 text-base md:text-lg leading-relaxed">
               <p>
-                Looking for a Halloween party in Amsterdam? The Latin Halloween Festival is the city's biggest
+                Looking for a Halloween party in Amsterdam? The Amsterdam Latin Halloween Festival is the city's biggest
                 Halloween night for Latin music: four years running, 1500+ people and sold out every time. On
                 Saturday 31 October 2026, IJLAND in Amsterdam becomes a haunted club with two areas, a cash prize
                 for the best costume, and reggaeton, dembow, salsa and bachata until 05:00.
