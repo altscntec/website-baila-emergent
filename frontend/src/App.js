@@ -60,6 +60,23 @@ const legacyHashToUrl = (hash) => {
 // from the same HALLOWEEN_FAQS the page renders) plus breadcrumbs. Module-level
 // so the reference is stable across renders.
 const HALLOWEEN_JSON_LD = [
+  // The teaser shown on /halloween, so it can surface in Google video results
+  {
+    "@context": "https://schema.org",
+    "@type": "VideoObject",
+    name: "The Latin Halloween Festival 2026 teaser | Baila Dembow",
+    description:
+      "The nightmare wakes up all over again. The Latin Halloween Festival by Baila Dembow, Saturday 31 October 2026 at IJLAND Amsterdam.",
+    thumbnailUrl: ["https://bailadembow.com/images/halloween/schema/latin-halloween-teaser-thumb.jpg"],
+    uploadDate: "2026-10-05T12:00:00+02:00",
+    duration: "PT22S",
+    contentUrl: "https://bailadembow.com/videos/halloween-teaser.mp4",
+    publisher: {
+      "@type": "Organization",
+      name: "Baila Dembow",
+      logo: { "@type": "ImageObject", url: "https://bailadembow.com/images/branding/baila-dembow-logo-512.png" },
+    },
+  },
   {
     "@context": "https://schema.org",
     "@type": "FAQPage",

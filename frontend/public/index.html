@@ -146,10 +146,16 @@
       "@type": "MusicEvent",
       "name": "The Latin Halloween Festival — Baila Dembow at IJLAND Amsterdam",
       "description": "The nightmare wakes up all over again. Baila Dembow turns IJLAND into a haunted inferno — vampires, ghouls and restless spirits, two areas, a full haunted club transformation and Reggaeton, Dembow, Salsa, Bachata and Caribbean heat until sunrise. Saturday October 31, 2026, 23:00–05:00. Amsterdam's biggest Latin Halloween party.",
-      "image": "https://bailadembow.com/images/events/halloween-ijland-oct31-2026.png",
+      "image": [
+        "https://bailadembow.com/images/halloween/schema/latin-halloween-16x9.jpg",
+        "https://bailadembow.com/images/halloween/schema/latin-halloween-4x3.jpg",
+        "https://bailadembow.com/images/halloween/schema/latin-halloween-1x1.jpg",
+        "https://bailadembow.com/images/events/halloween-ijland-oct31-2026.png"
+      ],
       "url": "https://bailadembow.com/halloween",
       "startDate": "2026-10-31T23:00:00+01:00",
       "endDate": "2026-11-01T05:00:00+01:00",
+      "doorTime": "2026-10-31T23:00:00+01:00",
       "eventStatus": "https://schema.org/EventScheduled",
       "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
       "location": {
@@ -159,10 +165,13 @@
           "@type": "PostalAddress",
           "streetAddress": "TT Vasumweg 171",
           "addressLocality": "Amsterdam",
+          "postalCode": "1033 SG",
           "addressRegion": "North Holland",
           "addressCountry": "NL"
         }
       },
+      "maximumAttendeeCapacity": 1500,
+      "isAccessibleForFree": false,
       "offers": [
         {
           "@type": "Offer",
@@ -186,6 +195,13 @@
       "performer": {"@type": "MusicGroup", "name": "Baila Dembow Resident DJs"},
       "organizer": {
         "@type": "Organization",
+        "name": "Baila Dembow",
+        "url": "https://bailadembow.com",
+        "logo": "https://bailadembow.com/images/branding/baila-dembow-logo-512.png",
+        "sameAs": ["https://www.instagram.com/baila.dembow/", "https://www.tiktok.com/@baila.dembow"]
+      },
+      "superEvent": {
+        "@type": "EventSeries",
         "name": "Baila Dembow",
         "url": "https://bailadembow.com"
       },
