@@ -94,6 +94,32 @@ const writeShell = (route) => {
   fs.writeFileSync(path.join(outDir, 'index.html'), SHELL);
 };
 
+// IndexNow: on production builds, tell Bing (which feeds Copilot and ChatGPT
+// search), Yandex, Seznam and Naver which URLs changed, so they recrawl
+// within hours instead of weeks. The key file lives in public/. Never fatal.
+const INDEXNOW_KEY = '0a461c390227bf664c2b14811c8ed2d2';
+const pingIndexNow = async () => {
+  if (process.env.VERCEL_ENV !== 'production' || typeof fetch !== 'function') return;
+  try {
+    const sitemap = fs.readFileSync(path.join(BUILD, 'sitemap.xml'), 'utf8');
+    const urlList = [...sitemap.matchAll(/<loc>(https:\/\/bailadembow\.com[^<]*)<\/loc>/g)].map((m) => m[1]);
+    const res = await fetch('https://api.indexnow.org/indexnow', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json; charset=utf-8' },
+      body: JSON.stringify({
+        host: 'bailadembow.com',
+        key: INDEXNOW_KEY,
+        keyLocation: `https://bailadembow.com/${INDEXNOW_KEY}.txt`,
+        urlList,
+      }),
+      signal: AbortSignal.timeout(10000),
+    });
+    console.log(`[indexnow] submitted ${urlList.length} URLs: HTTP ${res.status}`);
+  } catch (e) {
+    console.warn('[indexnow] ping failed (non-fatal):', e.message);
+  }
+};
+
 const serve = () =>
   http.createServer((req, res) => {
     const urlPath = decodeURIComponent(req.url.split('?')[0]);
@@ -199,5 +225,6 @@ const serve = () =>
 
   await browser.close();
   server.close();
+  await pingIndexNow();
   console.log(`[prerender] done — ${ok}/${ROUTES.length} routes prerendered.`);
 })();
