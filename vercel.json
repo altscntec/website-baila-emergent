@@ -25,12 +25,21 @@
       "source": "/agenda/:path*",
       "destination": "/events",
       "permanent": true
-    }
-  ],
-  "rewrites": [
+    },
     {
-      "source": "/(.*)",
-      "destination": "/index.html"
+      "source": "/tickets",
+      "destination": "/events",
+      "permanent": true
+    },
+    {
+      "source": "/events/groningen-all-white-22-august-2026",
+      "destination": "/events",
+      "permanent": true
+    },
+    {
+      "source": "/events/summer-of-love-29-august-2026",
+      "destination": "/events",
+      "permanent": true
     }
   ],
   "headers": [

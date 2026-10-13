@@ -97,6 +97,11 @@ export const EventsPage = ({ events: propEvents }) => {
             ))}
           </div>
           
+          {/* Wording approved by Hari (Developer Brief, Oct 2026, section D) */}
+          <p className="text-gray-400 text-center max-w-2xl mx-auto mt-12 leading-relaxed">
+            Baila Dembow runs reggaeton, dembow, salsa and bachata parties across the Netherlands, with nights in Amsterdam, Rotterdam, Leiden, Groningen and Eindhoven. Most events run from 23:00 to 05:00, are 18+ and need a valid ID at the door. Tickets are sold in rounds, so the earliest tickets are the cheapest and the price goes up closer to the date. Always buy through the ticket links on this page so you know your ticket is valid.
+          </p>
+
           <div className="text-center mt-12">
             <a href="/" className="inline-flex items-center gap-2 text-[#FF0080] font-semibold hover:underline">
               ← Back to Homepage

@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Page not found | Baila Dembow</title>
+    <meta name="robots" content="noindex" />
+    <link rel="icon" href="/favicon.ico" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Manrope:wght@400;600;700&display=swap" rel="stylesheet" />
+    <!-- Static 404 page served by Vercel for any URL without a file.
+         Wording approved by Hari (Developer Brief, Oct 2026, section C). -->
+    <style>
+      :root { color-scheme: dark; }
+      * { box-sizing: border-box; }
+      html, body { margin: 0; height: 100%; }
+      body {
+        background: #0A0A0A;
+        color: #fff;
+        font-family: 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
+        -webkit-font-smoothing: antialiased;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 24px 16px;
+        text-align: center;
+      }
+      main { max-width: 560px; }
+      img { width: 120px; height: auto; margin-bottom: 32px; }
+      h1 {
+        font-family: 'Anton', sans-serif;
+        font-weight: 400;
+        font-size: clamp(2.6rem, 9vw, 4.5rem);
+        line-height: 0.95;
+        margin: 0 0 16px;
+        text-transform: uppercase;
+      }
+      p { color: rgba(255,255,255,0.75); font-size: 1.05rem; line-height: 1.6; margin: 0 0 32px; }
+      .actions { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
+      a.btn {
+        display: inline-block;
+        padding: 14px 28px;
+        border-radius: 999px;
+        font-weight: 700;
+        text-decoration: none;
+        transition: opacity .2s;
+      }
+      a.btn:hover { opacity: .85; }
+      .primary { background: #FF0080; color: #fff; }
+      .secondary { border: 2px solid rgba(255,255,255,0.6); color: #fff; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <a href="/"><img src="/images/branding/baila-logo-white.png" alt="Baila Dembow" /></a>
+      <h1>Page not found</h1>
+      <p>This page doesn't exist or has moved. Check out the upcoming events or head back to the homepage.</p>
+      <div class="actions">
+        <a class="btn primary" href="/events">See upcoming events</a>
+        <a class="btn secondary" href="/">Back to homepage</a>
+      </div>
+    </main>
+  </body>
+</html>
