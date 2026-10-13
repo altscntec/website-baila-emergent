@@ -46,7 +46,7 @@
     <priority>0.95</priority>
   </url>
 
-  <!-- The Latin Halloween Festival landing page -->
+  <!-- The Amsterdam Latin Halloween Festival landing page -->
   <url>
     <loc>https://bailadembow.com/halloween</loc>
     <lastmod>2026-10-13</lastmod>
@@ -54,7 +54,7 @@
     <priority>1.0</priority>
     <image:image>
       <image:loc>https://bailadembow.com/images/events/halloween-ijland-oct31-2026.png</image:loc>
-      <image:title>The Latin Halloween Festival - Baila Dembow at IJLAND Amsterdam - October 31 2026</image:title>
+      <image:title>The Amsterdam Latin Halloween Festival - Baila Dembow at IJLAND Amsterdam - October 31 2026</image:title>
     </image:image>
   </url>
 
