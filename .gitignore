@@ -98,3 +98,6 @@ credentials.json
 *.pem
 *.key
 .credentials
+
+# Halloween quiz: private answer key, code pools, agent credentials. Never commit.
+quiz-private/

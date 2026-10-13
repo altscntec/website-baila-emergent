@@ -1,0 +1,17 @@
+{
+  "name": "baila-dembow-quiz-api",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Serverless API for the Baila Dembow Halloween quiz campaign (Vercel functions + Postgres)",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "migrate": "node server/migrate.js",
+    "test": "node --test --test-concurrency=1 server/test/"
+  },
+  "dependencies": {
+    "pg": "^8.23.1"
+  },
+  "devDependencies": {
+    "embedded-postgres": "^18.4.0-beta.17"
+  }
+}
