@@ -20,6 +20,11 @@ Do **not** paste any of these into chat or commit them. Set them in Vercel (Proj
 
 ## 1. Database
 
+**Done (13 Oct 2026):** a dedicated Supabase project `baila-dembow-quiz` (ref `ctzoxxeufdndrikrsiid`, Frankfurt, free plan) exists with the `quiz` schema and all tables applied (`001_init.sql`), row-level security on every table. Nothing else lives in that project. You only need to supply its connection string as `DATABASE_URL` (Connect, **Transaction pooler**; reset the database password first, since it is never visible to me).
+
+Use this project for **Preview** testing. Before launch, either wipe it (`TRUNCATE` the quiz tables, or delete the test rows from admin) or create a second project for Production, so no test participants reach the live campaign.
+
+
 ```bash
 DATABASE_URL='postgres://...'  npm run migrate     # from the repo root; creates schema "quiz" and tables
 ```
