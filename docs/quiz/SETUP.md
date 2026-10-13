@@ -70,6 +70,8 @@ See [tracking.md](tracking.md): GA4 tags and triggers to create in GTM, and the 
 
 See [daily-agent/](daily-agent/). Summary: a local Claude scheduled task reads `quiz-private/agent-config.json`, calls the read-only metrics endpoint with `ANALYTICS_API_KEY`, reads Meta through the Meta Ads connector (read tools only), reads TikTok export CSVs from `quiz-private/exports/tiktok/`, and writes the report in the Claude session (and a local copy in `quiz-private/reports/`). It never changes anything and never sends the report anywhere.
 
+**Status (13 Oct 2026): the schedule IS active.** Claude scheduled task `halloween-quiz-daily-report` runs daily at 09:00 Europe/Amsterdam (the app adds up to a few minutes of jitter; next run 14 Oct 2026 about 09:03). Until you create `quiz-private/agent-config.json` and launch, each run just prints what is missing and stops. It only runs while the Claude desktop app is open; if the app was closed at 09:00 it runs on next launch. To pause it, use the Scheduled section in the app sidebar. Copy `docs/quiz/daily-agent/agent-config.example.json` to `quiz-private/agent-config.json` and fill it in.
+
 ## 8. Running locally
 
 ```bash
