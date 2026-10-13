@@ -62,11 +62,25 @@ export const SingleEventPage = ({ eventSlug, events }) => {
         ]
       };
       
-      const eventScript = document.createElement('script');
-      eventScript.id = 'event-jsonld';
-      eventScript.type = 'application/ld+json';
-      eventScript.textContent = JSON.stringify(musicEventSchema);
-      document.head.appendChild(eventScript);
+      // public/index.html already carries a hand-maintained MusicEvent (with
+      // exact times and ticket prices) for upcoming events; <Seo> keeps it on
+      // this page. Only fall back to the generated one when there is none.
+      const pageUrl = `https://bailadembow.com/events/${eventSlug}`;
+      const hasCurated = [...document.head.querySelectorAll('script[type="application/ld+json"]:not([id])')].some((el) => {
+        try {
+          const j = JSON.parse(el.textContent || '{}');
+          return j['@type'] === 'MusicEvent' && j.url === pageUrl;
+        } catch {
+          return false;
+        }
+      });
+      if (!hasCurated) {
+        const eventScript = document.createElement('script');
+        eventScript.id = 'event-jsonld';
+        eventScript.type = 'application/ld+json';
+        eventScript.textContent = JSON.stringify(musicEventSchema);
+        document.head.appendChild(eventScript);
+      }
       
       const breadcrumbScript = document.createElement('script');
       breadcrumbScript.id = 'breadcrumb-jsonld';
