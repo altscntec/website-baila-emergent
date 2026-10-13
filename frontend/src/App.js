@@ -64,9 +64,9 @@ const HALLOWEEN_JSON_LD = [
   {
     "@context": "https://schema.org",
     "@type": "VideoObject",
-    name: "The Latin Halloween Festival 2026 teaser | Baila Dembow",
+    name: "The Amsterdam Latin Halloween Festival 2026 teaser | Baila Dembow",
     description:
-      "The nightmare wakes up all over again. The Latin Halloween Festival by Baila Dembow, Saturday 31 October 2026 at IJLAND Amsterdam.",
+      "The nightmare wakes up all over again. The Amsterdam Latin Halloween Festival by Baila Dembow, Saturday 31 October 2026 at IJLAND Amsterdam.",
     thumbnailUrl: ["https://bailadembow.com/images/halloween/schema/latin-halloween-teaser-thumb.jpg"],
     uploadDate: "2026-10-05T12:00:00+02:00",
     duration: "PT22S",
@@ -92,7 +92,7 @@ const HALLOWEEN_JSON_LD = [
     itemListElement: [
       { "@type": "ListItem", position: 1, name: "Baila Dembow", item: "https://bailadembow.com/" },
       { "@type": "ListItem", position: 2, name: "Events", item: "https://bailadembow.com/events" },
-      { "@type": "ListItem", position: 3, name: "Latin Halloween Festival Amsterdam", item: "https://bailadembow.com/halloween" },
+      { "@type": "ListItem", position: 3, name: "Amsterdam Latin Halloween Festival", item: "https://bailadembow.com/halloween" },
     ],
   },
 ];
@@ -131,7 +131,7 @@ const routeSeo = (path, event) => {
       ...sharedCard(),
     },
     "/halloween": {
-      title: "Halloween Party Amsterdam 2026 | Latin Halloween Festival",
+      title: "Halloween Party Amsterdam 2026 | Amsterdam Latin Halloween Festival",
       description:
         "Amsterdam's biggest Latin Halloween party. Sat 31 October 2026 at IJLAND: haunted club, two areas, costume cash prize, reggaeton & dembow till 05:00. 18+, tickets on sale.",
       ...halloweenCard(),
@@ -139,7 +139,7 @@ const routeSeo = (path, event) => {
     },
     "/experiences/halloween": {
       path: "/halloween", // same page as /halloween: canonical to the main URL
-      title: "Halloween Party Amsterdam 2026 | Latin Halloween Festival",
+      title: "Halloween Party Amsterdam 2026 | Amsterdam Latin Halloween Festival",
       description:
         "Amsterdam's biggest Latin Halloween party. Sat 31 October 2026 at IJLAND: haunted club, two areas, costume cash prize, reggaeton & dembow till 05:00. 18+, tickets on sale.",
       ...halloweenCard(),

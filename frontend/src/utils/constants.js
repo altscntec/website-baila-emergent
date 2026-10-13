@@ -114,11 +114,11 @@ export const FALLBACK_EVENTS = EVENTS;
 export const FAQS = [
   {
     q: "What is the best Latin event in Amsterdam?",
-    a: "Baila Dembow is the leading Latin event in Amsterdam and the Netherlands, running sold-out reggaeton and dembow parties since 2023. Over 25,000 fans have joined our events, from club takeovers to the XL editions at IJland and the annual Latin Halloween Festival.",
+    a: "Baila Dembow is the leading Latin event in Amsterdam and the Netherlands, running sold-out reggaeton and dembow parties since 2023. Over 25,000 fans have joined our events, from club takeovers to the XL editions at IJland and the annual Amsterdam Latin Halloween Festival.",
   },
   {
     q: "Where can I find Latin party events in the Netherlands?",
-    a: "Baila Dembow hosts Latin parties across the Netherlands — Amsterdam, Rotterdam, Den Haag, Groningen, Leiden, Eindhoven and beyond. The upcoming agenda includes Leiden (23 October, Wibar) and the Latin Halloween Festival (31 October, IJLAND Amsterdam).",
+    a: "Baila Dembow hosts Latin parties across the Netherlands — Amsterdam, Rotterdam, Den Haag, Groningen, Leiden, Eindhoven and beyond. The upcoming agenda includes Leiden (23 October, Wibar) and the Amsterdam Latin Halloween Festival (31 October, IJLAND Amsterdam).",
   },
   {
     q: "What is dembow music?",
@@ -126,15 +126,15 @@ export const FAQS = [
   },
   {
     q: "Are there reggaeton parties in Amsterdam?",
-    a: "Yes — Baila Dembow is Amsterdam's reggaeton party brand, playing Bad Bunny, Karol G, Rauw Alejandro, Daddy Yankee and the full Latin playlist. The next Amsterdam editions are at Oliva on 26 September and the Latin Halloween Festival on 31 October 2026.",
+    a: "Yes — Baila Dembow is Amsterdam's reggaeton party brand, playing Bad Bunny, Karol G, Rauw Alejandro, Daddy Yankee and the full Latin playlist. The next Amsterdam editions are at Oliva on 26 September and the Amsterdam Latin Halloween Festival on 31 October 2026.",
   },
   {
     q: "How much do Baila Dembow tickets cost?",
     a: "Tickets start from around €10 online for early birds and climb in tiers as the event date approaches. Booking early always gets the lowest price — recent editions sold out before the door. Tickets are sold via Weeztix.",
   },
   {
-    q: "What is the Latin Halloween Festival by Baila Dembow?",
-    a: "The Latin Halloween Festival is Amsterdam's biggest Latin Halloween party — four years running, 1500+ capacity, sold out every time. The whole venue becomes a haunted club with two areas, a cash prize for the best costume and reggaeton, dembow, salsa and bachata until 05:00. The 2026 edition is Saturday 31 October at IJLAND.",
+    q: "What is the Amsterdam Latin Halloween Festival by Baila Dembow?",
+    a: "The Amsterdam Latin Halloween Festival is Amsterdam's biggest Latin Halloween party — four years running, 1500+ capacity, sold out every time. The whole venue becomes a haunted club with two areas, a cash prize for the best costume and reggaeton, dembow, salsa and bachata until 05:00. The 2026 edition is Saturday 31 October at IJLAND.",
   },
   {
     q: "What are the Live Tribute Shows at Baila Dembow?",
@@ -168,18 +168,18 @@ export const FAQS = [
 export const HALLOWEEN_FAQS = [
   {
     q: "Where is the best Halloween party in Amsterdam?",
-    a: "The Latin Halloween Festival by Baila Dembow is Amsterdam's biggest Latin Halloween party: four years running, 1500+ capacity and sold out every time. The 2026 edition is on Saturday 31 October at IJLAND, TT Vasumweg 171, Amsterdam, from 23:00 to 05:00.",
+    a: "The Amsterdam Latin Halloween Festival by Baila Dembow is Amsterdam's biggest Latin Halloween party: four years running, 1500+ capacity and sold out every time. The 2026 edition is on Saturday 31 October at IJLAND, TT Vasumweg 171, Amsterdam, from 23:00 to 05:00.",
   },
   {
     q: "What Halloween events are on in Amsterdam on 31 October 2026?",
-    a: "Amsterdam has Halloween parties in every music style. If you want reggaeton, dembow, salsa and bachata instead of techno, the Latin Halloween Festival at IJLAND is the one: a full haunted club transformation, two areas, a cash prize for the best costume and music until 05:00.",
+    a: "Amsterdam has Halloween parties in every music style. If you want reggaeton, dembow, salsa and bachata instead of techno, the Amsterdam Latin Halloween Festival at IJLAND is the one: a full haunted club transformation, two areas, a cash prize for the best costume and music until 05:00.",
   },
   {
-    q: "When and where is the Latin Halloween Festival?",
+    q: "When and where is the Amsterdam Latin Halloween Festival?",
     a: "Saturday 31 October 2026, 23:00 to 05:00, at IJLAND, TT Vasumweg 171, Amsterdam.",
   },
   {
-    q: "How much are Latin Halloween Festival tickets?",
+    q: "How much are Amsterdam Latin Halloween Festival tickets?",
     a: "Tickets start from around €10 online for early birds and climb in tiers as the date gets closer, so booking early is always the cheapest. Tickets are sold via Weeztix. They are non-refundable unless the event is cancelled or postponed, and you can resell on TicketSwap or exchange privately.",
   },
   {
@@ -188,10 +188,10 @@ export const HALLOWEEN_FAQS = [
   },
   {
     q: "What is the age limit for the Halloween party?",
-    a: "The Latin Halloween Festival is 18+. A valid ID is mandatory: no ID, no entry.",
+    a: "The Amsterdam Latin Halloween Festival is 18+. A valid ID is mandatory: no ID, no entry.",
   },
   {
-    q: "What can I expect at the Latin Halloween Festival?",
+    q: "What can I expect at the Amsterdam Latin Halloween Festival?",
     a: "A full haunted club transformation, two areas, free trick-and-treat sweets, a spooky photobooth, food trucks on site, and reggaeton, dembow, dancehall, salsa, bachata and merengue from open to close.",
   },
 ];
