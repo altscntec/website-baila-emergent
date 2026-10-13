@@ -84,7 +84,7 @@ export const EVENTS = [
     venue: "IJLAND, TT Vasumweg 171, Amsterdam",
     date: "2026-10-31",
     time: "23:00 – 05:00",
-    title: "THE LATIN HALLOWEEN FESTIVAL",
+    title: "THE AMSTERDAM LATIN HALLOWEEN FESTIVAL",
     featured: true,
     dress_code: "Scary, Sexy or Scary-Sexy",
     tagline: "The nightmare wakes up all over again.",
