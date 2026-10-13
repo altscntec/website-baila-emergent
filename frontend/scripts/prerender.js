@@ -75,6 +75,9 @@ const writeQuizShell = () => {
     .replace(/<meta property="og:url"[^>]*>/gi, '<meta property="og:url" content="https://bailadembow.com/halloween/quiz"/>')
     .replace(/<meta name="twitter:title"[^>]*>/gi, '<meta name="twitter:title" content="Halloween Quiz | Baila Dembow"/>')
     .replace(/<meta name="twitter:description"[^>]*>/gi, '<meta name="twitter:description" content="Five questions. One Halloween reward."/>')
+    .replace(/<meta name="googlebot"[^>]*>/gi, '')      // the homepage says "index, follow": remove any conflicting directive
+    .replace(/<meta name="twitter:url"[^>]*>/gi, '<meta name="twitter:url" content="https://bailadembow.com/halloween/quiz"/>')
+    .replace(/<script type="application\/ld\+json">[\s\S]*?<\/script>/gi, '')   // homepage structured data does not describe this page
     .replace(/<meta name="robots"[^>]*>/gi, '')
     .replace('<head>', '<head><meta name="robots" content="noindex, nofollow, noarchive">');
   fs.writeFileSync(path.join(BUILD, 'spa-shell.html'), html);

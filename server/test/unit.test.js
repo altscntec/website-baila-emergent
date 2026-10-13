@@ -167,3 +167,18 @@ test('Resend adapter: request shape, idempotency header, error classification (f
   assert.equal(unconfigured.configured, false);
   await assert.rejects(unconfigured.send({ to: 'a@test.invalid', subject: 's', html: 'h', text: 't' }), /mail_not_configured/);
 });
+
+test('api entry restores the real path from the rewrite and keeps the original query string', async () => {
+  const entry = require('../../api/index.js');
+  assert.equal(entry.restoreUrl('/api/index?__p=quiz%2Fconfig'), '/api/quiz/config');
+  assert.equal(entry.restoreUrl('/api/index?__p=quiz/state&lang=es'), '/api/quiz/state?lang=es');
+  assert.equal(entry.restoreUrl('/api/index?lang=es&__p=admin%2Fmetrics&from=2026-10-01'), '/api/admin/metrics?lang=es&from=2026-10-01');
+  assert.equal(entry.restoreUrl('/api/quiz/config'), '/api/quiz/config', 'direct paths (local dev server, tests) are untouched');
+  // end to end through the exported function with no database configured: a known route answers 503 not_configured, an unknown one 404
+  const run = (url) => new Promise((resolve) => {
+    const res = { headers: {}, setHeader(k, v) { this.headers[k] = v; }, end(b) { resolve({ status: this.statusCode, body: b }); } };
+    entry({ url, method: 'GET', headers: {} }, res);
+  });
+  assert.equal((await run('/api/index?__p=quiz%2Fconfig')).status, 503);
+  assert.equal((await run('/api/index?__p=nope%2Fnope')).status, 404);
+});

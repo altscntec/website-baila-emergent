@@ -29,6 +29,10 @@
   ],
   "rewrites": [
     {
+      "source": "/api/:path*",
+      "destination": "/api/index?__p=:path*"
+    },
+    {
       "source": "/halloween/quiz",
       "destination": "/spa-shell.html"
     },
@@ -101,7 +105,7 @@
     }
   ],
   "functions": {
-    "api/[...route].js": {
+    "api/index.js": {
       "maxDuration": 30
     }
   },

@@ -16,7 +16,7 @@ Private (never committed, folder `quiz-private/`): `question-bank.json` (answer 
 ## What was built
 
 * **Frontend** (`frontend/src/quiz/`): language step (EN/ES/NL, browser suggestion, persisted), rules, participant form, email verification (link and 6-digit code), five-question quiz, result page, music control slot, consent-aware analytics, owner admin page, unsubscribe page. Also `/privacy` (privacy notice, EN/ES/NL).
-* **API** (`api/[...route].js` + `server/`): one Vercel function. Postgres schema `quiz` (migration `server/migrations/001_init.sql`), balanced random theme assignment, server-side scoring from a snapshot of the answer key, one attempt per verified email (database unique constraint), expiring single-use verification, rate limits, reward issuance with atomic code reservation, email outbox with retries and idempotency, Resend adapter and signed webhook handling, owner endpoints, aggregate metrics endpoint for the daily agent.
+* **API** (`api/index.js` + `server/`): one Vercel function. Postgres schema `quiz` (migration `server/migrations/001_init.sql`), balanced random theme assignment, server-side scoring from a snapshot of the answer key, one attempt per verified email (database unique constraint), expiring single-use verification, rate limits, reward issuance with atomic code reservation, email outbox with retries and idempotency, Resend adapter and signed webhook handling, owner endpoints, aggregate metrics endpoint for the daily agent.
 * **Question bank**: 48 questions (12 per theme) in EN/ES/NL, with explanations and internal source notes, verified by `quiz-private/verify-bank.js`.
 * **Emails**: verification (3 variants: new, resume, already played) and reward, in EN/ES/NL (`server/email/templates.js`).
 
