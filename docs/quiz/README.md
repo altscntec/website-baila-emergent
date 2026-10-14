@@ -26,6 +26,7 @@ Private (never committed, folder `quiz-private/`): `question-bank.json` (answer 
 2. Answers are locked one by one on the server; the final answer is scored server-side and the tier (5/10/15 %) is shown.
 3. The claim form appears **after** the score. Submitting it attaches the attempt to the participant and sends the verification email.
 4. Verifying (link or code) issues the discount code and emails it. The code never appears in the browser.
+5. Optional urgency (`code_valid_hours`, set to 72 on 14 Oct 2026): each code carries a personal expiry N hours after it is sent, capped by the campaign-wide `code_expires_at`. It is stated in the reward email (highlighted line under the code), on the claimed screen and in the rules. Weeztix itself only enforces the coupon-level validity, so a late redemption still goes through; the deadline is a stated validity, not a technical block.
 
 Known limitation: before verifying, the same person can clear cookies and play again as a new anonymous session; this only costs question exposure, because every email address can claim one reward and the first verified attempt wins. Starts are rate-limited per IP (20/h).
 

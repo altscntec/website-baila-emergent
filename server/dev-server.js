@@ -85,7 +85,7 @@ const NOINDEX = 'noindex, nofollow, noarchive';
     console.log(`codes ${tier}`, r.status);
   }
   r = await seedEnv.admin('PUT', '/api/admin/settings', {
-    offer_confirmed: true, retention_days: 30, enabled: process.env.QUIZ_DEV_DISABLED ? false : true, ...H.FUTURE,
+    offer_confirmed: true, code_valid_hours: 72, retention_days: 30, enabled: process.env.QUIZ_DEV_DISABLED ? false : true, ...H.FUTURE,
     code_expires_at: '2026-10-31T16:00:00+01:00', closes_at: '2026-10-31T12:00:00+01:00', opens_at: '2026-10-01T00:00:00+02:00',
     eligible_ticket_types: ['General admission (test)'],
   });

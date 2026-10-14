@@ -22,7 +22,7 @@ const buildCheckoutUrl = (settings, code, attribution = {}) => {
 
 const buildRewardMessage = async (ctx, row) => {
   const r = await ctx.db.query(
-    `SELECT p.email, p.full_name, p.attribution, rw.tier, rw.status, at.score, dc.code
+    `SELECT p.email, p.full_name, p.attribution, rw.tier, rw.status, rw.expires_at, at.score, dc.code
        FROM quiz.rewards rw
        JOIN quiz.participants p ON p.id = rw.participant_id
        JOIN quiz.attempts at ON at.id = rw.attempt_id
@@ -35,7 +35,7 @@ const buildRewardMessage = async (ctx, row) => {
   const m = rewardEmail({
     lang, name: x.full_name, tier: x.tier, score: x.score, code: x.code,
     link: buildCheckoutUrl(s, x.code, x.attribution),
-    codeExpiresAt: s.code_expires_at, eligibleTickets: s.eligible_ticket_types,
+    codeExpiresAt: x.expires_at || s.code_expires_at, personalExpiry: Boolean(x.expires_at), eligibleTickets: s.eligible_ticket_types,
     notes: [s.excluded_note[lang], s.stacking_note[lang], s.redemption_note[lang]],
   });
   return { to: x.email, ...m, tags: [{ name: 'kind', value: 'reward' }] };

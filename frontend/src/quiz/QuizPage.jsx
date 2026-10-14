@@ -109,7 +109,7 @@ const RulesStep = ({ t, lang, cfg, onStart, busy, error, m }) => {
           </li>
           <li>{t('rules.r3')}</li>
           <li>{t('rules.r4')}</li>
-          <li>{t('rules.r5')}{cfg && cfg.codeExpiresAt ? ` ${t('rules.r5b', { date: fmtDate(cfg.codeExpiresAt, lang) })}` : ''}</li>
+          <li>{t('rules.r5')}{cfg && cfg.codeValidHours ? ` ${t('rules.r5c', { hours: cfg.codeValidHours })}` : (cfg && cfg.codeExpiresAt ? ` ${t('rules.r5b', { date: fmtDate(cfg.codeExpiresAt, lang) })}` : '')}</li>
           <li>{t('rules.r6')}</li>
           <li>{t('rules.r7')}</li>
         </ol>
@@ -403,7 +403,9 @@ const ClaimedView = ({ t, lang, st, cfg, onResend, resendMsg, resendBusy, alread
         {already && <p className="text-[var(--bdq-dim)]">{t('result.already')}</p>}
         {!already && <p role="status" aria-live="polite">{t(`result.mail.${mail}`)}</p>}
         <p className="text-sm text-[var(--bdq-dim)]">{t('result.codeNote')}</p>
-        {cfg && cfg.codeExpiresAt && <p className="text-sm text-[var(--bdq-dim)]">{t('result.valid', { date: fmtDate(cfg.codeExpiresAt, lang) })}</p>}
+        {r.codeExpiresAt
+          ? <p className="text-sm font-bold" style={{ color: 'var(--bdq-accent)' }} data-testid="quiz-code-expiry">{t('result.validPersonal', { date: fmtDate(r.codeExpiresAt, lang) })}</p>
+          : (cfg && cfg.codeExpiresAt && <p className="text-sm text-[var(--bdq-dim)]">{t('result.valid', { date: fmtDate(cfg.codeExpiresAt, lang) })}</p>)}
         <button type="button" className="bdq-btn bdq-btn-ghost" onClick={onResend} disabled={resendBusy} data-testid="quiz-resend-reward">{t('result.resend')}</button>
         {resendMsg && <p role="status" className="text-sm">{resendMsg}</p>}
       </motion.div>

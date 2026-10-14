@@ -67,7 +67,7 @@ const startAttempt = async (ctx, session, lang) => {
 // What the browser may see. Never includes correct_option_id, never includes any code.
 const getState = async (ctx, session, lang) => {
   const settings = await getSettings(ctx.db);
-  const campaign = { state: campaignState(settings, ctx.now()), opensAt: settings.opens_at, closesAt: settings.closes_at, codeExpiresAt: settings.code_expires_at };
+  const campaign = { state: campaignState(settings, ctx.now()), opensAt: settings.opens_at, closesAt: settings.closes_at, codeExpiresAt: settings.code_expires_at, codeValidHours: settings.code_valid_hours };
   const base = { campaign, status: 'idle', theme: null, progress: { answered: 0, total: QUESTIONS_PER_ATTEMPT }, question: null, result: null, participant: null };
   if (!session) return base;
   const attempt = await attemptFor(ctx.db, session);
@@ -101,7 +101,7 @@ const getState = async (ctx, session, lang) => {
     const p = (await ctx.db.query('SELECT id, email, verified_at FROM quiz.participants WHERE id = $1', [attempt.participant_id])).rows[0];
     if (p) {
       maskedEmail = p.email.replace(/^(.)(.*)(@.*)$/, (m, a, b, c) => a + '*'.repeat(Math.min(b.length, 6)) + c);
-      rw = (await ctx.db.query('SELECT status, tier, attempt_id FROM quiz.rewards WHERE participant_id=$1', [p.id])).rows[0] || null;
+      rw = (await ctx.db.query('SELECT status, tier, attempt_id, expires_at FROM quiz.rewards WHERE participant_id=$1', [p.id])).rows[0] || null;
       if (!p.verified_at) claim = 'pending_verification';
       else if (rw && rw.attempt_id === attempt.id) claim = 'claimed';
       else if (rw) claim = 'already_played';
@@ -116,6 +116,7 @@ const getState = async (ctx, session, lang) => {
   out.result = {
     score: attempt.score, total: QUESTIONS_PER_ATTEMPT, tier: attempt.tier, claim, maskedEmail,
     reward: rw ? rw.status : null,                                            // 'issued' | 'pending_inventory' (never the code)
+    codeExpiresAt: rw && rw.expires_at ? new Date(rw.expires_at).toISOString() : null,   // this person's window, if one is set
     email: em ? em.status : (rw && rw.status === 'pending_inventory' ? 'waiting_for_inventory' : 'none'),
   };
   if (settings.show_review_after_completion && claim === 'claimed') {

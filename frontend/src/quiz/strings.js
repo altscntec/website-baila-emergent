@@ -31,6 +31,7 @@ const en = {
     r4: 'Answers are locked and scored on our server. Correct answers are not shown during the quiz.',
     r5: 'Your discount code is sent by email only. It is never shown on this page.',
     r5b: 'The code is valid until {date}.',
+    r5c: 'Each code is valid for {hours} hours after it is sent, so use it quickly.',
     r6: 'You must be 18 or older. Promotional emails are optional and not needed to take part or to get your discount.',
     r7: 'Different email addresses can still belong to the same person; the one-attempt rule applies per verified email address.',
     cta: 'Start the challenge',
@@ -109,6 +110,7 @@ const en = {
     earned: 'You earned {tier}% off your Halloween ticket',
     codeNote: 'We never show your code on this page. It is sent by email only.',
     valid: 'Valid until {date} (Amsterdam time). Restrictions are listed in the email.',
+    validPersonal: 'Your code expires on {date} (Amsterdam time). Use it before then.',
     emailTitle: 'Your code',
     mail: {
       none: 'We are preparing your email.',
@@ -182,6 +184,7 @@ const es = {
     r4: 'Las respuestas se bloquean y se puntúan en nuestro servidor. Las respuestas correctas no se muestran durante el quiz.',
     r5: 'Tu código de descuento se envía solo por email. Nunca se muestra en esta página.',
     r5b: 'El código es válido hasta el {date}.',
+    r5c: 'Cada código es válido durante {hours} horas desde su envío, así que úsalo pronto.',
     r6: 'Debes tener 18 años o más. Los emails promocionales son opcionales y no hacen falta para participar ni para recibir tu descuento.',
     r7: 'Distintas direcciones de email pueden pertenecer a la misma persona; la regla de un intento se aplica por dirección de email verificada.',
     cta: 'Empezar el reto',
@@ -260,6 +263,7 @@ const es = {
     earned: 'Has ganado un {tier} % de descuento en tu entrada de Halloween',
     codeNote: 'Nunca mostramos tu código en esta página. Se envía solo por email.',
     valid: 'Válido hasta el {date} (hora de Ámsterdam). Las restricciones figuran en el email.',
+    validPersonal: 'Tu código caduca el {date} (hora de Ámsterdam). Úsalo antes.',
     emailTitle: 'Tu código',
     mail: {
       none: 'Estamos preparando tu email.',
@@ -333,6 +337,7 @@ const nl = {
     r4: 'Antwoorden worden vergrendeld en op onze server beoordeeld. Goede antwoorden zie je tijdens de quiz niet.',
     r5: 'Je kortingscode krijg je alleen per e-mail. Hij wordt nooit op deze pagina getoond.',
     r5b: 'De code is geldig tot {date}.',
+    r5c: 'Elke code is {hours} uur geldig nadat hij is verstuurd, dus gebruik hem snel.',
     r6: 'Je moet 18 jaar of ouder zijn. Reclamemails zijn optioneel en niet nodig om mee te doen of je korting te krijgen.',
     r7: 'Verschillende e-mailadressen kunnen toch bij dezelfde persoon horen; de regel van één poging geldt per geverifieerd e-mailadres.',
     cta: 'Start de uitdaging',
@@ -411,6 +416,7 @@ const nl = {
     earned: 'Je hebt {tier}% korting op je Halloween-ticket verdiend',
     codeNote: 'We tonen je code nooit op deze pagina. Je krijgt hem alleen per e-mail.',
     valid: 'Geldig tot {date} (Amsterdamse tijd). Beperkingen staan in de e-mail.',
+    validPersonal: 'Je code verloopt op {date} (Amsterdamse tijd). Gebruik hem vóór die tijd.',
     emailTitle: 'Je code',
     mail: {
       none: 'We bereiden je e-mail voor.',

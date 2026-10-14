@@ -31,6 +31,7 @@ const S = {
       stepsTitle: 'How to redeem',
       steps: ['Tap the button below. The code is applied automatically at checkout.', 'If it is not, paste the code into the discount field at checkout.', 'Check that the discount shows before you pay.'],
       validUntil: (d) => `Valid until ${d} (Amsterdam time).`,
+      urgent: (d) => `Your code expires on ${d} (Amsterdam time). Use it before then.`,
       eligible: (l) => `Valid for: ${l}.`,
       terms: 'Good to know',
       personal: 'This code is personal and can be used once. Please do not share it.',
@@ -57,6 +58,7 @@ const S = {
       stepsTitle: 'Cómo canjearlo',
       steps: ['Pulsa el botón de abajo. El código se aplica automáticamente al pagar.', 'Si no se aplica, pega el código en el campo de descuento al pagar.', 'Comprueba que aparece el descuento antes de pagar.'],
       validUntil: (d) => `Válido hasta el ${d} (hora de Ámsterdam).`,
+      urgent: (d) => `Tu código caduca el ${d} (hora de Ámsterdam). Úsalo antes.`,
       eligible: (l) => `Válido para: ${l}.`,
       terms: 'Conviene saber',
       personal: 'Este código es personal y se puede usar una sola vez. Por favor, no lo compartas.',
@@ -83,6 +85,7 @@ const S = {
       stepsTitle: 'Zo gebruik je hem',
       steps: ['Tik op de knop hieronder. De code wordt bij het afrekenen automatisch toegepast.', 'Gebeurt dat niet, plak de code dan in het kortingsveld bij het afrekenen.', 'Controleer of de korting zichtbaar is voordat je betaalt.'],
       validUntil: (d) => `Geldig tot ${d} (Amsterdamse tijd).`,
+      urgent: (d) => `Je code verloopt op ${d} (Amsterdamse tijd). Gebruik hem vóór die tijd.`,
       eligible: (l) => `Geldig voor: ${l}.`,
       terms: 'Goed om te weten',
       personal: 'Deze code is persoonlijk en kan één keer worden gebruikt. Deel hem alsjeblieft niet.',
@@ -120,7 +123,7 @@ ${button(link, t.signin.cta)}
   return { subject: k.subject, html: layout({ lang, title: k.subject, bodyHtml: body }), text };
 };
 
-const rewardEmail = ({ lang, name, tier, score, code, link, codeExpiresAt, eligibleTickets, notes }) => {
+const rewardEmail = ({ lang, name, tier, score, code, link, codeExpiresAt, personalExpiry, eligibleTickets, notes }) => {
   const t = S[lang] || S.en; const r = t.reward;
   const exp = fmtDate(codeExpiresAt, lang);
   const lines = [];
@@ -134,13 +137,14 @@ const rewardEmail = ({ lang, name, tier, score, code, link, codeExpiresAt, eligi
 <p style="margin:0 0 16px 0;font-size:16px;line-height:1.5;">${esc(r.score(score))}</p>
 <p style="margin:0 0 6px 0;font-size:14px;color:#5b4a66;">${esc(r.codeLabel)}</p>
 <p style="margin:0 0 4px 0;padding:14px 16px;background:#f6eefb;border:2px dashed #7F00FF;border-radius:12px;font-family:Menlo,Consolas,monospace;font-size:26px;letter-spacing:3px;font-weight:700;text-align:center;">${esc(code)}</p>
+${personalExpiry && exp ? `<p style="margin:10px 0 0 0;padding:10px 14px;background:#fff1ee;border-left:4px solid #FF4015;border-radius:8px;font-size:15px;font-weight:700;color:#8a1c00;">${esc(r.urgent(exp))}</p>` : ''}
 ${button(link, r.cta)}
 <h2 style="margin:8px 0 8px 0;font-size:16px;">${esc(r.stepsTitle)}</h2>
 <ol style="margin:0 0 16px 20px;padding:0;font-size:15px;line-height:1.5;">${r.steps.map((s) => `<li>${esc(s)}</li>`).join('')}</ol>
 <h2 style="margin:8px 0 8px 0;font-size:16px;">${esc(r.terms)}</h2>
 <ul style="margin:0 0 16px 20px;padding:0;font-size:14px;line-height:1.5;color:#3a2a45;">${lines.map((s) => `<li>${esc(s)}</li>`).join('')}</ul>
 <p style="margin:0 0 24px 0;font-size:12px;color:#7a6a85;">${esc(r.why)}</p>`;
-  const text = [t.hi(firstName(name)), '', r.title(tier), r.score(score), '', `${r.codeLabel}: ${code}`, `${r.cta}: ${link}`, '', r.stepsTitle, ...r.steps.map((s, i) => `${i + 1}. ${s}`), '', r.terms, ...lines.map((l) => `- ${l}`), '', r.why].join('\n');
+  const text = [t.hi(firstName(name)), '', r.title(tier), r.score(score), '', `${r.codeLabel}: ${code}`, ...(personalExpiry && exp ? [r.urgent(exp)] : []), `${r.cta}: ${link}`, '', r.stepsTitle, ...r.steps.map((s, i) => `${i + 1}. ${s}`), '', r.terms, ...lines.map((l) => `- ${l}`), '', r.why].join('\n');
   return { subject: r.subject(tier), html: layout({ lang, title: r.subject(tier), bodyHtml: body }), text };
 };
 

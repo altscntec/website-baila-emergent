@@ -56,7 +56,7 @@ const routes = [
   ['GET', '/api/quiz/config', async (ctx) => {
     const s = await getSettings(ctx.db);
     return { body: {
-      state: campaignState(s, ctx.now()), opensAt: s.opens_at, closesAt: s.closes_at, codeExpiresAt: s.code_expires_at,
+      state: campaignState(s, ctx.now()), opensAt: s.opens_at, closesAt: s.closes_at, codeExpiresAt: s.code_expires_at, codeValidHours: s.code_valid_hours,
       timezone: 'Europe/Amsterdam', retentionDays: s.retention_days, marketing: { version: auth.WORDING_VERSION, wording: auth.MARKETING_WORDING }, termsVersion: auth.TERMS_VERSION,
     } };
   }],

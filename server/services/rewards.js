@@ -12,16 +12,25 @@ const reserveCode = async (t, participantId, tier) => {
   return r.rows[0].id;
 };
 
+// When a code is sent it is valid for settings.code_valid_hours (if set), never beyond code_expires_at.
+const expiryFor = (s, now = Date.now()) => {
+  if (!s.code_valid_hours) return null;
+  const until = now + s.code_valid_hours * 3600 * 1000;
+  const cap = s.code_expires_at ? Date.parse(s.code_expires_at) : Infinity;
+  return new Date(Math.min(until, cap)).toISOString();
+};
+
 // Idempotent: a participant can only ever have one reward row (PK) and one code (UNIQUE).
-const issueReward = async (t, { participantId, attemptId, tier }) => {
+const issueReward = async (t, { participantId, attemptId, tier, settings }) => {
   const existing = await t.query('SELECT * FROM quiz.rewards WHERE participant_id = $1', [participantId]);
   if (existing.rowCount) return { reward: existing.rows[0], created: false };
   const codeId = await reserveCode(t, participantId, tier);
   const status = codeId ? 'issued' : 'pending_inventory';
+  const expiresAt = codeId && settings ? expiryFor(settings) : null;
   const r = await t.query(
-    `INSERT INTO quiz.rewards (participant_id, attempt_id, tier, code_id, status, issued_at)
-     VALUES ($1,$2,$3,$4,$5, CASE WHEN $4::bigint IS NULL THEN NULL ELSE now() END) RETURNING *`,
-    [participantId, attemptId, tier, codeId, status]);
+    `INSERT INTO quiz.rewards (participant_id, attempt_id, tier, code_id, status, issued_at, expires_at)
+     VALUES ($1,$2,$3,$4,$5, CASE WHEN $4::bigint IS NULL THEN NULL ELSE now() END, $6) RETURNING *`,
+    [participantId, attemptId, tier, codeId, status, expiresAt]);
   return { reward: r.rows[0], created: true };
 };
 
@@ -39,6 +48,7 @@ const checkInventory = async (ctx) => {
 // Called after codes are imported (and by the retry cron): give pending rewards a code, in order.
 const fulfilPending = async (ctx) => {
   const pending = await ctx.db.query(`SELECT participant_id, tier FROM quiz.rewards WHERE status='pending_inventory' ORDER BY created_at`);
+  const s = pending.rowCount ? await getSettings(ctx.db) : null;
   let fulfilled = 0;
   for (const p of pending.rows) {
     const outboxId = await ctx.db.tx(async (t) => {
@@ -46,7 +56,7 @@ const fulfilPending = async (ctx) => {
       if (!lock.rowCount) return null;
       const codeId = await reserveCode(t, p.participant_id, p.tier);
       if (!codeId) return null;
-      await t.query(`UPDATE quiz.rewards SET code_id=$2, status='issued', issued_at=now() WHERE participant_id=$1`, [p.participant_id, codeId]);
+      await t.query(`UPDATE quiz.rewards SET code_id=$2, status='issued', issued_at=now(), expires_at=$3 WHERE participant_id=$1`, [p.participant_id, codeId, expiryFor(s)]);
       const lang = (await t.query('SELECT language FROM quiz.participants WHERE id=$1', [p.participant_id])).rows[0].language;
       return mailer.queue(t, { participantId: p.participant_id, kind: 'reward', language: lang, key: `reward:${p.participant_id}` });
     });
@@ -85,7 +95,7 @@ const claim = async (ctx, t, participantId, language) => {
   if (existing) return { status: 'already', tier: existing.tier };
   const p = (await t.query('SELECT anon_id, attribution, language FROM quiz.participants WHERE id = $1', [participantId])).rows[0];
   const lang = p.language || language || 'en';
-  const { reward } = await issueReward(t, { participantId, attemptId: a.id, tier: a.tier });
+  const { reward } = await issueReward(t, { participantId, attemptId: a.id, tier: a.tier, settings: await getSettings(t) });   // read on the same connection: never waits on the pool inside a tx
   await t.query('UPDATE quiz.attempts SET claimed_at = now() WHERE id = $1', [a.id]);
   await track(t, { anonId: p.anon_id, name: 'discount_earned', theme: a.theme, language: lang, tier: a.tier, attribution: p.attribution });
   let outboxId = null;
@@ -98,4 +108,4 @@ const claim = async (ctx, t, participantId, language) => {
   return { status: 'claimed', tier: a.tier, outboxId, pending: reward.status !== 'issued' };
 };
 
-module.exports = { reserveCode, issueReward, checkInventory, fulfilPending, resendReward, claim };
+module.exports = { reserveCode, issueReward, checkInventory, fulfilPending, resendReward, claim, expiryFor };

@@ -7,6 +7,7 @@ const DEFAULT_SETTINGS = {
   opens_at: null,                 // ISO-8601 with offset; interpreted/displayed in Europe/Amsterdam
   closes_at: null,
   code_expires_at: null,          // when issued codes stop working (must match the Weeztix coupon validity)
+  code_valid_hours: null,         // optional per-person window: a code expires this many hours after it is sent (capped by code_expires_at)
   checkout_url: 'https://weeztix.shop/nxaqrkdz',
   coupon_param: 'coupon',         // verified: the Weeztix shop link forwards ?coupon=CODE
   eligible_ticket_types: [],      // shown in the reward email; the real restriction is set in Weeztix
@@ -42,6 +43,8 @@ const validateSettingsPatch = (patch, current) => {
         if (!Number.isInteger(v) || v < 0 || v > 10000) errors[k] = 'invalid'; else out[k] = v; break;
       case 'retention_days':
         if (v !== null && (!Number.isInteger(v) || v < 1 || v > 3650)) errors[k] = 'invalid'; else out[k] = v; break;
+      case 'code_valid_hours':
+        if (v !== null && (!Number.isInteger(v) || v < 1 || v > 720)) errors[k] = 'invalid'; else out[k] = v; break;
       default: break;
     }
   }

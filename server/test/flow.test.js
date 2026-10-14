@@ -234,3 +234,30 @@ test('server-side funnel events contain no personal data, codes or tokens, and r
   assert.ok(names.indexOf('quiz_completed') < names.indexOf('form_success'), 'play happens before the form');
   assert.equal(new Set(ev.filter((e) => e.anon_id).map((e) => e.anon_id)).size, 1, 'same anonymous id from first question to reward');
 });
+
+test('per-person validity: with code_valid_hours the reward expires N hours after sending, capped by code_expires_at; shown in the email and on the page', async () => {
+  await H.openCampaign(env);
+  assert.equal((await env.admin('PUT', '/api/admin/settings', { code_valid_hours: 72 })).status, 200);
+  const a = await H.fullJourney(env, 3, { language: 'nl' });
+  const rw = (await rows('SELECT expires_at, issued_at FROM quiz.rewards'))[0];
+  const want = new Date(rw.issued_at).getTime() + 72 * 3600 * 1000;
+  assert.ok(Math.abs(new Date(rw.expires_at).getTime() - want) < 60_000, 'expires 72h after issue');
+  assert.equal(a.state.result.codeExpiresAt, new Date(rw.expires_at).toISOString(), 'the page gets this person\'s expiry (never the code)');
+  const mail = env.mail.last(a.body.email, 'reward');
+  assert.ok(mail.text.includes('Je code verloopt op') && mail.html.includes('Je code verloopt op'), 'urgency line in the chosen language');
+  assert.ok(!JSON.stringify(a.state).match(/[A-Z0-9]{8,}/), 'no code in the state');
+
+  // capped by the campaign-wide expiry
+  const cap = new Date(Date.now() + 3600 * 1000).toISOString();
+  assert.equal((await env.admin('PUT', '/api/admin/settings', { code_expires_at: cap })).status, 200);
+  const b = await H.fullJourney(env, 5, { language: 'en' });
+  assert.equal(new Date(b.state.result.codeExpiresAt).getTime(), Date.parse(cap), 'never beyond code_expires_at');
+  assert.ok(env.mail.last(b.body.email, 'reward').text.includes('Your code expires on'));
+
+  // without the setting there is no personal window
+  assert.equal((await env.admin('PUT', '/api/admin/settings', { code_valid_hours: null, ...H.FUTURE })).status, 200);
+  const c = await H.fullJourney(env, 1, { language: 'es' });
+  assert.equal(c.state.result.codeExpiresAt, null);
+  assert.ok(!env.mail.last(c.body.email, 'reward').text.includes('caduca el'));
+  assert.equal((await env.admin('PUT', '/api/admin/settings', { code_valid_hours: 0 })).status, 400, 'validated');
+});

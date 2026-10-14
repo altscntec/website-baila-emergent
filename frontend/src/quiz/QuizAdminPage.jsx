@@ -73,7 +73,8 @@ export const QuizAdminPage = () => {
       enabled: !!s.enabled, offer_confirmed: !!s.offer_confirmed, opens_at: s.opens_at, closes_at: s.closes_at, code_expires_at: s.code_expires_at,
       checkout_url: s.checkout_url, coupon_param: s.coupon_param, eligible_ticket_types: Array.isArray(s.eligible_ticket_types) ? s.eligible_ticket_types : String(s.eligible_ticket_types || '').split(',').map((x) => x.trim()).filter(Boolean),
       excluded_note: s.excluded_note, stacking_note: s.stacking_note, redemption_note: s.redemption_note, low_inventory_threshold: Number(s.low_inventory_threshold),
-      retention_days: s.retention_days === '' || s.retention_days === null ? null : Number(s.retention_days), show_review_after_completion: !!s.show_review_after_completion, alert_email_enabled: !!s.alert_email_enabled,
+      retention_days: s.retention_days === '' || s.retention_days === null ? null : Number(s.retention_days),
+      code_valid_hours: s.code_valid_hours === '' || s.code_valid_hours === null || s.code_valid_hours === undefined ? null : Number(s.code_valid_hours), show_review_after_completion: !!s.show_review_after_completion, alert_email_enabled: !!s.alert_email_enabled,
     };
     const r = await api('PUT', '/api/admin/settings', patch); await loadOverview(); return { saved: true, settings: r };
   });
@@ -105,6 +106,7 @@ export const QuizAdminPage = () => {
           <Row label="Opens"><>{dt('opens_at')}</></Row><Row label="Closes"><>{dt('closes_at')}</></Row>
           <Row label="Codes expire (must match the Weeztix coupon validity)"><>{dt('code_expires_at')}</></Row>
           <Row label="Retention (days after close)"><input className="bdq-input" inputMode="numeric" value={s.retention_days ?? ''} onChange={set('retention_days')} /></Row>
+          <Row label="Each code valid for (hours after sending; empty = until the date above)"><input className="bdq-input" inputMode="numeric" value={s.code_valid_hours ?? ''} onChange={set('code_valid_hours')} /></Row>
           <Row label="Checkout URL"><input className="bdq-input" value={s.checkout_url} onChange={set('checkout_url')} /></Row>
           <Row label="Coupon URL parameter"><input className="bdq-input" value={s.coupon_param} onChange={set('coupon_param')} /></Row>
           <Row label="Eligible ticket types (comma separated, shown in the email)"><input className="bdq-input" value={Array.isArray(s.eligible_ticket_types) ? s.eligible_ticket_types.join(', ') : s.eligible_ticket_types} onChange={set('eligible_ticket_types')} /></Row>
