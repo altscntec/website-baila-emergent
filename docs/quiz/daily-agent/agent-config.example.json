@@ -1,0 +1,15 @@
+{
+  "baseUrl": "https://bailadembow.com",
+  "analyticsKey": "PASTE-THE-ANALYTICS_API_KEY-VALUE-HERE (local file only, gitignored)",
+  "metaAdAccountId": "act_XXXXXXXXXXXX",
+  "windowDays": 1,
+  "thresholds": {
+    "minSample": { "funnel": 30, "impressionRates": 100 },
+    "verificationRateDropPct": 20,
+    "emailFailureRatePct": 3,
+    "quizAbandonmentWorstStepPct": 25,
+    "spendWithoutPurchaseEur": 150,
+    "lowInventoryCodesPerTier": 10
+  },
+  "notes": "Thresholds are yours to tune. They are compared against the campaign's own trailing 7 days, not industry benchmarks."
+}
