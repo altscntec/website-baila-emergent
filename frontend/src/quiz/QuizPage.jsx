@@ -70,7 +70,7 @@ const LanguageStep = ({ t, suggested, onPick, m }) => {
     <section className="space-y-6" aria-labelledby="bdq-h">
       <div>
         <p className="bdq-kicker">{t('rules.kicker')}</p>
-        <h1 id="bdq-h" ref={h} tabIndex={-1} className="text-[2.6rem] mt-3">{t('lang.title')}</h1>
+        <h1 id="bdq-h" ref={h} tabIndex={-1} className="text-[2.2rem] mt-3">{t('lang.title')}</h1>
         <p className="text-[var(--bdq-dim)] mt-2">{t('lang.intro')}</p>
       </div>
       <div className="space-y-3">
@@ -93,7 +93,7 @@ const RulesStep = ({ t, lang, cfg, onStart, busy, error, m }) => {
     <section className="space-y-7" aria-labelledby="bdq-h">
       <div>
         <p className="bdq-kicker">{t('rules.kicker')}</p>
-        <h1 id="bdq-h" ref={h} tabIndex={-1} className="text-[2.5rem] sm:text-5xl mt-3" data-testid="quiz-headline">{t('rules.headline')}</h1>
+        <h1 id="bdq-h" ref={h} tabIndex={-1} className="text-[2.05rem] sm:text-5xl mt-3" data-testid="quiz-headline">{t('rules.headline')}</h1>
       </div>
       <motion.div className="bdq-card space-y-4" {...m.item(0)}>
         <h2 className="text-xl">{t('rules.howTitle')}</h2>
@@ -292,7 +292,7 @@ const ClaimStep = ({ t, lang, cfg, st, initial, onDone, onClosed, m }) => {
             <div className="bdq-divider" />
             <div>
               <label className="flex gap-3 items-start cursor-pointer">
-                <input type="checkbox" className="mt-1 w-6 h-6 shrink-0 accent-[#FF6B00]" checked={f.acceptTerms} onChange={set('acceptTerms')} aria-invalid={errors.acceptTerms ? 'true' : undefined} aria-describedby={errors.acceptTerms ? 'acceptTerms-err' : undefined} data-testid="quiz-accept" />
+                <input type="checkbox" className="mt-1 w-6 h-6 shrink-0 accent-[#FF4015]" checked={f.acceptTerms} onChange={set('acceptTerms')} aria-invalid={errors.acceptTerms ? 'true' : undefined} aria-describedby={errors.acceptTerms ? 'acceptTerms-err' : undefined} data-testid="quiz-accept" />
                 <span>
                   {(() => { const [a, b] = t('form.accept', { privacy: '\u0000' }).split('\u0000'); return (<>{a}<a href="/privacy" target="_blank" rel="noopener noreferrer">{t('form.privacy')}</a>{b}</>); })()}
                   {' '}<a href="/terms" target="_blank" rel="noopener noreferrer">({t('form.terms')})</a>
@@ -304,7 +304,7 @@ const ClaimStep = ({ t, lang, cfg, st, initial, onDone, onClosed, m }) => {
               <legend className="sr-only">{t('form.marketingLegend')}</legend>
               <label className="flex gap-3 items-start cursor-pointer">
                 {/* Separate, optional and UNCHECKED by default. Wording comes from the API so the stored consent text is exactly what was shown. */}
-                <input type="checkbox" className="mt-1 w-6 h-6 shrink-0 accent-[#FF6B00]" checked={f.marketingOptIn} onChange={set('marketingOptIn')} data-testid="quiz-marketing" />
+                <input type="checkbox" className="mt-1 w-6 h-6 shrink-0 accent-[#FF4015]" checked={f.marketingOptIn} onChange={set('marketingOptIn')} data-testid="quiz-marketing" />
                 <span className="text-[var(--bdq-dim)]">{marketingText}</span>
               </label>
             </fieldset>

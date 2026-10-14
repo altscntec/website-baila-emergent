@@ -63,14 +63,15 @@ const waitFor = (page, sel, t = 8000) => page.waitForSelector(sel, { timeout: t,
       const { page, ctx } = await newPage(browser, { lang: 'en', reduced: true });
       await page.goto(`${BASE}/halloween/quiz`, { waitUntil: 'networkidle0' });
       await waitFor(page, '[data-testid="quiz-headline"]');
-      const anim = await page.evaluate(() => ({ smoke: getComputedStyle(document.querySelector('.bdq-smoke')).animationName, windows: getComputedStyle(document.querySelector('.bdq-windows')).animationName, btn: getComputedStyle(document.querySelector('.bdq-btn')).transitionDuration }));
-      assert.strictEqual(anim.smoke, 'none'); assert.strictEqual(anim.windows, 'none');
+      const anim = await page.evaluate(() => ({ video: Boolean(document.querySelector('video.bdq-video')), poster: Boolean(document.querySelector('img.bdq-video')), btn: getComputedStyle(document.querySelector('.bdq-btn')).transitionDuration }));
+      assert.strictEqual(anim.video, false, 'no video under reduced motion'); assert.strictEqual(anim.poster, true, 'poster frame shown instead');
       await ctx.close();
       const { page: p2, ctx: c2 } = await newPage(browser, { lang: 'en', reduced: false });
       await p2.goto(`${BASE}/halloween/quiz`, { waitUntil: 'networkidle0' });
       await waitFor(p2, '[data-testid="quiz-headline"]');
-      const anim2 = await p2.evaluate(() => getComputedStyle(document.querySelector('.bdq-smoke')).animationName);
-      assert.notStrictEqual(anim2, 'none', 'animation is on when motion is allowed');
+      await sleep(800);
+      const anim2 = await p2.evaluate(() => { const v = document.querySelector('video.bdq-video'); return v ? (v.paused ? 'paused' : 'playing') : 'none'; });
+      assert.strictEqual(anim2, 'playing', 'background video plays when motion is allowed');
       await c2.close();
       ok('prefers-reduced-motion disables decorative animation (and it is on otherwise)');
     }
