@@ -76,4 +76,26 @@ const resendReward = async (ctx, participant, { language }) => {
   return { status };
 };
 
-module.exports = { reserveCode, issueReward, checkInventory, fulfilPending, resendReward };
+// Play-first flow: once a participant is verified, issue the reward for the completed attempt attached to them.
+// Idempotent: a participant can only ever hold one reward (primary key) for one attempt (unique index).
+const claim = async (ctx, t, participantId, language) => {
+  const a = (await t.query('SELECT * FROM quiz.attempts WHERE participant_id = $1 FOR UPDATE', [participantId])).rows[0];
+  if (!a || a.status !== 'completed') return { status: 'no_attempt' };
+  const existing = (await t.query('SELECT tier FROM quiz.rewards WHERE participant_id = $1', [participantId])).rows[0];
+  if (existing) return { status: 'already', tier: existing.tier };
+  const p = (await t.query('SELECT anon_id, attribution, language FROM quiz.participants WHERE id = $1', [participantId])).rows[0];
+  const lang = p.language || language || 'en';
+  const { reward } = await issueReward(t, { participantId, attemptId: a.id, tier: a.tier });
+  await t.query('UPDATE quiz.attempts SET claimed_at = now() WHERE id = $1', [a.id]);
+  await track(t, { anonId: p.anon_id, name: 'discount_earned', theme: a.theme, language: lang, tier: a.tier, attribution: p.attribution });
+  let outboxId = null;
+  if (reward.status === 'issued') {
+    outboxId = await mailer.queue(t, { participantId, kind: 'reward', language: lang, key: `reward:${participantId}` });
+    await track(t, { anonId: p.anon_id, name: 'reward_issued', theme: a.theme, language: lang, tier: a.tier, attribution: p.attribution });
+  } else {
+    await track(t, { anonId: p.anon_id, name: 'reward_pending_inventory', theme: a.theme, language: lang, tier: a.tier, attribution: p.attribution });
+  }
+  return { status: 'claimed', tier: a.tier, outboxId, pending: reward.status !== 'issued' };
+};
+
+module.exports = { reserveCode, issueReward, checkInventory, fulfilPending, resendReward, claim };

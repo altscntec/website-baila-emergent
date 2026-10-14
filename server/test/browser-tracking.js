@@ -28,6 +28,7 @@ const journey = async (browser, consent, label) => {
   await page.evaluateOnNewDocument(() => { window.dataLayer = window.dataLayer || []; const p = window.dataLayer.push.bind(window.dataLayer); window.dataLayer.push = (...a) => { try { window.__record('dl', JSON.parse(JSON.stringify(a[0]))); } catch (_) {} return p(...a); }; });
   await page.goto(`${BASE}/halloween/quiz?utm_source=meta&utm_medium=paid_social&utm_campaign=track_test&utm_content=ad1&meta_ad_id=987&fbclid=FBCLIDVALUE1&ttclid=TTCLIDVALUE1&name=${PII.first}&email=${encodeURIComponent(email)}`, { waitUntil: 'networkidle0' });
   await page.waitForSelector('[data-testid="quiz-start-cta"]'); await page.click('[data-testid="quiz-start-cta"]');
+  for (let i = 0; i < 5; i++) { await page.waitForSelector('[data-testid="quiz-question"]'); await (await page.$$('[data-testid="quiz-option"]'))[0].click(); await page.click('[data-testid="quiz-lock"]'); await sleep(1000); }
   await page.waitForSelector('#fullName');
   await page.type('#fullName', PII.name); await page.type('#email', email); await page.type('#age', PII.age);
   await page.select('#gender', 'self_describe'); await page.type('#genderSelf', 'Zebra-kin'); await page.type('#city', PII.city); await page.select('#country', 'NL');
@@ -37,9 +38,7 @@ const journey = async (browser, consent, label) => {
   const link = mail.text.match(/http\S+#t=\S+/)[0]; const token = link.split('#t=')[1];
   await page.goto(link, { waitUntil: 'networkidle0' });                        // verify through the emailed link (token in the fragment)
   assert.ok(!page.url().includes('#t='), 'token removed from the address bar'); assert.ok(!page.url().includes(token));
-  await page.waitForSelector('[data-testid="quiz-begin"]'); await page.click('[data-testid="quiz-begin"]');
-  for (let i = 0; i < 5; i++) { await page.waitForSelector('[data-testid="quiz-question"]'); await (await page.$$('[data-testid="quiz-option"]'))[0].click(); await page.click('[data-testid="quiz-lock"]'); await sleep(1000); }
-  await page.waitForSelector('[data-testid="quiz-earned"]');
+  await page.waitForSelector('[data-testid="quiz-mail-status"]');
   const reward = (await (await fetch(`${BASE}/__dev/outbox?to=${encodeURIComponent(email)}`)).json()).filter((m) => m.tags.some((t) => t.value === 'reward')).pop();
   const code = reward.text.match(/LOCALTEST\w+/)[0];
   await page.evaluate(() => document.querySelector('[data-testid="quiz-tickets"]').addEventListener('click', (e) => e.preventDefault(), true));
@@ -72,8 +71,8 @@ const journey = async (browser, consent, label) => {
     });
     check('event schema: required quiz events present with theme/language/question/tier, in order', () => {
       const names = all.dl.map((e) => e.event);
-      for (const want of ['quiz_landing_view', 'quiz_start_click', 'quiz_form_success', 'quiz_verification_requested', 'quiz_verification_completed', 'quiz_started', 'quiz_question_viewed', 'quiz_answer_submitted', 'quiz_completed', 'quiz_discount_earned', 'quiz_reward_email_status', 'quiz_ticket_click']) assert.ok(names.includes(want), `${want} missing`);
-      assert.ok(names.indexOf('quiz_start_click') < names.indexOf('quiz_form_success') && names.indexOf('quiz_form_success') < names.indexOf('quiz_verification_completed') && names.indexOf('quiz_verification_completed') < names.indexOf('quiz_completed'));
+      for (const want of ['quiz_landing_view', 'quiz_start_click', 'quiz_started', 'quiz_question_viewed', 'quiz_answer_submitted', 'quiz_completed', 'quiz_discount_earned', 'quiz_form_success', 'quiz_verification_requested', 'quiz_verification_completed', 'quiz_reward_email_status', 'quiz_ticket_click']) assert.ok(names.includes(want), `${want} missing`);
+      assert.ok(names.indexOf('quiz_start_click') < names.indexOf('quiz_completed') && names.indexOf('quiz_completed') < names.indexOf('quiz_form_success') && names.indexOf('quiz_form_success') < names.indexOf('quiz_verification_completed'), 'play-first order');
       assert.strictEqual(all.dl.filter((e) => e.event === 'quiz_question_viewed').length, 5); assert.strictEqual(all.dl.filter((e) => e.event === 'quiz_answer_submitted').length, 5);
       const done = all.dl.find((e) => e.event === 'quiz_completed'); assert.ok(done.theme && done.tier && done.score_band && done.language);
       assert.ok(all.dl.find((e) => e.event === 'quiz_answer_submitted').question_id.match(/^[A-Z]{3}-\d{3}$/));

@@ -29,7 +29,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     assert.strictEqual(before.plays, 0, 'nothing plays on page load');
     assert.strictEqual(before.playBtn, true, 'explicit Play control is visible'); assert.strictEqual(before.playLabel, 'Play music');
     // navigating through steps must not start audio either
-    await page.click('[data-testid="quiz-start-cta"]'); await page.waitForSelector('#fullName'); await sleep(300);
+    await page.click('[data-testid="quiz-start-cta"]'); await page.waitForSelector('[data-testid="quiz-question"]'); await sleep(300);
     assert.strictEqual(await page.evaluate(() => window.__audio.plays), 0, 'no autoplay when moving between steps');
     await page.click('[data-testid="quiz-music-play"]'); await sleep(500);
     const playing = await page.evaluate(() => ({ plays: window.__audio.plays, paused: window.__audio.instances[0].paused, loop: window.__audio.instances[0].loop, muted: window.__audio.instances[0].muted, muteLabel: document.querySelector('[data-testid="quiz-music-mute"]')?.innerText, pressed: document.querySelector('[data-testid="quiz-music-mute"]')?.getAttribute('aria-pressed'), playBtn: !!document.querySelector('[data-testid="quiz-music-play"]') }));

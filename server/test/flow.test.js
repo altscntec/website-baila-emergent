@@ -7,224 +7,230 @@ let pg; let env;
 test.before(async () => { pg = await H.startPostgres(); env = await H.makeEnv(pg); });
 test.after(async () => { await env.close(); await pg.stop(); });
 test.beforeEach(async () => { await H.resetDb(pg.db); env.mail.sent.length = 0; env.clock.offsetMs = 0; });
+const rows = async (sql, p) => (await pg.db.query(sql, p)).rows;
 
-test('campaign defaults to disabled: signup and API refuse, nothing is created', async () => {
-  const cfg = await env.api('GET', '/api/quiz/config');
-  assert.equal(cfg.json.state, 'disabled');
-  const r = await env.api('POST', '/api/quiz/signup', { body: H.signupBody() });
+test('campaign defaults to disabled: nothing can start, nothing is created', async () => {
+  assert.equal((await env.api('GET', '/api/quiz/config')).json.state, 'disabled');
+  const r = await env.api('POST', '/api/quiz/start', { body: { language: 'en' } });
   assert.equal(r.status, 403); assert.equal(r.json.error, 'campaign_unavailable');
-  assert.equal((await pg.db.query('SELECT count(*)::int n FROM quiz.participants')).rows[0].n, 0);
+  assert.equal((await rows('SELECT count(*)::int n FROM quiz.attempts'))[0].n, 0);
+  assert.equal((await env.api('POST', '/api/quiz/signup', { body: H.signupBody() })).status, 403);
   assert.equal(env.mail.sent.length, 0);
 });
 
 test('cannot enable the campaign until the launch gates are met', async () => {
-  const r = await env.admin('PUT', '/api/admin/settings', { enabled: true });
-  assert.equal(r.status, 400);
+  assert.equal((await env.admin('PUT', '/api/admin/settings', { enabled: true })).status, 400);
   const r2 = await env.admin('PUT', '/api/admin/settings', { enabled: true, offer_confirmed: true, retention_days: 30, ...H.FUTURE });
-  assert.equal(r2.status, 409); assert.equal(r2.json.error, 'launch_blocked');          // no codes, no questions yet
+  assert.equal(r2.status, 409); assert.equal(r2.json.error, 'launch_blocked');
   assert.ok(r2.json.blocking.includes('inventory_tier_15') && r2.json.blocking.includes('bank_movies'));
 });
 
-test('full journey: form -> verify email -> five questions -> score + tier -> code only by email', async () => {
+test('play first: five questions -> score + tier shown -> details -> verify -> code only by email', async () => {
   await H.openCampaign(env);
-  const body = H.signupBody({ language: 'es', marketingOptIn: false });
-  const s = await env.api('POST', '/api/quiz/signup', { body });
+  const first = await env.api('GET', '/api/quiz/state');
+  assert.equal(first.json.status, 'idle', 'no cookie, nothing started');
+  const { cookie, state } = await H.playScore(env, 4, { lang: 'es' });
+  assert.equal(state.status, 'completed'); assert.equal(state.result.score, 4); assert.equal(state.result.tier, 10);
+  assert.equal(state.result.claim, 'unclaimed', 'score and tier are known before any email is given');
+  assert.equal((await rows('SELECT count(*)::int n FROM quiz.rewards'))[0].n, 0, 'no reward before verification');
+  assert.equal((await rows('SELECT count(*)::int n FROM quiz.participants'))[0].n, 0);
+
+  const body = H.signupBody({ language: 'es' });
+  const s = await env.api('POST', '/api/quiz/signup', { body, cookie, ip: H.nextIp() });
   assert.equal(s.status, 200); assert.equal(s.json.status, 'check_email');
-  assert.equal((await env.api('GET', '/api/quiz/state')).status, 401, 'no session before verification');
+  const mid = (await env.api('GET', '/api/quiz/state', { cookie })).json;
+  assert.equal(mid.result.claim, 'pending_verification'); assert.match(mid.result.maskedEmail, /^p\*+@test\.invalid$/);
   const mail = env.mail.last(body.email, 'signin');
-  assert.ok(mail.subject.includes('Confirma'), 'verification email follows the chosen language');
-  const v = await env.api('POST', '/api/quiz/verify', { body: { token: H.linkTokenFrom(mail) } });
-  assert.equal(v.status, 200);
-  assert.match(v.headers.get('set-cookie'), /HttpOnly/); assert.match(v.headers.get('set-cookie'), /SameSite=Lax/);
-  const out = await H.playScore(env, v.cookie, body.email, 4, 'es');
-  assert.equal(out.status, 'completed'); assert.equal(out.result.score, 4); assert.equal(out.result.tier, 10);
-  const row = (await pg.db.query(`SELECT d.code FROM quiz.discount_codes d JOIN quiz.participants p ON p.id=d.participant_id WHERE p.email_norm=$1`, [body.email])).rows[0];
-  assert.ok(row, 'a real inventory code was assigned');
+  assert.ok(mail.subject.includes('código de descuento'), 'verification email in the chosen language, about receiving the code');
+  assert.equal((await rows('SELECT count(*)::int n FROM quiz.rewards'))[0].n, 0, 'still nothing issued until verified');
+
+  const v = await env.api('POST', '/api/quiz/verify', { body: { token: H.linkTokenFrom(mail) }, cookie });
+  assert.equal(v.status, 200); assert.equal(v.json.claim, 'claimed');
+  const done = (await env.api('GET', '/api/quiz/state', { cookie })).json;
+  assert.equal(done.result.claim, 'claimed'); assert.equal(done.result.reward, 'issued'); assert.equal(done.result.email, 'accepted');
+  const code = (await rows(`SELECT d.code FROM quiz.discount_codes d JOIN quiz.participants p ON p.id=d.participant_id WHERE p.email_norm=$1`, [body.email]))[0].code;
   const reward = env.mail.last(body.email, 'reward');
-  assert.ok(reward.text.includes(row.code) && reward.html.includes(row.code), 'code is in the email');
-  assert.ok(reward.subject.includes('10%') && reward.subject.includes('descuento'));
-  const u = new URL(reward.text.match(/https:\/\/\S+coupon=\S+/)[0]);
-  assert.equal(u.searchParams.get('coupon'), row.code); assert.equal(u.searchParams.get('utm_campaign'), 'quiz_test');
-  // the code must never be exposed by any browser-facing response
-  const everything = JSON.stringify([out, (await env.api('GET', '/api/quiz/state', { cookie: v.cookie })).json, (await env.api('GET', '/api/quiz/config')).json]);
-  assert.ok(!everything.includes(row.code));
-  assert.equal(out.result.email, 'accepted');
+  assert.ok(reward.text.includes(code) && reward.subject.includes('10%'));
+  assert.ok(!JSON.stringify([state, mid, done, v.json]).includes(code), 'the code never reaches the browser');
 });
 
 test('score boundaries issue the right tier: 0,2 -> 5%  3,4 -> 10%  5 -> 15%', async () => {
   await H.openCampaign(env);
-  const expected = { 0: 5, 1: 5, 2: 5, 3: 10, 4: 10, 5: 15 };
-  for (const [score, tier] of Object.entries(expected)) {
-    const { body, cookie } = await H.signupAndVerify(env);
-    const out = await H.playScore(env, cookie, body.email, Number(score));
-    assert.equal(out.result.score, Number(score)); assert.equal(out.result.tier, tier, `score ${score}`);
-    const d = (await pg.db.query(`SELECT d.tier FROM quiz.discount_codes d JOIN quiz.participants p ON p.id=d.participant_id WHERE p.email_norm=$1`, [body.email])).rows[0];
+  for (const [score, tier] of Object.entries({ 0: 5, 1: 5, 2: 5, 3: 10, 4: 10, 5: 15 })) {
+    const { body, state } = await H.fullJourney(env, Number(score));
+    assert.equal(state.result.score, Number(score)); assert.equal(state.result.tier, tier, `score ${score}`);
+    const d = (await rows(`SELECT d.tier FROM quiz.discount_codes d JOIN quiz.participants p ON p.id=d.participant_id WHERE p.email_norm=$1`, [body.email]))[0];
     assert.equal(d.tier, tier, 'issued code belongs to the earned tier');
   }
 });
 
-test('themes are balanced across participants and persisted; 3 languages x 4 themes all render localised', async () => {
+test('themes are balanced and persisted; 3 languages x 4 themes render localised; refresh never rerolls', async () => {
   await H.openCampaign(env);
-  const seenCombos = new Set(); const themes = [];
-  const langs = ['en', 'es', 'nl'];
+  const themes = []; const combos = new Set();
   for (let i = 0; i < 12; i++) {
-    const lang = langs[i % 3];
-    const { body, cookie } = await H.signupAndVerify(env, { language: lang });
-    const start = (await env.api('POST', '/api/quiz/start', { cookie, body: { language: lang } })).json;
-    themes.push(start.theme);
-    assert.ok(start.question.prompt.endsWith(lang.toUpperCase()), `prompt is ${lang}: ${start.question.prompt}`);
-    for (const o of start.question.options) assert.ok(o.text.endsWith(lang.toUpperCase()));
-    seenCombos.add(`${start.theme}/${lang}`);
-    // refresh must not reroll theme or question
+    const lang = ['en', 'es', 'nl'][i % 3];
+    const { cookie, state: start } = await H.startAnon(env, { lang });
+    themes.push(start.theme); combos.add(`${start.theme}/${lang}`);
+    assert.ok(start.question.prompt.endsWith(lang.toUpperCase()), `prompt is ${lang}`);
+    start.question.options.forEach((o) => assert.ok(o.text.endsWith(lang.toUpperCase())));
     const again = (await env.api('POST', '/api/quiz/start', { cookie, body: { language: lang } })).json;
     assert.equal(again.theme, start.theme); assert.equal(again.question.id, start.question.id);
     assert.deepEqual(again.question.options.map((o) => o.id), start.question.options.map((o) => o.id));
   }
+  // themes are assigned at random among the least used, so keep playing until every language x theme pair was rendered
+  for (let i = 0; combos.size < 12 && i < 60; i++) { const lang = ['en', 'es', 'nl'][i % 3]; const { state } = await H.startAnon(env, { lang }); combos.add(`${state.theme}/${lang}`); assert.ok(state.question.prompt.endsWith(lang.toUpperCase())); }
   const counts = themes.reduce((m, t) => ({ ...m, [t]: (m[t] || 0) + 1 }), {});
   assert.deepEqual(Object.keys(counts).sort(), ['facts', 'movies', 'music', 'spells']);
-  Object.values(counts).forEach((c) => assert.equal(c, 3, 'perfectly balanced blocks of four'));
+  Object.values(counts).forEach((c) => assert.equal(c, 3));
+  assert.equal(combos.size, 12);
 });
 
-test('five distinct questions from one theme; options carry stable ids; the key is never sent', async () => {
+test('five distinct questions from one theme; stable option ids; the key is never sent; no correctness mid-quiz', async () => {
   await H.openCampaign(env);
-  const { cookie } = await H.signupAndVerify(env);
-  const { state, questions } = await H.play(env, cookie, () => 0);
-  assert.equal(questions.length, 5);
-  assert.equal(new Set(questions.map((q) => q.id)).size, 5, 'without replacement');
-  assert.equal(new Set(questions.map((q) => q.id.slice(0, 3))).size, 1, 'one theme per attempt');
-  for (const q of questions) { assert.equal(q.total, 5); assert.deepEqual(Object.keys(q).sort(), ['id', 'options', 'position', 'prompt', 'total']); q.options.forEach((o) => assert.deepEqual(Object.keys(o).sort(), ['id', 'text'])); }
-  assert.ok(!JSON.stringify(state).includes('correct'));
-  assert.equal(state.result.review, undefined, 'no answer reveal by default');
-});
-
-test('no correctness is revealed while answering; answers are locked', async () => {
-  await H.openCampaign(env);
-  const { cookie } = await H.signupAndVerify(env);
-  const st = (await env.api('POST', '/api/quiz/start', { cookie, body: {} })).json;
-  const q = st.question;
+  const { cookie } = await H.startAnon(env);
+  const st0 = (await env.api('GET', '/api/quiz/state', { cookie })).json; const q = st0.question;
   const r = await env.api('POST', '/api/quiz/answer', { cookie, body: { questionId: q.id, optionId: q.options[0].id } });
-  assert.ok(!/correct|wrong|right|score/i.test(JSON.stringify(r.json)), 'response has no correctness/score signal');
-  assert.equal(r.json.progress.answered, 1);
-  const same = await env.api('POST', '/api/quiz/answer', { cookie, body: { questionId: q.id, optionId: q.options[0].id } });
-  assert.equal(same.status, 200, 'idempotent replay of the same answer');
-  assert.equal(same.json.progress.answered, 1);
-  const change = await env.api('POST', '/api/quiz/answer', { cookie, body: { questionId: q.id, optionId: q.options[1].id } });
-  assert.equal(change.status, 409); assert.equal(change.json.error, 'already_answered');
-  const skip = await env.api('POST', '/api/quiz/answer', { cookie, body: { questionId: 'MOV-999', optionId: 'a' } });
-  assert.equal(skip.status, 400);
-  const bogus = await env.api('POST', '/api/quiz/answer', { cookie, body: { questionId: r.json.question.id, optionId: 'zz' } });
-  assert.equal(bogus.status, 400); assert.equal(bogus.json.error, 'invalid_option');
+  assert.ok(!/correct|wrong|right|score/i.test(JSON.stringify(r.json)));
+  assert.equal((await env.api('POST', '/api/quiz/answer', { cookie, body: { questionId: q.id, optionId: q.options[0].id } })).status, 200, 'idempotent replay');
+  assert.equal((await env.api('POST', '/api/quiz/answer', { cookie, body: { questionId: q.id, optionId: q.options[1].id } })).json.error, 'already_answered');
+  assert.equal((await env.api('POST', '/api/quiz/answer', { cookie, body: { questionId: 'MOV-999', optionId: 'a' } })).status, 400);
+  const { state, questions } = await H.play(env, cookie, () => 0);
+  assert.equal(questions.length + 1, 5); assert.equal(new Set([q.id, ...questions.map((x) => x.id)]).size, 5);
+  assert.equal(new Set([q, ...questions].map((x) => x.id.slice(0, 3))).size, 1);
+  for (const x of questions) { assert.deepEqual(Object.keys(x).sort(), ['id', 'options', 'position', 'prompt', 'total']); x.options.forEach((o) => assert.deepEqual(Object.keys(o).sort(), ['id', 'text'])); }
+  assert.ok(!JSON.stringify(state).includes('correct')); assert.equal(state.result.review, undefined);
+  assert.equal((await env.api('POST', '/api/quiz/answer', { cookie, body: { questionId: q.id, optionId: q.options[0].id } })).status, 200, 'replaying a locked answer after completion is harmless');
+  assert.equal((await env.api('POST', '/api/quiz/answer', { cookie, body: { questionId: q.id, optionId: q.options[1].id } })).json.error, 'already_completed');
 });
 
-test('resume: refresh/new device keeps theme, questions, order and submitted answers', async () => {
+test('resume: refresh keeps theme, questions, order and submitted answers; language switch changes wording only', async () => {
   await H.openCampaign(env);
-  const { body, cookie } = await H.signupAndVerify(env, { language: 'nl' });
-  const st = (await env.api('POST', '/api/quiz/start', { cookie, body: { language: 'nl' } })).json;
-  const first = st.question;
-  const a1 = (await env.api('POST', '/api/quiz/answer', { cookie, body: { questionId: first.id, optionId: first.options[2].id, language: 'nl' } })).json;
-  // "close the browser", then come back via the sign-in email on another device
-  await env.api('POST', '/api/quiz/logout', { cookie });
-  assert.equal((await env.api('GET', '/api/quiz/state', { cookie })).status, 401);
-  env.clock.offsetMs += 10 * 60_000; env.mail.sent.length = 0;
-  const re = await env.api('POST', '/api/quiz/signup', { body: { ...body, email: body.email, fullName: 'Someone Else', age: 40 }, ip: '10.0.0.9' });
-  assert.equal(re.status, 200);
-  const mail = env.mail.last(body.email, 'signin');
-  assert.ok(mail.subject.startsWith('Ga verder'), 'resume email, in Dutch: ' + mail.subject);
-  const v = await env.api('POST', '/api/quiz/verify', { body: { token: H.linkTokenFrom(mail) } });
-  const back = (await env.api('GET', '/api/quiz/state?lang=nl', { cookie: v.cookie })).json;
-  assert.equal(back.theme, st.theme); assert.equal(back.progress.answered, 1);
-  assert.equal(back.question.id, a1.question.id);
-  assert.deepEqual(back.question.options.map((o) => o.id), a1.question.options.map((o) => o.id), 'same shuffled order');
-  const p = (await pg.db.query('SELECT full_name, age FROM quiz.participants WHERE email_norm=$1', [body.email])).rows[0];
-  assert.equal(p.full_name, 'Test Person'); assert.equal(p.age, 27, 'an unauthenticated re-submit cannot overwrite a verified profile');
-});
-
-test('language switch mid-quiz keeps attempt, theme, questions and answers; only wording changes', async () => {
-  await H.openCampaign(env);
-  const { cookie } = await H.signupAndVerify(env, { language: 'en' });
-  const en = (await env.api('POST', '/api/quiz/start', { cookie, body: { language: 'en' } })).json;
-  await env.api('POST', '/api/quiz/answer', { cookie, body: { questionId: en.question.id, optionId: en.question.options[0].id, language: 'en' } });
-  const cur = (await env.api('GET', '/api/quiz/state?lang=en', { cookie })).json;
-  for (const l of ['es', 'nl', 'en']) {
+  const { cookie, state: st } = await H.startAnon(env, { lang: 'nl' });
+  const a1 = (await env.api('POST', '/api/quiz/answer', { cookie, body: { questionId: st.question.id, optionId: st.question.options[2].id, language: 'nl' } })).json;
+  const back = (await env.api('GET', '/api/quiz/state?lang=nl', { cookie })).json;
+  assert.equal(back.theme, st.theme); assert.equal(back.progress.answered, 1); assert.equal(back.question.id, a1.question.id);
+  assert.deepEqual(back.question.options.map((o) => o.id), a1.question.options.map((o) => o.id));
+  for (const l of ['es', 'en', 'nl']) {
     const sw = (await env.api('POST', '/api/quiz/language', { cookie, body: { language: l } })).json;
-    assert.equal(sw.theme, en.theme); assert.equal(sw.progress.answered, 1); assert.equal(sw.question.id, cur.question.id);
-    assert.deepEqual(sw.question.options.map((o) => o.id), cur.question.options.map((o) => o.id));
+    assert.equal(sw.theme, st.theme); assert.equal(sw.progress.answered, 1); assert.equal(sw.question.id, a1.question.id);
     assert.ok(sw.question.prompt.endsWith(l.toUpperCase()));
   }
-  assert.equal((await pg.db.query('SELECT count(*)::int n FROM quiz.attempts')).rows[0].n, 1);
+  assert.equal((await rows('SELECT count(*)::int n FROM quiz.attempts'))[0].n, 1);
+});
+
+test('the emailed link works on another device: that browser becomes the participant and sees the claimed result', async () => {
+  await H.openCampaign(env);
+  const { cookie } = await H.playScore(env, 5);
+  const body = H.signupBody();
+  await env.api('POST', '/api/quiz/signup', { body, cookie, ip: H.nextIp() });
+  const mail = env.mail.last(body.email, 'signin');
+  const v = await env.api('POST', '/api/quiz/verify', { body: { token: H.linkTokenFrom(mail) } });   // no cookie: a phone's mail browser
+  assert.equal(v.status, 200); assert.equal(v.json.claim, 'claimed'); assert.ok(v.cookie, 'new device gets its own session');
+  const phone = (await env.api('GET', '/api/quiz/state', { cookie: v.cookie })).json;
+  assert.equal(phone.result.claim, 'claimed'); assert.equal(phone.result.tier, 15);
+  const laptop = (await env.api('GET', '/api/quiz/state', { cookie })).json;
+  assert.equal(laptop.result.claim, 'claimed', 'the original browser sees it too');
+  assert.equal(env.mail.to(body.email).filter((m) => m.tags.some((t) => t.value === 'reward')).length, 1);
 });
 
 test('question edits never change an attempt already in progress (content snapshot)', async () => {
   await H.openCampaign(env);
-  const { cookie } = await H.signupAndVerify(env);
-  const st = (await env.api('POST', '/api/quiz/start', { cookie, body: {} })).json;
+  const { cookie, state: st } = await H.startAnon(env);
   const bank = H.syntheticBank().map((q) => ({ ...q, prompt: { en: 'EDITED EN', es: 'EDITED ES', nl: 'EDITED NL' } }));
-  const imp = await env.admin('POST', '/api/admin/questions/import', { questions: bank });
-  assert.equal(imp.json.updated, 40);
-  const after = (await env.api('GET', '/api/quiz/state', { cookie })).json;
-  assert.equal(after.question.prompt, st.question.prompt);
-  assert.equal((await pg.db.query(`SELECT max(version) v FROM quiz.questions`)).rows[0].v, 2);
+  assert.equal((await env.admin('POST', '/api/admin/questions/import', { questions: bank })).json.updated, 40);
+  assert.equal((await env.api('GET', '/api/quiz/state', { cookie })).json.question.prompt, st.question.prompt);
 });
 
-test('completed participants cannot retake; they can only request the same reward again', async () => {
+test('one reward per verified email: a second play with the same email gets "already played" and the SAME reward', async () => {
   await H.openCampaign(env);
-  const { body, cookie } = await H.signupAndVerify(env);
-  await H.playScore(env, cookie, body.email, 5);
-  const code1 = (await pg.db.query(`SELECT code_id FROM quiz.rewards`)).rows[0].code_id;
-  const again = await env.api('POST', '/api/quiz/start', { cookie, body: {} });
-  assert.equal(again.json.status, 'completed'); assert.equal(again.json.question, null);
-  assert.equal((await pg.db.query('SELECT count(*)::int n FROM quiz.attempts')).rows[0].n, 1);
-  const extraAnswer = await env.api('POST', '/api/quiz/answer', { cookie, body: { questionId: 'MOV-001', optionId: 'a' } });
-  assert.ok([400, 409].includes(extraAnswer.status));
-  env.mail.sent.length = 0;
-  const rs = await env.api('POST', '/api/quiz/resend-reward', { cookie, body: {} });
-  assert.equal(rs.status, 200); assert.equal(rs.json.status, 'accepted');
-  assert.equal(env.mail.to(body.email).length, 1);
-  assert.equal((await pg.db.query(`SELECT code_id FROM quiz.rewards`)).rows[0].code_id, code1, 'same reward');
-  assert.equal((await pg.db.query(`SELECT count(*)::int n FROM quiz.discount_codes WHERE status='issued'`)).rows[0].n, 1, 'no second code');
-  const cool = await env.api('POST', '/api/quiz/resend-reward', { cookie, body: {} });
-  assert.equal(cool.status, 429, 'resend is rate limited');
-  // signing in again via the form tells the same person they already played
+  const { body, cookie } = await H.fullJourney(env, 5);
+  const code1 = (await rows('SELECT code_id FROM quiz.rewards'))[0].code_id;
+  // new browser, plays again, tries the same email
+  const { cookie: c2 } = await H.playScore(env, 5);
+  env.clock.offsetMs += 120_000; env.mail.sent.length = 0;
+  const s = await env.api('POST', '/api/quiz/signup', { body, cookie: c2, ip: H.nextIp() });
+  assert.equal(s.status, 200, 'same generic response');
+  const mail = env.mail.last(body.email, 'signin');
+  assert.ok(/already|ya has|al gespeeld/i.test(mail.text), 'the email says they already played');
+  const v = await env.api('POST', '/api/quiz/verify', { body: { token: H.linkTokenFrom(mail) }, cookie: c2 });
+  assert.equal(v.json.claim, 'already');
+  const st = (await env.api('GET', '/api/quiz/state', { cookie: c2 })).json;
+  assert.equal(st.result.claim, 'already_played');
+  assert.equal((await rows('SELECT count(*)::int n FROM quiz.rewards'))[0].n, 1);
+  assert.equal((await rows('SELECT code_id FROM quiz.rewards'))[0].code_id, code1);
+  assert.equal((await rows(`SELECT count(*)::int n FROM quiz.discount_codes WHERE status='issued'`))[0].n, 1, 'no second code');
+  // they can request the same reward email again, rate limited
+  const rs = await env.api('POST', '/api/quiz/resend-reward', { cookie: c2, body: {} });
+  assert.equal(rs.json.status, 'accepted'); assert.equal((await env.api('POST', '/api/quiz/resend-reward', { cookie: c2, body: {} })).status, 429);
+  assert.equal((await env.api('POST', '/api/quiz/resend-reward', { cookie, body: {} })).status, 429, 'same participant, same limit');
+});
+
+test('signup needs a completed attempt in this browser; an attempt cannot be claimed by two emails', async () => {
+  await H.openCampaign(env);
+  assert.equal((await env.api('POST', '/api/quiz/signup', { body: H.signupBody(), ip: H.nextIp() })).json.error, 'no_completed_attempt');
+  const { cookie } = await H.startAnon(env);
+  assert.equal((await env.api('POST', '/api/quiz/signup', { body: H.signupBody(), cookie, ip: H.nextIp() })).json.error, 'no_completed_attempt', 'unfinished');
+  await H.play(env, cookie);
+  const a = H.signupBody();
+  assert.equal((await env.api('POST', '/api/quiz/signup', { body: a, cookie, ip: H.nextIp() })).status, 200);
+  await env.api('POST', '/api/quiz/verify', { body: { token: H.linkTokenFrom(env.mail.last(a.email, 'signin')) }, cookie });
+  const b = H.signupBody();
+  const r = await env.api('POST', '/api/quiz/signup', { body: b, cookie, ip: H.nextIp() });
+  assert.equal(r.status, 409); assert.equal(r.json.error, 'attempt_already_claimed');
+});
+
+test('an unverified typo email can be corrected: the result moves to the new address, nothing is issued twice', async () => {
+  await H.openCampaign(env);
+  const { cookie } = await H.playScore(env, 3);
+  const typo = H.signupBody({ email: 'typo@test.invalid' });
+  await env.api('POST', '/api/quiz/signup', { body: typo, cookie, ip: H.nextIp() });
   env.clock.offsetMs += 120_000;
-  const re = await env.api('POST', '/api/quiz/signup', { body, ip: '10.1.1.1' });
-  assert.equal(re.status, 200);
-  assert.ok(/already|ya has|al gespeeld/i.test(env.mail.last(body.email, 'signin').text));
+  const good = { ...typo, email: 'good@test.invalid' };
+  assert.equal((await env.api('POST', '/api/quiz/signup', { body: good, cookie, ip: H.nextIp() })).status, 200, 'unverified owner releases the result');
+  const v = await env.api('POST', '/api/quiz/verify', { body: { token: H.linkTokenFrom(env.mail.last('good@test.invalid', 'signin')) }, cookie });
+  assert.equal(v.json.claim, 'claimed');
+  assert.equal((await rows(`SELECT count(*)::int n FROM quiz.rewards r JOIN quiz.participants p ON p.id=r.participant_id WHERE p.email_norm='good@test.invalid'`))[0].n, 1);
+  assert.equal((await rows('SELECT count(*)::int n FROM quiz.rewards'))[0].n, 1);
+  // the stale typo link can no longer claim anything
+  const old = await env.api('POST', '/api/quiz/verify', { body: { token: H.linkTokenFrom(env.mail.last('typo@test.invalid', 'signin')) } });
+  assert.equal(old.status, 200); assert.equal(old.json.claim, 'no_attempt');
+  assert.equal((await rows('SELECT count(*)::int n FROM quiz.rewards'))[0].n, 1, 'still one reward');
 });
 
 test('server rejects under-18, missing fields and bad input before anything is stored', async () => {
   await H.openCampaign(env);
-  const u = await env.api('POST', '/api/quiz/signup', { body: H.signupBody({ age: 17 }) });
+  const { cookie } = await H.playScore(env, 2);
+  const u = await env.api('POST', '/api/quiz/signup', { body: H.signupBody({ age: 17 }), cookie, ip: H.nextIp() });
   assert.equal(u.status, 400); assert.equal(u.json.fields.age, 'under_18');
-  const m = await env.api('POST', '/api/quiz/signup', { body: { language: 'en' } });
+  const m = await env.api('POST', '/api/quiz/signup', { body: { language: 'en' }, cookie, ip: H.nextIp() });
   assert.equal(m.status, 400); for (const f of ['fullName', 'email', 'age', 'gender', 'city', 'country', 'acceptTerms']) assert.ok(m.json.fields[f], f);
-  assert.equal((await env.api('POST', '/api/quiz/signup', { body: '{bad json', headers: { 'Content-Type': 'application/json' } })).status, 400);
-  assert.equal((await pg.db.query('SELECT count(*)::int n FROM quiz.participants')).rows[0].n, 0);
-  assert.equal(env.mail.sent.length, 0);
-  const ok = await env.api('POST', '/api/quiz/signup', { body: H.signupBody({ gender: 'prefer_not_to_say' }) });
-  assert.equal(ok.status, 200, '"Prefer not to say" is a valid answer');
+  assert.equal((await rows('SELECT count(*)::int n FROM quiz.participants'))[0].n, 0); assert.equal(env.mail.sent.length, 0);
+  assert.equal((await env.api('POST', '/api/quiz/signup', { body: H.signupBody({ gender: 'prefer_not_to_say' }), cookie, ip: H.nextIp() })).status, 200, '"Prefer not to say" is valid');
 });
 
-test('closed campaign: no new participants; unfinished attempts may still finish; kill switch blocks everything', async () => {
+test('closed campaign: no new plays or new participants; a browser mid-quiz may finish and claim; kill switch blocks all', async () => {
   await H.openCampaign(env);
-  const { body, cookie } = await H.signupAndVerify(env);
-  const st = (await env.api('POST', '/api/quiz/start', { cookie, body: {} })).json;
+  const { cookie, state: st } = await H.startAnon(env);
   await env.admin('PUT', '/api/admin/settings', { closes_at: '2020-06-01T00:00:00+02:00', opens_at: '2020-01-01T00:00:00+01:00' });
   assert.equal((await env.api('GET', '/api/quiz/config')).json.state, 'closed');
-  assert.equal((await env.api('POST', '/api/quiz/signup', { body: H.signupBody() })).status, 403);
+  assert.equal((await env.api('POST', '/api/quiz/start', { body: {}, ip: H.nextIp() })).status, 403);
   const a = await env.api('POST', '/api/quiz/answer', { cookie, body: { questionId: st.question.id, optionId: st.question.options[0].id } });
   assert.equal(a.status, 200, 'a person mid-quiz is not cut off');
+  await H.play(env, cookie);
+  assert.equal((await env.api('POST', '/api/quiz/signup', { body: H.signupBody(), cookie, ip: H.nextIp() })).status, 403, 'but a new email cannot be registered after close');
   await env.admin('PUT', '/api/admin/settings', { enabled: false });
-  const b = await env.api('POST', '/api/quiz/answer', { cookie, body: { questionId: a.json.question.id, optionId: a.json.question.options[0].id } });
-  assert.equal(b.status, 403);
+  assert.equal((await env.api('GET', '/api/quiz/state', { cookie })).json.campaign.state, 'disabled');
 });
 
-test('server-side funnel events contain no personal data, codes or tokens', async () => {
+test('server-side funnel events contain no personal data, codes or tokens, and run as one line from play to reward', async () => {
   await H.openCampaign(env);
-  const { body, cookie } = await H.signupAndVerify(env, { fullName: 'Zelda Uniqueperson', city: 'Uniquetown' });
-  await H.playScore(env, cookie, body.email, 3);
-  const dump = JSON.stringify((await pg.db.query('SELECT * FROM quiz.funnel_events')).rows);
-  const code = (await pg.db.query('SELECT code FROM quiz.discount_codes WHERE participant_id IS NOT NULL')).rows[0].code;
+  const { body } = await H.fullJourney(env, 3, { fullName: 'Zelda Uniqueperson', city: 'Uniquetown' });
+  const ev = await rows('SELECT * FROM quiz.funnel_events ORDER BY id');
+  const dump = JSON.stringify(ev);
+  const code = (await rows('SELECT code FROM quiz.discount_codes WHERE participant_id IS NOT NULL'))[0].code;
   for (const secret of [body.email, 'Zelda', 'Uniqueperson', 'Uniquetown', code, H.linkTokenFrom(env.mail.last(body.email, 'signin'))]) assert.ok(!dump.includes(secret), `leaked ${secret}`);
-  const names = new Set((await pg.db.query('SELECT DISTINCT name FROM quiz.funnel_events')).rows.map((r) => r.name));
-  for (const n of ['form_success', 'verification_requested', 'verification_completed', 'quiz_started', 'question_viewed', 'answer_submitted', 'quiz_completed', 'discount_earned', 'reward_issued']) assert.ok(names.has(n), n);
+  const names = ev.map((e) => e.name);
+  for (const n of ['quiz_started', 'question_viewed', 'answer_submitted', 'quiz_completed', 'form_success', 'verification_requested', 'verification_completed', 'discount_earned', 'reward_issued']) assert.ok(names.includes(n), n);
+  assert.ok(names.indexOf('quiz_completed') < names.indexOf('form_success'), 'play happens before the form');
+  assert.equal(new Set(ev.filter((e) => e.anon_id).map((e) => e.anon_id)).size, 1, 'same anonymous id from first question to reward');
 });

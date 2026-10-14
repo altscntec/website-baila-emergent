@@ -15,7 +15,7 @@ const S = {
     brand: 'Baila Dembow',
     hi: (n) => `Hi ${n},`,
     signin: {
-      verify_new: { subject: 'Confirm your email to start the Halloween quiz', title: 'Confirm your email', intro: 'Thanks for joining the Baila Dembow Halloween quiz. Confirm your email to unlock your five questions.' },
+      verify_new: { subject: 'Confirm your email to receive your Halloween discount code', title: 'Confirm your email', intro: 'Nice one. You finished the Baila Dembow Halloween quiz. Confirm this email address and we will send your discount code to it right away.' },
       resume: { subject: 'Continue your Halloween quiz', title: 'Pick up where you left off', intro: 'Use the button below to sign in and continue your Halloween quiz. Your questions and answers are saved.' },
       completed: { subject: 'Your Halloween quiz reward', title: 'You already played', intro: 'This email address has already completed the quiz, so it cannot be played again. Use the button below to see your result and request your reward email again.' },
       cta: 'Confirm and continue', codeLabel: 'Or enter this code on the quiz page',
@@ -41,7 +41,7 @@ const S = {
     brand: 'Baila Dembow',
     hi: (n) => `Hola ${n},`,
     signin: {
-      verify_new: { subject: 'Confirma tu email para empezar el quiz de Halloween', title: 'Confirma tu email', intro: 'Gracias por unirte al quiz de Halloween de Baila Dembow. Confirma tu email para desbloquear tus cinco preguntas.' },
+      verify_new: { subject: 'Confirma tu email para recibir tu código de descuento de Halloween', title: 'Confirma tu email', intro: 'Bien hecho. Has terminado el quiz de Halloween de Baila Dembow. Confirma esta dirección y te enviaremos tu código de descuento enseguida.' },
       resume: { subject: 'Continúa tu quiz de Halloween', title: 'Sigue donde lo dejaste', intro: 'Usa el botón de abajo para entrar y continuar tu quiz de Halloween. Tus preguntas y respuestas están guardadas.' },
       completed: { subject: 'Tu recompensa del quiz de Halloween', title: 'Ya has jugado', intro: 'Este email ya completó el quiz, así que no se puede jugar otra vez. Usa el botón de abajo para ver tu resultado y pedir de nuevo el email con tu recompensa.' },
       cta: 'Confirmar y continuar', codeLabel: 'O introduce este código en la página del quiz',
@@ -67,7 +67,7 @@ const S = {
     brand: 'Baila Dembow',
     hi: (n) => `Hoi ${n},`,
     signin: {
-      verify_new: { subject: 'Bevestig je e-mail om de Halloween-quiz te starten', title: 'Bevestig je e-mailadres', intro: 'Leuk dat je meedoet met de Baila Dembow Halloween-quiz. Bevestig je e-mail om je vijf vragen te ontgrendelen.' },
+      verify_new: { subject: 'Bevestig je e-mail om je Halloween-kortingscode te ontvangen', title: 'Bevestig je e-mailadres', intro: 'Goed gedaan. Je hebt de Baila Dembow Halloween-quiz afgerond. Bevestig dit e-mailadres en we sturen je kortingscode meteen.' },
       resume: { subject: 'Ga verder met je Halloween-quiz', title: 'Ga verder waar je gebleven was', intro: 'Gebruik de knop hieronder om in te loggen en je Halloween-quiz af te maken. Je vragen en antwoorden zijn bewaard.' },
       completed: { subject: 'Je beloning van de Halloween-quiz', title: 'Je hebt al gespeeld', intro: 'Met dit e-mailadres is de quiz al afgerond, dus je kunt hem niet opnieuw spelen. Gebruik de knop hieronder om je uitslag te bekijken en de beloningsmail opnieuw aan te vragen.' },
       cta: 'Bevestigen en doorgaan', codeLabel: 'Of vul deze code in op de quizpagina',

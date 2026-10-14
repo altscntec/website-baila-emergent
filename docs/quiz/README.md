@@ -15,10 +15,19 @@ Private (never committed, folder `quiz-private/`): `question-bank.json` (answer 
 
 ## What was built
 
-* **Frontend** (`frontend/src/quiz/`): language step (EN/ES/NL, browser suggestion, persisted), rules, participant form, email verification (link and 6-digit code), five-question quiz, result page, music control slot, consent-aware analytics, owner admin page, unsubscribe page. Also `/privacy` (privacy notice, EN/ES/NL).
-* **API** (`api/index.js` + `server/`): one Vercel function. Postgres schema `quiz` (migration `server/migrations/001_init.sql`), balanced random theme assignment, server-side scoring from a snapshot of the answer key, one attempt per verified email (database unique constraint), expiring single-use verification, rate limits, reward issuance with atomic code reservation, email outbox with retries and idempotency, Resend adapter and signed webhook handling, owner endpoints, aggregate metrics endpoint for the daily agent.
+* **Frontend** (`frontend/src/quiz/`): **play first** - language step (EN/ES/NL, browser suggestion, persisted), rules, five-question quiz, score and discount tier, then the claim form (name, email, age, gender, city, country), email verification (link or 6-digit code), claimed screen; music control slot, consent-aware analytics, owner admin page, unsubscribe page. Also `/privacy` (privacy notice, EN/ES/NL). Black-and-white UI with an orange accent, animated castle-and-smoke backdrop (CSS/SVG only, still under reduced motion), framer-motion step transitions.
+* **API** (`api/index.js` + `server/`): one Vercel function. Postgres schema `quiz` (migrations `server/migrations/001_init.sql`, `002_play_first.sql`), anonymous browser sessions (HttpOnly cookie) that own one attempt each, balanced random theme assignment, server-side scoring from a snapshot of the answer key, one reward per verified email (database unique constraints; the code is issued only when the email is verified), expiring single-use verification, rate limits, reward issuance with atomic code reservation, email outbox with retries and idempotency, Resend adapter and signed webhook handling, owner endpoints, aggregate metrics endpoint for the daily agent.
 * **Question bank**: 48 questions (12 per theme) in EN/ES/NL, with explanations and internal source notes, verified by `quiz-private/verify-bank.js`.
 * **Emails**: verification (3 variants: new, resume, already played) and reward, in EN/ES/NL (`server/email/templates.js`).
+
+## Flow (play first)
+
+1. Visitor picks a language and reads the rules; "Start" creates an anonymous session (cookie, `Path=/api`) and an attempt with 5 questions from one balanced-random theme.
+2. Answers are locked one by one on the server; the final answer is scored server-side and the tier (5/10/15 %) is shown.
+3. The claim form appears **after** the score. Submitting it attaches the attempt to the participant and sends the verification email.
+4. Verifying (link or code) issues the discount code and emails it. The code never appears in the browser.
+
+Known limitation: before verifying, the same person can clear cookies and play again as a new anonymous session; this only costs question exposure, because every email address can claim one reward and the first verified attempt wins. Starts are rate-limited per IP (20/h).
 
 ## What is real and what is awaiting a connection
 

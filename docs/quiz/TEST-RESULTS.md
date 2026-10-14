@@ -1,11 +1,11 @@
 # Test results
 
-Run on 13 October 2026 against the final build of branch `feature/halloween-quiz`. Everything used synthetic people (`*.test.invalid` addresses), synthetic discount codes (`LOCALTEST...`), a throwaway embedded PostgreSQL, a capturing fake mailbox, and recording stubs in place of the Meta/TikTok pixels and GTM. No real participant, real code, real email send or real pixel was involved.
+Last run on 14 October 2026 against the play-first redesign (`main`). First run 13 October 2026 on branch `feature/halloween-quiz`. Everything used synthetic people (`*.test.invalid` addresses), synthetic discount codes (`LOCALTEST...`), a throwaway embedded PostgreSQL, a capturing fake mailbox, and recording stubs in place of the Meta/TikTok pixels and GTM. No real participant, real code, real email send or real pixel was involved.
 
 Re-run them yourself:
 
 ```bash
-npm test                                   # 64 server tests (real Postgres)
+npm test                                   # 66 server tests (real Postgres); 1 skipped unless BUILD_DIR is set
 node quiz-private/verify-bank.js           # question bank checks
 DEV_STUB_PIXELS=1 node server/dev-server.js --build frontend/build &   # local site + API
 node server/test/browser-e2e.js && node server/test/browser-tracking.js   # real-browser suites
@@ -16,10 +16,10 @@ node server/test/browser-e2e.js && node server/test/browser-tracking.js   # real
 | Suite | Result |
 |---|---|
 | Question bank verification (48 questions, 3 languages, puzzles recomputed independently) | pass |
-| Server tests against a real PostgreSQL (`npm test`) | **64 / 64 pass** |
+| Server tests against a real PostgreSQL (`npm test`) | **65 / 65 pass**, 1 skipped (built-output check, needs `BUILD_DIR`) |
 | Real-browser end-to-end (Chromium, phone viewport) | **8 / 8 pass** |
 | Consent-aware tracking in a real browser | **8 / 8 pass** |
-| Music control in a real browser (separate build, generated test tone) | pass |
+| Music control in a real browser (separate build, generated test tone) | pass on 13 Oct; feature is off (no track) and the suite was not re-run after the redesign |
 | Full production build including prerender | pass (14/14 routes, `spa-shell.html` written) |
 
 ## Vercel preview deployment (branch `feature/halloween-quiz`)
@@ -33,9 +33,10 @@ Checked on the real deployment: the full build succeeded; `/halloween/quiz` is s
 | Requirement | Evidence |
 |---|---|
 | Score boundaries 0-2 / 3-4 / 5 give 5 / 10 / 15 % (server) | unit test of the scoring rule; server test plays attempts scoring 0,1,2,3,4,5 and checks the tier and the tier of the issued code; browser suite plays attempts across all tiers |
-| 3 languages x 4 themes | browser suite plays full journeys until all 12 combinations were seen (19 journeys in the final run); for every question it compares the text on screen, and all four options, with the reviewed bank in that language |
+| 3 languages x 4 themes | browser suite plays full play-first journeys (quiz, score, claim form, code) until all 12 combinations were seen (18 journeys in the final run); for every question it compares the text on screen, and all four options, with the reviewed bank in that language |
 | Opening message, no implication that everyone gets 15 % | browser suite compares the headline with the exact required sentence in EN/ES/NL; rules page shows the three tiers and that the discount depends on the score |
 | Age 18+ (client and server), required fields, Prefer-not-to-say | validation unit tests (17, "17", 0, 18, 18.5, "abc", 121, empty...), server rejects before storing anything, database CHECK constraint, UI shows the under-18 message |
+| Play-first order (score before the form; code issued only on verification; one reward per email across sessions; typo address released, verified owner kept) | server flow/integrity tests; browser suite checks the form only appears after the score and the code never appears in the page |
 | Email verification, expiry, single use, lock-out | server tests: link single-use, 30-minute expiry for link and code, code locks after 5 wrong guesses, an older link dies when a newer one is issued, tokens stored hashed |
 | Rate limits | server tests: per-email cooldown, per-IP, resend, verify, admin brute-force, reward resend |
 | Duplicate / concurrent attempts, one reward | parallel start calls (12), parallel final answers (10), conflicting answers, 24 simultaneous completions never share a code; unique constraints verified directly in the database |

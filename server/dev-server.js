@@ -61,7 +61,7 @@ const NOINDEX = 'noindex, nofollow, noarchive';
       res.writeHead(r.status, { 'Content-Type': 'application/json' }); return res.end(await r.text());
     }
     if (p === '/__dev/state') {                 // test inspection of the stored key (browser can never do this)
-      const rows = (await pg.db.query(`SELECT p.email_norm, aq.position, aq.question_id, aq.correct_option_id, aq.selected_option_id FROM quiz.attempt_questions aq JOIN quiz.attempts a ON a.id=aq.attempt_id JOIN quiz.participants p ON p.id=a.participant_id ORDER BY p.email_norm, aq.position`)).rows;
+      const rows = (await pg.db.query(`SELECT a.id AS attempt_id, aq.position, aq.question_id, aq.correct_option_id, aq.selected_option_id FROM quiz.attempt_questions aq JOIN quiz.attempts a ON a.id=aq.attempt_id ORDER BY a.started_at DESC, aq.position`)).rows;
       res.writeHead(200, { 'Content-Type': 'application/json' }); return res.end(JSON.stringify(rows));
     }
 

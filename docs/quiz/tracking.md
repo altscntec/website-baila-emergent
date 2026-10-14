@@ -21,18 +21,18 @@ All events carry `campaign_id: "halloween_quiz_2026"` plus the campaign UTMs the
 |---|---|---|---|---|
 | `quiz_landing_view` | Quiz page loads | `language` | (PageView already fires from the existing pixel) | (page already fires) |
 | `quiz_language_selected` | Language chosen/switched | `language` | | |
-| `quiz_start_click` | "Start the challenge" | `language` | custom `QuizStart` | `ClickButton` |
-| `quiz_form_validation_error` | Form rejected (client or server) | `fields` (names:codes), `kind` | | |
-| `quiz_form_success` | Form accepted by server | `language` | custom `QuizSignup` | |
-| `quiz_verification_requested` | Email sent / re-sent | `language`, `kind` | | |
-| `quiz_verification_completed` | Code or link verified | `language`, `kind` | `Lead` | `SubmitForm` |
-| `quiz_verification_failed` | Bad/expired code or link | `error_code` | | |
-| `quiz_started` | Attempt created | `theme`, `language` | | |
+| `quiz_start_click` | "Start the challenge" (the quiz begins immediately, no form first) | `language` | custom `QuizStart` | `ClickButton` |
+| `quiz_started` | Attempt created (anonymous browser session) | `theme`, `language` | | |
 | `quiz_question_viewed` | Each question shown | `theme`, `question_id`, `position` | | |
 | `quiz_answer_submitted` | Answer locked (no correctness) | `theme`, `question_id`, `position`, `duration_ms` | | |
-| `quiz_completed` | Final answer | `theme`, `tier`, `score_band` | custom `QuizCompleted` (value = tier %) | |
+| `quiz_completed` | Final answer; score and tier shown | `theme`, `tier`, `score_band` | custom `QuizCompleted` (value = tier %) | |
 | `quiz_discount_earned` | Same moment | `theme`, `tier` | | |
-| `quiz_reward_email_status` | On completion and when status changes | `status` (`queued/accepted/delivered/bounced/failed/...`), `tier` | | |
+| `quiz_form_validation_error` | Claim form rejected (client or server) | `fields` (names:codes), `kind` | | |
+| `quiz_form_success` | Claim form (shown after the score) accepted by server | `language` | custom `QuizSignup` | |
+| `quiz_verification_requested` | Email sent / re-sent | `language`, `kind` | | |
+| `quiz_verification_completed` | Code or link verified; the code is issued and emailed at this moment | `language`, `kind` | `Lead` | `SubmitForm` |
+| `quiz_verification_failed` | Bad/expired code or link | `error_code` | | |
+| `quiz_reward_email_status` | After verification and when status changes | `status` (`queued/accepted/delivered/bounced/failed/...`), `tier` | | |
 | `quiz_ticket_click` | "Open the ticket shop" | `tier`, `language` | `InitiateCheckout` | `InitiateCheckout` |
 | `quiz_error` | Unexpected failure | `step`, `error_code` | | |
 
@@ -42,7 +42,7 @@ All events carry `campaign_id: "halloween_quiz_2026"` plus the campaign UTMs the
 
 These are written by the API into `quiz.funnel_events` (anonymous id only) and `quiz.daily_counters` (aggregate):
 
-`form_success, form_rejected, verification_requested, verification_completed, quiz_started, question_viewed, answer_submitted, quiz_completed, discount_earned, reward_issued, reward_pending_inventory, reward_email_status, reward_resend` and the cookieless counters `landing_view`, `start_click` (by campaign / source / medium / content / language; bots excluded by user-agent; no IP, no user agent and no identifier is stored).
+`quiz_started, question_viewed, answer_submitted, quiz_completed, form_success, form_rejected, verification_requested, verification_completed, discount_earned, reward_issued, reward_pending_inventory, reward_email_status, reward_resend` and the cookieless counters `landing_view`, `start_click` (by campaign / source / medium / content / language; bots excluded by user-agent; no IP, no user agent and no identifier is stored).
 
 The server events are the source of truth for the daily report. The browser events feed GA4/Meta/TikTok optimisation. Differences between the two are expected (consent, ad blockers) and the daily report prints them side by side rather than merging them.
 

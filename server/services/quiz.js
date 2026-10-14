@@ -3,9 +3,7 @@ const { sample, shuffle, defaultRng } = require('../lib/crypto');
 const { THEMES, QUESTIONS_PER_ATTEMPT, tierForScore } = require('../lib/tiers');
 const { HttpError } = require('../lib/http');
 const { getSettings, campaignState } = require('../lib/settings');
-const { track, raiseAlert } = require('./events');
-const rewards = require('./rewards');
-const mailer = require('./mailer');
+const { track } = require('./events');
 
 const pickText = (obj, lang) => (obj && (obj[lang] || obj.en)) || '';
 
@@ -29,19 +27,29 @@ const requireWritable = async (ctx, { allowAfterClose }) => {
   return s;
 };
 
-// Starts the participant's single attempt. Idempotent: repeated/concurrent calls return the same attempt.
-const startAttempt = async (ctx, participant) => {
+// The attempt this browser is playing or has played: its own session's attempt, or (after verification) the
+// participant's attached attempt.
+const attemptFor = async (q, session) => {
+  const bySession = (await q.query('SELECT * FROM quiz.attempts WHERE session_id = $1', [session.id])).rows[0];
+  if (bySession) return bySession;
+  if (session.participant_id) return (await q.query('SELECT * FROM quiz.attempts WHERE participant_id = $1', [session.participant_id])).rows[0] || null;
+  return null;
+};
+
+// Starts this browser's single attempt. Idempotent: repeated/concurrent calls return the same attempt.
+const startAttempt = async (ctx, session, lang) => {
   await requireWritable(ctx, { allowAfterClose: false });
   const rng = ctx.rng || defaultRng;
-  const created = await ctx.db.tx(async (t) => {
-    await t.query('SELECT id FROM quiz.participants WHERE id=$1 FOR UPDATE', [participant.id]);
-    const ex = await t.query('SELECT id FROM quiz.attempts WHERE participant_id=$1', [participant.id]);
-    if (ex.rowCount) return false;
+  return ctx.db.tx(async (t) => {
+    await t.query('SELECT id FROM quiz.sessions WHERE id = $1 FOR UPDATE', [session.id]);
+    if (await attemptFor(t, session)) return false;
     const theme = await assignTheme(t, rng);
     const qs = (await t.query(`SELECT * FROM quiz.questions WHERE theme=$1 AND active ORDER BY id`, [theme])).rows;
     if (qs.length < QUESTIONS_PER_ATTEMPT) throw new HttpError(503, 'question_bank_incomplete');
     const chosen = sample(qs, QUESTIONS_PER_ATTEMPT, rng);   // without replacement
-    const a = (await t.query(`INSERT INTO quiz.attempts (participant_id, theme) VALUES ($1,$2) RETURNING id`, [participant.id, theme])).rows[0];
+    const a = (await t.query(
+      `INSERT INTO quiz.attempts (session_id, participant_id, anon_id, theme) VALUES ($1,$2,$3,$4) RETURNING id`,
+      [session.id, session.participant_id || null, session.anon_id, theme])).rows[0];
     for (let i = 0; i < chosen.length; i++) {
       const q = chosen[i];
       const ids = q.content.options.map((o) => o.id);
@@ -51,20 +59,19 @@ const startAttempt = async (ctx, participant) => {
          VALUES ($1,$2,$3,$4,$5,$6,$7)`,
         [a.id, i, q.id, q.version, JSON.stringify(q.content), JSON.stringify(order), q.correct_option_id]);
     }
-    await track(t, { anonId: participant.anon_id, name: 'quiz_started', theme, language: participant.language, attribution: participant.attribution });
+    await track(t, { anonId: session.anon_id, name: 'quiz_started', theme, language: lang, attribution: session.attribution || {} });
     return true;
   });
-  return created;
 };
 
 // What the browser may see. Never includes correct_option_id, never includes any code.
-const getState = async (ctx, participant, lang) => {
+const getState = async (ctx, session, lang) => {
   const settings = await getSettings(ctx.db);
-  const campaign = {
-    state: campaignState(settings, ctx.now()), opensAt: settings.opens_at, closesAt: settings.closes_at, codeExpiresAt: settings.code_expires_at,
-  };
-  const attempt = (await ctx.db.query('SELECT * FROM quiz.attempts WHERE participant_id=$1', [participant.id])).rows[0];
-  const base = { campaign, participant: { language: participant.language }, status: 'verified', theme: null, progress: { answered: 0, total: QUESTIONS_PER_ATTEMPT }, question: null, result: null };
+  const campaign = { state: campaignState(settings, ctx.now()), opensAt: settings.opens_at, closesAt: settings.closes_at, codeExpiresAt: settings.code_expires_at };
+  const base = { campaign, status: 'idle', theme: null, progress: { answered: 0, total: QUESTIONS_PER_ATTEMPT }, question: null, result: null, participant: null };
+  if (!session) return base;
+  const attempt = await attemptFor(ctx.db, session);
+  if (session.participant_id) base.participant = { language: session.participant_language || session.language, verified: Boolean(session.verified_at) };
   if (!attempt) return base;
 
   const qrows = (await ctx.db.query('SELECT * FROM quiz.attempt_questions WHERE attempt_id=$1 ORDER BY position', [attempt.id])).rows;
@@ -76,9 +83,7 @@ const getState = async (ctx, participant, lang) => {
     if (cur) {
       const first = await ctx.db.query(
         'UPDATE quiz.attempt_questions SET shown_at = now() WHERE attempt_id=$1 AND position=$2 AND shown_at IS NULL RETURNING position', [attempt.id, cur.position]);
-      if (first.rowCount) {
-        await track(ctx.db, { anonId: participant.anon_id, name: 'question_viewed', theme: attempt.theme, language: lang, questionId: cur.question_id, props: { position: cur.position }, attribution: participant.attribution });
-      }
+      if (first.rowCount) await track(ctx.db, { anonId: attempt.anon_id, name: 'question_viewed', theme: attempt.theme, language: lang, questionId: cur.question_id, props: { position: cur.position } });
       const byId = Object.fromEntries(cur.content_snapshot.options.map((o) => [o.id, o]));
       out.question = {
         id: cur.question_id, position: cur.position, total: QUESTIONS_PER_ATTEMPT,
@@ -89,14 +94,31 @@ const getState = async (ctx, participant, lang) => {
     return out;
   }
 
-  const rw = (await ctx.db.query('SELECT status, tier FROM quiz.rewards WHERE participant_id=$1', [participant.id])).rows[0];
-  const em = (await ctx.db.query(`SELECT status FROM quiz.email_outbox WHERE participant_id=$1 AND kind='reward' ORDER BY created_at DESC LIMIT 1`, [participant.id])).rows[0];
+  // Completed. The claim state tells the UI which screen to show after the score.
+  let claim = 'unclaimed';
+  let rw = null; let em = null; let maskedEmail = null;
+  if (attempt.participant_id) {
+    const p = (await ctx.db.query('SELECT id, email, verified_at FROM quiz.participants WHERE id = $1', [attempt.participant_id])).rows[0];
+    if (p) {
+      maskedEmail = p.email.replace(/^(.)(.*)(@.*)$/, (m, a, b, c) => a + '*'.repeat(Math.min(b.length, 6)) + c);
+      rw = (await ctx.db.query('SELECT status, tier, attempt_id FROM quiz.rewards WHERE participant_id=$1', [p.id])).rows[0] || null;
+      if (!p.verified_at) claim = 'pending_verification';
+      else if (rw && rw.attempt_id === attempt.id) claim = 'claimed';
+      else if (rw) claim = 'already_played';
+      else claim = 'verified_unclaimed';   // transient: verified but claim not yet processed
+      if (rw) em = (await ctx.db.query(`SELECT status FROM quiz.email_outbox WHERE participant_id=$1 AND kind='reward' ORDER BY created_at DESC LIMIT 1`, [p.id])).rows[0] || null;
+    }
+  } else if (session.participant_id && session.verified_at) {
+    // This browser belongs to a verified participant whose reward came from another attempt.
+    const rw2 = (await ctx.db.query('SELECT 1 FROM quiz.rewards WHERE participant_id=$1', [session.participant_id])).rowCount;
+    if (rw2) claim = 'already_played';
+  }
   out.result = {
-    score: attempt.score, total: QUESTIONS_PER_ATTEMPT, tier: attempt.tier,
-    reward: rw ? rw.status : null,                           // 'issued' | 'pending_inventory'  (never the code)
+    score: attempt.score, total: QUESTIONS_PER_ATTEMPT, tier: attempt.tier, claim, maskedEmail,
+    reward: rw ? rw.status : null,                                            // 'issued' | 'pending_inventory' (never the code)
     email: em ? em.status : (rw && rw.status === 'pending_inventory' ? 'waiting_for_inventory' : 'none'),
   };
-  if (settings.show_review_after_completion) {
+  if (settings.show_review_after_completion && claim === 'claimed') {
     out.result.review = qrows.map((q) => ({
       questionId: q.question_id, prompt: pickText(q.content_snapshot.prompt, lang),
       selected: q.selected_option_id, correct: q.correct_option_id, wasCorrect: q.selected_option_id === q.correct_option_id,
@@ -108,55 +130,36 @@ const getState = async (ctx, participant, lang) => {
 };
 
 // Locks the answer server-side. Responds with next-question/completion only - never with correctness.
-const submitAnswer = async (ctx, participant, { questionId, optionId, lang }) => {
+const submitAnswer = async (ctx, session, { questionId, optionId, lang }) => {
   await requireWritable(ctx, { allowAfterClose: true });
-  const done = await ctx.db.tx(async (t) => {
-    const a = (await t.query('SELECT * FROM quiz.attempts WHERE participant_id=$1 FOR UPDATE', [participant.id])).rows[0];
+  await ctx.db.tx(async (t) => {
+    const a = (await t.query('SELECT * FROM quiz.attempts WHERE session_id = $1 FOR UPDATE', [session.id])).rows[0]
+      || (session.participant_id ? (await t.query('SELECT * FROM quiz.attempts WHERE participant_id = $1 FOR UPDATE', [session.participant_id])).rows[0] : null);
     if (!a) throw new HttpError(409, 'not_started');
     const qrows = (await t.query('SELECT * FROM quiz.attempt_questions WHERE attempt_id=$1 ORDER BY position', [a.id])).rows;
     const target = qrows.find((q) => q.question_id === questionId);
     if (!target) throw new HttpError(400, 'unknown_question');
-    if (target.selected_option_id) {
-      // Replay of an already-locked answer (double click, retry): same answer is a no-op; a different one is refused.
-      if (target.selected_option_id === optionId) return { replay: true };
-      throw new HttpError(409, 'already_answered');
-    }
+    if (target.selected_option_id === optionId) return;        // replay of an already-locked answer (double tap, retry): no-op
+    if (a.status === 'completed') throw new HttpError(409, 'already_completed');
+    if (target.selected_option_id) throw new HttpError(409, 'already_answered');
     const current = qrows.find((q) => !q.selected_option_id);
     if (current.question_id !== questionId) throw new HttpError(409, 'out_of_order');
     if (!target.option_order.includes(optionId)) throw new HttpError(400, 'invalid_option');
 
     const duration = target.shown_at ? Math.min(Math.max(Date.now() - new Date(target.shown_at).getTime(), 0), 600_000) : null;
-    await t.query(
-      `UPDATE quiz.attempt_questions SET selected_option_id=$3, answered_at=now(), duration_ms=$4 WHERE attempt_id=$1 AND position=$2`,
+    await t.query(`UPDATE quiz.attempt_questions SET selected_option_id=$3, answered_at=now(), duration_ms=$4 WHERE attempt_id=$1 AND position=$2`,
       [a.id, target.position, optionId, duration]);
-    await track(t, { anonId: participant.anon_id, name: 'answer_submitted', theme: a.theme, language: lang, questionId, props: { position: target.position, duration_ms: duration }, attribution: participant.attribution });
+    await track(t, { anonId: a.anon_id, name: 'answer_submitted', theme: a.theme, language: lang, questionId, props: { position: target.position, duration_ms: duration } });
 
     const isLast = qrows.filter((q) => !q.selected_option_id).length === 1;
-    if (!isLast) return { completed: false };
-
-    // Final answer: score on the server from the snapshotted key, then issue the reward - all in this transaction.
+    if (!isLast) return;
+    // Final answer: score on the server from the snapshotted key. The reward is issued later, when an email is verified.
     const score = qrows.reduce((n, q) => n + ((q.position === target.position ? optionId : q.selected_option_id) === q.correct_option_id ? 1 : 0), 0);
     const tier = tierForScore(score);
     await t.query(`UPDATE quiz.attempts SET status='completed', completed_at=now(), score=$2, tier=$3 WHERE id=$1`, [a.id, score, tier]);
-    await track(t, { anonId: participant.anon_id, name: 'quiz_completed', theme: a.theme, language: lang, tier, attribution: participant.attribution });
-    await track(t, { anonId: participant.anon_id, name: 'discount_earned', theme: a.theme, language: lang, tier, attribution: participant.attribution });
-    const { reward, created } = await rewards.issueReward(t, { participantId: participant.id, attemptId: a.id, tier });
-    let outboxId = null;
-    if (reward.status === 'issued') {
-      outboxId = await mailer.queue(t, { participantId: participant.id, kind: 'reward', language: participant.language, key: `reward:${participant.id}` });
-      if (created) await track(t, { anonId: participant.anon_id, name: 'reward_issued', theme: a.theme, language: lang, tier, attribution: participant.attribution });
-    } else if (created) {
-      await track(t, { anonId: participant.anon_id, name: 'reward_pending_inventory', theme: a.theme, language: lang, tier, attribution: participant.attribution });
-    }
-    return { completed: true, outboxId, pending: reward.status !== 'issued', tier };
+    await track(t, { anonId: a.anon_id, name: 'quiz_completed', theme: a.theme, language: lang, tier });
   });
-
-  if (done.completed) {
-    if (done.pending) await raiseAlert(ctx, `inventory_depleted_${done.tier}`, { tier: done.tier, note: 'earned reward preserved; will be issued on import' });
-    if (done.outboxId) await mailer.deliverReward(ctx, done.outboxId);
-    await rewards.checkInventory(ctx);
-  }
-  return getState(ctx, participant, lang);
+  return getState(ctx, session, lang);
 };
 
-module.exports = { startAttempt, getState, submitAnswer, assignTheme, requireWritable };
+module.exports = { startAttempt, getState, submitAnswer, assignTheme, requireWritable, attemptFor };

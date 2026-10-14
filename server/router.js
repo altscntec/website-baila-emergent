@@ -36,16 +36,21 @@ const requireAdmin = async (ctx, req, { allowAnalytics = false } = {}) => {
   throw new HttpError(401, 'unauthorized');
 };
 
-const sessionOf = async (ctx, req) => {
-  const raw = parseCookies(req.headers.cookie)[SESSION_COOKIE];
-  const p = await auth.getSessionParticipant(ctx, raw);
-  return { raw, participant: p };
-};
+const rawSession = (req) => parseCookies(req.headers.cookie)[SESSION_COOKIE];
+const sessionOf = async (ctx, req) => ({ raw: rawSession(req), session: await auth.getSession(ctx, rawSession(req)) });
 const needSession = async (ctx, req) => {
   const s = await sessionOf(ctx, req);
-  if (!s.participant) throw new HttpError(401, 'no_session');
+  if (!s.session) throw new HttpError(401, 'no_session');
   return s;
 };
+const needParticipant = async (ctx, req) => {
+  const s = await sessionOf(ctx, req);
+  if (!s.session || !s.session.participant_id || !s.session.verified_at) throw new HttpError(401, 'no_session');
+  const participant = (await ctx.db.query('SELECT * FROM quiz.participants WHERE id = $1', [s.session.participant_id])).rows[0];
+  if (!participant) throw new HttpError(401, 'no_session');
+  return { ...s, participant };
+};
+const cookieFor = (ctx, raw) => (raw ? { 'Set-Cookie': sessionCookie(raw, { maxAgeSec: ctx.cfg.sessionTtlDays * 86400, secure: ctx.cfg.cookieSecure }) } : {});
 
 const routes = [
   ['GET', '/api/quiz/config', async (ctx) => {
@@ -61,6 +66,31 @@ const routes = [
     return { status: 204, body: null, counted: ok };
   }],
 
+  // ---- play first (anonymous browser session), then give details, then verify ----
+  ['GET', '/api/quiz/state', async (ctx, req, body, url) => {
+    const { session } = await sessionOf(ctx, req);
+    return { body: await quiz.getState(ctx, session, lang(url.searchParams.get('lang') || (session && (session.participant_language || session.language)))) };
+  }],
+
+  ['POST', '/api/quiz/start', async (ctx, req, body) => {
+    const l = lang(body.language);
+    const { session, raw } = await auth.ensureSession(ctx, rawSession(req), l);
+    if (raw) {
+      const rl = await hit(ctx.db, ctx.cfg.appSecret, `start:ip:${clientIp(req)}`, 3600, 20, ctx.now());
+      if (!rl.allowed) throw new HttpError(429, 'rate_limited', { retryAfter: rl.retryAfter });
+    }
+    await quiz.startAttempt(ctx, session, l);
+    return { headers: cookieFor(ctx, raw), body: await quiz.getState(ctx, session, l) };
+  }],
+
+  ['POST', '/api/quiz/answer', async (ctx, req, body) => {
+    const { session } = await needSession(ctx, req);
+    const rl = await hit(ctx.db, ctx.cfg.appSecret, `answer:${session.id}`, 3600, 200, ctx.now());
+    if (!rl.allowed) throw new HttpError(429, 'rate_limited', { retryAfter: rl.retryAfter });
+    if (typeof body.questionId !== 'string' || typeof body.optionId !== 'string' || body.questionId.length > 20 || body.optionId.length > 10) throw new HttpError(400, 'validation');
+    return { body: await quiz.submitAnswer(ctx, session, { questionId: body.questionId, optionId: body.optionId, lang: lang(body.language || session.language) }) };
+  }],
+
   ['POST', '/api/quiz/signup', async (ctx, req, body) => {
     const v = validateSignup(body);
     if (!v.ok) {
@@ -68,7 +98,8 @@ const routes = [
       await track(ctx.db, { name: 'form_rejected', language: LANGS.includes(body && body.language) ? body.language : null, props: { fields } });
       throw new HttpError(400, 'validation', { fields: v.errors });
     }
-    return { body: await auth.requestSignin(ctx, { signup: v.value, ip: clientIp(req) }) };
+    const { session } = await sessionOf(ctx, req);
+    return { body: await auth.requestSignin(ctx, { signup: v.value, ip: clientIp(req), session }) };
   }],
 
   ['POST', '/api/quiz/resend', async (ctx, req, body) => {
@@ -78,45 +109,26 @@ const routes = [
   }],
 
   ['POST', '/api/quiz/verify', async (ctx, req, body) => {
-    const r = await auth.verify(ctx, { token: body.token, email: body.token ? undefined : normalizeEmail(body.email), code: body.code, ip: clientIp(req) });
-    return { headers: { 'Set-Cookie': sessionCookie(r.session, { maxAgeSec: ctx.cfg.sessionTtlDays * 86400, secure: ctx.cfg.cookieSecure }) }, body: { status: 'verified' } };
+    const r = await auth.verify(ctx, { token: body.token, email: body.token ? undefined : normalizeEmail(body.email), code: body.code, ip: clientIp(req), currentRaw: rawSession(req) });
+    return { headers: cookieFor(ctx, r.session), body: { status: 'verified', claim: r.claim } };
   }],
 
   ['POST', '/api/quiz/logout', async (ctx, req) => {
-    const { raw } = await sessionOf(ctx, req);
-    await auth.revokeSession(ctx, raw);
+    await auth.revokeSession(ctx, rawSession(req));
     return { headers: { 'Set-Cookie': clearSessionCookie({ secure: ctx.cfg.cookieSecure }) }, body: { status: 'ok' } };
-  }],
-
-  ['GET', '/api/quiz/state', async (ctx, req, body, url) => {
-    const { participant } = await needSession(ctx, req);
-    return { body: await quiz.getState(ctx, participant, lang(url.searchParams.get('lang') || participant.language)) };
-  }],
-
-  ['POST', '/api/quiz/start', async (ctx, req, body) => {
-    const { participant } = await needSession(ctx, req);
-    await quiz.startAttempt(ctx, participant);
-    return { body: await quiz.getState(ctx, participant, lang(body.language || participant.language)) };
-  }],
-
-  ['POST', '/api/quiz/answer', async (ctx, req, body) => {
-    const { participant } = await needSession(ctx, req);
-    const rl = await hit(ctx.db, ctx.cfg.appSecret, `answer:${participant.id}`, 3600, 200, ctx.now());
-    if (!rl.allowed) throw new HttpError(429, 'rate_limited', { retryAfter: rl.retryAfter });
-    if (typeof body.questionId !== 'string' || typeof body.optionId !== 'string' || body.questionId.length > 20 || body.optionId.length > 10) throw new HttpError(400, 'validation');
-    return { body: await quiz.submitAnswer(ctx, participant, { questionId: body.questionId, optionId: body.optionId, lang: lang(body.language || participant.language) }) };
   }],
 
   ['POST', '/api/quiz/language', async (ctx, req, body) => {
     // Switching language only changes how the SAME attempt is displayed; it never touches theme, questions or answers.
-    const { participant } = await needSession(ctx, req);
+    const { session } = await needSession(ctx, req);
     const l = lang(body.language);
-    await ctx.db.query('UPDATE quiz.participants SET language=$2, updated_at=now() WHERE id=$1', [participant.id, l]);
-    return { body: await quiz.getState(ctx, { ...participant, language: l }, l) };
+    await ctx.db.query('UPDATE quiz.sessions SET language=$2 WHERE id=$1', [session.id, l]);
+    if (session.participant_id) await ctx.db.query('UPDATE quiz.participants SET language=$2, updated_at=now() WHERE id=$1', [session.participant_id, l]);
+    return { body: await quiz.getState(ctx, { ...session, language: l, participant_language: l }, l) };
   }],
 
   ['POST', '/api/quiz/resend-reward', async (ctx, req, body) => {
-    const { participant } = await needSession(ctx, req);
+    const { participant } = await needParticipant(ctx, req);
     const rl = await hitAll(ctx.db, ctx.cfg.appSecret, [[`rwresend:${participant.id}`, 86400, 4], [`rwresend:cool:${participant.id}`, 300, 1]], ctx.now());
     if (!rl.allowed) throw new HttpError(429, 'rate_limited', { retryAfter: rl.retryAfter });
     const s = await getSettings(ctx.db);

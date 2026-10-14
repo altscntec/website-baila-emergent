@@ -11,6 +11,7 @@ const { migrate } = require('../migrate');
 const { loadConfig } = require('../config');
 const { createHandler } = require('../router');
 const { MailError } = require('../mail/resend');
+const { hmac } = require('../lib/crypto');
 
 const startPostgres = async () => {
   const EmbeddedPostgres = require('embedded-postgres').default || require('embedded-postgres');
@@ -108,11 +109,12 @@ const openCampaign = async (env, { codesPerTier = 30, bank = syntheticBank(), se
 };
 
 const resetDb = async (db) => {
-  await db.query(`TRUNCATE quiz.participants, quiz.questions, quiz.discount_codes, quiz.rate_limits, quiz.funnel_events, quiz.daily_counters,
+  await db.query(`TRUNCATE quiz.participants, quiz.sessions, quiz.attempts, quiz.questions, quiz.discount_codes, quiz.rate_limits, quiz.funnel_events, quiz.daily_counters,
     quiz.owner_alerts, quiz.audit_log, quiz.email_events, quiz.email_outbox, quiz.settings, quiz.suppressions, quiz.redemptions RESTART IDENTITY CASCADE`);
 };
 
 let seq = 0;
+const nextIp = () => { seq++; return `10.${Math.floor(seq / 250) % 250}.${seq % 250}.7`; };
 const signupBody = (over = {}) => ({
   fullName: 'Test Person', email: `person${++seq}@test.invalid`, age: 27, gender: 'prefer_not_to_say', city: 'Amsterdam', country: 'NL',
   language: 'en', acceptTerms: true, marketingOptIn: false, attribution: { utm_source: 'meta', utm_campaign: 'quiz_test' }, ...over,
@@ -121,22 +123,28 @@ const signupBody = (over = {}) => ({
 const linkTokenFrom = (msg) => (msg.text.match(/#t=([A-Za-z0-9_-]+)/) || [])[1];
 const codeFrom = (msg) => (msg.text.match(/: (\d{6})\b/) || [])[1];
 
-// Full journey helper: signup -> verify via link -> returns cookie.
-const signupAndVerify = async (env, over = {}) => {
-  const { __ip, ...rest } = over;
-  const body = signupBody(rest);
-  const ip = over.__ip || `10.${Math.floor(seq / 250) % 250}.${seq % 250}.7`;
-  const s = await env.api('POST', '/api/quiz/signup', { body, ip });
-  if (s.status !== 200) throw new Error('signup failed ' + s.text);
-  const mail = env.mail.last(body.email.trim(), 'signin');
-  const v = await env.api('POST', '/api/quiz/verify', { body: { token: linkTokenFrom(mail) }, ip });
-  if (v.status !== 200) throw new Error('verify failed ' + v.text);
-  return { body, cookie: v.cookie };
+// ---- Play-first journey helpers ----
+// Start an anonymous attempt in a fresh browser; returns the session cookie and the first state.
+const startAnon = async (env, { lang = 'en', ip } = {}) => {
+  const r = await env.api('POST', '/api/quiz/start', { body: { language: lang }, ip: ip || nextIp() });
+  if (r.status !== 200) throw new Error('start failed ' + r.text);
+  return { cookie: r.cookie, state: r.json };
 };
 
-// Plays a whole attempt; picks answers by the supplied strategy (default: first option).
+// Test-only: peek at the stored key (the browser can never do this) to play an attempt with an exact score.
+const keyFor = async (env, cookie) => {
+  const raw = decodeURIComponent(cookie.split('=')[1]);
+  const h = hmac(env.ctx.cfg.appSecret, `tok:sess:${raw}`);
+  return (await env.ctx.db.query(
+    `SELECT aq.question_id, aq.correct_option_id, aq.option_order, aq.selected_option_id FROM quiz.attempt_questions aq
+       JOIN quiz.attempts a ON a.id = aq.attempt_id
+       JOIN quiz.sessions s ON (s.id = a.session_id OR s.participant_id = a.participant_id)
+      WHERE s.token_hash = $1 ORDER BY aq.position`, [h])).rows;
+};
+
+// Plays the whole attempt in an existing session; picks answers by the supplied strategy (default: first option).
 const play = async (env, cookie, pick = () => 0, lang = 'en') => {
-  let st = (await env.api('POST', '/api/quiz/start', { cookie, body: { language: lang } })).json;
+  let st = (await env.api('GET', `/api/quiz/state?lang=${lang}`, { cookie })).json;
   const seen = [];
   while (st.question) {
     seen.push(st.question);
@@ -148,15 +156,10 @@ const play = async (env, cookie, pick = () => 0, lang = 'en') => {
   return { state: st, questions: seen };
 };
 
-module.exports = { startPostgres, makeEnv, TestMail, transient, permanent, TEST_ENV, syntheticBank, openCampaign, resetDb, signupBody, signupAndVerify, play, linkTokenFrom, codeFrom, FUTURE };
-
-// Test-only: peek at the stored key (the browser can never do this) to play an attempt with an exact score.
-const playScore = async (env, cookie, email, correctCount, lang = 'en') => {
-  await env.api('POST', '/api/quiz/start', { cookie, body: { language: lang } });
-  const key = (await env.ctx.db.query(
-    `SELECT aq.question_id, aq.correct_option_id, aq.option_order FROM quiz.attempt_questions aq
-       JOIN quiz.attempts a ON a.id = aq.attempt_id JOIN quiz.participants p ON p.id = a.participant_id
-      WHERE p.email_norm = $1 ORDER BY aq.position`, [email.toLowerCase()])).rows;
+// Starts and plays an anonymous attempt to an exact score. Returns the cookie and final state.
+const playScore = async (env, correctCount, { lang = 'en', ip } = {}) => {
+  const { cookie } = await startAnon(env, { lang, ip });
+  const key = await keyFor(env, cookie);
   let last;
   for (let i = 0; i < key.length; i++) {
     const wrong = key[i].option_order.find((o) => o !== key[i].correct_option_id);
@@ -164,6 +167,27 @@ const playScore = async (env, cookie, email, correctCount, lang = 'en') => {
     last = await env.api('POST', '/api/quiz/answer', { cookie, body: { questionId: key[i].question_id, optionId, language: lang } });
     if (last.status !== 200) throw new Error('answer failed ' + last.text);
   }
-  return last.json;
+  return { cookie, state: last.json };
 };
-module.exports.playScore = playScore;
+
+// Signup (after playing) + verify via the emailed link, in the same browser. Returns everything useful.
+const claim = async (env, cookie, over = {}) => {
+  const body = signupBody(over);
+  const ip = over.__ip || nextIp();
+  delete body.__ip;
+  const s = await env.api('POST', '/api/quiz/signup', { body, cookie, ip });
+  if (s.status !== 200) throw new Error('signup failed ' + s.text);
+  const mail = env.mail.last(body.email.trim(), 'signin');
+  const v = await env.api('POST', '/api/quiz/verify', { body: { token: linkTokenFrom(mail) }, cookie, ip });
+  if (v.status !== 200) throw new Error('verify failed ' + v.text);
+  const state = (await env.api('GET', '/api/quiz/state', { cookie })).json;
+  return { body, cookie, verify: v.json, state };
+};
+
+// Whole journey with an exact score: play -> signup -> verify. Backwards-compatible name used across the suites.
+const fullJourney = async (env, correctCount, over = {}) => {
+  const { cookie } = await playScore(env, correctCount, { lang: over.language || 'en' });
+  return claim(env, cookie, over);
+};
+
+module.exports = { startPostgres, makeEnv, TestMail, transient, permanent, TEST_ENV, syntheticBank, openCampaign, resetDb, signupBody, linkTokenFrom, codeFrom, FUTURE, startAnon, keyFor, play, playScore, claim, fullJourney, nextIp };
