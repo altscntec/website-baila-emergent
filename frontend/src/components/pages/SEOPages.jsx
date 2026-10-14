@@ -116,6 +116,11 @@ export const LatinEventRotterdamPage = ({ events }) => {
               <li><strong>Club Reverse:</strong> Rotterdam's premier nightlife venue</li>
               <li><strong>Affordable Tickets:</strong> Latin Party experience from just €10</li>
             </ul>
+
+            {/* Wording approved by Hari (Developer Brief, Oct 2026, section D) */}
+            <p className="text-gray-600 mb-6">
+              Our Rotterdam nights bring the full Baila Dembow sound to the city: reggaeton, dembow, salsa, bachata and Latin Caribbean hits from the first song to the last. When no Rotterdam date is on sale, the next one is announced first in our WhatsApp community and on Instagram at @baila.dembow. In the meantime, check the events page for upcoming parties in Amsterdam and Leiden.
+            </p>
           </div>
 
           {rotterdamEvents.length > 0 && (

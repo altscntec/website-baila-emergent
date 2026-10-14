@@ -25,24 +25,21 @@
       "source": "/agenda/:path*",
       "destination": "/events",
       "permanent": true
-    }
-  ],
-  "rewrites": [
-    {
-      "source": "/api/:path*",
-      "destination": "/api/index?__p=:path*"
     },
     {
-      "source": "/halloween/quiz",
-      "destination": "/spa-shell.html"
+      "source": "/tickets",
+      "destination": "/events",
+      "permanent": true
     },
     {
-      "source": "/halloween/quiz/:path*",
-      "destination": "/spa-shell.html"
+      "source": "/events/groningen-all-white-22-august-2026",
+      "destination": "/events",
+      "permanent": true
     },
     {
-      "source": "/((?!api/).*)",
-      "destination": "/index.html"
+      "source": "/events/summer-of-love-29-august-2026",
+      "destination": "/events",
+      "permanent": true
     }
   ],
   "headers": [
@@ -102,6 +99,20 @@
           "value": "no-store"
         }
       ]
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "/api/index?__p=:path*"
+    },
+    {
+      "source": "/halloween/quiz",
+      "destination": "/spa-shell.html"
+    },
+    {
+      "source": "/halloween/quiz/:path*",
+      "destination": "/spa-shell.html"
     }
   ],
   "functions": {

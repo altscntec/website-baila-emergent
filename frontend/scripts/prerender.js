@@ -18,8 +18,8 @@ const http = require('http');
 const BUILD = path.join(__dirname, '..', 'build');
 const PORT = 45678;
 
-// Routes to snapshot. Keep in sync with App.js and public/sitemap.xml.
-const ROUTES = [
+// Static routes to snapshot. Keep in sync with App.js and public/sitemap.xml.
+const STATIC_ROUTES = [
   '/',
   '/events',
   '/halloween',
@@ -31,9 +31,32 @@ const ROUTES = [
   '/latin-event-rotterdam',
   '/experiences/live-tribute',
   '/experiences/casita',
-  '/events/halloween-31-october-2026',
-  '/events/groningen-all-white-22-august-2026',
-  '/events/summer-of-love-29-august-2026',
+];
+
+// Event pages are read straight from EVENTS in src/utils/constants.js, so a
+// new event gets its /events/<slug> snapshot the moment it is added to the
+// agenda (a hand-kept list here once missed the Leiden page). Every event in
+// EVENTS carries a customSlug; one without it would fall back to the SPA shell.
+const eventRoutes = () => {
+  const src = fs.readFileSync(path.join(__dirname, '..', 'src', 'utils', 'constants.js'), 'utf8');
+  const start = src.indexOf('export const EVENTS');
+  const end = src.indexOf('];', start);
+  const block = start >= 0 && end > start ? src.slice(start, end) : '';
+  const slugs = [...block.matchAll(/customSlug:\s*["']([^"']+)["']/g)].map((m) => m[1]);
+  if (!slugs.length) console.warn('[prerender] no event slugs found in constants.js');
+  return slugs.map((s) => `/events/${s}`);
+};
+
+const ROUTES = [...STATIC_ROUTES, ...eventRoutes()];
+
+// Routes App.js still serves but that are not snapshotted (legacy standalone
+// landing pages that manage their own head, and an alias of /halloween).
+// They get the SPA shell so they keep working without a catch-all rewrite.
+const SHELL_ROUTES = [
+  '/experiences/halloween',
+  '/events/kingsday-weekender-2026',
+  '/events/PadelXReggaeton',
+  '/events/padel-x-reggaeton',
 ];
 
 const MIME = {
@@ -82,6 +105,43 @@ const writeQuizShell = () => {
     .replace('<head>', '<head><meta name="robots" content="noindex, nofollow, noarchive">');
   fs.writeFileSync(path.join(BUILD, 'spa-shell.html'), html);
   console.log('[prerender] wrote spa-shell.html (noindex shell for unlisted routes)');
+};
+
+// Without a snapshot a route would 404 (vercel.json has no catch-all rewrite,
+// so unknown URLs return a real 404). If a route cannot be prerendered, write
+// the plain SPA shell in its place: the page still works for visitors and
+// renders client-side, it just loses the crawler-friendly HTML.
+const writeShell = (route) => {
+  if (route === '/') return; // build/index.html already is the shell
+  const outDir = path.join(BUILD, route);
+  fs.mkdirSync(outDir, { recursive: true });
+  fs.writeFileSync(path.join(outDir, 'index.html'), SHELL);
+};
+
+// IndexNow: on production builds, tell Bing (which feeds Copilot and ChatGPT
+// search), Yandex, Seznam and Naver which URLs changed, so they recrawl
+// within hours instead of weeks. The key file lives in public/. Never fatal.
+const INDEXNOW_KEY = '0a461c390227bf664c2b14811c8ed2d2';
+const pingIndexNow = async () => {
+  if (process.env.VERCEL_ENV !== 'production' || typeof fetch !== 'function') return;
+  try {
+    const sitemap = fs.readFileSync(path.join(BUILD, 'sitemap.xml'), 'utf8');
+    const urlList = [...sitemap.matchAll(/<loc>(https:\/\/bailadembow\.com[^<]*)<\/loc>/g)].map((m) => m[1]);
+    const res = await fetch('https://api.indexnow.org/indexnow', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json; charset=utf-8' },
+      body: JSON.stringify({
+        host: 'bailadembow.com',
+        key: INDEXNOW_KEY,
+        keyLocation: `https://bailadembow.com/${INDEXNOW_KEY}.txt`,
+        urlList,
+      }),
+      signal: AbortSignal.timeout(10000),
+    });
+    console.log(`[indexnow] submitted ${urlList.length} URLs: HTTP ${res.status}`);
+  } catch (e) {
+    console.warn('[indexnow] ping failed (non-fatal):', e.message);
+  }
 };
 
 const serve = () =>
@@ -137,6 +197,8 @@ const serve = () =>
     }
   } catch (e) {
     console.warn('[prerender] could not launch Chrome — skipping prerender:', e.message);
+    [...ROUTES, ...SHELL_ROUTES].forEach(writeShell);
+    console.warn('[prerender] wrote SPA shells for all routes instead.');
     server.close();
     process.exit(0);
   }
@@ -180,11 +242,15 @@ const serve = () =>
       console.log(`[prerender] ${route.padEnd(42)} ${kb} KB`);
       ok++;
     } catch (e) {
-      console.warn(`[prerender] failed ${route}: ${e.message}`);
+      console.warn(`[prerender] failed ${route}: ${e.message} — writing SPA shell`);
+      writeShell(route);
     }
   }
 
+  SHELL_ROUTES.forEach(writeShell);
+
   await browser.close();
   server.close();
+  await pingIndexNow();
   console.log(`[prerender] done — ${ok}/${ROUTES.length} routes prerendered.`);
 })();
