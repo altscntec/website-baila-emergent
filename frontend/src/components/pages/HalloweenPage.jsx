@@ -10,9 +10,9 @@ const TICKET_URL = 'https://weeztix.shop/nxaqrkdz';
 const EVENT_NAME = 'Latin Halloween Festival 2026';
 const EVENT_DATE = '2026-10-31';
 const EVENT_TIME = '23:00 – 05:00';
-// Urgency messaging — keep in sync with the Halloween event's sold_out_pct /
+// Urgency messaging — keep in sync with the Halloween event's
 // price_deadline_label in constants.js, shown here and on the homepage spotlight.
-const SOLD_OUT_PCT = 72;
+// Ticket-sales figures are never shown publicly: they stay private to the owner.
 const PRICE_DEADLINE_LABEL = '15 October';
 const TEASER_VIDEO = '/videos/halloween-teaser.mp4';
 const POSTER_IMG = '/images/events/halloween-ijland-oct31-2026.png';
@@ -114,7 +114,7 @@ export const HalloweenPage = () => {
             data-testid="halloween-urgency-badge"
           >
             <div className="absolute inset-0 rounded-full bg-[#FF6B00] pulse-ring" />
-            <span className="relative z-10">🔥 {SOLD_OUT_PCT}% SOLD OUT — BUY NOW</span>
+            <span className="relative z-10">BUY NOW</span>
           </motion.div>
           <motion.p
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6, delay: 0.3 }}
@@ -463,15 +463,12 @@ export const HalloweenPage = () => {
               2× bigger.
             </h2>
             <div className="flex flex-wrap items-center justify-center gap-3 mb-8">
-              <span className="inline-flex items-center gap-1.5 bg-black text-white font-extrabold text-sm px-4 py-2 rounded-full">
-                🔥 {SOLD_OUT_PCT}% SOLD OUT
-              </span>
               <span className="inline-flex items-center gap-1.5 bg-white/20 backdrop-blur-sm text-white font-bold text-sm px-4 py-2 rounded-full border border-white/40">
                 Price goes up after {PRICE_DEADLINE_LABEL}
               </span>
             </div>
             <p className="text-white/90 font-semibold text-base md:text-xl max-w-2xl mx-auto mb-10">
-              This year's edition is our biggest yet, and it's already {SOLD_OUT_PCT}% sold out. Tickets
+              This year's edition is our biggest yet. Tickets
               start low and climb as the date gets closer, and the cheap tiers never survive the week.
               Buy now before the price goes up on {PRICE_DEADLINE_LABEL}.
             </p>

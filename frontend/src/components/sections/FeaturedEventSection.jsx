@@ -63,14 +63,9 @@ export const FeaturedEventSection = ({ event }) => {
               {event.tagline || event.description}
             </p>
 
-            {/* Urgency: sold-out % and price deadline, when set on the event */}
-            {(event.sold_out_pct || event.price_deadline_label) && (
+            {/* Urgency: price deadline, when set on the event (no sales figures are shown publicly) */}
+            {event.price_deadline_label && (
               <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3 mb-8">
-                {event.sold_out_pct && (
-                  <span className="inline-flex items-center gap-1.5 bg-black text-white font-extrabold text-sm px-4 py-2 rounded-full">
-                    🔥 {event.sold_out_pct}% SOLD OUT
-                  </span>
-                )}
                 {event.price_deadline_label && (
                   <span className="inline-flex items-center gap-1.5 bg-white/15 backdrop-blur-sm text-white font-bold text-sm px-4 py-2 rounded-full border border-white/30">
                     Price goes up after {event.price_deadline_label}
@@ -104,7 +99,7 @@ export const FeaturedEventSection = ({ event }) => {
                 data-testid="featured-cta"
               >
                 <Ticket size={22} />
-                {event.sold_out_pct ? 'BUY NOW' : 'GET TICKETS'}
+                {event.price_deadline_label ? 'BUY NOW' : 'GET TICKETS'}
               </a>
               {event.landing_page && (
                 <a
