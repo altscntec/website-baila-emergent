@@ -56,7 +56,7 @@ export const GALLERY_IMAGES = [
 //   2026-10-05 — Amsterdam Oliva (26 Sep), Eindhoven (2 Oct), Rotterdam All White
 //                (3 Oct) removed (past)
 //   2026-10-12 — Groningen Huize Maas (10 Oct) removed (past)
-//   2026-10-16 — Rotterdam Día de los Muertos (7 Nov, Club Reverse) added
+//   2026-10-16 — Rotterdam Día de los Muertos (7 Nov, Club Reverse) added, then parked in HIDDEN_EVENTS (poster change)
 //   Keep EVENTS in date order (pages also sort by date when rendering).
 //
 // The /events/PadelXReggaeton standalone route still exists in App.js for
@@ -104,7 +104,12 @@ export const EVENTS = [
     price_from: "",
     price_door: "",
     image_url: "/images/events/halloween-ijland-oct31-2026.png"
-  },
+  }
+];
+
+// Parked (hidden) events: not rendered anywhere until moved back into EVENTS.
+//   2026-10-16 — Rotterdam Día de los Muertos (7 Nov) hidden: poster is being changed.
+export const HIDDEN_EVENTS = [
   {
     id: "rotterdam-reverse-muertos-nov7-2026",
     customSlug: "dia-de-los-muertos-rotterdam-7-november-2026",
@@ -137,7 +142,7 @@ export const FAQS = [
   },
   {
     q: "Where can I find Latin party events in the Netherlands?",
-    a: "Baila Dembow hosts Latin parties across the Netherlands — Amsterdam, Rotterdam, Den Haag, Groningen, Leiden, Eindhoven and beyond. The upcoming agenda includes Leiden (23 October, Wibar), the Amsterdam Latin Halloween Festival (31 October, IJLAND Amsterdam) and Día de los Muertos Rotterdam (7 November, Club Reverse).",
+    a: "Baila Dembow hosts Latin parties across the Netherlands — Amsterdam, Rotterdam, Den Haag, Groningen, Leiden, Eindhoven and beyond. The upcoming agenda includes Leiden (23 October, Wibar) and the Amsterdam Latin Halloween Festival (31 October, IJLAND Amsterdam).",
   },
   {
     q: "What is dembow music?",
