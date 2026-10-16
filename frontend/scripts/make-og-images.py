@@ -122,3 +122,12 @@ if __name__ == "__main__":
         sub="IJLAND AMSTERDAM  ·  23:00 - 05:00  ·  18+",
         pill="TICKETS ON SALE NOW",
     )
+    make_event_card(
+        ROOT / "images/events/rotterdam-reverse-muertos-nov7-2026.png",
+        "og-muertos-rotterdam.jpg",
+        kicker="SAT 7 NOVEMBER 2026",
+        title_lines=["DÍA DE LOS", "MUERTOS"],
+        sub="REVERSE ROTTERDAM  ·  23:00 - 05:00  ·  18+",
+        pill="TICKETS ON SALE NOW",
+        accent=(255, 190, 30),
+    )

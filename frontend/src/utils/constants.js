@@ -56,6 +56,7 @@ export const GALLERY_IMAGES = [
 //   2026-10-05 — Amsterdam Oliva (26 Sep), Eindhoven (2 Oct), Rotterdam All White
 //                (3 Oct) removed (past)
 //   2026-10-12 — Groningen Huize Maas (10 Oct) removed (past)
+//   2026-10-16 — Rotterdam Día de los Muertos (7 Nov, Club Reverse) added
 //   Keep EVENTS in date order (pages also sort by date when rendering).
 //
 // The /events/PadelXReggaeton standalone route still exists in App.js for
@@ -103,6 +104,24 @@ export const EVENTS = [
     price_from: "",
     price_door: "",
     image_url: "/images/events/halloween-ijland-oct31-2026.png"
+  },
+  {
+    id: "rotterdam-reverse-muertos-nov7-2026",
+    customSlug: "dia-de-los-muertos-rotterdam-7-november-2026",
+    city: "Rotterdam",
+    venue: "Club Reverse, Rotterdam",
+    date: "2026-11-07",
+    time: "23:00 – 05:00",
+    title: "DÍA DE LOS MUERTOS // ROTTERDAM",
+    tagline: "Los muertos vuelven a bailar.",
+    og_image: "/images/og/og-muertos-rotterdam.jpg",
+    dress_code: "Face paint, flowers, catrina or catrín look — optional",
+    description: "¡ROTTERDAM, LOS MUERTOS VUELVEN A BAILAR! 💀🌼 Rotterdam, get your crew ready. We’re bringing a little Mexico to Reverse! 🇲🇽🔥 On Saturday, November 7, Baila Dembow celebrates Día de los Muertos with colourful flowers, sugar skulls and a whole lot of perreo. It’s a celebration of life, love and the people we miss. And we’re celebrating the way we know best: together, on the dance floor. ❤️ Expect reggaeton, dembow, Latin hits, salsa and bachata all night. Bad Bunny, Karol G, El Alfa, Romeo Santos… you know what’s coming. Come sing your heart out and dance with us till 05:00. 💀 Face paint? Yes. Flowers? Yes. Full catrina or catrín look? We love it. Dress up if you feel like it, or just come ready to dance. Drop this in the group chat. Pick your look. Let’s make a night of it. 🔥 📍 Location: Club Reverse, Rotterdam · 🗓️ Date: Saturday, November 7, 2026 · ⏰ Time: 23:00 – 05:00 · 🔞 18+ event, ID required. 🎟️ Early birds get the best price. Tickets go up with each release, so grab yours early! Nos vemos en la pista 🐇",
+    ticket_url: "https://weeztix.shop/yqzc6g5s",
+    status: "upcoming",
+    price_from: "",
+    price_door: "",
+    image_url: "/images/events/rotterdam-reverse-muertos-nov7-2026.png"
   }
 ];
 
@@ -118,7 +137,7 @@ export const FAQS = [
   },
   {
     q: "Where can I find Latin party events in the Netherlands?",
-    a: "Baila Dembow hosts Latin parties across the Netherlands — Amsterdam, Rotterdam, Den Haag, Groningen, Leiden, Eindhoven and beyond. The upcoming agenda includes Leiden (23 October, Wibar) and the Amsterdam Latin Halloween Festival (31 October, IJLAND Amsterdam).",
+    a: "Baila Dembow hosts Latin parties across the Netherlands — Amsterdam, Rotterdam, Den Haag, Groningen, Leiden, Eindhoven and beyond. The upcoming agenda includes Leiden (23 October, Wibar), the Amsterdam Latin Halloween Festival (31 October, IJLAND Amsterdam) and Día de los Muertos Rotterdam (7 November, Club Reverse).",
   },
   {
     q: "What is dembow music?",

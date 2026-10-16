@@ -70,6 +70,18 @@
     </image:image>
   </url>
 
+  <!-- Event: Baila Dembow Dia de los Muertos Rotterdam - Club Reverse - Nov 7, 2026 -->
+  <url>
+    <loc>https://bailadembow.com/events/dia-de-los-muertos-rotterdam-7-november-2026</loc>
+    <lastmod>2026-10-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://bailadembow.com/images/events/rotterdam-reverse-muertos-nov7-2026.png</image:loc>
+      <image:title>Dia de los Muertos Rotterdam - Baila Dembow at Club Reverse - November 7 2026</image:title>
+    </image:image>
+  </url>
+
   <!-- About Us Page -->
   <url>
     <loc>https://bailadembow.com/about</loc>
