@@ -117,7 +117,7 @@ export const EVENTS = [
     og_image: "/images/og/og-muertos-rotterdam.jpg",
     dress_code: "Face paint, flowers, catrina or catrín look — optional",
     description: "¡ROTTERDAM, LOS MUERTOS VUELVEN A BAILAR! 💀🌼 Rotterdam, get your crew ready. We’re bringing a little Mexico to Reverse! 🇲🇽🔥 On Saturday, November 7, Baila Dembow celebrates Día de los Muertos with colourful flowers, sugar skulls and a whole lot of perreo. It’s a celebration of life, love and the people we miss. And we’re celebrating the way we know best: together, on the dance floor. ❤️ Expect reggaeton, dembow, Latin hits, salsa and bachata all night. Bad Bunny, Karol G, El Alfa, Romeo Santos… you know what’s coming. Come sing your heart out and dance with us till 05:00. 💀 Face paint? Yes. Flowers? Yes. Full catrina or catrín look? We love it. Dress up if you feel like it, or just come ready to dance. Drop this in the group chat. Pick your look. Let’s make a night of it. 🔥 📍 Location: Club Reverse, Rotterdam · 🗓️ Date: Saturday, November 7, 2026 · ⏰ Time: 23:00 – 05:00 · 🔞 18+ event, ID required. 🎟️ Early birds get the best price. Tickets go up with each release, so grab yours early! Nos vemos en la pista 🐇",
-    ticket_url: "https://weeztix.shop/yqzc6g5s",
+    ticket_url: "https://weeztix.shop/5yvdx32r",
     status: "upcoming",
     price_from: "",
     price_door: "",
