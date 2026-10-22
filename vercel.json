@@ -120,6 +120,32 @@
           "value": "no-store"
         }
       ]
+    },
+    {
+      "source": "/halloween/2027",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow, noarchive"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        }
+      ]
+    },
+    {
+      "source": "/halloween/2027/:path*",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow, noarchive"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        }
+      ]
     }
   ],
   "rewrites": [
@@ -133,6 +159,14 @@
     },
     {
       "source": "/halloween/quiz/:path*",
+      "destination": "/spa-shell.html"
+    },
+    {
+      "source": "/halloween/2027",
+      "destination": "/spa-shell.html"
+    },
+    {
+      "source": "/halloween/2027/:path*",
       "destination": "/spa-shell.html"
     }
   ],

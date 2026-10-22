@@ -40,6 +40,7 @@ export const QuizAdminPage = () => {
   const [emailStatus, setEmailStatus] = useState('failed');
   const [emails, setEmails] = useState(null);
   const [eraseEmail, setEraseEmail] = useState('');
+  const [h27, setH27] = useState(null);
 
   const api = useCallback(async (method, path, body, raw) => {
     setBusy(true);
@@ -98,6 +99,19 @@ export const QuizAdminPage = () => {
           <div key={a.id} className="flex justify-between gap-3 text-sm"><span>{a.kind} · {new Date(a.at).toLocaleString()}</span>
             <button type="button" className="bdq-chip" onClick={() => run(async () => { await api('POST', '/api/admin/alerts/resolve', { id: a.id }); await loadOverview(); return { resolved: a.id }; })}>Resolve</button></div>))}
         <button type="button" className="bdq-chip" onClick={quietLoad}>Refresh</button>
+      </Box>
+
+      <Box title="Halloween 2027 early-release list (/halloween/2027)">
+        <p className="text-sm text-[var(--bdq-dim)]">Name, email and phone of people who asked to be told first about the 2027 tickets. Hidden for visitors until 1 Nov 2026 05:00; preview at /halloween/2027?preview=1.</p>
+        {h27 && <p>State: {h27.state} · Sign-ups: {h27.total} · confirmation emails accepted: {h27.confirmationEmailsAccepted} · last: {h27.lastSignupAt ? new Date(h27.lastSignupAt).toLocaleString() : '—'}</p>}
+        <div className="flex gap-3 flex-wrap">
+          <button type="button" className="bdq-chip" onClick={() => run(async () => { const r = await api('GET', '/api/admin/h27/summary'); setH27(r); return r; })}>Load count</button>
+          <button type="button" className="bdq-chip" onClick={() => run(async () => {
+            const res = await api('GET', '/api/admin/h27/leads.csv', null, true); if (!res.ok) throw new Error(String(res.status));
+            const blob = await res.blob(); const u = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = u; a.download = 'halloween-2027-early-release.csv'; a.click(); URL.revokeObjectURL(u);
+            return { downloaded: true };
+          })}>Download CSV</button>
+        </div>
       </Box>
 
       <Box title="Offer and campaign settings">

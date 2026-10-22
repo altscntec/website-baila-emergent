@@ -22,7 +22,7 @@ const NOINDEX = 'noindex, nofollow, noarchive';
 (async () => {
   const pg = await H.startPostgres();
   const mail = new H.TestMail();
-  const cfg = { ...loadConfig({ ...H.TEST_ENV, SITE_ORIGIN: `http://localhost:${PORT}` }), allowedOrigins: [`http://localhost:${PORT}`, `http://127.0.0.1:${PORT}`] };
+  const cfg = { ...loadConfig({ ...H.TEST_ENV, SITE_ORIGIN: `http://localhost:${PORT}`, ...(process.env.H27_OPENS_AT ? { H27_OPENS_AT: process.env.H27_OPENS_AT } : {}) }), allowedOrigins: [`http://localhost:${PORT}`, `http://127.0.0.1:${PORT}`] };
   const ctx = { cfg, db: pg.db, mail, now: () => new Date() };
   const api = createHandler(ctx);
 

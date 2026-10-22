@@ -14,10 +14,11 @@ test('vercel.json: quiz routes use the noindex shell and send X-Robots-Tag; API 
   const v = JSON.parse(read('vercel.json'));
   const rw = Object.fromEntries(v.rewrites.map((r) => [r.source, r.destination]));
   assert.equal(rw['/halloween/quiz'], '/spa-shell.html'); assert.equal(rw['/halloween/quiz/:path*'], '/spa-shell.html');
-  assert.ok(v.rewrites.every((r) => r.source === '/halloween/quiz' || r.source.startsWith('/halloween/quiz/') || r.source.startsWith('/api/') || r.source.includes('(?!api/)')), 'no rewrite can swallow /api');
+  const unlisted = (src) => ['/halloween/quiz', '/halloween/2027'].some((u) => src === u || src.startsWith(u + '/'));   // quiz + Halloween 2027 list: noindex shell
+  assert.ok(v.rewrites.every((r) => unlisted(r.source) || r.source.startsWith('/api/') || r.source.includes('(?!api/)')), 'no rewrite can swallow /api');
   assert.equal(rw['/api/:path*'], '/api/index?__p=:path*', 'every /api/* path reaches the single function with its real path');
   const hdr = (src) => (v.headers.find((h) => h.source === src) || { headers: [] }).headers;
-  for (const src of ['/halloween/quiz', '/halloween/quiz/:path*', '/spa-shell.html', '/api/(.*)']) assert.ok(hdr(src).some((h) => h.key === 'X-Robots-Tag' && /noindex/.test(h.value)), `${src} has X-Robots-Tag noindex`);
+  for (const src of ['/halloween/quiz', '/halloween/quiz/:path*', '/halloween/2027', '/halloween/2027/:path*', '/spa-shell.html', '/api/(.*)']) assert.ok(hdr(src).some((h) => h.key === 'X-Robots-Tag' && /noindex/.test(h.value)), `${src} has X-Robots-Tag noindex`);
   assert.ok(hdr('/api/(.*)').some((h) => h.key === 'Cache-Control' && /no-store/.test(h.value)));
   assert.ok(v.installCommand.includes('--omit=dev') && v.installCommand.includes('frontend'), 'installs the API dependency and the frontend');
   assert.ok(v.crons.some((c) => c.path === '/api/cron/retry'));

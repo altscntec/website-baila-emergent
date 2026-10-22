@@ -32,6 +32,7 @@ import { PrivacyPage } from "./components/pages/PrivacyPage";
 import { QuizPage } from "./quiz/QuizPage";
 import { QuizAdminPage } from "./quiz/QuizAdminPage";
 import { UnsubscribePage } from "./quiz/UnsubscribePage";
+import { Halloween2027Page, H27UnsubscribePage } from "./halloween2027/Halloween2027Page";
 
 // ---------------------------------------------------------------------------
 // Path-based routing (real URLs, crawlable + prerenderable).
@@ -268,7 +269,9 @@ function App() {
   // The unlisted Halloween quiz campaign (/halloween/quiz and its verify/admin/unsubscribe pages) is
   // standalone too: no global nav, no floating ticket CTA, and always noindex.
   const isQuizRoute = effectivePath === "/halloween/quiz" || effectivePath.startsWith("/halloween/quiz/");
-  const isStandalonePage = isKingsdayPage || isPadelPage || isQuizRoute;
+  // Halloween 2027 early-release list: standalone like the quiz; hidden by the API until 1 Nov 2026 05:00.
+  const isH27Route = effectivePath === "/halloween/2027" || effectivePath.startsWith("/halloween/2027/");
+  const isStandalonePage = isKingsdayPage || isPadelPage || isQuizRoute || isH27Route;
 
   const currentEvent = isEventPage && !isStandalonePage && eventSlug ? getEventBySlug(eventSlug, events) : null;
   const seoMeta = routeSeo(effectivePath, currentEvent);
@@ -307,10 +310,22 @@ function App() {
           path="/halloween/quiz"
         />
       )}
+      {isH27Route && (
+        <Seo
+          noindex
+          title="Halloween 2027 Early Access | Baila Dembow"
+          description="Be first in line when tickets for the Amsterdam Latin Halloween Festival 2027 are released."
+          path="/halloween/2027"
+        />
+      )}
       <div className="grain-overlay" />
       {!isStandalonePage && <Navigation currentPath={effectivePath} />}
       <main>
-        {effectivePath === "/halloween/quiz/admin" ? (
+        {effectivePath === "/halloween/2027/unsubscribe" ? (
+          <H27UnsubscribePage />
+        ) : effectivePath === "/halloween/2027" ? (
+          <Halloween2027Page />
+        ) : effectivePath === "/halloween/quiz/admin" ? (
           <QuizAdminPage />
         ) : effectivePath === "/halloween/quiz/unsubscribe" ? (
           <UnsubscribePage />

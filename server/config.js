@@ -24,6 +24,8 @@ const loadConfig = (env = process.env) => {
     cookieSecure: env.NODE_ENV !== 'test' && !/^http:\/\/localhost/.test(siteOrigin),
     verifyTtlMinutes: Number(env.VERIFY_TTL_MINUTES) || 30,
     sessionTtlDays: Number(env.SESSION_TTL_DAYS) || 14,
+    // Halloween 2027 early-release list (/halloween/2027): hidden, and refusing sign-ups, before this moment.
+    h27OpensAt: env.H27_OPENS_AT || '2026-11-01T05:00:00+01:00',
   };
 };
 

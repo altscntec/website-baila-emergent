@@ -110,7 +110,7 @@ const openCampaign = async (env, { codesPerTier = 30, bank = syntheticBank(), se
 
 const resetDb = async (db) => {
   await db.query(`TRUNCATE quiz.participants, quiz.sessions, quiz.attempts, quiz.questions, quiz.discount_codes, quiz.rate_limits, quiz.funnel_events, quiz.daily_counters,
-    quiz.owner_alerts, quiz.audit_log, quiz.email_events, quiz.email_outbox, quiz.settings, quiz.suppressions, quiz.redemptions RESTART IDENTITY CASCADE`);
+    quiz.owner_alerts, quiz.audit_log, quiz.email_events, quiz.email_outbox, quiz.settings, quiz.suppressions, quiz.redemptions, quiz.h27_signups RESTART IDENTITY CASCADE`);
 };
 
 let seq = 0;

@@ -148,6 +148,21 @@ ${button(link, r.cta)}
   return { subject: r.subject(tier), html: layout({ lang, title: r.subject(tier), bodyHtml: body }), text };
 };
 
+// Halloween 2027 early-release list: one transactional confirmation (English; the page is English only).
+const h27ConfirmEmail = ({ name, unsubscribeUrl }) => {
+  const subject = 'You are on the list: Halloween 2027 early release';
+  const body = `
+<h1 style="margin:0 0 12px 0;font-size:26px;line-height:1.2;">You are on the list</h1>
+<p style="margin:0 0 8px 0;font-size:16px;line-height:1.5;">${esc(S.en.hi(firstName(name)))}</p>
+<p style="margin:0 0 16px 0;font-size:16px;line-height:1.5;">You asked to be told first when tickets for the Amsterdam Latin Halloween Festival 2027 are released. When the early release opens you will hear it from us before anyone else, by email and on the phone number you gave us.</p>
+<p style="margin:0 0 16px 0;font-size:16px;line-height:1.5;">Nothing else to do for now. Nos vemos en la pista.</p>
+<p style="margin:0 0 24px 0;font-size:12px;color:#7a6a85;">You received this because this address was entered on bailadembow.com/halloween/2027. Changed your mind? <a href="${esc(unsubscribeUrl)}" style="color:#7a6a85;">Remove me from the list</a>. Baila Dembow is a brand of House Decoded Events, Amsterdam.</p>`;
+  const text = [S.en.hi(firstName(name)), '', 'You are on the list.', '',
+    'You asked to be told first when tickets for the Amsterdam Latin Halloween Festival 2027 are released. When the early release opens you will hear it from us before anyone else, by email and on the phone number you gave us.',
+    '', 'Nothing else to do for now. Nos vemos en la pista.', '', `Remove me from the list: ${unsubscribeUrl}`].join('\n');
+  return { subject, html: layout({ lang: 'en', title: subject, bodyHtml: body }), text };
+};
+
 // Owner alerts are English, short, and never contain personal data or codes.
 const alertEmail = ({ kind, detail }) => {
   const subject = `[Baila Dembow quiz] Alert: ${kind}`;
@@ -155,4 +170,4 @@ const alertEmail = ({ kind, detail }) => {
   return { subject, text, html: `<pre style="font-family:Menlo,monospace;font-size:13px;">${esc(text)}</pre>` };
 };
 
-module.exports = { signinEmail, rewardEmail, alertEmail, fmtDate, esc, S };
+module.exports = { signinEmail, rewardEmail, h27ConfirmEmail, alertEmail, fmtDate, esc, S };
