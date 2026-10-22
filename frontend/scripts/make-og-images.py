@@ -131,3 +131,12 @@ if __name__ == "__main__":
         pill="TICKETS ON SALE NOW",
         accent=(60, 220, 120),
     )
+    make_event_card(
+        ROOT / "images/events/groningen-huizemaas-dec12-2026.png",
+        "og-groningen-dec12.jpg",
+        kicker="SAT 12 DECEMBER 2026  ·  BAILA DEMBOW",
+        title_lines=["GRONINGEN"],
+        sub="HUIZE MAAS  ·  23:00 - 04:00  ·  18+",
+        pill="EARLY BIRDS ON SALE",
+        accent=(250, 210, 60),
+    )

@@ -57,6 +57,7 @@ export const GALLERY_IMAGES = [
 //                (3 Oct) removed (past)
 //   2026-10-12 — Groningen Huize Maas (10 Oct) removed (past)
 //   2026-10-16 — Rotterdam Día de Muertos (7 Nov, Club Reverse) added (live with the final poster)
+//   2026-10-22 — Groningen (12 Dec, Huize Maas) added
 //   Keep EVENTS in date order (pages also sort by date when rendering).
 //
 // The /events/PadelXReggaeton standalone route still exists in App.js for
@@ -122,6 +123,23 @@ export const EVENTS = [
     price_from: "",
     price_door: "",
     image_url: "/images/events/rotterdam-reverse-muertos-nov7-2026.png"
+  },
+  {
+    id: "groningen-huizemaas-dec12-2026",
+    customSlug: "groningen-12-december-2026",
+    city: "Groningen",
+    venue: "Huize Maas, Groningen",
+    date: "2026-12-12",
+    time: "23:00 – 04:00",
+    title: "BAILA DEMBOW // GRONINGEN",
+    tagline: "Cerramos el año juntos.",
+    og_image: "/images/og/og-groningen-dec12.jpg",
+    description: "¡GRONINGEN, CERRAMOS EL AÑO JUNTOS! Groningen has had our back all year at Huize Maas, and every night we’ve played there has given us another reason to come back. On Saturday, December 12 we return for the final Baila Dembow in Groningen this year, and we want to close 2026 the way it deserves. Five hours of reggaeton, dembow and Latin Caribbean hits, with Bad Bunny, Karol G, El Alfa and Rauw Alejandro on heavy rotation and the perreo going from the first track until the lights come on. Early bird tickets are live right now and they’re the cheapest way in. Every round that sells out pushes the price up, and December weekends fill quickly once everyone’s end-of-year plans start stacking up. Get yours early, keep a few extra euros for the bar, and get your whole crew sorted before the price moves. 📍 Location: Huize Maas, Groningen · 🗓️ Date: Saturday, December 12, 2026 · ⏰ Time: 23:00 till 04:00 · 🔞 18+ event, ID required.",
+    ticket_url: "https://weeztix.shop/n9q3madk",
+    status: "upcoming",
+    price_from: "",
+    price_door: "",
+    image_url: "/images/events/groningen-huizemaas-dec12-2026.png"
   }
 ];
 
@@ -138,7 +156,7 @@ export const FAQS = [
   },
   {
     q: "Where can I find Latin party events in the Netherlands?",
-    a: "Baila Dembow hosts Latin parties across the Netherlands — Amsterdam, Rotterdam, Den Haag, Groningen, Leiden, Eindhoven and beyond. The upcoming agenda includes Leiden (23 October, Wibar), the Amsterdam Latin Halloween Festival (31 October, IJLAND Amsterdam) and Día de Muertos Rotterdam (7 November, Club Reverse).",
+    a: "Baila Dembow hosts Latin parties across the Netherlands — Amsterdam, Rotterdam, Den Haag, Groningen, Leiden, Eindhoven and beyond. The upcoming agenda includes Leiden (23 October, Wibar), the Amsterdam Latin Halloween Festival (31 October, IJLAND Amsterdam) Día de Muertos Rotterdam (7 November, Club Reverse) and Groningen (12 December, Huize Maas).",
   },
   {
     q: "What is dembow music?",

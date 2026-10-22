@@ -82,6 +82,18 @@
     </image:image>
   </url>
 
+  <!-- Event: Baila Dembow Groningen - Huize Maas - Dec 12, 2026 -->
+  <url>
+    <loc>https://bailadembow.com/events/groningen-12-december-2026</loc>
+    <lastmod>2026-10-22</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://bailadembow.com/images/events/groningen-huizemaas-dec12-2026.png</image:loc>
+      <image:title>Latin Event Groningen - Baila Dembow at Huize Maas - December 12 2026</image:title>
+    </image:image>
+  </url>
+
   <!-- About Us Page -->
   <url>
     <loc>https://bailadembow.com/about</loc>
