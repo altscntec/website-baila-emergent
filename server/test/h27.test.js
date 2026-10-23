@@ -7,7 +7,7 @@ const H = require('./helpers');
 
 let pg; let env;
 const OPEN = '2020-01-01T00:00:00Z';
-test.before(async () => { pg = await H.startPostgres(); env = await H.makeEnv(pg, { h27OpensAt: OPEN }); });
+test.before(async () => { pg = await H.startPostgres(); env = await H.makeEnv(pg, { h27OpensAt: OPEN, h27PhoneVerification: 'on' }); });
 test.after(async () => { await env.close(); await pg.stop(); });
 test.beforeEach(async () => { await H.resetDb(pg.db); env.mail.sent.length = 0; env.sms.started.length = 0; env.sms.checks.length = 0; env.sms.configured = true; env.clock.offsetMs = 0; env.ctx.cfg.h27OpensAt = OPEN; });
 const rows = async (sql, p) => (await pg.db.query(sql, p)).rows;
@@ -28,6 +28,19 @@ const complete = async (over = {}) => {
   assert.equal(v.status, 200, v.text);
   return { b, token: s.json.token, signup: s.json, email: e.json, start: st.json, done: v.json };
 };
+
+test('phone verification is off by default (approved page verifies email only), even with a provider configured', async () => {
+  const prev = env.ctx.cfg.h27PhoneVerification; env.ctx.cfg.h27PhoneVerification = 'off';
+  try {
+    assert.equal((await env.api('GET', '/api/h27/status')).json.phoneVerification, 'off');
+    const b = body(); const s = await post('/api/h27/signup', b);
+    assert.equal(s.json.next, 'email');
+    const e = await post('/api/h27/email/verify', { token: s.json.token, code: codeFrom(env.mail.last(b.email, 'h27_code')) });
+    assert.equal(e.json.next, 'done'); assert.equal(e.json.confirm, 'accepted');
+    assert.equal(env.sms.started.length, 0, 'no WhatsApp message is ever triggered');
+    assert.ok((await rows('SELECT consent_text FROM quiz.h27_signups'))[0].consent_text.startsWith('I agree to receive Halloween 2027 event updates'));
+  } finally { env.ctx.cfg.h27PhoneVerification = prev; }
+});
 
 test('hidden before the opening moment: status says hidden and sign-ups are refused', async () => {
   env.ctx.cfg.h27OpensAt = '2099-01-01T00:00:00+01:00';

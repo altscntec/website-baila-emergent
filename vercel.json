@@ -6,6 +6,11 @@
   "framework": null,
   "redirects": [
     {
+      "source": "/halloween-2027",
+      "destination": "/halloween/2027",
+      "permanent": false
+    },
+    {
       "source": "/(.*)",
       "has": [
         {

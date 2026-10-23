@@ -313,8 +313,8 @@ function App() {
       {isH27Route && (
         <Seo
           noindex
-          title="Halloween 2027 Early Access | Baila Dembow"
-          description="Be first in line when tickets for The Latin Halloween Indoor Fest 2027 are released."
+          title="Baila Dembow — Halloween 2027"
+          description="Sign up for Halloween 2027 updates from Baila Dembow: The Latin Halloween Indoor Fest, October 2027."
           path="/halloween/2027"
         />
       )}

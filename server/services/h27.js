@@ -17,14 +17,15 @@ const { toCsv } = require('../lib/csv');
 const { h27CodeEmail, h27ConfirmEmail } = require('../email/templates');
 const { audit } = require('./events');
 
-const CONSENT_TEXT = 'Yes, contact me by email, WhatsApp or SMS about the early ticket release for The Latin Halloween Indoor Fest 2027. I can unsubscribe at any time.';
+const CONSENT_TEXT = 'I agree to receive Halloween 2027 event updates from Baila Dembow by email and WhatsApp. I can unsubscribe at any time.';
+const CONSENT_VERSION = '2027-updates-v1';
 const EMAIL_CODE_TTL_MIN = 30;
 const MAX_CODE_ATTEMPTS = 5;
 const CONTROL = /[\u0000-\u001f\u007f<>]/;
 const clean = (s) => (typeof s === 'string' ? s.normalize('NFC').replace(/\s+/g, ' ').trim() : '');
 
 const state = (ctx) => (ctx.now().getTime() >= Date.parse(ctx.cfg.h27OpensAt) ? 'open' : 'hidden');
-const phoneOn = (ctx) => Boolean(ctx.sms && ctx.sms.configured);
+const phoneOn = (ctx) => ctx.cfg.h27PhoneVerification === 'on' && Boolean(ctx.sms && ctx.sms.configured);
 const status = (ctx) => ({ state: state(ctx), opensAt: ctx.cfg.h27OpensAt, timezone: 'Europe/Amsterdam', consentText: CONSENT_TEXT, phoneVerification: phoneOn(ctx) ? 'whatsapp' : 'off' });
 
 // Accepts +31 6 1234 5678, 0031..., 06 1234 5678 (Dutch national) or any +country number; stores +<digits>.
@@ -221,4 +222,4 @@ const exportCsv = async (ctx, actor) => {
   return toCsv(['full_name', 'email', 'phone', 'email_verified', 'phone_verified', 'phone_channel', 'consent_at', 'signed_up_at', 'utm_source', 'utm_campaign', 'unsubscribe_url'], out);
 };
 
-module.exports = { status, signup, resendEmailCode, verifyEmail, startPhone, verifyPhone, unsubscribe, summary, exportCsv, validate, normalizePhone, CONSENT_TEXT, EMAIL_CODE_TTL_MIN, MAX_CODE_ATTEMPTS };
+module.exports = { CONSENT_VERSION, status, signup, resendEmailCode, verifyEmail, startPhone, verifyPhone, unsubscribe, summary, exportCsv, validate, normalizePhone, CONSENT_TEXT, EMAIL_CODE_TTL_MIN, MAX_CODE_ATTEMPTS };
