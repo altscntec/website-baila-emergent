@@ -30,7 +30,7 @@ test('open: valid sign-up is stored once per email, phone normalised, confirmati
   assert.equal(r.status, 200); assert.deepEqual(r.json, { status: 'ok', created: true, confirm: 'accepted' });
   const row = (await rows('SELECT * FROM quiz.h27_signups'))[0];
   assert.equal(row.full_name, 'Lead Tester'); assert.equal(row.email_norm, b.email.toLowerCase()); assert.equal(row.phone_norm, '+31612345678');
-  assert.ok(row.consent_text.includes('Halloween Festival 2027')); assert.equal(row.attribution.utm_source, 'instagram'); assert.equal(row.confirm_status, 'accepted');
+  assert.ok(row.consent_text.includes('Halloween Indoor Fest 2027')); assert.equal(row.attribution.utm_source, 'instagram'); assert.equal(row.confirm_status, 'accepted');
   const mail = env.mail.last(b.email, 'h27_confirm');
   assert.ok(mail && mail.subject.includes('Halloween 2027'));
   assert.ok(!mail.text.includes('+316'), 'phone is not echoed in the email');

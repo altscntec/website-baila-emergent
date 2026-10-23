@@ -314,7 +314,7 @@ function App() {
         <Seo
           noindex
           title="Halloween 2027 Early Access | Baila Dembow"
-          description="Be first in line when tickets for the Amsterdam Latin Halloween Festival 2027 are released."
+          description="Be first in line when tickets for The Latin Halloween Indoor Fest 2027 are released."
           path="/halloween/2027"
         />
       )}

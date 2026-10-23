@@ -84,7 +84,7 @@ export const Halloween2027Page = () => {
   const [busy, setBusy] = useState(false);
   const [apiErr, setApiErr] = useState(null);
   const [done, setDone] = useState(false);
-  const [consentText, setConsentText] = useState('Yes, contact me by email, WhatsApp or SMS about the early ticket release for the Amsterdam Latin Halloween Festival 2027. I can unsubscribe at any time.');
+  const [consentText, setConsentText] = useState('Yes, contact me by email, WhatsApp or SMS about the early ticket release for The Latin Halloween Indoor Fest 2027. I can unsubscribe at any time.');
   const summaryRef = useRef(null);
 
   useEffect(() => {
@@ -129,7 +129,7 @@ export const Halloween2027Page = () => {
         {!done ? (
           <>
             <section>
-              <p className="bdq-kicker">Amsterdam Latin Halloween Festival 2027</p>
+              <p className="bdq-kicker">The Latin Halloween Indoor Fest 2027</p>
               <h1 className="text-[2.05rem] sm:text-5xl mt-3">Be first in line for Halloween 2027.</h1>
               <p className="mt-4 text-lg text-[var(--bdq-dim)]">2026 sold out. For 2027, the early-release tickets go to this list before anyone else sees them. Leave your details and we will tell you the moment they drop.</p>
             </section>

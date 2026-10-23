@@ -2,7 +2,7 @@
 
 Page: `https://bailadembow.com/halloween/2027` (unlisted: served from the noindex shell, not in the sitemap or navigation).
 
-**What it does.** Visitors leave full name, email address and phone number, tick one consent box, and are put on the list that hears first when the 2027 Amsterdam Latin Halloween Festival tickets are released. They get one confirmation email (Resend) with a signed "remove me" link.
+**What it does.** Visitors leave full name, email address and phone number, tick one consent box, and are put on the list that hears first when The Latin Halloween Indoor Fest 2027 tickets are released. They get one confirmation email (Resend) with a signed "remove me" link.
 
 **Hidden until** `H27_OPENS_AT` (Vercel env; default `2026-11-01T05:00:00+01:00`, i.e. 1 November 2026 05:00 Amsterdam, when the 2026 party ends). Before that moment the page shows a plain 404 screen and the API refuses sign-ups (`403 not_open`). No deploy is needed at the opening moment: the server clock decides. Preview the form early with `?preview=1` (sign-ups still refused).
 

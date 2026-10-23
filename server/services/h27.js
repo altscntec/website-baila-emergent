@@ -12,7 +12,7 @@ const { toCsv } = require('../lib/csv');
 const { h27ConfirmEmail } = require('../email/templates');
 const { audit } = require('./events');
 
-const CONSENT_TEXT = 'Yes, contact me by email, WhatsApp or SMS about the early ticket release for the Amsterdam Latin Halloween Festival 2027. I can unsubscribe at any time.';
+const CONSENT_TEXT = 'Yes, contact me by email, WhatsApp or SMS about the early ticket release for The Latin Halloween Indoor Fest 2027. I can unsubscribe at any time.';
 const CONTROL = /[\u0000-\u001f\u007f<>]/;
 const clean = (s) => (typeof s === 'string' ? s.normalize('NFC').replace(/\s+/g, ' ').trim() : '');
 
