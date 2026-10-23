@@ -18,4 +18,8 @@ Page: `https://bailadembow.com/halloween/2027` (unlisted: served from the noinde
 
 **Measurement.** `dataLayer` events `h27_view`, `h27_signup_success`, `h27_share_click` (analytics/marketing consent only) and a Meta `Lead` on success (marketing consent only). No form values are ever sent.
 
+**Design.** Poster-led: hot-pink crumpled texture, black Archivo display type, acid green, black panels; original character "El Conejo" (`ConejoMark.jsx`: the brand rabbit with green eyes that blink and follow the pointer, a twitching ear, fangs and a drip). One CTA everywhere: "Get early access". Entrance choreography and tap feedback via framer-motion; everything stills under reduced motion.
+
+**Browser checks.** `node server/test/browser-h27.js` against the local dev server (phone/small-phone/desktop landing, reduced motion, keyboard-only full flow with codes, axe on every screen, analytics events without personal data; screenshots to `$SHOTS`).
+
 **Tests.** `server/test/h27.test.js` (hidden/open gate, full email+WhatsApp happy path, code attempts/expiry/resend, email-before-phone rule, WhatsApp failure -> SMS, provider off, one row per email with verified rows protected, validation, phone formats, rate limits, mail failure, owner export + audit). Local dev server (`H27_OPENS_AT=2020-01-01T00:00:00Z node server/dev-server.js`) uses a fake provider: any started number accepts code 123456; `/__dev/sms` lists the sends.
