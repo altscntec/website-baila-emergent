@@ -7,6 +7,7 @@
 const { loadConfig } = require('../server/config');
 const { createDb, poolFromUrl } = require('../server/db');
 const { createResendAdapter } = require('../server/mail/resend');
+const { createTwilioVerify } = require('../server/sms/twilioVerify');
 const { createHandler } = require('../server/router');
 
 let handler;
@@ -15,7 +16,8 @@ const get = () => {
   const cfg = loadConfig();
   const db = cfg.databaseUrl ? createDb(poolFromUrl(cfg.databaseUrl)) : null;
   const mail = createResendAdapter({ apiKey: cfg.resendApiKey, from: cfg.mailFrom, replyTo: cfg.mailReplyTo });
-  handler = createHandler({ cfg, db: db || { query: async () => { throw new Error('no database'); } }, mail, now: () => new Date() });
+  const sms = createTwilioVerify({ accountSid: cfg.twilioAccountSid, authToken: cfg.twilioAuthToken, serviceSid: cfg.twilioVerifyServiceSid });
+  handler = createHandler({ cfg, db: db || { query: async () => { throw new Error('no database'); } }, mail, sms, now: () => new Date() });
   return handler;
 };
 

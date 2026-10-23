@@ -42,6 +42,13 @@ class TestMail {
   to(email) { return this.sent.filter((m) => m.to === email); }
   last(email, kindTag) { return this.to(email).filter((m) => !kindTag || (m.tags || []).some((t) => t.value === kindTag)).slice(-1)[0]; }
 }
+// Fake phone-verification provider: records every start, accepts code 123456 for a number that was started.
+class TestSms {
+  constructor() { this.started = []; this.checks = []; this.failures = []; this.name = 'test-sms'; this.configured = true; this.code = '123456'; }
+  failNext(...errs) { this.failures.push(...errs); }
+  async start({ to, channel }) { const f = this.failures.shift(); if (f) throw f; this.started.push({ to, channel, at: Date.now() }); return { sid: `VE${this.started.length}`, status: 'pending' }; }
+  async check({ to, code }) { this.checks.push({ to, code }); const ok = code === this.code && this.started.some((s) => s.to === to); return { approved: ok, status: ok ? 'approved' : 'pending' }; }
+}
 const transient = (m = 'provider_503') => new MailError(m, { permanent: false, status: 503 });
 const permanent = (m = 'provider_422') => new MailError(m, { permanent: true, status: 422 });
 
@@ -54,8 +61,9 @@ const TEST_ENV = {
 const makeEnv = async (pgState, overrides = {}) => {
   const clock = { offsetMs: 0 };
   const mail = new TestMail();
+  const sms = new TestSms();
   const cfg = { ...loadConfig(TEST_ENV), ...overrides };
-  const ctx = { cfg, db: pgState.db, mail, now: () => new Date(Date.now() + clock.offsetMs), rng: undefined };
+  const ctx = { cfg, db: pgState.db, mail, sms, now: () => new Date(Date.now() + clock.offsetMs), rng: undefined };
   const server = http.createServer(createHandler(ctx));
   await new Promise((r) => server.listen(0, r));
   const base = `http://localhost:${server.address().port}`;
@@ -71,7 +79,7 @@ const makeEnv = async (pgState, overrides = {}) => {
     return { status: res.status, json, text, headers: res.headers, cookie: setCookie ? setCookie.split(';')[0] : null };
   };
   const admin = (method, p, body) => api(method, p, { body, key: TEST_ENV.ADMIN_API_KEY });
-  return { ctx, mail, clock, api, admin, base, close: () => new Promise((r) => server.close(r)) };
+  return { ctx, mail, sms, clock, api, admin, base, close: () => new Promise((r) => server.close(r)) };
 };
 
 // ---- Synthetic question bank (test data only; real questions live in quiz-private/) ----
@@ -190,4 +198,4 @@ const fullJourney = async (env, correctCount, over = {}) => {
   return claim(env, cookie, over);
 };
 
-module.exports = { startPostgres, makeEnv, TestMail, transient, permanent, TEST_ENV, syntheticBank, openCampaign, resetDb, signupBody, linkTokenFrom, codeFrom, FUTURE, startAnon, keyFor, play, playScore, claim, fullJourney, nextIp };
+module.exports = { startPostgres, makeEnv, TestMail, TestSms, transient, permanent, TEST_ENV, syntheticBank, openCampaign, resetDb, signupBody, linkTokenFrom, codeFrom, FUTURE, startAnon, keyFor, play, playScore, claim, fullJourney, nextIp };

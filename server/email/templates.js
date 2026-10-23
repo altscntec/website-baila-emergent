@@ -148,7 +148,21 @@ ${button(link, r.cta)}
   return { subject: r.subject(tier), html: layout({ lang, title: r.subject(tier), bodyHtml: body }), text };
 };
 
-// Halloween 2027 early-release list: one transactional confirmation (English; the page is English only).
+// Halloween 2027 list: the 6-digit email code (step 1 of the sign-up).
+const h27CodeEmail = ({ name, code, ttlMinutes }) => {
+  const subject = 'Your Baila Dembow code for the Halloween 2027 list';
+  const body = `
+<h1 style="margin:0 0 12px 0;font-size:24px;line-height:1.2;">Confirm your email</h1>
+<p style="margin:0 0 8px 0;font-size:16px;line-height:1.5;">${esc(S.en.hi(firstName(name)))}</p>
+<p style="margin:0 0 16px 0;font-size:16px;line-height:1.5;">Enter this code on the Halloween 2027 page to confirm your email address:</p>
+<p style="margin:0 0 16px 0;font-family:Menlo,Consolas,monospace;font-size:34px;letter-spacing:8px;font-weight:700;">${esc(code)}</p>
+<p style="margin:0 0 6px 0;font-size:13px;color:#5b4a66;">The code expires in ${ttlMinutes} minutes and works once.</p>
+<p style="margin:0 0 24px 0;font-size:13px;color:#5b4a66;">If you did not request this, you can ignore this email; nothing is stored as confirmed.</p>`;
+  const text = [S.en.hi(firstName(name)), '', 'Enter this code on the Halloween 2027 page to confirm your email address:', '', code, '', `The code expires in ${ttlMinutes} minutes and works once.`, 'If you did not request this, you can ignore this email.'].join('\n');
+  return { subject, html: layout({ lang: 'en', title: subject, bodyHtml: body }), text };
+};
+
+// Halloween 2027 early-release list: the confirmation once email (and phone) are verified (English; the page is English only).
 const h27ConfirmEmail = ({ name, unsubscribeUrl }) => {
   const subject = 'You are on the list: Halloween 2027 early release';
   const body = `
@@ -170,4 +184,4 @@ const alertEmail = ({ kind, detail }) => {
   return { subject, text, html: `<pre style="font-family:Menlo,monospace;font-size:13px;">${esc(text)}</pre>` };
 };
 
-module.exports = { signinEmail, rewardEmail, h27ConfirmEmail, alertEmail, fmtDate, esc, S };
+module.exports = { signinEmail, rewardEmail, h27CodeEmail, h27ConfirmEmail, alertEmail, fmtDate, esc, S };

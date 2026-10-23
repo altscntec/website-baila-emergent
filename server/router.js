@@ -164,6 +164,10 @@ const routes = [
   // ---- Halloween 2027 early-release list (/halloween/2027): hidden until cfg.h27OpensAt ----
   ['GET', '/api/h27/status', async (ctx) => ({ body: h27.status(ctx) })],
   ['POST', '/api/h27/signup', async (ctx, req, body) => ({ body: await h27.signup(ctx, body, { ip: clientIp(req) }) })],
+  ['POST', '/api/h27/email/verify', async (ctx, req, body) => ({ body: await h27.verifyEmail(ctx, { token: body.token, code: body.code }) })],
+  ['POST', '/api/h27/email/resend', async (ctx, req, body) => ({ body: await h27.resendEmailCode(ctx, { token: body.token }) })],
+  ['POST', '/api/h27/phone/start', async (ctx, req, body) => ({ body: await h27.startPhone(ctx, { token: body.token, channel: body.channel }) })],
+  ['POST', '/api/h27/phone/verify', async (ctx, req, body) => ({ body: await h27.verifyPhone(ctx, { token: body.token, code: body.code }) })],
   ['POST', '/api/h27/unsubscribe', async (ctx, req, body) => ({ body: await h27.unsubscribe(ctx, body.token) })],
   ['GET', '/api/admin/h27/summary', async (ctx, req) => { await requireAdmin(ctx, req); return { body: await h27.summary(ctx) }; }, { noOrigin: true }],
   ['GET', '/api/admin/h27/leads.csv', async (ctx, req) => { const a = await requireAdmin(ctx, req); return { text: await h27.exportCsv(ctx, a), headers: { 'Content-Type': 'text/csv; charset=utf-8', 'Content-Disposition': 'attachment; filename="halloween-2027-early-release.csv"' } }; }, { noOrigin: true }],

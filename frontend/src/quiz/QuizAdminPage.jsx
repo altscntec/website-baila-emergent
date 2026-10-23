@@ -102,8 +102,8 @@ export const QuizAdminPage = () => {
       </Box>
 
       <Box title="Halloween 2027 early-release list (/halloween/2027)">
-        <p className="text-sm text-[var(--bdq-dim)]">Name, email and phone of people who asked to be told first about the 2027 tickets. Hidden for visitors until 1 Nov 2026 05:00; preview at /halloween/2027?preview=1.</p>
-        {h27 && <p>State: {h27.state} · Sign-ups: {h27.total} · confirmation emails accepted: {h27.confirmationEmailsAccepted} · last: {h27.lastSignupAt ? new Date(h27.lastSignupAt).toLocaleString() : '—'}</p>}
+        <p className="text-sm text-[var(--bdq-dim)]">Name, email and phone of people who asked to be told first about the 2027 tickets. Email confirmed by 6-digit code, phone by a WhatsApp/SMS code (Twilio Verify; "off" until the Twilio env vars are set). Hidden for visitors until 1 Nov 2026 05:00; preview at /halloween/2027?preview=1. Only rows with both verified count.</p>
+        {h27 && <p>State: {h27.state} · phone verification: {h27.phoneVerification} · sign-ups: {h27.total} · email verified: {h27.emailVerified} · phone verified: {h27.phoneVerified} · confirmation emails accepted: {h27.confirmationEmailsAccepted} · last: {h27.lastSignupAt ? new Date(h27.lastSignupAt).toLocaleString() : '—'}</p>}
         <div className="flex gap-3 flex-wrap">
           <button type="button" className="bdq-chip" onClick={() => run(async () => { const r = await api('GET', '/api/admin/h27/summary'); setH27(r); return r; })}>Load count</button>
           <button type="button" className="bdq-chip" onClick={() => run(async () => {

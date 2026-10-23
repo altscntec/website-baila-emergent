@@ -26,6 +26,8 @@ const loadConfig = (env = process.env) => {
     sessionTtlDays: Number(env.SESSION_TTL_DAYS) || 14,
     // Halloween 2027 early-release list (/halloween/2027): hidden, and refusing sign-ups, before this moment.
     h27OpensAt: env.H27_OPENS_AT || '2026-11-01T05:00:00+01:00',
+    // Phone verification (WhatsApp / SMS one-time codes) through Twilio Verify; unset = phone step skipped.
+    twilioAccountSid: env.TWILIO_ACCOUNT_SID || null, twilioAuthToken: env.TWILIO_AUTH_TOKEN || null, twilioVerifyServiceSid: env.TWILIO_VERIFY_SERVICE_SID || null,
   };
 };
 

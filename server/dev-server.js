@@ -22,8 +22,9 @@ const NOINDEX = 'noindex, nofollow, noarchive';
 (async () => {
   const pg = await H.startPostgres();
   const mail = new H.TestMail();
+  const sms = new H.TestSms();                 // phone codes: any started number accepts 123456
   const cfg = { ...loadConfig({ ...H.TEST_ENV, SITE_ORIGIN: `http://localhost:${PORT}`, ...(process.env.H27_OPENS_AT ? { H27_OPENS_AT: process.env.H27_OPENS_AT } : {}) }), allowedOrigins: [`http://localhost:${PORT}`, `http://127.0.0.1:${PORT}`] };
-  const ctx = { cfg, db: pg.db, mail, now: () => new Date() };
+  const ctx = { cfg, db: pg.db, mail, sms, now: () => new Date() };
   const api = createHandler(ctx);
 
   // Seed (through the same admin API the owner would use).
@@ -51,6 +52,9 @@ const NOINDEX = 'noindex, nofollow, noarchive';
       const to = (url.searchParams.get('to') || '').toLowerCase();
       res.writeHead(200, { 'Content-Type': 'application/json' });
       return res.end(JSON.stringify(mail.sent.filter((m) => !to || m.to.toLowerCase() === to).map((m) => ({ to: m.to, subject: m.subject, text: m.text, providerMessageId: m.providerMessageId, tags: m.tags }))));
+    }
+    if (p === '/__dev/sms') {                   // phone verifications started by the fake provider
+      res.writeHead(200, { 'Content-Type': 'application/json' }); return res.end(JSON.stringify(sms.started));
     }
     if (p === '/__dev/mail-event') {            // simulate the provider's webhook (signed with the TEST secret)
       const id = url.searchParams.get('message'); const type = url.searchParams.get('type') || 'email.delivered';

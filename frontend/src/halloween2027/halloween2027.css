@@ -1,0 +1,53 @@
+/* Halloween 2027 early-release page: the poster's language. Hot-pink crumpled plastic, heavy black display type
+   with acid-green accents, black panels for the form. Built on the quiz tokens (.bdq) and overrides them.
+   Contrast: black on pink 5:1, white/green on black 15:1+. Green on pink is only used for large bold text. */
+.bdq.h27 {
+  --bdq-bg: #db5089; --bdq-text: #000; --bdq-dim: #3a0a24; --bdq-accent: #97e52f; --bdq-accent-ink: #000;
+  --bdq-surface: #0a0a0a; --bdq-line: rgba(255,255,255,.16); --bdq-line-strong: rgba(255,255,255,.4); --bdq-glow: none;
+  --h27-pink: #db5089; --h27-green: #97e52f;
+  background-color: var(--h27-pink); background-position: center top; background-size: cover; background-repeat: no-repeat;   /* image set inline (public asset) */
+  color: #000;
+}
+.h27 h1, .h27 h2, .h27-display { font-family: 'Archivo', 'Anton', sans-serif; font-weight: 900; text-transform: uppercase; color: #000; text-shadow: none; letter-spacing: -.03em; line-height: .9; }
+.h27 .bdq-card h2, .h27 .bdq-card h1 { color: #fff; }
+.h27 a { color: inherit; text-decoration-color: currentColor; }
+.h27 .bdq-card a { color: #fff; text-decoration-color: var(--h27-green); }
+.h27 :focus-visible { outline: 3px solid #000; outline-offset: 3px; }
+.h27 .bdq-card :focus-visible { outline-color: var(--h27-green); }
+
+/* poster headline: stacked, edge to edge */
+.h27-hero { margin: 0; }
+.h27-hero span { display: block; font-size: clamp(3rem, 17vw, 8.5rem); }
+.h27-hero .g { color: var(--h27-green); -webkit-text-stroke: 1px rgba(0,0,0,.35); font-size: clamp(2.35rem, 13.4vw, 6.7rem); }   /* nine letters must fit a 360px phone */
+.h27-hero .s { font-size: clamp(2rem, 10.5vw, 5rem); margin-top: .18em; }
+.h27-tag { font-family: 'Archivo', sans-serif; font-weight: 900; text-transform: uppercase; color: var(--h27-green); font-size: clamp(1.35rem, 5.6vw, 2.2rem); letter-spacing: -.01em; line-height: 1; -webkit-text-stroke: .6px rgba(0,0,0,.45); }
+.h27 .bdq-kicker { color: #000; text-shadow: none; font-family: 'Archivo', sans-serif; font-weight: 900; letter-spacing: .16em; }
+.h27 .bdq-kicker::before { background: #000; box-shadow: none; }
+.h27 .bdq-kicker.on-dark { color: var(--h27-green); } .h27 .bdq-kicker.on-dark::before { background: var(--h27-green); }
+.h27 .bdq-header { position: static; backdrop-filter: none; background: transparent; }
+.h27-lead { font-weight: 700; font-size: 1.1rem; line-height: 1.45; color: #000; }
+
+/* black panel */
+.h27 .bdq-card { background: #0a0a0a; color: #fff; border: 2px solid #000; border-radius: 8px; backdrop-filter: none; box-shadow: 6px 6px 0 #000; }
+.h27 .bdq-field label, .h27 .bdq-label { color: #fff; }
+.h27 .bdq-input { background: #171717; border: 1.5px solid rgba(255,255,255,.4); color: #fff; border-radius: 6px; }
+.h27 .bdq-input::placeholder { color: #8d8d8d; }
+.h27 .bdq-input:focus { border-color: var(--h27-green); box-shadow: 0 0 0 3px rgba(151,229,47,.25); }
+.h27 .bdq-input[aria-invalid='true'] { border-color: #ff8fbf; }
+.h27 .bdq-err { color: #ffc3dc; }
+.h27 .bdq-help { color: #c9c9c9; }
+.h27 .bdq-card .bdq-help { color: #bdbdbd; }
+.h27 .bdq-btn { background: var(--h27-green); color: #000; border-radius: 6px; box-shadow: none; font-family: 'Archivo', sans-serif; font-weight: 900; text-transform: uppercase; letter-spacing: .04em; font-size: 1rem; }
+.h27 .bdq-btn:hover:not(:disabled) { background: #a8f23f; box-shadow: none; }
+.h27 .bdq-btn-dark, .bdq.h27 a.bdq-btn.bdq-btn-dark { background: #000; color: #fff; }
+.h27 .bdq-btn-dark:hover:not(:disabled) { background: #1a1a1a; }
+.h27 .bdq-btn-ghost { background: transparent; color: #fff; border: 1.5px solid rgba(255,255,255,.5); }
+.h27 .bdq-btn-ghost:hover:not(:disabled) { background: rgba(255,255,255,.08); }
+.h27-code { font-family: Menlo, Consolas, monospace; font-size: 1.9rem; letter-spacing: .45em; text-align: center; padding-left: .45em; }
+.h27-alert { border-color: var(--h27-green) !important; }
+.h27-steps { display: flex; gap: 6px; }
+.h27-steps span { flex: 1; height: 6px; background: rgba(255,255,255,.18); border-radius: 3px; }
+.h27-steps span.done { background: var(--h27-green); }
+.h27 .bdq-footer a { color: #000; }
+.h27-sticker { display: inline-block; background: #000; color: #fff; font-family: 'Archivo', sans-serif; font-weight: 900; text-transform: uppercase; letter-spacing: .14em; font-size: .72rem; padding: 6px 10px; border-radius: 4px; }
+@media (prefers-reduced-motion: no-preference) { .h27 .bdq-card { transition: transform .2s cubic-bezier(.2,.8,.2,1); } }
