@@ -82,6 +82,18 @@
     </image:image>
   </url>
 
+  <!-- Event: Baila Dembow Den Haag - Westwood - Nov 21, 2026 -->
+  <url>
+    <loc>https://bailadembow.com/events/den-haag-21-november-2026</loc>
+    <lastmod>2026-10-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://bailadembow.com/images/events/denhaag-westwood-nov21-2026.png</image:loc>
+      <image:title>Latin Event Den Haag - Baila Dembow at Westwood - November 21 2026</image:title>
+    </image:image>
+  </url>
+
   <!-- Event: Baila Dembow Amsterdam - Supperclub round two - Nov 28, 2026 -->
   <url>
     <loc>https://bailadembow.com/events/amsterdam-supperclub-28-november-2026</loc>

@@ -149,3 +149,12 @@ if __name__ == "__main__":
         pill="EARLY BIRDS ON SALE",
         accent=(230, 30, 40),
     )
+    make_event_card(
+        ROOT / "images/events/denhaag-westwood-nov21-2026.png",
+        "og-denhaag-nov21.jpg",
+        kicker="SAT 21 NOVEMBER 2026  ·  BAILA DEMBOW",
+        title_lines=["DEN HAAG"],
+        sub="WESTWOOD  ·  23:00 - 04:00  ·  18+",
+        pill="EARLY BIRDS ON SALE",
+        accent=(255, 30, 30),
+    )

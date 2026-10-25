@@ -59,6 +59,7 @@ export const GALLERY_IMAGES = [
 //   2026-10-16 — Rotterdam Día de Muertos (7 Nov, Club Reverse) added (live with the final poster)
 //   2026-10-22 — Groningen (12 Dec, Huize Maas) added
 //   2026-10-25 — Leiden Wibar (23 Oct) removed (past); Amsterdam Supperclub round two (28 Nov) added
+//   2026-10-25 — Den Haag Westwood (21 Nov) added
 //   Keep EVENTS in date order (pages also sort by date when rendering).
 //
 // The /events/PadelXReggaeton standalone route still exists in App.js for
@@ -110,6 +111,23 @@ export const EVENTS = [
     image_url: "/images/events/rotterdam-reverse-muertos-nov7-2026.png"
   },
   {
+    id: "denhaag-westwood-nov21-2026",
+    customSlug: "den-haag-21-november-2026",
+    city: "Den Haag",
+    venue: "Westwood, Laan van Poot 7, 2566 EV Den Haag",
+    date: "2026-11-21",
+    time: "23:00 – 04:00",
+    title: "BAILA DEMBOW // DEN HAAG",
+    tagline: "Volvemos a Westwood.",
+    og_image: "/images/og/og-denhaag-nov21.jpg",
+    description: "¡DEN HAAG, VOLVEMOS A WESTWOOD! Baila Dembow is the Latin Caribbean club night that’s been filling dance floors across the Netherlands and London since 2019. It started with a simple idea: play the music that makes people move, loud and without breaks, for a crowd that comes to dance from the very first track. Students, expats, Latinos missing home and Dutch locals who just love the sound all end up on the same floor, and that mix is what makes the night feel the way it does. On Saturday, November 21st we’re back at Westwood with reggaeton, dembow, Latin hits and more until 04:00. Think Bad Bunny, Karol G, El Alfa, Rauw Alejandro and Daddy Yankee, mixed with the dembow that keeps the perreo going all night. If you were here last time, you already know what this room turns into. If you weren’t, this is the one to start with. Early bird tickets are the cheapest way in, and every tier after that costs a bit more. Grab yours now so you’re not paying extra at the door, and bring your crew with you. 📍 Location: Westwood, Laan van Poot 7, Den Haag · 🗓️ Date: Saturday, November 21, 2026 · ⏰ Time: 23:00 till 04:00 · 🚪 Last entry: 03:00 · 🔞 18+ event, ID required.",
+    ticket_url: "https://weeztix.shop/z9xgcjv6",
+    status: "upcoming",
+    price_from: "",
+    price_door: "",
+    image_url: "/images/events/denhaag-westwood-nov21-2026.png"
+  },
+  {
     id: "amsterdam-supperclub-nov28-2026",
     customSlug: "amsterdam-supperclub-28-november-2026",
     city: "Amsterdam",
@@ -158,7 +176,7 @@ export const FAQS = [
   },
   {
     q: "Where can I find Latin party events in the Netherlands?",
-    a: "Baila Dembow hosts Latin parties across the Netherlands — Amsterdam, Rotterdam, Den Haag, Groningen, Leiden, Eindhoven and beyond. The upcoming agenda includes the Amsterdam Latin Halloween Festival (31 October, IJLAND Amsterdam), Día de Muertos Rotterdam (7 November, Club Reverse), Amsterdam at Supperclub (28 November) and Groningen (12 December, Huize Maas).",
+    a: "Baila Dembow hosts Latin parties across the Netherlands — Amsterdam, Rotterdam, Den Haag, Groningen, Leiden, Eindhoven and beyond. The upcoming agenda includes the Amsterdam Latin Halloween Festival (31 October, IJLAND Amsterdam), Día de Muertos Rotterdam (7 November, Club Reverse), Den Haag at Westwood (21 November), Amsterdam at Supperclub (28 November) and Groningen (12 December, Huize Maas).",
   },
   {
     q: "What is dembow music?",
