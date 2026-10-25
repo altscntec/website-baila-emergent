@@ -6,7 +6,7 @@ Page: `https://bailadembow.com/halloween/2027` (unlisted: served from the noinde
 
 **Routes.** Page `/halloween/2027` (canonical, existing); `/halloween-2027` redirects to it. API: `POST /api/h27/signup` {fullName,email,phone,consent,attribution} -> {token,next,email(masked),emailCode}; `POST /api/h27/email/verify` {token,code}; `POST /api/h27/email/resend` {token}; `POST /api/h27/unsubscribe` {token}. Errors are `{error:<code>}` which the page turns into visitor-friendly messages (the handoff's `/api/halloween-2027/start|verify-email|resend` contract, adapted to the existing API).
 
-**Hidden until** `H27_OPENS_AT` (Vercel env; default `2026-11-01T05:00:00+01:00`, i.e. 1 November 2026 05:00 Amsterdam, when the 2026 party ends). Before that moment the page shows a plain 404 screen and the API refuses sign-ups (`403 not_open`). No deploy is needed at the opening moment: the server clock decides. Preview the form early with `?preview=1` (sign-ups still refused).
+**Hidden until** `H27_OPENS_AT` (Vercel env; default `2026-11-01T04:00:00+01:00`, i.e. 1 November 2026 04:00 Amsterdam (Hari's choice, 25 Oct)). Before that moment the page shows a plain 404 screen and the API refuses sign-ups (`403 not_open`). No deploy is needed at the opening moment: the server clock decides. Preview the form early with `?preview=1` (sign-ups still refused).
 
 **After it opens (to do, one small deploy):** remove the `/halloween/2027` rewrites in `vercel.json`, drop `noindex` for the route in `App.js`, add the route to `frontend/scripts/prerender.js` ROUTES and `public/sitemap.xml`, and link it from the homepage/Halloween page.
 
