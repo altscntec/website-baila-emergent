@@ -58,27 +58,12 @@ export const GALLERY_IMAGES = [
 //   2026-10-12 — Groningen Huize Maas (10 Oct) removed (past)
 //   2026-10-16 — Rotterdam Día de Muertos (7 Nov, Club Reverse) added (live with the final poster)
 //   2026-10-22 — Groningen (12 Dec, Huize Maas) added
+//   2026-10-25 — Leiden Wibar (23 Oct) removed (past); Amsterdam Supperclub round two (28 Nov) added
 //   Keep EVENTS in date order (pages also sort by date when rendering).
 //
 // The /events/PadelXReggaeton standalone route still exists in App.js for
 // any inbound bookmarks but is no longer linked from the grid.
 export const EVENTS = [
-  {
-    id: "leiden-wibar-oct23-2026",
-    customSlug: "leiden-23-october-2026",
-    city: "Leiden",
-    venue: "Wibar, Willem Barentszstraat 39, Leiden",
-    date: "2026-10-23",
-    time: "23:00 – 05:00",
-    title: "BAILA DEMBOW // LEIDEN",
-    tagline: "Leiden, this one is yours.",
-    description: "¡KLK LEIDEN!!! Friday, October 23rd, Baila Dembow takes over Wibar for a full night of reggaeton, dembow and Latin Caribbean heat, the kind of night where the floor fills before midnight and nobody remembers the walk home. Bad Bunny, Karol G, El Alfa, Rauw Alejandro, Daddy Yankee, Anuel AA, all night, no breaks. The perreo starts on the first track and it does not stop until the lights come on. Nonstop reggaeton, dembow and Latin hits. Full takeover of Wibar. Here is the honest part. Tickets go up as the date gets closer, and the first round is the cheapest it will ever be. Leiden always shows up hard, so we do not expect the door to stay open long. Grab yours early, save some money and spend it at the bar instead. Bring your crew. Wear something you can move in. No holding back. 📍 Location: Wibar, Willem Barentszstraat 39, Leiden · 🗓️ Date: Friday, October 23, 2026 · ⏰ Time: 23:00 – 05:00 · 🔞 18+ event, ID required. Leiden, this one is yours. Nos vemos en la pista 🐇",
-    ticket_url: "https://weeztix.shop/frq6squk",
-    status: "upcoming",
-    price_from: "",
-    price_door: "",
-    image_url: "/images/events/leiden-wibar-oct23-2026.png"
-  },
   {
     id: "ijland-halloween-oct31-2026",
     customSlug: "halloween-31-october-2026",
@@ -125,6 +110,23 @@ export const EVENTS = [
     image_url: "/images/events/rotterdam-reverse-muertos-nov7-2026.png"
   },
   {
+    id: "amsterdam-supperclub-nov28-2026",
+    customSlug: "amsterdam-supperclub-28-november-2026",
+    city: "Amsterdam",
+    venue: "Supperclub, Singel 460, Amsterdam",
+    date: "2026-11-28",
+    time: "23:30 – 05:00",
+    title: "BAILA DEMBOW // AMSTERDAM",
+    tagline: "Volvemos a Supperclub. Round two.",
+    og_image: "/images/og/og-supperclub-nov28.jpg",
+    description: "¡AMSTERDAM, VOLVEMOS A SUPPERCLUB! In August we brought Baila Dembow to Supperclub for the first time and the room was packed wall to wall. Every inch of that floor was moving, and nobody wanted the lights to come on. On Saturday, November 28th we go back for round two with reggaeton, dembow, Latin hits and nonstop perreo until 05:00. 🎶 Bad Bunny, Karol G, El Alfa, Rauw Alejandro and more 🪩 Supperclub, round two. If you missed August, you heard all about it afterwards, and you don’t want that feeling again. Early bird tickets are live now and they’re the cheapest way in. Once they’re gone the price only goes up, so lock yours in before your group chat starts asking. 📍 Location: Supperclub, Singel 460, Amsterdam · 🗓️ Date: Saturday, November 28, 2026 · ⏰ Time: 23:30 till 05:00 · 🔞 18+ event, ID required.",
+    ticket_url: "https://weeztix.shop/erxqk52c",
+    status: "upcoming",
+    price_from: "",
+    price_door: "",
+    image_url: "/images/events/amsterdam-supperclub-nov28-2026.png"
+  },
+  {
     id: "groningen-huizemaas-dec12-2026",
     customSlug: "groningen-12-december-2026",
     city: "Groningen",
@@ -156,7 +158,7 @@ export const FAQS = [
   },
   {
     q: "Where can I find Latin party events in the Netherlands?",
-    a: "Baila Dembow hosts Latin parties across the Netherlands — Amsterdam, Rotterdam, Den Haag, Groningen, Leiden, Eindhoven and beyond. The upcoming agenda includes Leiden (23 October, Wibar), the Amsterdam Latin Halloween Festival (31 October, IJLAND Amsterdam) Día de Muertos Rotterdam (7 November, Club Reverse) and Groningen (12 December, Huize Maas).",
+    a: "Baila Dembow hosts Latin parties across the Netherlands — Amsterdam, Rotterdam, Den Haag, Groningen, Leiden, Eindhoven and beyond. The upcoming agenda includes the Amsterdam Latin Halloween Festival (31 October, IJLAND Amsterdam), Día de Muertos Rotterdam (7 November, Club Reverse), Amsterdam at Supperclub (28 November) and Groningen (12 December, Huize Maas).",
   },
   {
     q: "What is dembow music?",

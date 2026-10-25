@@ -140,3 +140,12 @@ if __name__ == "__main__":
         pill="EARLY BIRDS ON SALE",
         accent=(250, 210, 60),
     )
+    make_event_card(
+        ROOT / "images/events/amsterdam-supperclub-nov28-2026.png",
+        "og-supperclub-nov28.jpg",
+        kicker="SAT 28 NOVEMBER 2026",
+        title_lines=["SUPPERCLUB", "ROUND TWO"],
+        sub="AMSTERDAM  ·  23:30 - 05:00  ·  18+",
+        pill="EARLY BIRDS ON SALE",
+        accent=(230, 30, 40),
+    )
