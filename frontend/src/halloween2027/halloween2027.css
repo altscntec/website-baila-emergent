@@ -23,6 +23,7 @@
 .h27v2 .signup h2, .h27v2 .signup .h27-h { font-family: Impact, 'Arial Black', sans-serif; font-weight: normal; font-size: 64px; letter-spacing: -1px; text-transform: uppercase; line-height: 1; margin: 0 0 20px; color: var(--ink); }
 .h27v2 .signup h2:focus { outline: none; }
 .h27v2 .intro { font-size: 14px; line-height: 1.7; margin: 0 0 28px; }
+.h27v2 .event-video { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; background: #000; border: 1px solid var(--ink); margin: 0 0 28px; }
 .h27v2 .steps { display: flex; gap: 8px; margin: 0 0 28px; padding: 0; list-style: none; }
 .h27v2 .steps li { flex: 1; border-top: 2px solid #190a1240; padding-top: 10px; font: 10px monospace; }
 .h27v2 .steps li.active { border-color: var(--ink); font-weight: bold; }

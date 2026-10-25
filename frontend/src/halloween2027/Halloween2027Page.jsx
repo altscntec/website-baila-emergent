@@ -12,6 +12,8 @@ const BG = '/images/h27/pink-texture.jpg';
 const ART = '/images/h27/artwork-1600.png';
 const ART_SMALL = '/images/h27/artwork-900.png';
 const LOGO = '/images/branding/baila-logo-white-27.png';
+const VIDEO = '/videos/halloween-2027.mp4';
+const VIDEO_POSTER = '/images/h27/halloween-2027-poster.jpg';
 const STORE = 'bd_h27';
 const RESEND_WAIT_MS = 30000;
 
@@ -174,6 +176,12 @@ export const Halloween2027Page = () => {
           <div className="signup-top">YOUR WAY IN</div>
           <h2 id="form-title" ref={titleRef} tabIndex={-1}>{stage === 'complete' ? "You're on the list." : 'Sign up'}</h2>
           {stage !== 'complete' && <p className="intro" id="intro">Sign up for Halloween 2027 updates. Leave your details and verify your email.</p>}
+          {stage !== 'complete' && (
+            /* Event video with sound. Browsers only allow sound after a tap, so it starts on the visitor's play press (never muted autoplay). */
+            <video className="event-video" controls playsInline preload="metadata" poster={VIDEO_POSTER} width="1280" height="720" aria-label="Halloween 2027 event video" onPlay={() => track('h27_video_play')} data-testid="h27-video">
+              <source src={VIDEO} type="video/mp4" />
+            </video>
+          )}
           {stage !== 'complete' && (
             <ol className="steps" aria-label="Signup progress">
               <li className="active" aria-current={stage === 'details' ? 'step' : undefined}>01 / DETAILS</li>

@@ -58,6 +58,9 @@ const fill = async (page, { name = 'Keyboard Tester', email, phone = '+31 6 1234
       assert.ok(imgs.some((i) => i.src.includes('artwork') && i.ok && i.w > 200), 'artwork image loaded and shown large');
       assert.ok(imgs.some((i) => i.src.includes('baila-logo-white-27') && i.ok), 'official logo loaded');
       assert.equal(await page.$eval('.ticker', (e) => getComputedStyle(e).color), 'rgb(164, 255, 18)', 'footer line is fluorescent green');
+      const video = await page.$eval('[data-testid="h27-video"]', (v) => ({ controls: v.controls, muted: v.muted, autoplay: v.autoplay, src: v.querySelector('source').getAttribute('src'), poster: v.getAttribute('poster'), w: v.getBoundingClientRect().width }));
+      assert.ok(video.controls && !video.muted && !video.autoplay && video.w > 200, 'event video: visible, with controls, sound on, no autoplay');
+      assert.ok([200, 206].includes((await fetch(BASE + video.src, { headers: { Range: 'bytes=0-1' } })).status), 'video file is served');
       assert.equal(await page.$eval('footer a', (e) => e.getAttribute('href')), '/privacy', 'privacy link goes to the existing notice');
       assert.ok(!text.includes('123456') && !text.includes('WhatsApp code'), 'no demo code, no WhatsApp verification');
       await audit(page, `${label} landing`);
