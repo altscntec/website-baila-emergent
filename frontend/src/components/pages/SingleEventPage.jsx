@@ -141,8 +141,9 @@ export const SingleEventPage = ({ eventSlug, events }) => {
         </div>
       </div>
 
-      <div className="container-custom py-12">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      {/* .container-custom sets its own padding shorthand, so vertical spacing lives on an inner wrapper */}
+      <div className="container-custom">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8" style={{ paddingTop: '3rem', paddingBottom: '3rem' }}>
           <div className="lg:col-span-2">
             <section className="mb-10">
               <h2 className="font-display text-2xl mb-4">About This Event</h2>
