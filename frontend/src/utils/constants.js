@@ -138,7 +138,7 @@ export const EVENTS = [
     tagline: "Volvemos a Supperclub. Round two.",
     og_image: "/images/og/og-supperclub-nov28.jpg",
     description: "¡AMSTERDAM, VOLVEMOS A SUPPERCLUB! In August we brought Baila Dembow to Supperclub for the first time and the room was packed wall to wall. Every inch of that floor was moving, and nobody wanted the lights to come on. On Saturday, November 28th we go back for round two with reggaeton, dembow, Latin hits and nonstop perreo until 05:00. 🎶 Bad Bunny, Karol G, El Alfa, Rauw Alejandro and more 🪩 Supperclub, round two. If you missed August, you heard all about it afterwards, and you don’t want that feeling again. Early bird tickets are live now and they’re the cheapest way in. Once they’re gone the price only goes up, so lock yours in before your group chat starts asking. 📍 Location: Supperclub, Singel 460, Amsterdam · 🗓️ Date: Saturday, November 28, 2026 · ⏰ Time: 23:30 till 05:00 · 🔞 18+ event, ID required.",
-    ticket_url: "https://weeztix.shop/erxqk52c",
+    ticket_url: "https://weeztix.shop/rw9qseqg",
     status: "upcoming",
     price_from: "",
     price_door: "",
