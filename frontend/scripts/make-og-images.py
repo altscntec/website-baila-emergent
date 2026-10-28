@@ -161,7 +161,7 @@ if __name__ == "__main__":
     make_event_card(
         ROOT / "images/events/ijland-nye-dec31-2026.png",
         "og-nye-2026.jpg",
-        kicker="THU 31 DECEMBER 2026  ·  BAILA DEMBOW",
+        kicker="THU 31 DECEMBER 2026",
         title_lines=["INDOOR FEST", "NYE"],
         sub="IJLAND AMSTERDAM NOORD  ·  23:00 - 05:00  ·  18+",
         pill="EARLY BIRDS ON SALE",
