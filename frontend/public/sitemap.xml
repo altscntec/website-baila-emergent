@@ -106,6 +106,18 @@
     </image:image>
   </url>
 
+  <!-- Event: Baila Dembow Indoor Fest NYE - IJLAND Amsterdam - Dec 31, 2026 -->
+  <url>
+    <loc>https://bailadembow.com/events/nye-amsterdam-31-december-2026</loc>
+    <lastmod>2026-10-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+    <image:image>
+      <image:loc>https://bailadembow.com/images/events/ijland-nye-dec31-2026.png</image:loc>
+      <image:title>Indoor Fest NYE - Baila Dembow at IJLAND Amsterdam - December 31 2026</image:title>
+    </image:image>
+  </url>
+
   <!-- About Us Page -->
   <url>
     <loc>https://bailadembow.com/about</loc>

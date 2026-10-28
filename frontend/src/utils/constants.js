@@ -60,6 +60,8 @@ export const GALLERY_IMAGES = [
 //   2026-10-22 — Groningen (12 Dec, Huize Maas) added
 //   2026-10-25 — Leiden Wibar (23 Oct) removed (past); Amsterdam Supperclub round two (28 Nov) added
 //   2026-10-25 — Den Haag Westwood (21 Nov) added
+//   2026-10-28 — Indoor Fest NYE at IJLAND (31 Dec) added as the primary spotlight (featured_priority 1);
+//                Halloween becomes the secondary spotlight (featured_priority 2)
 //   Keep EVENTS in date order (pages also sort by date when rendering).
 //
 // The /events/PadelXReggaeton standalone route still exists in App.js for
@@ -74,6 +76,7 @@ export const EVENTS = [
     time: "23:00 – 05:00",
     title: "THE AMSTERDAM LATIN HALLOWEEN FESTIVAL",
     featured: true,
+    featured_priority: 2,          // secondary spotlight on the homepage (NYE is primary)
     dress_code: "Scary, Sexy or Scary-Sexy",
     tagline: "The nightmare wakes up all over again.",
     landing_page: "/halloween",
@@ -160,6 +163,26 @@ export const EVENTS = [
     price_from: "",
     price_door: "",
     image_url: "/images/events/groningen-huizemaas-dec12-2026.png"
+  },
+  {
+    id: "ijland-nye-dec31-2026",
+    customSlug: "nye-amsterdam-31-december-2026",
+    city: "Amsterdam",
+    venue: "IJLAND, TT Vasumweg 171, Amsterdam Noord",
+    date: "2026-12-31",
+    time: "23:00 – 05:00",
+    title: "INDOOR FEST NYE // AMSTERDAM",
+    featured: true,
+    featured_priority: 1,          // primary homepage spotlight with the countdown
+    dress_code: "Dress like you mean it. No such thing as too much shine.",
+    tagline: "Three areas, live acts and dancers, and a midnight countdown straight into 2027. Welcome champagne for the first 100 through the door.",
+    og_image: "/images/og/og-nye-2026.jpg",
+    description: "¡AMSTERDAM, VAMOS A DESPEDIR EL AÑO A LO GRANDE! On December 31st, Baila Dembow takes over IJland in Amsterdam Noord for Indoor Fest NYE, the most glamorous night we’ve ever put together. Three areas, live acts and dancers on stage, and a countdown you’ll still be talking about in February. When the clock hits midnight, the perreo goes to another level, with Bad Bunny, Karol G, El Alfa and Rauw Alejandro carrying us straight into 2027. Dress like you mean it, because tonight there’s no such thing as too much shine. The first 100 people through the door get a welcome glass of champagne on us, so arriving early pays off twice. Early bird tickets are the cheapest you’ll ever see for this night, and every release after that goes up. NYE in Amsterdam sells out fast, so lock yours in while the price is still friendly. 📍 Location: IJland, TT Vasumweg 171, Amsterdam Noord · 🗓️ Date: Thursday, December 31, 2026 · ⏰ Time: 23:00 – 05:00 · 🔞 18+ event, ID required.",
+    ticket_url: "https://weeztix.shop/v9f38e5c",
+    status: "upcoming",
+    price_from: "",
+    price_door: "",
+    image_url: "/images/events/ijland-nye-dec31-2026.png"
   }
 ];
 
@@ -176,7 +199,7 @@ export const FAQS = [
   },
   {
     q: "Where can I find Latin party events in the Netherlands?",
-    a: "Baila Dembow hosts Latin parties across the Netherlands — Amsterdam, Rotterdam, Den Haag, Groningen, Leiden, Eindhoven and beyond. The upcoming agenda includes the Amsterdam Latin Halloween Festival (31 October, IJLAND Amsterdam), Día de Muertos Rotterdam (7 November, Club Reverse), Den Haag at Westwood (21 November), Amsterdam at Supperclub (28 November) and Groningen (12 December, Huize Maas).",
+    a: "Baila Dembow hosts Latin parties across the Netherlands — Amsterdam, Rotterdam, Den Haag, Groningen, Leiden, Eindhoven and beyond. The upcoming agenda includes the Amsterdam Latin Halloween Festival (31 October, IJLAND Amsterdam), Día de Muertos Rotterdam (7 November, Club Reverse), Den Haag at Westwood (21 November), Amsterdam at Supperclub (28 November), Groningen (12 December, Huize Maas) and Indoor Fest NYE (31 December, IJLAND Amsterdam).",
   },
   {
     q: "What is dembow music?",

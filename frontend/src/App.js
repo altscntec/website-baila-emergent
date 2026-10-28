@@ -113,7 +113,7 @@ const sharedCard = () => {
   const today = new Date().toISOString().slice(0, 10);
   const featured = EVENTS
     .filter((e) => e.featured && e.date >= today && e.og_image)
-    .sort((a, b) => a.date.localeCompare(b.date))[0];
+    .sort((a, b) => (a.featured_priority || 99) - (b.featured_priority || 99) || a.date.localeCompare(b.date))[0];   // same order as the homepage spotlight
   return { image: featured?.og_image || DEFAULT_OG_IMAGE, ...OG_CARD_SIZE };
 };
 const halloweenCard = () => ({
