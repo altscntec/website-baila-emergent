@@ -63,3 +63,15 @@
 }
 @media (prefers-reduced-motion: no-preference) { .h27v2 .cta { transition: background .2s; } .h27v2 .panel { animation: h27v2-arrive .25s ease-out; } @keyframes h27v2-arrive { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } } }
 .h27v2 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+
+/* 29 Oct: on the red texture all the small text is white (headings stay black like the artwork). */
+.h27v2 .event-caption, .h27v2 .signup-top, .h27v2 .intro, .h27v2 .steps li, .h27v2 label, .h27v2 .hint, .h27v2 .consent,
+.h27v2 .fine, .h27v2 .status, .h27v2 .site-footer, .h27v2 .site-footer a, .h27v2 .preview-note, .h27v2 .secondary, .h27v2 .complete .intro { color: #fff; }
+.h27v2 .status.error, .h27v2 .field-error { color: #ffd6a0; }
+.h27v2 input[aria-invalid='true'] { border-color: #ffd6a0; box-shadow: inset 0 0 0 1px #ffd6a0; }
+.h27v2 .event-caption { border-bottom-color: rgba(255,255,255,.45); }
+.h27v2 .steps li { border-top-color: rgba(255,255,255,.35); }
+.h27v2 .steps li.active { border-top-color: #fff; }
+.h27v2 .site-header, .h27v2 .ticker { border-color: rgba(255,255,255,.3); }
+.h27v2 .consent input { accent-color: var(--lime); }
+.h27v2 .success-mark { color: var(--lime); }
