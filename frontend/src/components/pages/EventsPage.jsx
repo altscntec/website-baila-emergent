@@ -4,6 +4,7 @@ import { EventModal } from '../common/EventModal';
 import { FALLBACK_EVENTS } from '../../utils/constants';
 import { generateEventSlug } from '../../utils/helpers';
 import { trackTicketClick } from '../../utils/tracking';
+import { SoldOutCta } from '../common/SoldOutCta';
 
 export const EventsPage = ({ events: propEvents }) => {
   const events = propEvents || FALLBACK_EVENTS;
@@ -54,8 +55,8 @@ export const EventsPage = ({ events: propEvents }) => {
                     <img src={event.image_url} alt={event.title} className="w-full h-full object-cover" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                     <div className="absolute bottom-4 left-4">
-                      <span className={`status-badge ${event.status === 'almost_sold_out' ? 'status-almost-sold-out' : 'status-upcoming'}`}>
-                        {event.status === 'almost_sold_out' ? 'Almost Sold Out' : 'On Sale'}
+                      <span className={`status-badge ${event.sold_out ? 'bg-black/85 text-white border border-white/30' : event.status === 'almost_sold_out' ? 'status-almost-sold-out' : 'status-upcoming'}`}>
+                        {event.sold_out ? 'Sold Out' : event.status === 'almost_sold_out' ? 'Almost Sold Out' : 'On Sale'}
                       </span>
                     </div>
                   </div>
@@ -81,17 +82,24 @@ export const EventsPage = ({ events: propEvents }) => {
                       >
                         Quick View
                       </button>
-                      <a 
-                        href={event.ticket_url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center gap-1 text-[#FF0080] font-semibold hover:gap-2 transition-all"
-                        onClick={() => trackTicketClick(event.title, event.ticket_url)}
-                      >
-                        Get Tickets <ArrowRight size={16} />
-                      </a>
+                      {!event.sold_out && (
+                        <a 
+                          href={event.ticket_url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center gap-1 text-[#FF0080] font-semibold hover:gap-2 transition-all"
+                          onClick={() => trackTicketClick(event.title, event.ticket_url)}
+                        >
+                          Get Tickets <ArrowRight size={16} />
+                        </a>
+                      )}
                     </div>
                   </div>
+                  {event.sold_out && (
+                    <div className="mt-5 pt-5 border-t border-white/10">
+                      <SoldOutCta tone="dark" compact testId={`events-page-sold-out-${index}`} />
+                    </div>
+                  )}
                 </div>
               </div>
             ))}

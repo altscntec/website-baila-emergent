@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X, MapPin, Calendar, Clock, Flame, Users, Ticket, ArrowRight, Sparkles } from 'lucide-react';
 import { generateEventSlug } from '../../utils/helpers';
 import { trackTicketClick } from '../../utils/tracking';
+import { SoldOutCta } from './SoldOutCta';
 
 export const EventModal = ({ event, isOpen, onClose }) => {
   useEffect(() => {
@@ -121,7 +122,13 @@ export const EventModal = ({ event, isOpen, onClose }) => {
               </div>
             )}
 
+            {event.sold_out && (
+              <div className="mb-6">
+                <SoldOutCta tone="light" testId="event-modal-sold-out" />
+              </div>
+            )}
             <div className="flex flex-col sm:flex-row gap-3">
+              {!event.sold_out && (
               <a
                 href={event.ticket_url}
                 target="_blank"
@@ -133,6 +140,7 @@ export const EventModal = ({ event, isOpen, onClose }) => {
                 <Ticket className="w-5 h-5" />
                 Get Tickets
               </a>
+              )}
               <a
                 href={`/#/events/${generateEventSlug(event)}`}
                 className="flex items-center justify-center gap-2 px-6 py-4 border-2 border-gray-200 text-gray-700 font-semibold rounded-xl hover:border-[#FF0080] hover:text-[#FF0080] transition-all"

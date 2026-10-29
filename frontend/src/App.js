@@ -138,7 +138,7 @@ const routeSeo = (path, event) => {
     "/halloween": {
       title: "Halloween Party Amsterdam 2026 | Amsterdam Latin Halloween Festival",
       description:
-        "Amsterdam's biggest Latin Halloween party. Sat 31 October 2026 at IJLAND: haunted club, two areas, costume cash prize, reggaeton & dembow till 05:00. 18+, tickets on sale.",
+        "Amsterdam's biggest Latin Halloween party. Sat 31 October 2026 at IJLAND: SOLD OUT. Only buy resale from a reputable reseller. Sign up for the Halloween 2027 early release.",
       ...halloweenCard(),
       jsonLd: HALLOWEEN_JSON_LD,
     },
@@ -146,7 +146,7 @@ const routeSeo = (path, event) => {
       path: "/halloween", // same page as /halloween: canonical to the main URL
       title: "Halloween Party Amsterdam 2026 | Amsterdam Latin Halloween Festival",
       description:
-        "Amsterdam's biggest Latin Halloween party. Sat 31 October 2026 at IJLAND: haunted club, two areas, costume cash prize, reggaeton & dembow till 05:00. 18+, tickets on sale.",
+        "Amsterdam's biggest Latin Halloween party. Sat 31 October 2026 at IJLAND: SOLD OUT. Only buy resale from a reputable reseller. Sign up for the Halloween 2027 early release.",
       ...halloweenCard(),
       jsonLd: HALLOWEEN_JSON_LD,
     },
@@ -365,8 +365,9 @@ function App() {
       </main>
       {!isStandalonePage && (
         <FloatingCTA
-          ticketUrl={floatingCtaEvent?.ticket_url}
-          eventName={floatingCtaEvent?.title}
+          ticketUrl={floatingCtaEvent?.sold_out ? "/halloween/2027" : floatingCtaEvent?.ticket_url}
+          eventName={floatingCtaEvent?.sold_out ? `${floatingCtaEvent.title} - sold out, 2027 signup` : floatingCtaEvent?.title}
+          label={floatingCtaEvent?.sold_out ? "HALLOWEEN 2027" : "GET TICKETS"}
         />
       )}
       <Toaster position="top-center" richColors />

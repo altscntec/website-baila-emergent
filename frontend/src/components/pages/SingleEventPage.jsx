@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { MapPin, Calendar, Clock, Ticket, Flame, Users, Sparkles } from 'lucide-react';
 import { getEventBySlug, generateEventSlug } from '../../utils/helpers';
 import { trackTicketClick } from '../../utils/tracking';
+import { SoldOutCta } from '../common/SoldOutCta';
 import VenueMapSection from '../sections/VenueMapSection';
 
 export const SingleEventPage = ({ eventSlug, events }) => {
@@ -43,7 +44,7 @@ export const SingleEventPage = ({ eventSlug, events }) => {
           "@type": "Offer",
           "url": event.ticket_url,
           ...(event.price_from ? { "price": event.price_from.replace("€", ""), "priceCurrency": "EUR" } : {}),
-          "availability": "https://schema.org/InStock"
+          "availability": event.sold_out ? "https://schema.org/SoldOut" : "https://schema.org/InStock"
         },
         "organizer": {
           "@type": "Organization",
@@ -192,18 +193,22 @@ export const SingleEventPage = ({ eventSlug, events }) => {
                 </div>
               )}
               
-              <a
-                href={event.ticket_url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full flex items-center justify-center gap-2 px-6 py-4 bg-gradient-to-r from-[#FF0080] to-[#8B5CF6] text-white font-semibold rounded-xl hover:opacity-90 transition-all shadow-lg shadow-[#FF0080]/20 mb-4"
-                onClick={() => trackTicketClick(event.title, event.ticket_url)}
-              >
-                <Ticket className="w-5 h-5" />
-                Get Tickets Now
-              </a>
+              {event.sold_out ? (
+                <div className="mb-4"><SoldOutCta tone="light" align="center" testId="single-event-sold-out" /></div>
+              ) : (
+                <a
+                  href={event.ticket_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full flex items-center justify-center gap-2 px-6 py-4 bg-gradient-to-r from-[#FF0080] to-[#8B5CF6] text-white font-semibold rounded-xl hover:opacity-90 transition-all shadow-lg shadow-[#FF0080]/20 mb-4"
+                  onClick={() => trackTicketClick(event.title, event.ticket_url)}
+                >
+                  <Ticket className="w-5 h-5" />
+                  Get Tickets Now
+                </a>
+              )}
               
-              <p className="text-xs text-gray-500 text-center">18+ Event • ID Required • Limited Capacity</p>
+              <p className="text-xs text-gray-500 text-center">18+ Event • ID Required • {event.sold_out ? 'Sold Out' : 'Limited Capacity'}</p>
               
               <hr className="my-6 border-gray-100" />
               

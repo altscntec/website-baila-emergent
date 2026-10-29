@@ -1,6 +1,7 @@
 import { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { trackTicketClick } from '../../utils/tracking';
+import { SoldOutCta } from '../common/SoldOutCta';
 
 const formatDate = (date) =>
   new Date(date).toLocaleDateString('en-GB', { weekday: 'short', day: '2-digit', month: 'short' });
@@ -70,16 +71,20 @@ export const AgendaSection = ({ events }) => {
                   {formatDate(event.date)} · {event.time}
                 </p>
                 <p className="text-gray-400 text-sm mb-6">{event.venue}</p>
-                <a
-                  href={event.ticket_url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="block w-full text-center bg-[#FFE14D] text-black font-extrabold py-4 rounded-full text-lg hover:bg-white transition-colors duration-300"
-                  data-testid={`event-cta-${index}`}
-                  onClick={() => trackTicketClick(event.title, event.ticket_url)}
-                >
-                  GET TICKETS
-                </a>
+                {event.sold_out ? (
+                  <SoldOutCta tone="dark" align="center" testId={`event-cta-${index}-sold-out`} />
+                ) : (
+                  <a
+                    href={event.ticket_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block w-full text-center bg-[#FFE14D] text-black font-extrabold py-4 rounded-full text-lg hover:bg-white transition-colors duration-300"
+                    data-testid={`event-cta-${index}`}
+                    onClick={() => trackTicketClick(event.title, event.ticket_url)}
+                  >
+                    GET TICKETS
+                  </a>
+                )}
                 {event.landing_page && (
                   <a
                     href={event.landing_page}
@@ -124,15 +129,19 @@ export const AgendaSection = ({ events }) => {
                     <td className="py-3 px-4 border-b border-white/10">{e.venue}</td>
                     <td className="py-3 px-4 border-b border-white/10 whitespace-nowrap">{e.time}</td>
                     <td className="py-3 px-4 border-b border-white/10">
-                      <a
-                        href={e.ticket_url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[#FFE14D] font-bold hover:text-white transition-colors underline underline-offset-2"
-                        onClick={() => trackTicketClick(`${e.title} - table`, e.ticket_url)}
-                      >
-                        Get tickets
-                      </a>
+                      {e.sold_out ? (
+                        <span className="font-bold text-[#FF6B60] uppercase tracking-wider text-xs md:text-sm">Sold out</span>
+                      ) : (
+                        <a
+                          href={e.ticket_url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-[#FFE14D] font-bold hover:text-white transition-colors underline underline-offset-2"
+                          onClick={() => trackTicketClick(`${e.title} - table`, e.ticket_url)}
+                        >
+                          Get tickets
+                        </a>
+                      )}
                     </td>
                   </tr>
                 ))}

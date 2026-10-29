@@ -62,6 +62,7 @@ export const GALLERY_IMAGES = [
 //   2026-10-25 — Den Haag Westwood (21 Nov) added
 //   2026-10-28 — Indoor Fest NYE at IJLAND (31 Dec) added as the primary spotlight (featured_priority 1);
 //                Halloween becomes the secondary spotlight (featured_priority 2)
+//   2026-10-29 — Halloween (31 Oct) marked SOLD OUT (sold_out flag, sold-out poster, 2027 signup CTA)
 //   Keep EVENTS in date order (pages also sort by date when rendering).
 //
 // The /events/PadelXReggaeton standalone route still exists in App.js for
@@ -88,12 +89,16 @@ export const EVENTS = [
     // published on the site: sales numbers stay private to the owner.
     price_deadline: "2026-10-15",
     price_deadline_label: "15 October",
-    description: "MOST AWAITED EVENT !! The nightmare wakes up all over again. On Saturday, October 31st, the gates of IJLAND swing open one more time and the whole venue turns into a haunted inferno. Last edition we packed the room wall to wall, and this year the creatures crawl back thirstier for blood than ever. Vampires, ghouls, zombies and restless spirits take over every dark corner while our Baila Dembow DJs run reggaeton, dembow, Latin and Caribbean heat with zero breaks until the sun comes up. Bad Bunny, Karol G, El Alfa, Rauw Alejandro, Daddy Yankee and more shake the walls straight through the night. The capital of the Netherlands will not feel the same after this one. Here is the part you really should not sleep on. Every tier climbs in price as the night sells through, so the earlier you grab your ticket the cheaper it stays locked. Early Death is the lowest price of the whole event and it moves fast once the word spreads. Waiting until the door means paying the most and staring down a sold out sign. Secure your spot now while it is still cheap and drag the whole crew in with you. What to expect: cash prize for the best costume of the night · full haunted club transformation · free trick and treat sweets · spooky photobooth for the crew · costumes everywhere you look · Latin and Caribbean energy on full blast · 2 areas · food trucks on site · y mucho más. 📍 Location: IJLAND, TT Vasumweg 171, Amsterdam · 🗓️ Date: Saturday, October 31, 2026 · ⏰ Time: 23:00 to 05:00 · 🔞 18+ event, ID required · 👗 Dress code: Scary, Sexy or Scary-Sexy. Music: Reggaeton, Dembow, Dancehall, Salsa, Bachata, Merengue. Come in costume, come correct, and do not be the one hearing about it on Sunday.",
+    description: "SOLD OUT. No more tickets are available for this edition. If you still want to come, only buy from a reputable reseller such as TicketSwap and be aware of fake tickets: never pay strangers by bank transfer. Early-release tickets for Halloween 2027 go first to the people on the list: sign up at bailadembow.com/halloween/2027. The nightmare wakes up all over again. On Saturday, October 31st, the gates of IJLAND swing open one more time and the whole venue turns into a haunted inferno. Last edition we packed the room wall to wall, and this year the creatures crawl back thirstier for blood than ever. Vampires, ghouls, zombies and restless spirits take over every dark corner while our Baila Dembow DJs run reggaeton, dembow, Latin and Caribbean heat with zero breaks until the sun comes up. Bad Bunny, Karol G, El Alfa, Rauw Alejandro, Daddy Yankee and more shake the walls straight through the night. The capital of the Netherlands will not feel the same after this one. What to expect: cash prize for the best costume of the night · full haunted club transformation · free trick and treat sweets · spooky photobooth for the crew · costumes everywhere you look · Latin and Caribbean energy on full blast · 2 areas · food trucks on site · y mucho más. 📍 Location: IJLAND, TT Vasumweg 171, Amsterdam · 🗓️ Date: Saturday, October 31, 2026 · ⏰ Time: 23:00 to 05:00 · 🔞 18+ event, ID required · 👗 Dress code: Scary, Sexy or Scary-Sexy. Music: Reggaeton, Dembow, Dancehall, Salsa, Bachata, Merengue. Come in costume, come correct, and do not be the one hearing about it on Sunday.",
     ticket_url: "https://weeztix.shop/nxaqrkdz",
-    status: "upcoming",
+    // 2026-10-29 — SOLD OUT. Every ticket CTA for this event renders <SoldOutCta/> (reseller warning +
+    // link to the /halloween/2027 early-release signup) instead of the Weeztix link. ticket_url is kept
+    // only for the structured-data offer URL.
+    sold_out: true,
+    status: "sold_out",
     price_from: "",
     price_door: "",
-    image_url: "/images/events/halloween-ijland-oct31-2026.png"
+    image_url: "/images/events/halloween-ijland-oct31-2026-soldout.jpg"
   },
   {
     id: "rotterdam-reverse-muertos-nov7-2026",
@@ -261,7 +266,7 @@ export const HALLOWEEN_FAQS = [
   },
   {
     q: "How much are Amsterdam Latin Halloween Festival tickets?",
-    a: "Tickets start from around €10 online for early birds and climb in tiers as the date gets closer, so booking early is always the cheapest. Tickets are sold via Weeztix. They are non-refundable unless the event is cancelled or postponed, and you can resell on TicketSwap or exchange privately.",
+    a: "The 2026 edition is sold out: no more tickets are available. If you still want to come, only buy from a reputable reseller such as TicketSwap and be aware of fake tickets: never pay strangers by bank transfer. For next year, sign up for the Halloween 2027 early release at bailadembow.com/halloween/2027.",
   },
   {
     q: "What is the dress code, and is there a costume contest?",

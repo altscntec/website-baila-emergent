@@ -5,7 +5,8 @@ import { trackTicketClick } from '../../utils/tracking';
 
 // Defaults to the general Linktree; pass ticketUrl/eventName to point it at a
 // specific event's checkout (e.g. on that event's own landing page).
-export const FloatingCTA = ({ ticketUrl = 'https://linktr.ee/bailadembow', eventName = 'Baila Dembow' }) => {
+export const FloatingCTA = ({ ticketUrl = 'https://linktr.ee/bailadembow', eventName = 'Baila Dembow', label = 'GET TICKETS' }) => {
+  const external = /^https?:\/\//i.test(ticketUrl);
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -21,8 +22,8 @@ export const FloatingCTA = ({ ticketUrl = 'https://linktr.ee/bailadembow', event
       {visible && (
         <motion.a
           href={ticketUrl}
-          target="_blank"
-          rel="noopener noreferrer"
+          target={external ? '_blank' : undefined}
+          rel={external ? 'noopener noreferrer' : undefined}
           initial={{ opacity: 0, scale: 0.8, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.8, y: 20 }}
@@ -32,7 +33,7 @@ export const FloatingCTA = ({ ticketUrl = 'https://linktr.ee/bailadembow', event
         >
           <div className="absolute inset-0 rounded-full bg-[#FF0080] pulse-ring" />
           <Ticket size={20} />
-          <span className="relative z-10">GET TICKETS</span>
+          <span className="relative z-10">{label}</span>
         </motion.a>
       )}
     </AnimatePresence>

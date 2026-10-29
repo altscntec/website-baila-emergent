@@ -1,21 +1,17 @@
 import { useEffect, useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
-import { Ghost, Sparkles, Music, Ticket, ChevronDown } from 'lucide-react';
+import { Ghost, Sparkles, Music, ChevronDown, ShieldAlert } from 'lucide-react';
 import { HALLOWEEN_FAQS } from '../../utils/constants';
 import { CommunitySection } from '../sections/CommunitySection';
 import { CountdownTimer } from '../common/CountdownTimer';
-import { trackTicketClick } from '../../utils/tracking';
+import { SoldOutCta, RESELLER_WARNING, H27_SIGNUP_PATH } from '../common/SoldOutCta';
 
-const TICKET_URL = 'https://weeztix.shop/nxaqrkdz';
-const EVENT_NAME = 'Latin Halloween Festival 2026'; // tracking label: kept stable for ad audiences
+// 2026-10-29 — SOLD OUT. All ticket CTAs on this page are replaced by <SoldOutCta/> (reseller warning +
+// link to the Halloween 2027 early-release signup). Ticket-sales figures are never shown publicly.
 const EVENT_DATE = '2026-10-31';
 const EVENT_TIME = '23:00 – 05:00';
-// Urgency messaging — keep in sync with the Halloween event's
-// price_deadline_label in constants.js, shown here and on the homepage spotlight.
-// Ticket-sales figures are never shown publicly: they stay private to the owner.
-const PRICE_DEADLINE_LABEL = '15 October';
 const TEASER_VIDEO = '/videos/halloween-teaser.mp4';
-const POSTER_IMG = '/images/events/halloween-ijland-oct31-2026.png';
+const POSTER_IMG = '/images/events/halloween-ijland-oct31-2026-soldout.jpg';
 
 const PERKS = [
   'Cash prize for best costume',
@@ -110,11 +106,10 @@ export const HalloweenPage = () => {
           />
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.5, delay: 0.15 }}
-            className="relative inline-flex items-center gap-2 bg-[#FF6B00] text-black font-extrabold text-xs md:text-sm px-4 py-2 rounded-full mb-5"
-            data-testid="halloween-urgency-badge"
+            className="relative inline-flex items-center gap-2 bg-[#FF3B30] text-white font-extrabold text-xs md:text-sm px-5 py-2 rounded-full mb-5 tracking-[0.2em]"
+            data-testid="halloween-sold-out-badge"
           >
-            <div className="absolute inset-0 rounded-full bg-[#FF6B00] pulse-ring" />
-            <span className="relative z-10">BUY NOW</span>
+            <span className="relative z-10">SOLD OUT</span>
           </motion.div>
           <motion.p
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6, delay: 0.3 }}
@@ -140,8 +135,8 @@ export const HalloweenPage = () => {
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6, delay: 0.6 }}
             className="text-white/85 text-base md:text-xl font-semibold max-w-2xl mx-auto mb-10"
           >
-            The nightmare wakes up all over again. Vampires, ghouls and restless spirits take over
-            every dark corner while our DJs run reggaeton, dembow and Caribbean heat till sunrise.
+            Every single ticket is gone. Muchas gracias, Amsterdam. The nightmare still wakes up on
+            31 October, and the next chance to be inside is Halloween 2027.
           </motion.p>
 
           {/* Countdown */}
@@ -156,19 +151,8 @@ export const HalloweenPage = () => {
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.8 }}
             className="flex flex-col sm:flex-row gap-4 justify-center items-center"
           >
-            <a
-              href={TICKET_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={() => trackTicketClick(`${EVENT_NAME} — Hero CTA`, TICKET_URL)}
-              className="inline-flex items-center gap-3 bg-[#FF6B00] text-black font-extrabold py-5 px-12 rounded-full text-lg hover:bg-white transition-colors duration-300 shadow-[0_10px_50px_rgba(255,107,0,.45)]"
-              data-testid="halloween-hero-cta"
-            >
-              <Ticket size={22} />
-              GET TICKETS
-            </a>
+            <SoldOutCta tone="dark" align="center" testId="halloween-hero-sold-out" />
           </motion.div>
-          <p className="text-white/50 text-sm mt-4">Price goes up after {PRICE_DEADLINE_LABEL} — buy now before it's gone.</p>
         </div>
       </section>
 
@@ -211,7 +195,7 @@ export const HalloweenPage = () => {
             {/* poster + perks */}
             <Reveal delay={0.15} className="text-center lg:text-left">
               <p className="font-extrabold text-xs md:text-sm tracking-[0.35em] uppercase mb-4 text-[#FF6B00]">
-                Most awaited event
+                Sold out · 31 October
               </p>
               <h2 className="font-display text-white text-[clamp(2.4rem,6vw,4.5rem)] leading-[0.95] mb-6">
                 What to expect.
@@ -224,19 +208,11 @@ export const HalloweenPage = () => {
                   </li>
                 ))}
               </ul>
-              <a
-                href={TICKET_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() => trackTicketClick(`${EVENT_NAME} — Teaser CTA`, TICKET_URL)}
-                className="inline-flex items-center gap-3 bg-[#FF6B00] text-black font-extrabold py-4 px-10 rounded-full text-lg hover:bg-white transition-colors duration-300"
-                data-testid="halloween-teaser-cta"
-              >
-                <Ticket size={20} />
-                GET TICKETS
-              </a>
+              <div className="flex justify-center lg:justify-start">
+                <SoldOutCta tone="dark" compact testId="halloween-teaser-sold-out" />
+              </div>
               <p className="text-gray-500 text-sm mt-4">
-                Early Death is the lowest price of the whole event — every tier climbs from there.
+                No tickets are sold at the door either.
               </p>
             </Reveal>
           </div>
@@ -457,34 +433,34 @@ export const HalloweenPage = () => {
         <div className="container-custom relative z-10 text-center">
           <Reveal>
             <p className="font-extrabold text-xs md:text-sm tracking-[0.35em] uppercase mb-5 text-black/70">
-              Halloween 2026
+              Halloween 2026 · Sold out
             </p>
             <h2 className="font-display text-white text-[clamp(2.8rem,9vw,7rem)] leading-[0.9] mb-6 drop-shadow-[0_4px_30px_rgba(0,0,0,.35)]">
-              2× bigger.
+              See you in 2027.
             </h2>
             <div className="flex flex-wrap items-center justify-center gap-3 mb-8">
               <span className="inline-flex items-center gap-1.5 bg-white/20 backdrop-blur-sm text-white font-bold text-sm px-4 py-2 rounded-full border border-white/40">
-                Price goes up after {PRICE_DEADLINE_LABEL}
+                No more tickets available
               </span>
             </div>
             <p className="text-white/90 font-semibold text-base md:text-xl max-w-2xl mx-auto mb-10">
-              This year's edition is our biggest yet. Tickets
-              start low and climb as the date gets closer, and the cheap tiers never survive the week.
-              Buy now before the price goes up on {PRICE_DEADLINE_LABEL}.
+              The 2026 edition is completely sold out. Muchas gracias. Early-release tickets for
+              Halloween 2027 go to the people on the list first, before anyone else hears about it.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <a
-                href={TICKET_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() => trackTicketClick(`${EVENT_NAME} — Bottom CTA`, TICKET_URL)}
+                href={H27_SIGNUP_PATH}
                 className="inline-flex items-center gap-3 bg-black text-white font-extrabold py-5 px-12 rounded-full text-lg hover:bg-white hover:text-black transition-colors duration-300 shadow-[0_12px_40px_rgba(0,0,0,.4)]"
-                data-testid="halloween-cta-tickets"
+                data-testid="halloween-cta-2027"
               >
-                <Ticket size={22} />
-                BUY NOW
+                <Sparkles size={22} />
+                SIGN UP FOR HALLOWEEN 2027
               </a>
             </div>
+            <p className="flex items-start justify-center gap-2 text-white/85 text-sm mt-8 max-w-xl mx-auto text-left">
+              <ShieldAlert size={18} className="shrink-0 mt-0.5" />
+              <span>{RESELLER_WARNING}</span>
+            </p>
             <p className="text-white/70 text-sm mt-6">18+ · ID required · Amsterdam</p>
           </Reveal>
         </div>
