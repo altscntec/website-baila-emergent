@@ -1,8 +1,8 @@
-/* Baila Dembow · Halloween 2027 landing page. Ported 1:1 from the approved static page (HANDOFF.md): exact supplied
-   pink texture as the page background, the transparent event artwork shown complete and proportional, the official
+/* Baila Dembow · Halloween 2027 landing page. Ported 1:1 from the approved static page (HANDOFF.md): the supplied
+   crumpled texture as the page background (red since 29 Oct), the transparent event artwork shown complete and proportional, the official
    white logo unmodified, Impact/Arial typography, fluorescent-green (#A4FF12) footer line. Scoped under .h27v2. */
 .h27v2 { --lime: #a4ff12; --ink: #120b10; --paper: #fff; --pink: #ee4089;
-  background-color: #ee4089; background-size: 100% auto; background-repeat: repeat-y; color: var(--ink);
+  background-color: #9e2120; background-size: 100% auto; background-repeat: repeat-y; color: var(--ink);
   font-family: Arial, Helvetica, sans-serif; min-height: 100vh; }
 .h27v2 *, .h27v2 *::before, .h27v2 *::after { box-sizing: border-box; }
 .h27v2 button, .h27v2 input { font: inherit; }

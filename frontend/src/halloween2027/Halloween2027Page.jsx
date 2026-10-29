@@ -8,7 +8,7 @@ import { CONSENT_KEY } from '../utils/constants';
 // verification or messages are triggered from this page. The API decides whether the page is open (cfg.h27OpensAt);
 // before that it renders a plain not-found screen. ?preview=1 shows the page early (sign-ups still refused).
 
-const BG = '/images/h27/pink-texture.jpg';
+const BG = '/images/h27/red-texture.jpg';            // red crumpled texture supplied 29 Oct (was the pink one)
 const ART = '/images/h27/artwork-1600.png';
 const ART_SMALL = '/images/h27/artwork-900.png';
 const LOGO = '/images/branding/baila-logo-white-27.png';
