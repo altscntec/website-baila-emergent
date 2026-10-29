@@ -12,8 +12,8 @@
 .h27v2 .site-header { height: 100px; display: flex; align-items: center; justify-content: space-between; padding: 0 5vw; border-bottom: 1px solid #190a1233; }
 .h27v2 .official-brand { display: block; width: 180px; height: 100px; position: relative; overflow: hidden; }
 .h27v2 .official-brand img { position: absolute; left: 0; top: -62px; width: 180px; height: auto; }
-.h27v2 .edition { font: 10px monospace; letter-spacing: 1px; margin-left: auto; margin-right: 7vw; text-align: right; line-height: 1.5; }
-.h27v2 .nav-cta { font: 11px monospace; letter-spacing: 1px; text-decoration: none; border-bottom: 1px solid var(--ink); padding: 12px 0; display: flex; gap: 35px; background: none; border-top: 0; border-left: 0; border-right: 0; color: var(--ink); }
+.h27v2 .edition { font: 10px monospace; letter-spacing: 1px; margin-left: auto; margin-right: 7vw; text-align: right; line-height: 1.5; color: #fff; }
+.h27v2 .nav-cta { font: 11px monospace; letter-spacing: 1px; text-decoration: none; border-bottom: 1px solid #fff; padding: 12px 0; display: flex; gap: 35px; background: none; border-top: 0; border-left: 0; border-right: 0; color: #fff; }
 .h27v2 .original-artwork { max-width: 760px; margin: 40px auto 0; padding: 0 24px; }
 .h27v2 .original-artwork img { display: block; width: 100%; height: auto; object-fit: contain; filter: none; transform: none; opacity: 1; }
 .h27v2 .main { max-width: 760px; margin: 0 auto; padding: 45px 24px 70px; }
