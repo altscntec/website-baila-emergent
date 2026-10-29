@@ -136,7 +136,7 @@ const routeSeo = (path, event) => {
       ...sharedCard(),
     },
     "/halloween": {
-      title: "Halloween Party Amsterdam 2026 | Amsterdam Latin Halloween Festival",
+      title: "SOLD OUT: Amsterdam Latin Halloween Festival 2026 | Baila Dembow",
       description:
         "Amsterdam's biggest Latin Halloween party. Sat 31 October 2026 at IJLAND: SOLD OUT. Only buy resale from a reputable reseller. Sign up for the Halloween 2027 early release.",
       ...halloweenCard(),
@@ -144,7 +144,7 @@ const routeSeo = (path, event) => {
     },
     "/experiences/halloween": {
       path: "/halloween", // same page as /halloween: canonical to the main URL
-      title: "Halloween Party Amsterdam 2026 | Amsterdam Latin Halloween Festival",
+      title: "SOLD OUT: Amsterdam Latin Halloween Festival 2026 | Baila Dembow",
       description:
         "Amsterdam's biggest Latin Halloween party. Sat 31 October 2026 at IJLAND: SOLD OUT. Only buy resale from a reputable reseller. Sign up for the Halloween 2027 early release.",
       ...halloweenCard(),

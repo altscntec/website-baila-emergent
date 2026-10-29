@@ -9,7 +9,7 @@ export const RESELLER_WARNING =
 // copy (used in tight card layouts where the warning is shown elsewhere on the page).
 export const SoldOutCta = ({ tone = 'dark', compact = false, align = 'left', testId = 'sold-out-cta' }) => {
   const dark = tone === 'dark';
-  const alignCls = align === 'center' ? 'items-center text-center' : align === 'right' ? 'items-center md:items-end text-center md:text-right' : 'items-start text-left';
+  const alignCls = align === 'center' ? 'items-center text-center' : align === 'right' ? 'items-center md:items-end text-center md:text-right' : align === 'responsive' ? 'items-center text-center lg:items-start lg:text-left' : 'items-start text-left';
   return (
     <div className={`flex flex-col gap-3 ${alignCls}`} data-testid={testId}>
       <span

@@ -21,12 +21,18 @@ export const SecondaryEventSection = ({ event }) => {
           transition={{ duration: 0.6 }}
           className="grid grid-cols-1 md:grid-cols-[auto_1fr_auto] gap-8 items-center"
         >
-          <a href={event.landing_page || event.ticket_url} className="block mx-auto md:mx-0 w-[150px] md:w-[180px] rounded-xl overflow-hidden ring-2 ring-white/20 shadow-2xl" data-testid="secondary-poster">
+          <a href={event.landing_page || event.ticket_url} className="relative block mx-auto md:mx-0 w-[170px] md:w-[210px] rounded-xl overflow-hidden ring-2 ring-white/20 shadow-2xl" data-testid="secondary-poster">
             <img src={event.image_url} alt={event.title} className="w-full h-auto block" loading="lazy" />
+            {event.sold_out && (
+              <span className="absolute top-5 -left-12 -rotate-[32deg] bg-[#FF3B30] text-white font-extrabold tracking-[0.25em] text-xs px-14 py-1.5 shadow-lg">SOLD OUT</span>
+            )}
           </a>
           <div className="text-center md:text-left">
             <p className="text-xs tracking-[0.25em] uppercase text-[#FF0080] font-semibold mb-3">{event.sold_out ? 'Sold out · Muchas gracias' : 'Also coming up'}</p>
-            <h2 className="font-display text-3xl md:text-4xl leading-none mb-3">{event.title}</h2>
+            <h2 className="font-display text-3xl md:text-4xl leading-none mb-3">
+              {event.sold_out && <span className="block text-[#FF3B30] mb-1">SOLD OUT.</span>}
+              {event.title}
+            </h2>
             <div className="flex flex-wrap justify-center md:justify-start gap-x-5 gap-y-2 text-sm text-white/80 mb-5">
               <span className="flex items-center gap-2"><Calendar size={16} /> {dateLabel}</span>
               <span className="flex items-center gap-2"><Clock size={16} /> {event.time}</span>

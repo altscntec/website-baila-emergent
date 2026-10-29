@@ -95,64 +95,78 @@ export const HalloweenPage = () => {
         <div className="absolute bottom-1/4 -right-32 w-[520px] h-[520px] rounded-full pointer-events-none"
           style={{ background: 'radial-gradient(circle, rgba(255,107,0,.35) 0%, transparent 70%)' }} />
 
-        <div className="container-custom relative z-10 text-center pt-32 pb-20">
-          <motion.img
-            src="/images/halloween/mrbadbunny.png"
-            alt="Mr Bad Bunny"
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0, rotate: [0, -6, 0, 6, 0] }}
-            transition={{ opacity: { duration: 0.6 }, y: { duration: 0.6 }, rotate: { duration: 4, repeat: Infinity, ease: 'easeInOut' } }}
-            className="h-24 md:h-32 w-auto mx-auto mb-6 drop-shadow-[0_0_40px_rgba(255,107,0,.5)]"
-          />
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.5, delay: 0.15 }}
-            className="relative inline-flex items-center gap-2 bg-[#FF3B30] text-white font-extrabold text-xs md:text-sm px-5 py-2 rounded-full mb-5 tracking-[0.2em]"
-            data-testid="halloween-sold-out-badge"
-          >
-            <span className="relative z-10">SOLD OUT</span>
-          </motion.div>
-          <motion.p
-            initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6, delay: 0.3 }}
-            className="font-extrabold text-xs md:text-sm tracking-[0.4em] uppercase mb-5 text-[#FF6B00]"
-          >
-            Sat 31 October 2026 · IJLAND Amsterdam · 23:00–05:00
-          </motion.p>
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.4 }}
-            className="font-display text-[clamp(3.2rem,12vw,10rem)] leading-[0.85] mb-6"
-            style={{ color: '#FF6B00', textShadow: '0 0 60px rgba(255,107,0,.45)' }}
-            data-testid="halloween-title"
-          >
-            The Latin<br />Halloween.
-            <span
-              className="block mt-4 text-white/90 font-extrabold uppercase leading-tight tracking-[0.2em] text-[clamp(0.9rem,2.2vw,1.6rem)]"
-              style={{ textShadow: 'none' }}
+        <div className="container-custom relative z-10 pt-28 pb-16 md:pt-36 md:pb-24">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+            {/* The sold-out poster: the first thing anyone sees */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.92, y: 20 }} animate={{ opacity: 1, scale: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.1 }}
+              className="order-1 lg:order-2 mx-auto w-full max-w-[340px] sm:max-w-[400px] lg:max-w-[470px]"
             >
-              Halloween Party Amsterdam 2026
-            </span>
-          </motion.h1>
-          <motion.p
-            initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6, delay: 0.6 }}
-            className="text-white/85 text-base md:text-xl font-semibold max-w-2xl mx-auto mb-10"
-          >
-            Every single ticket is gone. Muchas gracias, Amsterdam. The nightmare still wakes up on
-            31 October, and the next chance to be inside is Halloween 2027.
-          </motion.p>
+              <img
+                src={POSTER_IMG}
+                alt="The Latin Halloween 2026 — SOLD OUT. Muchas gracias!"
+                className="w-full h-auto rounded-2xl block"
+                style={{ boxShadow: '0 30px 90px rgba(255,59,48,.35), 0 0 0 1px rgba(255,255,255,.1)' }}
+                data-testid="halloween-sold-out-poster"
+              />
+            </motion.div>
 
-          {/* Countdown */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.7 }}
-            className="mb-10"
-          >
-            <p className="text-white font-extrabold text-xs tracking-[0.3em] uppercase mb-4">The gates open in</p>
-            <CountdownTimer targetDate={EVENT_DATE} targetTime={EVENT_TIME} />
-          </motion.div>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.8 }}
-            className="flex flex-col sm:flex-row gap-4 justify-center items-center"
-          >
-            <SoldOutCta tone="dark" align="center" testId="halloween-hero-sold-out" />
-          </motion.div>
+            <div className="order-2 lg:order-1 text-center lg:text-left">
+              <motion.img
+                src="/images/halloween/mrbadbunny.png"
+                alt="Mr Bad Bunny"
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0, rotate: [0, -6, 0, 6, 0] }}
+                transition={{ opacity: { duration: 0.6 }, y: { duration: 0.6 }, rotate: { duration: 4, repeat: Infinity, ease: 'easeInOut' } }}
+                className="h-20 md:h-24 w-auto mx-auto lg:mx-0 mb-5 drop-shadow-[0_0_40px_rgba(255,107,0,.5)]"
+              />
+              <motion.p
+                initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6, delay: 0.3 }}
+                className="font-extrabold text-xs md:text-sm tracking-[0.4em] uppercase mb-4 text-[#FF6B00]"
+              >
+                Sat 31 October 2026 · IJLAND Amsterdam · 23:00–05:00
+              </motion.p>
+              <motion.h1
+                initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.4 }}
+                className="font-display leading-[0.85] mb-6"
+                data-testid="halloween-title"
+              >
+                <span
+                  className="block text-[clamp(4.2rem,15vw,11rem)]"
+                  style={{ color: '#FF3B30', textShadow: '0 0 70px rgba(255,59,48,.6), 0 4px 0 rgba(0,0,0,.35)' }}
+                  data-testid="halloween-sold-out-badge"
+                >
+                  SOLD OUT.
+                </span>
+                <span className="block mt-4 text-white text-[clamp(1.5rem,4.5vw,3rem)]">
+                  The Latin Halloween 2026
+                </span>
+                <span className="block mt-3 text-white/80 font-extrabold uppercase tracking-[0.2em] text-[clamp(0.75rem,1.6vw,1rem)]">
+                  No more tickets available · Muchas gracias, Amsterdam
+                </span>
+              </motion.h1>
+              <motion.p
+                initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6, delay: 0.6 }}
+                className="text-white/85 text-base md:text-lg font-semibold max-w-xl mx-auto lg:mx-0 mb-8"
+              >
+                Every single ticket is gone and nothing is sold at the door. The nightmare still wakes
+                up on 31 October, and the next chance to be inside is Halloween 2027.
+              </motion.p>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.7 }}
+                className="mb-10"
+              >
+                <SoldOutCta tone="dark" align="responsive" testId="halloween-hero-sold-out" />
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.8 }}
+                className="flex flex-col items-center lg:items-start"
+              >
+                <p className="text-white/70 font-extrabold text-xs tracking-[0.3em] uppercase mb-4">The gates open in</p>
+                <div className="scale-90 origin-center lg:origin-left"><CountdownTimer targetDate={EVENT_DATE} targetTime={EVENT_TIME} /></div>
+              </motion.div>
+            </div>
+          </div>
         </div>
       </section>
 

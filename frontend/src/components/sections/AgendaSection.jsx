@@ -59,12 +59,17 @@ export const AgendaSection = ({ events }) => {
               data-testid={`event-card-${index}`}
             >
               {/* Full poster, no crop */}
-              <img
-                src={event.image_url}
-                alt={event.title}
-                className="w-full h-auto"
-                loading="lazy"
-              />
+              <div className="relative overflow-hidden">
+                <img
+                  src={event.image_url}
+                  alt={event.title}
+                  className="w-full h-auto"
+                  loading="lazy"
+                />
+                {event.sold_out && (
+                  <span className="absolute top-8 -left-16 -rotate-[32deg] bg-[#FF3B30] text-white font-extrabold tracking-[0.3em] text-sm px-20 py-2 shadow-lg">SOLD OUT</span>
+                )}
+              </div>
               <div className="p-6 md:p-8">
                 <h3 className="font-display text-white text-3xl md:text-4xl mb-2">{event.city}.</h3>
                 <p className="text-[#FFE14D] font-extrabold uppercase tracking-wider text-sm mb-1">
