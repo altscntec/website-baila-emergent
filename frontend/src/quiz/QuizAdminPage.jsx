@@ -102,7 +102,7 @@ export const QuizAdminPage = () => {
       </Box>
 
       <Box title="Halloween 2027 early-release list (/halloween/2027)">
-        <p className="text-sm text-[var(--bdq-dim)]">Name, email and phone of people who signed up for Halloween 2027 updates. Email confirmed by 6-digit code (phone verification is off: email-only signup). Hidden for visitors until 1 Nov 2026 04:00 Amsterdam; preview at /halloween/2027?preview=1. Only email-verified rows count.</p>
+        <p className="text-sm text-[var(--bdq-dim)]">Name, email and phone of people who signed up for Halloween 2027 updates. Email confirmed by 6-digit code (phone verification is off: email-only signup). Open to the public since 29 Oct 2026 (H27_OPENS_AT in server/config.js). Only email-verified rows count.</p>
         {h27 && <p>State: {h27.state} · phone verification: {h27.phoneVerification} · sign-ups: {h27.total} · email verified: {h27.emailVerified} · phone verified: {h27.phoneVerified} · confirmation emails accepted: {h27.confirmationEmailsAccepted} · last: {h27.lastSignupAt ? new Date(h27.lastSignupAt).toLocaleString() : '—'}</p>}
         <div className="flex gap-3 flex-wrap">
           <button type="button" className="bdq-chip" onClick={() => run(async () => { const r = await api('GET', '/api/admin/h27/summary'); setH27(r); return r; })}>Load count</button>

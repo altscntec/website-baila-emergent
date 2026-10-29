@@ -140,7 +140,7 @@ export const Halloween2027Page = () => {
       return;
     }
     if (r.status === 400 && r.data.fields) { setErrors(r.data.fields); const first = Object.keys(r.data.fields)[0]; message(FIELD[first] ? FIELD[first][r.data.fields[first]] || 'Please check your details.' : 'Please check your details.', true); return; }
-    if (r.status === 403) { if (preview) message('Preview only: signups open on 1 November at 04:00 (Amsterdam time).', true); else setStatus('hidden'); return; }
+    if (r.status === 403) { if (preview) message('Preview only: signups are not open yet.', true); else setStatus('hidden'); return; }
     message(msgFor(r), true);
   };
   const verify = async (ev) => {
@@ -168,7 +168,7 @@ export const Halloween2027Page = () => {
   return (
     <div className="h27v2" style={{ backgroundImage: `url(${BG})` }}>
       <Header onCta={stage === 'details' ? toSignup : null} />
-      {preview && status === 'hidden' && <p className="preview-note" role="status">PREVIEW · HIDDEN FOR VISITORS UNTIL 1 NOV 2026, 04:00 · SIGNUPS NOT ACCEPTED YET</p>}
+      {preview && status === 'hidden' && <p className="preview-note" role="status">PREVIEW · PAGE IS HIDDEN FOR VISITORS · SIGNUPS NOT ACCEPTED YET</p>}
       <Artwork />
       <div className="main" id="signup" ref={signupRef}>
         <div className="event-caption"><span>OCTOBER 2027</span><span>BAILA DEMBOW</span></div>
