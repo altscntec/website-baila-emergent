@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360">
+  <defs>
+    <linearGradient id="bd" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3a3a3a"/><stop offset="1" stop-color="#111"/></linearGradient>
+    <linearGradient id="hd" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f4f4f4"/><stop offset="0.5" stop-color="#b5b5b5"/><stop offset="1" stop-color="#6b6b6b"/></linearGradient>
+    <filter id="g2"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="2" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncA type="table" tableValues="0 0.12"/></feComponentTransfer></filter>
+  </defs>
+  <ellipse cx="320" cy="290" rx="290" ry="30" fill="#e3e3e3"/>
+  <ellipse cx="320" cy="282" rx="290" ry="30" fill="#f1f1f1"/>
+  <!-- five figures around the table -->
+  <defs><g id="fig">
+    <path d="M-30 50 L0 10 L30 50 L24 130 L-24 130 Z" fill="url(#bd)"/>
+    <rect x="-26" y="-50" width="52" height="56" rx="8" fill="url(#hd)" stroke="#555" stroke-width="2"/>
+    <circle cx="-10" cy="-28" r="3" fill="#111"/><circle cx="10" cy="-28" r="3" fill="#111"/>
+    <path d="M-9 -12 q4.5 -5 9 0 q4.5 -5 9 0" fill="none" stroke="#111" stroke-width="2" stroke-linecap="round"/>
+  </g></defs>
+  <use href="#fig" transform="translate(120 190) scale(0.8)"/>
+  <use href="#fig" transform="translate(215 170) scale(0.9)"/>
+  <use href="#fig" transform="translate(320 160)"/>
+  <use href="#fig" transform="translate(425 170) scale(0.9)"/>
+  <use href="#fig" transform="translate(520 190) scale(0.8)"/>
+  <rect width="640" height="360" filter="url(#g2)"/>
+</svg>

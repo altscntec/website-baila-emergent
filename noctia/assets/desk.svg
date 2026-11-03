@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360">
+  <defs>
+    <linearGradient id="dk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f2f2f2"/><stop offset="1" stop-color="#b9b9b9"/></linearGradient>
+    <linearGradient id="crt" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e9e9e9"/><stop offset="1" stop-color="#bdbdbd"/></linearGradient>
+    <radialGradient id="scr" cx="0.5" cy="0.4" r="0.8"><stop offset="0" stop-color="#2b2b2b"/><stop offset="1" stop-color="#050505"/></radialGradient>
+    <filter id="g"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="2" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncA type="table" tableValues="0 0.12"/></feComponentTransfer></filter>
+  </defs>
+  <ellipse cx="320" cy="330" rx="300" ry="18" fill="#000" opacity="0.08"/>
+  <!-- chair behind desk -->
+  <rect x="402" y="150" width="80" height="110" rx="14" fill="#2a2a2a"/>
+  <rect x="396" y="250" width="92" height="18" rx="6" fill="#333"/>
+  <rect x="436" y="268" width="12" height="40" fill="#444"/>
+  <path d="M442 308 l-40 18 M442 308 l40 18 M442 308 l0 24" stroke="#444" stroke-width="6" stroke-linecap="round"/>
+  <!-- desk -->
+  <rect x="120" y="230" width="400" height="14" fill="url(#dk)"/>
+  <rect x="120" y="244" width="400" height="6" fill="#8d8d8d"/>
+  <rect x="136" y="250" width="10" height="80" fill="#9a9a9a"/><rect x="494" y="250" width="10" height="80" fill="#9a9a9a"/>
+  <!-- CRT -->
+  <rect x="222" y="90" width="196" height="150" rx="10" fill="url(#crt)" stroke="#8c8c8c" stroke-width="2"/>
+  <rect x="236" y="104" width="168" height="112" rx="8" fill="url(#scr)"/>
+  <rect x="240" y="108" width="160" height="104" rx="6" fill="none" stroke="#fff" stroke-opacity="0.08"/>
+  <g stroke="#dcdcdc" stroke-width="2.4" fill="none">
+    <circle cx="292" cy="146" r="3.5" fill="#dcdcdc"/><circle cx="348" cy="146" r="3.5" fill="#dcdcdc"/>
+    <path d="M316 158 l4 7 l4 -7 z" fill="#111"/>
+    <path d="M296 182 q6 -8 12 0 q6 -8 12 0 q6 -8 12 0 q6 -8 12 0" stroke-linecap="round"/>
+  </g>
+  <g stroke="#fff" stroke-opacity="0.05" stroke-width="1"><line x1="236" y1="120" x2="404" y2="120"/><line x1="236" y1="136" x2="404" y2="136"/><line x1="236" y1="152" x2="404" y2="152"/><line x1="236" y1="168" x2="404" y2="168"/><line x1="236" y1="184" x2="404" y2="184"/><line x1="236" y1="200" x2="404" y2="200"/></g>
+  <rect x="300" y="240" width="40" height="8" fill="#9a9a9a"/><rect x="280" y="248" width="80" height="4" fill="#8d8d8d"/>
+  <!-- keyboard + mug -->
+  <rect x="246" y="214" width="150" height="14" rx="3" fill="#cfcfcf" stroke="#9a9a9a"/>
+  <rect x="440" y="208" width="26" height="24" rx="3" fill="#e4e4e4" stroke="#9a9a9a"/><path d="M466 214 q12 6 0 14" fill="none" stroke="#9a9a9a" stroke-width="2"/>
+  <rect width="640" height="360" filter="url(#g)"/>
+</svg>
