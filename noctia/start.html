@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Noctia — Get started</title>
+  <meta name="robots" content="noindex" />
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/style.css" />
+</head>
+<body class="start">
+  <div class="blob pink" style="left: -200px; top: 60px; width: 700px; height: 600px" aria-hidden="true"></div>
+  <div class="blob lime" style="right: -200px; bottom: -100px; width: 700px; height: 600px" aria-hidden="true"></div>
+
+  <nav class="topbar" aria-label="Main">
+    <a class="brand" href="index.html"><span class="monogram" aria-hidden="true">N</span>Noctia</a>
+    <a class="mono muted" href="index.html" style="text-transform: none">Back to site</a>
+  </nav>
+
+  <main>
+    <div class="start-card glass">
+      <form id="start-form" style="display: contents">
+        <div class="head">
+          <span class="step-counter">Step 1 of 2</span>
+          <h1>Which event are we working on?</h1>
+          <p>Add the next show, or connect your ticketing and import everything you have run so far.</p>
+        </div>
+
+        <div class="seg" role="group" aria-label="Starting point">
+          <button type="button" class="active" data-mode="mode-new">Add an event</button>
+          <button type="button" data-mode="mode-connect">Connect ticketing</button>
+        </div>
+
+        <div class="mode active" id="mode-new">
+          <div class="field"><label for="ev">Event name</label><input class="input" id="ev" type="text" placeholder="Winter Reggaeton Night" /></div>
+          <div class="fields-3">
+            <div class="field"><label for="date">Date</label><input class="input" id="date" type="text" placeholder="Sat 13 Dec" /></div>
+            <div class="field"><label for="city">City and venue</label><input class="input" id="city" type="text" placeholder="Rotterdam, Maassilo" /></div>
+            <div class="field"><label for="cap">Capacity</label><input class="input" id="cap" type="text" inputmode="numeric" placeholder="1,200" /></div>
+          </div>
+          <div class="genres" data-toggle-group>
+            <span class="lab">Genre:</span>
+            <button type="button" class="active">Reggaeton</button><button type="button">Dembow</button><button type="button">Salsa</button><button type="button">Bachata</button><button type="button">Festival</button>
+          </div>
+          <button type="button" class="link-mono" data-surprise style="background: none; border: 0; padding: 0; align-self: flex-start">Pick a name for me →</button>
+        </div>
+
+        <div class="mode" id="mode-connect">
+          <p style="font-size: 14px; font-weight: 600">Where do you sell tickets?</p>
+          <div class="providers" data-toggle-group>
+            <button type="button" class="active">Weeztix</button><button type="button">Eventix</button><button type="button">Eventbrite</button><button type="button">Other</button>
+          </div>
+          <div class="field"><label for="shop">Your ticket shop link</label><input class="input" id="shop" type="url" placeholder="weeztix.shop/yourevent" /></div>
+          <p class="muted" style="font-size: 13px">Noctia imports past events and buyers, de-duplicates them, and comes back with a first forecast before it touches any budget.</p>
+        </div>
+
+        <div class="field"><label for="email">Where should the morning report go?</label><input class="input" id="email" type="email" placeholder="you@yourcompany.com" required /></div>
+
+        <div style="display: flex; flex-direction: column; gap: 12px">
+          <button class="btn wide" type="submit" style="height: 56px">Continue</button>
+          <p class="fine">Free to start. No card needed. Your data stays yours.</p>
+        </div>
+      </form>
+
+      <div class="done">
+        <span class="step-counter">Step 2 of 2</span>
+        <h1>Noctia is on it.</h1>
+        <p class="muted" style="font-size: 17px">Your first forecast is being written. Check your inbox in a few minutes, and watch the event dashboard fill in while you wait.</p>
+        <a class="btn lime wide" href="dashboard.html" style="height: 56px">Open the dashboard</a>
+      </div>
+    </div>
+  </main>
+  <script src="assets/app.js"></script>
+</body>
+</html>
