@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Noctia — Event database</title>
+  <meta name="robots" content="noindex" />
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/style.css" />
+</head>
+<body class="app">
+  <div class="blob pink" style="left: -200px; top: -120px; width: 700px; height: 600px" aria-hidden="true"></div>
+  <div class="blob lime" style="right: -200px; top: 200px; width: 700px; height: 600px" aria-hidden="true"></div>
+  <div class="shell">
+    <aside class="side" aria-label="Sections">
+      <a class="brand" href="index.html"><span class="monogram" aria-hidden="true">N</span>Noctia</a>
+      <a class="item " href="dashboard.html">Event dashboard</a>
+      <a class="item " href="campaigns.html">Campaigns</a>
+      <a class="item active" href="database.html">Event database</a>
+      <a class="item" href="dashboard.html#night">Night of</a>
+      <a class="item" href="dashboard.html#note">Reports</a>
+      <div class="tonight"><span class="mono">Tonight</span>Runs at 02:00. Report lands at 07:30.</div>
+    </aside>
+    <main class="main">
+      <div class="page-head">
+        <div>
+          <h1>Event database</h1>
+          <p class="sub">Every event, venue and buyer across six cities, merged from Weeztix, Eventix and Eventbrite. Last sync 6 minutes ago.</p>
+        </div>
+        <div class="actions">
+          <label class="sr-only" for="q">Search events, venues and fans</label>
+          <input class="search" id="q" type="search" placeholder="Search events, venues, fans" />
+          <a class="btn sm" href="start.html">Add event</a>
+        </div>
+      </div>
+
+      <div class="kpis">
+        <div class="kpi glass"><span class="lab">Fans</span><span class="val">25,614</span></div>
+        <div class="kpi glass"><span class="lab">Events</span><span class="val">84</span></div>
+        <div class="kpi glass"><span class="lab">Venues</span><span class="val">19</span></div>
+        <div class="kpi glass"><span class="lab">Repeat rate</span><span class="val">41%</span></div>
+        <div class="kpi dark"><span class="lab">Reachable tonight</span><span class="val">18,902</span></div>
+      </div>
+
+      <div class="filters" data-toggle-group>
+        <button type="button" class="active">All events</button><button type="button">Upcoming</button><button type="button">Amsterdam</button><button type="button">Rotterdam</button><button type="button">Reggaeton</button><button type="button">Salsa and bachata</button><button type="button">Sold out</button>
+      </div>
+
+      <div class="table-wrap glass">
+        <table>
+          <thead><tr><th>Event</th><th>City and venue</th><th>Date</th><th>Sold</th><th>Revenue</th><th>Forecast</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td class="name"><a href="dashboard.html">Latin Halloween Festival</a></td><td>Amsterdam · IJLAND</td><td>Sat 31 Oct</td><td>1,284 / 1,500</td><td>€18,940</td><td>Sells out 24 Oct</td><td><span class="pill lime">Selling</span></td></tr>
+            <tr><td class="name">Winter Reggaeton Night</td><td>Rotterdam · Maassilo</td><td>Sat 13 Dec</td><td>312 / 1,200</td><td>€3,560</td><td>1,080 to 1,200</td><td><span class="pill lime">Selling</span></td></tr>
+            <tr><td class="name">Salsa Social, Groningen</td><td>Groningen · Oosterpoort</td><td>Fri 21 Nov</td><td>0 / 600</td><td>€0</td><td>520 to 600</td><td><span class="pill pink">On sale Fri</span></td></tr>
+            <tr><td class="name">Summer of Love</td><td>Amsterdam · Thuishaven</td><td>Sat 29 Aug</td><td>1,500 / 1,500</td><td>€24,120</td><td>Hit, 6 days early</td><td><span class="pill grey">Sold out</span></td></tr>
+            <tr><td class="name">All White, Groningen</td><td>Groningen · Paradigm</td><td>Sat 22 Aug</td><td>640 / 700</td><td>€9,870</td><td>Under by 60</td><td><span class="pill grey">Done</span></td></tr>
+            <tr><td class="name">Bachata Rooftop, Eindhoven</td><td>Eindhoven · Strijp-S</td><td>Sat 11 Jul</td><td>420 / 420</td><td>€6,300</td><td>Hit, 2 days early</td><td><span class="pill grey">Sold out</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="grid">
+        <section class="panel glass">
+          <div class="head"><h2>Fan segments</h2><span class="mono">Rebuilt nightly</span></div>
+          <div class="task"><div class="meta"><span class="t">Amsterdam reggaeton regulars</span><b style="font-family: var(--font-display); font-size: 18px">8,420</b></div><span class="muted" style="font-size: 12px">3+ shows in 12 months</span></div>
+          <div class="task"><div class="meta"><span class="t">Rotterdam, bought in 2025</span><b style="font-family: var(--font-display); font-size: 18px">4,110</b></div><span class="muted" style="font-size: 12px">Not yet bought in 2026</span></div>
+          <div class="task" style="border: 1.5px solid var(--pink); background: #fff"><div class="meta"><span class="t">Halloween buyers, last two years</span><b style="font-family: var(--font-display); font-size: 18px">2,960</b></div><span style="font-size: 12px; color: var(--pink)">Emailed tonight</span></div>
+          <div class="task"><div class="meta"><span class="t">Salsa and bachata first-timers</span><b style="font-family: var(--font-display); font-size: 18px">1,305</b></div><span class="muted" style="font-size: 12px">One show, 90 days or less</span></div>
+          <div class="task"><div class="meta"><span class="t">Lapsed, 180+ days</span><b style="font-family: var(--font-display); font-size: 18px">6,712</b></div><span class="muted" style="font-size: 12px">Win-back send scheduled</span></div>
+        </section>
+        <section class="panel glass">
+          <div class="head"><h2>Venues</h2><span class="mono">Capacity · events run</span></div>
+          <div class="rows">
+            <div class="r"><b>IJLAND, Amsterdam-Noord</b><span class="muted">1,500 · 4</span></div>
+            <div class="r"><b>Maassilo, Rotterdam</b><span class="muted">1,200 · 6</span></div>
+            <div class="r"><b>Thuishaven, Amsterdam</b><span class="muted">1,500 · 2</span></div>
+            <div class="r"><b>Paradigm, Groningen</b><span class="muted">700 · 5</span></div>
+            <div class="r"><b>Strijp-S, Eindhoven</b><span class="muted">420 · 3</span></div>
+            <div class="r"><b>Gebr. de Nobel, Leiden</b><span class="muted">900 · 3</span></div>
+          </div>
+          <div class="insight">Maassilo sells 18% faster when the on-sale lands on a Tuesday. Next Rotterdam on-sale is set for Tue 18 Nov.</div>
+        </section>
+      </div>
+
+    </main>
+  </div>
+  <script src="assets/app.js"></script>
+</body>
+</html>

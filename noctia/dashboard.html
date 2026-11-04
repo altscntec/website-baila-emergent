@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Noctia — Event dashboard</title>
+  <meta name="robots" content="noindex" />
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/style.css" />
+</head>
+<body class="app">
+  <div class="blob pink" style="left: -200px; top: -120px; width: 700px; height: 600px" aria-hidden="true"></div>
+  <div class="blob lime" style="right: -200px; top: 200px; width: 700px; height: 600px" aria-hidden="true"></div>
+  <div class="shell">
+    <aside class="side" aria-label="Sections">
+      <a class="brand" href="index.html"><span class="monogram" aria-hidden="true">N</span>Noctia</a>
+      <a class="item active" href="dashboard.html">Event dashboard</a>
+      <a class="item " href="campaigns.html">Campaigns</a>
+      <a class="item " href="database.html">Event database</a>
+      <a class="item" href="dashboard.html#night">Night of</a>
+      <a class="item" href="dashboard.html#note">Reports</a>
+      <div class="tonight"><span class="mono">Tonight</span>Runs at 02:00. Report lands at 07:30.</div>
+    </aside>
+    <main class="main">
+      <div class="page-head">
+        <div>
+          <div class="title-row"><h1>Latin Halloween Festival</h1><span class="pill lime"><span class="dot"></span>Selling</span></div>
+          <p class="sub">Sat 31 Oct · 23:00 to 05:00 · IJLAND, Amsterdam · 18+ · 27 days to doors</p>
+        </div>
+        <div class="actions">
+          <a class="btn glass-light sm" href="database.html">Switch event</a>
+          <a class="btn sm" href="campaigns.html">Open campaigns</a>
+        </div>
+      </div>
+
+      <div class="kpis">
+        <div class="kpi glass"><span class="lab">Tickets sold</span><span class="val">1,284 <small>/ 1,500</small></span><span class="delta">+96 today</span></div>
+        <div class="kpi glass"><span class="lab">Revenue</span><span class="val">€18,940</span><span class="delta">Avg €14.75 a ticket</span></div>
+        <div class="kpi glass"><span class="lab">Ad spend</span><span class="val">€2,230</span><span class="delta neutral">€3.02 per attributed ticket</span></div>
+        <div class="kpi dark"><span class="lab">Forecast</span><span class="val">Sold out</span><span class="delta">by 24 Oct · confidence 84%</span></div>
+      </div>
+
+      <div class="grid">
+        <section class="panel glass span2">
+          <div class="head"><h2>Sales per day, with forecast</h2>
+            <div class="legend dark-text"><span><i style="background: var(--ink)"></i>Sold</span><span><i style="background: var(--pink)"></i>Today</span><span><i style="background: rgba(124,92,255,0.3)"></i>Forecast</span></div>
+          </div>
+          <div class="chart light" aria-hidden="true">
+            <div class="layer sold">
+              <span style="--h:22%"></span><span style="--h:34%"></span><span style="--h:18%"></span><span style="--h:26%"></span><span style="--h:40%"></span><span style="--h:58%"></span><span style="--h:44%"></span><span style="--h:30%"></span><span style="--h:36%"></span><span style="--h:52%"></span><span style="--h:64%"></span><span class="today" style="--h:48%"></span><span class="empty"></span><span class="empty"></span><span class="empty"></span><span class="empty"></span><span class="empty"></span><span class="empty"></span><span class="empty"></span><span class="empty"></span>
+            </div>
+            <div class="layer band">
+              <span class="empty"></span><span class="empty"></span><span class="empty"></span><span class="empty"></span><span class="empty"></span><span class="empty"></span><span class="empty"></span><span class="empty"></span><span class="empty"></span><span class="empty"></span><span class="empty"></span><span class="empty"></span><span style="--h:50%"></span><span style="--h:56%"></span><span style="--h:62%"></span><span style="--h:70%"></span><span style="--h:82%"></span><span style="--h:100%"></span><span style="--h:60%"></span><span style="--h:20%"></span>
+            </div>
+          </div>
+          <div class="axis"><span>On sale, 12 Sep</span><span class="today">Today, 4 Oct</span><span>Doors, 31 Oct</span></div>
+        </section>
+        <section class="panel glass">
+          <h2>Price tiers</h2>
+          <div class="tier"><div class="row"><span>Early bird · €10</span><span class="muted">300 / 300</span></div><div class="bar"><span style="width: 100%"></span></div></div>
+          <div class="tier"><div class="row"><span>Tier 2 · €15</span><span class="muted">500 / 500</span></div><div class="bar"><span style="width: 100%"></span></div></div>
+          <div class="tier"><div class="row"><span><b>Tier 3 · €17.50</b></span><span class="hot">484 / 500</span></div><div class="bar"><span class="grad" style="width: 97%"></span></div></div>
+          <div class="tier"><div class="row"><span class="muted">Tier 4 · €22.50</span><span class="muted">Not open</span></div><div class="bar"></div></div>
+          <div class="callout lime">Suggested: open Tier 4 on Thursday 9 Oct</div>
+        </section>
+      </div>
+
+      <div class="grid">
+        <section class="panel glass">
+          <h2>Tickets by channel</h2>
+          <div class="rows">
+            <div class="r"><b>Meta</b><span class="muted">€1,240 · 412 tickets · €3.01</span></div>
+            <div class="r"><b>TikTok</b><span class="muted">€680 · 231 tickets · €2.94</span></div>
+            <div class="r"><b>Google</b><span class="muted">€310 · 96 tickets · €3.23</span></div>
+            <div class="r"><b>Email and WhatsApp</b><span class="muted">€0 · 388 tickets</span></div>
+            <div class="r"><b>Direct and resale</b><span class="muted">157 tickets</span></div>
+          </div>
+        </section>
+        <section class="panel glass" id="night">
+          <h2>Night of</h2>
+          <div class="mini-grid">
+            <div class="mini"><p class="val">2</p><p class="lab">Areas, 4 DJs</p></div>
+            <div class="mini"><p class="val">86</p><p class="lab">Guest list names</p></div>
+            <div class="mini"><p class="val">14</p><p class="lab">Staff briefed</p></div>
+            <div class="mini"><p class="val">3</p><p class="lab">Food trucks confirmed</p></div>
+          </div>
+          <p class="muted" style="font-size: 13px">Door scans go live at 22:30. Costume prize, photobooth and sweets stand are on the run sheet.</p>
+        </section>
+        <section class="panel dark" id="note">
+          <div class="blob pink" style="right: -60px; bottom: -60px; width: 220px; height: 220px; filter: blur(30px)" aria-hidden="true"></div>
+          <h2>Morning note</h2>
+          <p class="note-text">96 tickets overnight, 11% ahead of last year. I moved €120 a day from the broad Meta set to the TikTok Rotterdam set, which is selling at €2.90. I emailed last year's Halloween buyers about Tier 2 closing and 2,140 opened it. Nine DMs about dress code and ID answered. I suggest opening Tier 4 on Thursday.</p>
+          <a class="link-mono" href="mailto:hello@noctia.com">Reply to steer tonight's plan →</a>
+        </section>
+      </div>
+      <p class="mono muted" data-ago style="text-transform: none">Updated 4 seconds ago</p>
+
+    </main>
+  </div>
+  <script src="assets/app.js"></script>
+</body>
+</html>
