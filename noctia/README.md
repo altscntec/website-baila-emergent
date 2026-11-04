@@ -4,10 +4,11 @@ Marketing, ticketing data and night-of operations for event promoters, run every
 
 ## Pages
 
-- `index.html` — homepage in the filmstrip layout: full-bleed hero, slide counter, index list, film strip of events, forecast frame, night-shift log, steps, pricing, contact frame.
+- `index.html` — homepage in the filmstrip layout: gradient hero field, slide counter, index list, film strip of events, forecast frame, page and store section, night-shift log, steps, pricing, contact frame. No photos: every frame is type and colour.
 - `dashboard.html` — one event's dashboard: tickets, revenue, spend, forecast chart, price tiers, channels, night-of panel, morning note.
 - `database.html` — the event database: totals, filters, events table, fan segments, venues.
 - `campaigns.html` — budget recommender, one card per channel, creative hub, ticket-level attribution.
+- `page.html` — the link page and store builder: blocks, products (tables, passes, merch, digital, memberships, bookings), checkout, discount codes, ambassadors, with a live phone preview.
 - `start.html` — onboarding: add an event or connect ticketing, then an email for the morning report.
 - `about.html`, `terms.html`, `privacy.html`, `acceptable-use.html`.
 
@@ -15,7 +16,7 @@ The numbers on the app pages are demo data. Wire them to your ticketing and ad a
 
 ## Images
 
-`assets/img/` holds resized Baila Dembow event photos copied from `frontend/public`. Swap any of them for new shots with the same file names.
+There are none by design. Frames are gradient fields and typographic posters, so nothing needs licensing or resizing.
 
 ## Deploy
 

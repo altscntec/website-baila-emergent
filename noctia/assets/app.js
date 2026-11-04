@@ -28,7 +28,7 @@
   }
 
   // ── Hero thumbnail rail: highlight follows the section too ──
-  var thumbs = document.querySelectorAll(".thumbs img[data-for]");
+  var thumbs = document.querySelectorAll(".thumbs img[data-for], .swatches span[data-for]");
   if (thumbs.length && "IntersectionObserver" in window) {
     var io2 = new IntersectionObserver(function (entries) {
       entries.forEach(function (e) {
