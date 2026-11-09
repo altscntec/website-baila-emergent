@@ -117,7 +117,7 @@ const sharedCard = () => {
   return { image: featured?.og_image || DEFAULT_OG_IMAGE, ...OG_CARD_SIZE };
 };
 const halloweenCard = () => ({
-  image: EVENTS.find((e) => e.landing_page === "/halloween")?.og_image || DEFAULT_OG_IMAGE,
+  image: EVENTS.find((e) => e.landing_page === "/halloween")?.og_image || "/images/og/og-halloween.jpg",   // the 2026 entry is gone from EVENTS once past; keep the Halloween card
   ...OG_CARD_SIZE,
 });
 
@@ -278,11 +278,13 @@ function App() {
 
   // Point the floating "GET TICKETS" CTA at this event's real checkout link
   // when we're on a page dedicated to one event, instead of the generic Linktree.
+  const onHalloweenPage = effectivePath === "/halloween" || effectivePath === "/experiences/halloween";
   const floatingCtaEvent =
     currentEvent ||
-    (effectivePath === "/halloween" || effectivePath === "/experiences/halloween"
-      ? events.find((e) => e.landing_page === "/halloween")
-      : null);
+    (onHalloweenPage ? events.find((e) => e.landing_page === "/halloween") : null);
+  // On the Halloween page the floating button always goes to the 2027 early-release signup: while the
+  // 2026 entry was sold out, and now that it has been removed from EVENTS as a past event.
+  const halloweenSignupCta = onHalloweenPage && (!floatingCtaEvent || floatingCtaEvent.sold_out);
 
   // Record every page a visitor actually hits (not just the first one on a
   // hard load) so the Meta/TikTok pixels can build a retargeting audience out
@@ -365,9 +367,9 @@ function App() {
       </main>
       {!isStandalonePage && (
         <FloatingCTA
-          ticketUrl={floatingCtaEvent?.sold_out ? "/halloween/2027" : floatingCtaEvent?.ticket_url}
-          eventName={floatingCtaEvent?.sold_out ? `${floatingCtaEvent.title} - sold out, 2027 signup` : floatingCtaEvent?.title}
-          label={floatingCtaEvent?.sold_out ? "HALLOWEEN 2027" : "GET TICKETS"}
+          ticketUrl={halloweenSignupCta ? "/halloween/2027" : floatingCtaEvent?.ticket_url}
+          eventName={halloweenSignupCta ? "Halloween 2027 signup" : floatingCtaEvent?.title}
+          label={halloweenSignupCta ? "HALLOWEEN 2027" : "GET TICKETS"}
         />
       )}
       <Toaster position="top-center" richColors />

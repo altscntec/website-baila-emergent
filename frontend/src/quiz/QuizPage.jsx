@@ -422,7 +422,7 @@ const ClaimedView = ({ t, lang, st, cfg, onResend, resendMsg, resendBusy, alread
         </div>
       )}
       <motion.div className="space-y-2" {...m.item(2)}>
-        <a className="bdq-btn" href={HALLOWEEN.ticket_url} target="_blank" rel="noopener noreferrer"
+        <a className="bdq-btn" href={(HALLOWEEN && HALLOWEEN.ticket_url) || '/halloween/2027'} target="_blank" rel="noopener noreferrer"
           onClick={() => quizTrack('quiz_ticket_click', { tier: r.tier, language: lang })} data-testid="quiz-tickets">{t('result.tickets')}</a>
         <p className="text-center text-sm text-[var(--bdq-dim)]">{t('result.ticketsHelp')}</p>
       </motion.div>

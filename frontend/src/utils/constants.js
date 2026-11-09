@@ -63,61 +63,14 @@ export const GALLERY_IMAGES = [
 //   2026-10-28 — Indoor Fest NYE at IJLAND (31 Dec) added as the primary spotlight (featured_priority 1);
 //                Halloween becomes the secondary spotlight (featured_priority 2)
 //   2026-10-29 — Halloween (31 Oct) marked SOLD OUT (sold_out flag, sold-out poster, 2027 signup CTA)
+//   2026-11-09 — Halloween (31 Oct) and Rotterdam Día de Muertos (7 Nov) removed (past).
+//                /halloween stays live as the sold-out page with the 2027 signup; the pages that
+//                looked the Halloween entry up (quiz, OG card, floating CTA) fall back to /halloween/2027.
 //   Keep EVENTS in date order (pages also sort by date when rendering).
 //
 // The /events/PadelXReggaeton standalone route still exists in App.js for
 // any inbound bookmarks but is no longer linked from the grid.
 export const EVENTS = [
-  {
-    id: "ijland-halloween-oct31-2026",
-    customSlug: "halloween-31-october-2026",
-    city: "Amsterdam",
-    venue: "IJLAND, TT Vasumweg 171, Amsterdam",
-    date: "2026-10-31",
-    time: "23:00 – 05:00",
-    title: "THE AMSTERDAM LATIN HALLOWEEN FESTIVAL",
-    featured: true,
-    featured_priority: 2,          // secondary spotlight on the homepage (NYE is primary)
-    dress_code: "Scary, Sexy or Scary-Sexy",
-    tagline: "The nightmare wakes up all over again.",
-    landing_page: "/halloween",
-    og_image: "/images/og/og-halloween.jpg",
-    teaser_video: "/videos/halloween-teaser.mp4",
-    // Urgency messaging shown on the homepage spotlight and the /halloween
-    // page. price_deadline is the last day of the current price tier (shown
-    // as "price rises after"). Ticket-sales figures are deliberately NOT
-    // published on the site: sales numbers stay private to the owner.
-    price_deadline: "2026-10-15",
-    price_deadline_label: "15 October",
-    description: "SOLD OUT. No more tickets are available for this edition. If you still want to come, only buy from a reputable reseller such as TicketSwap and be aware of fake tickets: never pay strangers by bank transfer. Early-release tickets for Halloween 2027 go first to the people on the list: sign up at bailadembow.com/halloween/2027. The nightmare wakes up all over again. On Saturday, October 31st, the gates of IJLAND swing open one more time and the whole venue turns into a haunted inferno. Last edition we packed the room wall to wall, and this year the creatures crawl back thirstier for blood than ever. Vampires, ghouls, zombies and restless spirits take over every dark corner while our Baila Dembow DJs run reggaeton, dembow, Latin and Caribbean heat with zero breaks until the sun comes up. Bad Bunny, Karol G, El Alfa, Rauw Alejandro, Daddy Yankee and more shake the walls straight through the night. The capital of the Netherlands will not feel the same after this one. What to expect: cash prize for the best costume of the night · full haunted club transformation · free trick and treat sweets · spooky photobooth for the crew · costumes everywhere you look · Latin and Caribbean energy on full blast · 2 areas · food trucks on site · y mucho más. 📍 Location: IJLAND, TT Vasumweg 171, Amsterdam · 🗓️ Date: Saturday, October 31, 2026 · ⏰ Time: 23:00 to 05:00 · 🔞 18+ event, ID required · 👗 Dress code: Scary, Sexy or Scary-Sexy. Music: Reggaeton, Dembow, Dancehall, Salsa, Bachata, Merengue. Come in costume, come correct, and do not be the one hearing about it on Sunday.",
-    ticket_url: "https://weeztix.shop/nxaqrkdz",
-    // 2026-10-29 — SOLD OUT. Every ticket CTA for this event renders <SoldOutCta/> (reseller warning +
-    // link to the /halloween/2027 early-release signup) instead of the Weeztix link. ticket_url is kept
-    // only for the structured-data offer URL.
-    sold_out: true,
-    status: "sold_out",
-    price_from: "",
-    price_door: "",
-    image_url: "/images/events/halloween-ijland-oct31-2026-soldout.jpg"
-  },
-  {
-    id: "rotterdam-reverse-muertos-nov7-2026",
-    customSlug: "dia-de-los-muertos-rotterdam-7-november-2026",
-    city: "Rotterdam",
-    venue: "Club Reverse, Rotterdam",
-    date: "2026-11-07",
-    time: "23:00 – 05:00",
-    title: "DÍA DE MUERTOS // ROTTERDAM",
-    tagline: "Los muertos vuelven a bailar.",
-    og_image: "/images/og/og-muertos-rotterdam.jpg",
-    dress_code: "Face paint, flowers, catrina or catrín look — optional",
-    description: "¡ROTTERDAM, LOS MUERTOS VUELVEN A BAILAR! 💀🌼 Rotterdam, get your crew ready. We’re bringing a little Mexico to Reverse! 🇲🇽🔥 On Saturday, November 7, Baila Dembow celebrates Día de los Muertos with colourful flowers, sugar skulls and a whole lot of perreo. It’s a celebration of life, love and the people we miss. And we’re celebrating the way we know best: together, on the dance floor. ❤️ Expect reggaeton, dembow, Latin hits, salsa and bachata all night. Bad Bunny, Karol G, El Alfa, Romeo Santos… you know what’s coming. Come sing your heart out and dance with us till 05:00. 💀 Face paint? Yes. Flowers? Yes. Full catrina or catrín look? We love it. Dress up if you feel like it, or just come ready to dance. Drop this in the group chat. Pick your look. Let’s make a night of it. 🔥 📍 Location: Club Reverse, Rotterdam · 🗓️ Date: Saturday, November 7, 2026 · ⏰ Time: 23:00 – 05:00 · 🔞 18+ event, ID required. 🎟️ Early birds get the best price. Tickets go up with each release, so grab yours early! Nos vemos en la pista 🐇",
-    ticket_url: "https://weeztix.shop/5yvdx32r",
-    status: "upcoming",
-    price_from: "",
-    price_door: "",
-    image_url: "/images/events/rotterdam-reverse-muertos-nov7-2026.png"
-  },
   {
     id: "denhaag-westwood-nov21-2026",
     customSlug: "den-haag-21-november-2026",
@@ -204,7 +157,7 @@ export const FAQS = [
   },
   {
     q: "Where can I find Latin party events in the Netherlands?",
-    a: "Baila Dembow hosts Latin parties across the Netherlands — Amsterdam, Rotterdam, Den Haag, Groningen, Leiden, Eindhoven and beyond. The upcoming agenda includes the Amsterdam Latin Halloween Festival (31 October, IJLAND Amsterdam), Día de Muertos Rotterdam (7 November, Club Reverse), Den Haag at Westwood (21 November), Amsterdam at Supperclub (28 November), Groningen (12 December, Huize Maas) and Indoor Fest NYE (31 December, IJLAND Amsterdam).",
+    a: "Baila Dembow hosts Latin parties across the Netherlands — Amsterdam, Rotterdam, Den Haag, Groningen, Leiden, Eindhoven and beyond. The upcoming agenda includes Den Haag at Westwood (21 November), Amsterdam at Supperclub (28 November), Groningen (12 December, Huize Maas) and Indoor Fest NYE (31 December, IJLAND Amsterdam).",
   },
   {
     q: "What is dembow music?",
@@ -212,7 +165,7 @@ export const FAQS = [
   },
   {
     q: "Are there reggaeton parties in Amsterdam?",
-    a: "Yes — Baila Dembow is Amsterdam's reggaeton party brand, playing Bad Bunny, Karol G, Rauw Alejandro, Daddy Yankee and the full Latin playlist. The next Amsterdam editions are at Oliva on 26 September and the Amsterdam Latin Halloween Festival on 31 October 2026.",
+    a: "Yes — Baila Dembow is Amsterdam's reggaeton party brand, playing Bad Bunny, Karol G, Rauw Alejandro, Daddy Yankee and the full Latin playlist. The next Amsterdam editions are at Supperclub on 28 November and Indoor Fest NYE at IJLAND on 31 December 2026.",
   },
   {
     q: "How much do Baila Dembow tickets cost?",
