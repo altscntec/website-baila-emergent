@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Noctia — Page and store</title>
+  <meta name="robots" content="noindex" />
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/style.css" />
+</head>
+<body class="app">
+  <div class="blob pink" style="left: 200px; top: -200px; width: 700px; height: 600px" aria-hidden="true"></div>
+  <div class="blob lime" style="right: -200px; bottom: -200px; width: 700px; height: 600px" aria-hidden="true"></div>
+  <div class="shell">
+    <aside class="side" aria-label="Sections">
+      <a class="brand" href="index.html"><span class="monogram" aria-hidden="true">N</span>Noctia</a>
+      <a class="item" href="dashboard.html">Event dashboard</a>
+      <a class="item" href="campaigns.html">Campaigns</a>
+      <a class="item" href="database.html">Event database</a>
+      <a class="item active" href="page.html">Page and store</a>
+      <a class="item" href="dashboard.html#night">Night of</a>
+      <a class="item" href="dashboard.html#note">Reports</a>
+      <div class="tonight"><span class="mono">Tonight</span>Runs at 02:00. Report lands at 07:30.</div>
+    </aside>
+    <main class="main">
+      <div class="page-head">
+        <div>
+          <h1>Page and store</h1>
+          <p class="sub">One link for your bio. Noctia adds each event the moment it goes on sale and keeps the store in sync with the night.</p>
+        </div>
+        <div class="actions">
+          <span class="url-pill glass-light btn sm" style="font-weight: 400">noctia.page/bailadembow</span>
+          <button class="btn glass-light sm" type="button">Copy link</button>
+          <button class="btn sm" type="button">Publish changes</button>
+        </div>
+      </div>
+
+      <div class="kpis">
+        <div class="kpi glass"><span class="lab">Page views, 30 days</span><span class="val">12,480</span></div>
+        <div class="kpi glass"><span class="lab">Ticket link clicks</span><span class="val">4,912</span></div>
+        <div class="kpi glass"><span class="lab">Store sales, 30 days</span><span class="val">€3,120</span></div>
+        <div class="kpi glass"><span class="lab">Sign-ups</span><span class="val">612</span></div>
+        <div class="kpi dark"><span class="lab">Platform fee on sales</span><span class="val">0%</span></div>
+      </div>
+
+      <div class="builder">
+        <div style="display: flex; flex-direction: column; gap: 14px; min-width: 0">
+          <section class="panel glass blocks">
+            <div class="head"><h2>Blocks</h2><span class="mono">Drag to reorder</span></div>
+            <div class="block"><span class="l"><span class="grip">⋮⋮</span><b>Header</b><span class="d">Monogram, name, one-line bio</span></span><span class="pill lime">On</span></div>
+            <div class="block"><span class="l"><span class="grip">⋮⋮</span><b>Upcoming events</b><span class="d">Auto from the database, ticket links from Weeztix</span></span><span class="pill lime">Auto</span></div>
+            <div class="block hot"><span class="l"><span class="grip">⋮⋮</span><b>Store</b><span class="d">6 products, checkout by Stripe</span></span><span class="pill lime">On</span></div>
+            <div class="block"><span class="l"><span class="grip">⋮⋮</span><b>Mailing list</b><span class="d">Email and WhatsApp, into the event database</span></span><span class="pill lime">On</span></div>
+            <div class="block"><span class="l"><span class="grip">⋮⋮</span><b>Socials</b><span class="d">Instagram, TikTok, WhatsApp</span></span><span class="pill grey">Off</span></div>
+          </section>
+
+          <section class="panel glass products">
+            <div class="head"><h2>Store products</h2>
+              <div class="type-chips" data-toggle-group><button type="button" class="active">All</button><button type="button">Tables</button><button type="button">Passes</button><button type="button">Merch</button><button type="button">Digital</button><button type="button">Memberships</button><button type="button">Bookings</button></div>
+            </div>
+            <div class="hd"><span></span><span>Product</span><span>Type</span><span>Price</span><span>Sold</span><span>Status</span></div>
+            <div class="row"><span class="art grad-a" aria-hidden="true"></span><span><b>VIP table for 6</b><br /><span class="d">Halloween · includes 2 bottles · order bump: skip-the-line ×6</span></span><span class="d">Table</span><span>€240</span><span>9 / 12</span><span><span class="pill lime">Live</span></span></div>
+            <div class="row"><span class="art grad-b" aria-hidden="true"></span><span><b>Skip-the-line pass</b><br /><span class="d">Any event · scanned at the door with the ticket</span></span><span class="d">Pass</span><span>€7.50</span><span>214</span><span><span class="pill lime">Live</span></span></div>
+            <div class="row"><span class="art grad-c" aria-hidden="true"></span><span><b>Tour tee, 2026</b><br /><span class="d">Pick up at the door or ship · sizes S to XXL</span></span><span class="d">Merch</span><span>€25</span><span>86</span><span><span class="pill lime">Live</span></span></div>
+            <div class="row"><span class="art grad-d" aria-hidden="true"></span><span><b>Aftermovie, 4K download</b><br /><span class="d">Digital · delivered by email after checkout</span></span><span class="d">Digital</span><span>€3</span><span>341</span><span><span class="pill lime">Live</span></span></div>
+            <div class="row"><span class="art grad-e" aria-hidden="true"></span><span><b>Season pass, 2027</b><br /><span class="d">Membership · every show, €12 a month, cancel any time</span></span><span class="d">Membership</span><span>€12/mo</span><span>58</span><span><span class="pill pink">New</span></span></div>
+            <div class="row"><span class="art grad-c" aria-hidden="true"></span><span><b>Book the DJs for a private party</b><br /><span class="d">Booking · 30-minute call, calendar slots, €150 deposit</span></span><span class="d">Booking</span><span>€150</span><span>4</span><span><span class="pill grey">Draft</span></span></div>
+            <button class="btn outline sm" type="button" style="align-self: flex-start; margin-top: 6px">+ Add product</button>
+          </section>
+
+          <section class="settings">
+            <div class="s glass"><span class="k">Checkout</span><b>Stripe connected · Apple Pay, iDEAL, cards</b><p>Order bump on tables: skip-the-line for the whole table, taken 62% of the time.</p></div>
+            <div class="s glass"><span class="k">Discount codes</span><b>HALLO10 · 10% off merch · 118 uses</b><p>Noctia sends a code to lapsed fans in the win-back email.</p></div>
+            <div class="s glass"><span class="k">Ambassadors</span><b>23 fans with their own link · 12% commission</b><p>Paid out monthly. 341 tickets came through ambassador links.</p></div>
+          </section>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 10px; align-items: center">
+          <span class="mono muted">Live preview</span>
+          <div class="phone">
+            <div class="screen">
+              <div class="glow" style="left: -30%; top: -20%; width: 90%; height: 60%; background: radial-gradient(circle, rgba(255,45,138,0.7), rgba(255,45,138,0) 60%)" aria-hidden="true"></div>
+              <div class="glow" style="right: -30%; top: 30%; width: 90%; height: 60%; background: radial-gradient(circle, rgba(200,255,61,0.45), rgba(200,255,61,0) 60%)" aria-hidden="true"></div>
+              <div class="profile"><span class="monogram" aria-hidden="true">BD</span><span class="name">Baila Dembow</span><span class="bio">Latin parties, six cities. Next: Halloween, 31 Oct.</span></div>
+              <a class="link lime" href="#"><span class="l"><b>Latin Halloween Festival</b><small>SAT 31 OCT · AMSTERDAM</small></span><span class="go">Tickets →</span></a>
+              <a class="link glass" href="#"><span class="l"><b>Winter Reggaeton Night</b><small>SAT 13 DEC · ROTTERDAM</small></span><span class="go">Tickets →</span></a>
+              <span class="label">Store</span>
+              <div class="store">
+                <div class="product"><span class="art grad-a" aria-hidden="true"></span><b>VIP table for 6</b><span class="price">€240</span></div>
+                <div class="product"><span class="art grad-b" aria-hidden="true"></span><b>Skip-the-line pass</b><span class="price">€7.50</span></div>
+                <div class="product"><span class="art grad-c" aria-hidden="true"></span><b>Tour tee</b><span class="price">€25</span></div>
+                <div class="product"><span class="art grad-e" aria-hidden="true"></span><b>Season pass</b><span class="price">€12 / month</span></div>
+              </div>
+              <div class="join"><span class="in">your@email.com</span><span class="go">Join</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+  <script src="assets/app.js"></script>
+</body>
+</html>

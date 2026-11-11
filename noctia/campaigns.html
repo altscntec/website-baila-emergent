@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Noctia — Campaigns</title>
+  <meta name="robots" content="noindex" />
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/style.css" />
+</head>
+<body class="app">
+  <div class="blob pink" style="left: -200px; top: -120px; width: 700px; height: 600px" aria-hidden="true"></div>
+  <div class="blob lime" style="right: -200px; top: 200px; width: 700px; height: 600px" aria-hidden="true"></div>
+  <div class="shell">
+    <aside class="side" aria-label="Sections">
+      <a class="brand" href="index.html"><span class="monogram" aria-hidden="true">N</span>Noctia</a>
+      <a class="item " href="dashboard.html">Event dashboard</a>
+      <a class="item active" href="campaigns.html">Campaigns</a>
+      <a class="item " href="database.html">Event database</a>
+      <a class="item" href="page.html">Page and store</a>
+      <a class="item" href="dashboard.html#night">Night of</a>
+      <a class="item" href="dashboard.html#note">Reports</a>
+      <div class="tonight"><span class="mono">Tonight</span>Runs at 02:00. Report lands at 07:30.</div>
+    </aside>
+    <main class="main">
+      <div class="page-head">
+        <div>
+          <h1>Campaigns</h1>
+          <p class="sub">Latin Halloween Festival · €2,230 spent of a €4,000 plan · every ticket attributed back to its ad</p>
+        </div>
+        <div class="actions">
+          <button class="btn glass-light sm" type="button">Pause all</button>
+          <button class="btn sm" type="button">New campaign</button>
+        </div>
+      </div>
+
+      <section class="banner">
+        <div class="blob lime" style="left: -80px; top: -120px; width: 360px; height: 360px; filter: blur(40px)" aria-hidden="true"></div>
+        <div class="blob pink" style="right: 120px; bottom: -160px; width: 360px; height: 360px; filter: blur(40px)" aria-hidden="true"></div>
+        <div>
+          <span class="eyebrow lime">Budget recommender · tonight's move</span>
+          <h2 style="margin-top: 8px">Shift €120 a day from Meta broad to TikTok Rotterdam, and raise Google search by €30 for the final week.</h2>
+          <p>Expected: 54 more tickets for the same spend. Cost per ticket drops from €3.02 to €2.78. Applied automatically at 02:00 unless you change it.</p>
+        </div>
+        <div class="actions">
+          <button class="btn glass sm" type="button">Edit</button>
+          <button class="btn lime sm" type="button">Apply now</button>
+        </div>
+      </section>
+
+      <div class="kpis">
+        <section class="kpi glass channel"><div class="head" style="display: flex; justify-content: space-between; align-items: center"><h2 style="font-size: 18px">Meta</h2><span class="pill lime">Live</span></div><span class="val">412 <small>tickets</small></span><div class="meta"><span>Spent €1,240</span><span>€3.01 a ticket</span></div><div class="bar"><span style="width: 62%"></span></div><span class="foot">3 ad sets · 11 creatives · best: "Costume prize" video, 9 to 1 return</span></section>
+        <section class="kpi glass channel"><div class="head" style="display: flex; justify-content: space-between; align-items: center"><h2 style="font-size: 18px">TikTok</h2><span class="pill pink">Scaling</span></div><span class="val">231 <small>tickets</small></span><div class="meta"><span>Spent €680</span><span>€2.94 a ticket</span></div><div class="bar"><span class="grad" style="width: 34%"></span></div><span class="foot">2 ad sets · 6 creatives · best: Rotterdam dancefloor clip, 12 to 1 return</span></section>
+        <section class="kpi glass channel"><div class="head" style="display: flex; justify-content: space-between; align-items: center"><h2 style="font-size: 18px">Google</h2><span class="pill lime">Live</span></div><span class="val">96 <small>tickets</small></span><div class="meta"><span>Spent €310</span><span>€3.23 a ticket</span></div><div class="bar"><span style="width: 16%"></span></div><span class="foot">Search only · "halloween amsterdam" and "latin party amsterdam"</span></section>
+        <section class="kpi glass channel"><div class="head" style="display: flex; justify-content: space-between; align-items: center"><h2 style="font-size: 18px">YouTube</h2><span class="pill grey">Paused</span></div><span class="val">0 <small>tickets</small></span><div class="meta"><span>Spent €0</span><span>Starts final week</span></div><div class="bar"></div><span class="foot">Aftermovie pre-roll, Amsterdam 18 to 34, scheduled 24 Oct</span></section>
+      </div>
+
+      <div class="grid">
+        <section class="panel glass span2">
+          <div class="head"><h2>Creative hub</h2><span class="mono">Ranked by tickets per €100</span></div>
+          <div class="creatives">
+            <div class="creative"><div class="tile" style="background: linear-gradient(160deg, #ff2d8a, #7c5cff)"><span>Costume prize video</span></div><span class="lab">Meta · 33 tickets per €100</span></div>
+            <div class="creative"><div class="tile" style="background: linear-gradient(160deg, #c8ff3d, #0f0f12)"><span>Rotterdam dancefloor clip</span></div><span class="lab">TikTok · 41 tickets per €100</span></div>
+            <div class="creative"><div class="tile" style="background: linear-gradient(160deg, #0f0f12, #ff2d8a)"><span>Tier 2 closing still</span></div><span class="lab">Meta · 22 tickets per €100</span></div>
+            <div class="creative"><div class="tile empty">3 new cuts drafted tonight</div><span class="lab pink">Awaiting your OK</span></div>
+          </div>
+        </section>
+        <section class="panel glass">
+          <h2>Ticket-level attribution</h2>
+          <div class="rows">
+            <div class="r"><span>Paid social</span><b>643</b></div>
+            <div class="r"><span>Email and WhatsApp</span><b>388</b></div>
+            <div class="r"><span>Search</span><b>96</b></div>
+            <div class="r"><span>Organic and resale</span><b>157</b></div>
+            <div class="r total"><span>Total</span><span>1,284</span></div>
+          </div>
+          <p class="muted" style="font-size: 12px">Matched through the ticketing integration, not pixel estimates. Refunds and resales are netted out nightly.</p>
+        </section>
+      </div>
+
+    </main>
+  </div>
+  <script src="assets/app.js"></script>
+</body>
+</html>
