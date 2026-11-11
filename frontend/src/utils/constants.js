@@ -6,6 +6,9 @@ export const BUNNY_GLASSES = "/images/branding/bunny-glasses.png";
 // Pixel IDs
 export const META_PIXEL_ID = '179511642577064';
 export const TIKTOK_PIXEL_ID = 'C189G8RC77UBJAEBRS80';
+// ChatGPT Ads Measurement Pixel (OpenAI Ads Manager > Conversions > Data Source).
+// Loads only with marketing consent, like Meta/TikTok. Added 2026-11-11.
+export const OPENAI_PIXEL_ID = 'QJtE3f5SJBd2M7o2zU6aBf';
 // GTM-M3Z7P43H is the Web container for bailadembow.com (Baila Dembow account).
 // Two other containers exist and are NOT this one: GTM-PJRVC7CQ ("Baila Server")
 // is a server-side container, and GTM-TJSSP3R lives under a separate

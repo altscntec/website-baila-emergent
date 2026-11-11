@@ -1,4 +1,4 @@
-import { META_PIXEL_ID, TIKTOK_PIXEL_ID, GTM_CONTAINER_ID } from './constants';
+import { META_PIXEL_ID, TIKTOK_PIXEL_ID, GTM_CONTAINER_ID, OPENAI_PIXEL_ID } from './constants';
 
 // Build a Meta Advanced Matching object containing ONLY the fields we
 // actually have a value for. Empty/blank fields are omitted entirely —
@@ -73,6 +73,37 @@ export const loadTikTokPixel = () => {
   }(window, document, 'ttq');
 };
 
+// ChatGPT Ads Measurement Pixel (developers.openai.com/ads/measurement-pixel).
+// Same consent gate as Meta/TikTok: CookieConsentContext only calls this once
+// marketing consent exists, so the SDK never loads for visitors who declined.
+// The pixel's own consent flag is set to true here for the same reason (it
+// would otherwise honour a denial it may have stored from an older visit).
+// The first page_viewed fires right away; trackPageView re-fires it on every
+// client-side route change, like the Meta/TikTok PageView.
+export const loadOpenAIPixel = () => {
+  if (typeof window === 'undefined' || window.oaiq) return;
+  (function (w, d, s, u) {
+    var q = function () { q.q.push(arguments); };
+    q.q = [];
+    w.oaiq = q;
+    var js = d.createElement(s);
+    js.async = true;
+    js.src = u;
+    var f = d.getElementsByTagName(s)[0];
+    f.parentNode.insertBefore(js, f);
+  })(window, document, 'script', 'https://bzrcdn.openai.com/sdk/oaiq.min.js');
+  window.oaiq('consent', true);
+  window.oaiq('init', { pixelId: OPENAI_PIXEL_ID });
+  window.oaiq('measure', 'page_viewed', { type: 'contents' });
+};
+
+const oaiqMeasure = (eventName, data, options) => {
+  if (typeof window !== 'undefined' && window.oaiq) {
+    if (options) window.oaiq('measure', eventName, data, options);
+    else window.oaiq('measure', eventName, data);
+  }
+};
+
 // Load Google Tag Manager (GTM-M3Z7P43H, the Web container for this site —
 // see the comment on GTM_CONTAINER_ID in constants.js). This is separate from
 // the Meta/TikTok pixels above: it's a tag-management container, meant for
@@ -119,7 +150,8 @@ export const trackEvent = (eventName, eventData = {}) => {
 const withPixelReady = (fn, attemptsLeft = 20) => {
   const fbqReady = typeof window !== 'undefined' && !!window.fbq;
   const ttqReady = typeof window !== 'undefined' && !!window.ttq;
-  if (fbqReady || ttqReady || attemptsLeft <= 0) {
+  const oaiqReady = typeof window !== 'undefined' && !!window.oaiq;
+  if (fbqReady || ttqReady || oaiqReady || attemptsLeft <= 0) {
     fn();
     return;
   }
@@ -136,6 +168,7 @@ export const trackPageView = () => {
     if (typeof window !== 'undefined' && window.ttq) {
       window.ttq.page();
     }
+    oaiqMeasure('page_viewed', { type: 'contents' });
   });
 };
 
@@ -145,14 +178,20 @@ export const trackPageView = () => {
 // by content_ids) — more reliable in an SPA than a URL-contains rule alone.
 export const trackViewContent = (event) => {
   if (!event) return;
-  withPixelReady(() => trackEvent('ViewContent', {
-    content_name: event.title,
-    content_category: 'Event',
-    content_ids: [event.id],
-    content_type: 'product',
-    currency: 'EUR',
-    value: 10,
-  }));
+  withPixelReady(() => {
+    trackEvent('ViewContent', {
+      content_name: event.title,
+      content_category: 'Event',
+      content_ids: [event.id],
+      content_type: 'product',
+      currency: 'EUR',
+      value: 10,
+    });
+    oaiqMeasure('contents_viewed', {
+      type: 'contents',
+      contents: [{ id: event.id, name: event.title, content_type: 'product' }],
+    });
+  });
 };
 
 export const trackTicketClick = (eventName, ticketUrl) => {
@@ -161,6 +200,13 @@ export const trackTicketClick = (eventName, ticketUrl) => {
     content_category: 'Event Ticket',
     currency: 'EUR',
     value: 10
+  });
+  // Ticket clicks hand off to Weeztix, so this is the last step the pixel can
+  // see: report it as the standard checkout_started event.
+  oaiqMeasure('checkout_started', {
+    type: 'contents',
+    currency: 'EUR',
+    contents: [{ name: eventName, content_type: 'product', quantity: 1 }],
   });
 };
 

@@ -2,7 +2,7 @@ import { createContext, useContext, useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Shield, Settings, BarChart3, Target, X } from 'lucide-react';
 import { CONSENT_KEY } from '../utils/constants';
-import { loadMetaPixel, loadTikTokPixel, loadGTM } from '../utils/tracking';
+import { loadMetaPixel, loadTikTokPixel, loadOpenAIPixel, loadGTM } from '../utils/tracking';
 
 // Create context
 const CookieConsentContext = createContext(null);
@@ -246,6 +246,7 @@ export const CookieConsentProvider = ({ children }) => {
       if (stored.marketing) {
         loadMetaPixel();
         loadTikTokPixel();
+        loadOpenAIPixel();
       }
       // GTM carries Google Analytics (GA4) right now, which is an analytics
       // tool, not a marketing one — so it loads on either consent, not just
@@ -268,6 +269,7 @@ export const CookieConsentProvider = ({ children }) => {
     if (newConsent.marketing) {
       loadMetaPixel();
       loadTikTokPixel();
+      loadOpenAIPixel();
     }
     if (newConsent.analytics || newConsent.marketing) {
       loadGTM();
