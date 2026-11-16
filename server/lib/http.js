@@ -49,6 +49,17 @@ const readRaw = (req, limit = 256 * 1024) =>
     req.on('error', reject);
   });
 
+// Binary upload bodies (the agenda photo upload). Vercel hands octet-stream bodies over as a Buffer in req.body.
+const readBinary = (req, limit = 4 * 1024 * 1024) =>
+  new Promise((resolve, reject) => {
+    if (Buffer.isBuffer(req.body)) return req.body.length > limit ? reject(new HttpError(413, 'too_large')) : resolve(req.body);
+    if (typeof req.body === 'string' && req.readableEnded) return resolve(Buffer.from(req.body, 'binary'));
+    let size = 0; const chunks = [];
+    req.on('data', (c) => { size += c.length; if (size > limit) { reject(new HttpError(413, 'too_large')); req.destroy(); } else chunks.push(c); });
+    req.on('end', () => resolve(Buffer.concat(chunks)));
+    req.on('error', reject);
+  });
+
 const parseCookies = (header) => {
   const out = {};
   String(header || '').split(';').forEach((p) => {
@@ -70,4 +81,4 @@ const sessionCookie = (value, { maxAgeSec, secure }) =>
 const clearSessionCookie = ({ secure }) =>
   `${SESSION_COOKIE}=; Path=/api; HttpOnly; SameSite=Lax; Max-Age=0${secure ? '; Secure' : ''}`;
 
-module.exports = { HttpError, send, readBody, readRaw, parseCookies, clientIp, SESSION_COOKIE, sessionCookie, clearSessionCookie };
+module.exports = { HttpError, send, readBody, readRaw, readBinary, parseCookies, clientIp, SESSION_COOKIE, sessionCookie, clearSessionCookie };

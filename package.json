@@ -13,6 +13,7 @@
     "dev:quiz": "node server/dev-server.js"
   },
   "dependencies": {
+    "@vercel/blob": "^1.1.1",
     "pg": "^8.23.1"
   },
   "devDependencies": {

@@ -151,6 +151,32 @@
           "value": "strict-origin-when-cross-origin"
         }
       ]
+    },
+    {
+      "source": "/memories",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow, noarchive"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        }
+      ]
+    },
+    {
+      "source": "/memories-upload",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow, noarchive"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        }
+      ]
     }
   ],
   "rewrites": [
@@ -172,6 +198,14 @@
     },
     {
       "source": "/halloween/2027/:path*",
+      "destination": "/spa-shell.html"
+    },
+    {
+      "source": "/memories",
+      "destination": "/spa-shell.html"
+    },
+    {
+      "source": "/memories-upload",
       "destination": "/spa-shell.html"
     }
   ],

@@ -1,5 +1,5 @@
 'use strict';
-const { HttpError, send, readBody, readRaw, parseCookies, clientIp, SESSION_COOKIE, sessionCookie, clearSessionCookie } = require('./lib/http');
+const { HttpError, send, readBody, readRaw, readBinary, parseCookies, clientIp, SESSION_COOKIE, sessionCookie, clearSessionCookie } = require('./lib/http');
 const { validateSignup, LANGS } = require('./lib/validate');
 const { normalizeEmail } = require('./lib/normalize');
 const { sha256, safeEqual } = require('./lib/crypto');
@@ -15,6 +15,7 @@ const metricsSvc = require('./services/metrics');
 const counters = require('./services/counters');
 const webhooks = require('./services/webhooks');
 const h27 = require('./services/h27');
+const memories = require('./services/memories');
 const { track } = require('./services/events');
 const { configProblems } = require('./config');
 
@@ -172,6 +173,32 @@ const routes = [
   ['GET', '/api/admin/h27/summary', async (ctx, req) => { await requireAdmin(ctx, req); return { body: await h27.summary(ctx) }; }, { noOrigin: true }],
   ['GET', '/api/admin/h27/leads.csv', async (ctx, req) => { const a = await requireAdmin(ctx, req); return { text: await h27.exportCsv(ctx, a), headers: { 'Content-Type': 'text/csv; charset=utf-8', 'Content-Disposition': 'attachment; filename="halloween-2027-early-release.csv"' } }; }, { noOrigin: true }],
 
+
+  // ---- Memories photo library (/memories, unlisted). Public read; owner-only writes (Bearer ADMIN_API_KEY). ----
+  // Photos sit in Vercel Blob; ctx.blob is the store client (null until BLOB_READ_WRITE_TOKEN is connected).
+  ['GET', '/api/memories/list', async (ctx) => {
+    if (!ctx.blob) return { body: { configured: false, events: [] }, headers: { 'Cache-Control': 'no-store' } };
+    return { body: { configured: true, events: await memories.listEvents(ctx.blob) } };
+  }],
+  ['GET', '/api/memories/next', async (ctx, req, _b, url) => {
+    await requireAdmin(ctx, req);
+    if (!ctx.blob) throw new HttpError(503, 'storage_not_connected');
+    const folder = memories.folderFor({ date: url.searchParams.get('date'), city: url.searchParams.get('city'), venue: url.searchParams.get('venue') });
+    return { body: { folder, next: await memories.nextIndex(ctx.blob, folder) } };
+  }, { noOrigin: true }],
+  // Body = the JPEG bytes; folder/index/size in the query. The page uploads thumb then web for each photo.
+  ['POST', '/api/memories/upload', async (ctx, req, _b, url, raw) => {
+    await requireAdmin(ctx, req);
+    if (!ctx.blob) throw new HttpError(503, 'storage_not_connected');
+    const out = await memories.putPhoto(ctx.blob, { folder: url.searchParams.get('folder'), index: Number(url.searchParams.get('index')), size: url.searchParams.get('size'), bytes: raw });
+    return { body: out };
+  }, { binary: true }],
+  ['POST', '/api/memories/delete', async (ctx, req, body) => {
+    await requireAdmin(ctx, req);
+    if (!ctx.blob) throw new HttpError(503, 'storage_not_connected');
+    return { body: await memories.remove(ctx.blob, { folder: body.folder, index: body.index === undefined || body.index === null ? null : Number(body.index) }) };
+  }],
+
   // ---- Owner controls (Bearer ADMIN_API_KEY) ----
   ['GET', '/api/admin/overview', async (ctx, req) => { await requireAdmin(ctx, req); return { body: await admin.overview(ctx) }; }, { noOrigin: true }],
   ['PUT', '/api/admin/settings', async (ctx, req, body) => { const a = await requireAdmin(ctx, req); return { body: await admin.updateSettings(ctx, body, a) }; }],
@@ -216,6 +243,7 @@ const createHandler = (ctx) => async (req, res) => {
     if (opts.maxBody) await requireAdmin(ctx, req);   // big bodies are only read for authenticated callers
     let raw = null; let body = {};
     if (opts.raw) raw = await readRaw(req);
+    else if (opts.binary) raw = await readBinary(req, memories.MAX_BYTES);
     else if (req.method !== 'GET') body = await readBody(req, opts.maxBody || 32 * 1024);
     if (body === null || typeof body !== 'object') body = {};
     const out = await route[2](ctx, req, body, url, raw);
