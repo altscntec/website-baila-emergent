@@ -1,5 +1,5 @@
 'use strict';
-// Memories: the unlisted photo library at /memories (one section per event night, iOS-Photos style).
+// Memories: the unlisted photo library at /htmf (one section per event night, iOS-Photos style).
 //
 // Photos live in Vercel Blob (public store, BLOB_READ_WRITE_TOKEN from the connected store). Nothing is in the
 // repo or the database. One folder per event, two sizes per photo, written by the owner's upload page

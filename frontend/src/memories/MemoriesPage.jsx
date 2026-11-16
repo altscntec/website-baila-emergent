@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import './memories.css';
 import { listMemories, prettyDate } from './api';
 
-// Memories: the unlisted photo library (link only, noindex). Built to feel like the iPhone Photos app:
+// hTmF ("Hemos tirado muchas fotos"): the unlisted photo library at /htmf (link only, noindex). Built to feel like the iPhone Photos app:
 //   - one section per night, newest first, with a sticky date + venue header
 //   - square grid; pinch in/out (two fingers, or trackpad pinch / ctrl+wheel) steps through the zoom levels
 //   - Months (one cover card per night) · Days (3 across) · All (dense), also on the bottom pill like iOS
@@ -106,7 +106,7 @@ const Viewer = ({ flat, at, setAt, onClose }) => {
     catch (_) { window.open(cur.web, '_blank', 'noopener'); }
   };
   const share = async () => {
-    const url = `${window.location.origin}/memories#p=${cur.id}`;
+    const url = `${window.location.origin}/htmf#p=${cur.id}`;
     try {
       if (navigator.share) {
         let files;
@@ -213,7 +213,7 @@ export const MemoriesPage = () => {
     <div className={`ag lv-${level}`}>
       <header className="ag-top">
         <img src={LOGO} alt="Baila Dembow" />
-        <div><h1>Memories</h1><div className="ag-sub">Nights on the floor</div></div>
+        <div><h1>hTmF</h1><div className="ag-sub">Hemos tirado muchas fotos</div></div>
         <div className="ag-count">{total ? <>{total} photos<br />{events.length} {events.length === 1 ? 'night' : 'nights'}</> : ''}</div>
       </header>
 

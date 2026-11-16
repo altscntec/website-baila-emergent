@@ -273,8 +273,8 @@ function App() {
   const isQuizRoute = effectivePath === "/halloween/quiz" || effectivePath.startsWith("/halloween/quiz/");
   // Halloween 2027 early-release list: standalone like the quiz; hidden by the API until 1 Nov 2026 05:00.
   const isH27Route = effectivePath === "/halloween/2027" || effectivePath.startsWith("/halloween/2027/");
-  // Memories photo library (/memories) and its owner upload page: unlisted, link-only, noindex, no site chrome.
-  const isMemoriesRoute = effectivePath === "/memories" || effectivePath === "/memories-upload";
+  // hTmF photo library (/htmf, "Hemos tirado muchas fotos") and its owner upload page: unlisted, link-only, noindex, no site chrome.
+  const isMemoriesRoute = effectivePath === "/htmf" || effectivePath === "/htmf-upload";
   const isStandalonePage = isKingsdayPage || isPadelPage || isQuizRoute || isH27Route || isMemoriesRoute;
 
   const currentEvent = isEventPage && !isStandalonePage && eventSlug ? getEventBySlug(eventSlug, events) : null;
@@ -319,8 +319,8 @@ function App() {
       {isMemoriesRoute && (
         <Seo
           noindex
-          title="Memories | Baila Dembow"
-          description="Baila Dembow memories."
+          title="hTmF | Baila Dembow"
+          description="Hemos tirado muchas fotos."
           path={effectivePath}
         />
       )}
@@ -335,9 +335,9 @@ function App() {
       <div className="grain-overlay" />
       {!isStandalonePage && <Navigation currentPath={effectivePath} />}
       <main>
-        {effectivePath === "/memories" ? (
+        {effectivePath === "/htmf" ? (
           <MemoriesPage />
-        ) : effectivePath === "/memories-upload" ? (
+        ) : effectivePath === "/htmf-upload" ? (
           <MemoriesUploadPage />
         ) : effectivePath === "/halloween/2027/unsubscribe" ? (
           <H27UnsubscribePage />

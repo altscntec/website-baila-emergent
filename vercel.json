@@ -153,7 +153,7 @@
       ]
     },
     {
-      "source": "/memories",
+      "source": "/htmf",
       "headers": [
         {
           "key": "X-Robots-Tag",
@@ -166,7 +166,7 @@
       ]
     },
     {
-      "source": "/memories-upload",
+      "source": "/htmf-upload",
       "headers": [
         {
           "key": "X-Robots-Tag",
@@ -201,11 +201,11 @@
       "destination": "/spa-shell.html"
     },
     {
-      "source": "/memories",
+      "source": "/htmf",
       "destination": "/spa-shell.html"
     },
     {
-      "source": "/memories-upload",
+      "source": "/htmf-upload",
       "destination": "/spa-shell.html"
     }
   ],

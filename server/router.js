@@ -174,7 +174,7 @@ const routes = [
   ['GET', '/api/admin/h27/leads.csv', async (ctx, req) => { const a = await requireAdmin(ctx, req); return { text: await h27.exportCsv(ctx, a), headers: { 'Content-Type': 'text/csv; charset=utf-8', 'Content-Disposition': 'attachment; filename="halloween-2027-early-release.csv"' } }; }, { noOrigin: true }],
 
 
-  // ---- Memories photo library (/memories, unlisted). Public read; owner-only writes (Bearer ADMIN_API_KEY). ----
+  // ---- hTmF photo library (/htmf, unlisted). Public read; owner-only writes (Bearer ADMIN_API_KEY). ----
   // Photos sit in Vercel Blob; ctx.blob is the store client (null until BLOB_READ_WRITE_TOKEN is connected).
   ['GET', '/api/memories/list', async (ctx) => {
     if (!ctx.blob) return { body: { configured: false, events: [] }, headers: { 'Cache-Control': 'no-store' } };

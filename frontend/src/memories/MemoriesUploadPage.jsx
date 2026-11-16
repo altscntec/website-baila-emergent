@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import './memories.css';
 import { listMemories, ownerJson, ownerUpload, prettyDate } from './api';
 
-// Owner-only upload page for the Memories photo library (/memories-upload, unlisted, noindex).
+// Owner-only upload page for the Memories photo library (/htmf-upload, unlisted, noindex).
 // Pick a night (date, city, venue) and the photos; the browser resizes each photo to a 2000px web copy and a
 // 600px square thumbnail, then sends both to /api/memories/upload with the owner key. Nothing full-size leaves the
 // phone, so an iPhone can upload a whole night on mobile data. HEIC photos work in Safari (iPhone/Mac); other
@@ -98,8 +98,8 @@ export const MemoriesUploadPage = () => {
   return (
     <div className="ag">
       <div className="ag-up">
-        <h1>Memories upload</h1>
-        <p className="lead">Owner only. Photos are resized on this device before upload, so a full night from your phone is fine. Public page: <a href="/memories" style={{ color: '#C9A0F0' }}>bailadembow.com/memories</a></p>
+        <h1>hTmF upload</h1>
+        <p className="lead">Owner only. Photos are resized on this device before upload, so a full night from your phone is fine. Public page: <a href="/htmf" style={{ color: '#C9A0F0' }}>bailadembow.com/htmf</a></p>
         {!configured && <div className="msg">Storage is not connected yet. In Vercel: Storage → Create → Blob → connect it to the baila-dembow project. Uploads work the moment that is done.</div>}
 
         <label htmlFor="agk">Owner key</label>
@@ -120,18 +120,18 @@ export const MemoriesUploadPage = () => {
           <div className="previews">{files.slice(0, 12).map((f) => <Preview key={`${f.name}-${f.lastModified}`} file={f} />)}</div>
         )}
 
-        <button type="button" className="btn" disabled={!ready} onClick={run}>{busy ? `Uploading ${done} / ${files.length}` : 'Upload to Memories'}</button>
+        <button type="button" className="btn" disabled={!ready} onClick={run}>{busy ? `Uploading ${done} / ${files.length}` : 'Upload to hTmF'}</button>
         {busy && <button type="button" className="btn ghost" onClick={() => { stop.current = true; }}>Stop after this photo</button>}
         {(busy || done > 0) && <div className="bar"><i style={{ width: `${pct}%` }} /></div>}
         {msg && <div className={`msg${/live|Deleted/.test(msg) ? ' ok' : ''}`}>{msg}</div>}
         {log.length > 0 && <div className="log">{log.map((l, i) => <div key={i} className={l.ok ? 'ok' : 'bad'}>{l.text}</div>)}</div>}
 
         <div className="nights">
-          <h2>Nights in Memories</h2>
+          <h2>Nights in hTmF</h2>
           {nights === null ? <div className="log">Loading…</div> : nights.length === 0 ? <div className="log">Nothing uploaded yet.</div> : nights.map((ev) => { const d = prettyDate(ev.date); return (
             <div className="night" key={ev.folder}>
               <img src={ev.photos[0].thumb} alt="" />
-              <div><b>{ev.city} · {ev.venue}</b><span>{d.day} {d.date} {d.year} · {ev.count} photos · <a href={`/memories#p=${encodeURIComponent(ev.photos[0].id)}`} style={{ color: '#C9A0F0' }}>open</a></span></div>
+              <div><b>{ev.city} · {ev.venue}</b><span>{d.day} {d.date} {d.year} · {ev.count} photos · <a href={`/htmf#p=${encodeURIComponent(ev.photos[0].id)}`} style={{ color: '#C9A0F0' }}>open</a></span></div>
               <button type="button" onClick={() => delNight(ev)}>Delete night</button>
             </div>
           ); })}
