@@ -129,7 +129,7 @@ export const HtmfUploadPage = () => {
         {log.length > 0 && <div className="log">{log.map((l, i) => <div key={i} className={l.ok ? 'ok' : 'bad'}>{l.text}</div>)}</div>}
 
         <div className="nights">
-          <h2>Nights in hTmF</h2>
+          <h2>Baila Dembow - hTmF</h2>
           {nights === null ? <div className="log">Loading…</div> : nights.length === 0 ? <div className="log">Nothing uploaded yet.</div> : nights.map((ev) => { const d = prettyDate(ev.date); return (
             <div className="night" key={ev.folder}>
               <img src={ev.photos[0].thumb} alt="" />
