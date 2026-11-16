@@ -53,8 +53,8 @@ const ROUTES = [...STATIC_ROUTES, ...eventRoutes()];
 // landing pages that manage their own head, and an alias of /halloween).
 // They get the SPA shell so they keep working without a catch-all rewrite.
 const SHELL_ROUTES = [
-  '/htmf',
-  '/htmf-upload',
+  '/moments',
+  '/moments-upload',
   '/experiences/halloween',
   '/events/kingsday-weekender-2026',
   '/events/PadelXReggaeton',

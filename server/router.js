@@ -15,7 +15,7 @@ const metricsSvc = require('./services/metrics');
 const counters = require('./services/counters');
 const webhooks = require('./services/webhooks');
 const h27 = require('./services/h27');
-const htmf = require('./services/htmf');
+const moments = require('./services/moments');
 const { track } = require('./services/events');
 const { configProblems } = require('./config');
 
@@ -174,29 +174,29 @@ const routes = [
   ['GET', '/api/admin/h27/leads.csv', async (ctx, req) => { const a = await requireAdmin(ctx, req); return { text: await h27.exportCsv(ctx, a), headers: { 'Content-Type': 'text/csv; charset=utf-8', 'Content-Disposition': 'attachment; filename="halloween-2027-early-release.csv"' } }; }, { noOrigin: true }],
 
 
-  // ---- hTmF photo library (/htmf, unlisted). Public read; owner-only writes (Bearer ADMIN_API_KEY). ----
+  // ---- Moments photo library (/moments, unlisted). Public read; owner-only writes (Bearer ADMIN_API_KEY). ----
   // Photos sit in Vercel Blob; ctx.blob is the store client (null until BLOB_READ_WRITE_TOKEN is connected).
-  ['GET', '/api/htmf/list', async (ctx) => {
+  ['GET', '/api/moments/list', async (ctx) => {
     if (!ctx.blob) return { body: { configured: false, events: [] }, headers: { 'Cache-Control': 'no-store' } };
-    return { body: { configured: true, events: await htmf.listEvents(ctx.blob) } };
+    return { body: { configured: true, events: await moments.listEvents(ctx.blob) } };
   }],
-  ['GET', '/api/htmf/next', async (ctx, req, _b, url) => {
+  ['GET', '/api/moments/next', async (ctx, req, _b, url) => {
     await requireAdmin(ctx, req);
     if (!ctx.blob) throw new HttpError(503, 'storage_not_connected');
-    const folder = htmf.folderFor({ date: url.searchParams.get('date'), city: url.searchParams.get('city'), venue: url.searchParams.get('venue') });
-    return { body: { folder, next: await htmf.nextIndex(ctx.blob, folder) } };
+    const folder = moments.folderFor({ date: url.searchParams.get('date'), city: url.searchParams.get('city'), venue: url.searchParams.get('venue') });
+    return { body: { folder, next: await moments.nextIndex(ctx.blob, folder) } };
   }, { noOrigin: true }],
   // Body = the JPEG bytes; folder/index/size in the query. The page uploads thumb then web for each photo.
-  ['POST', '/api/htmf/upload', async (ctx, req, _b, url, raw) => {
+  ['POST', '/api/moments/upload', async (ctx, req, _b, url, raw) => {
     await requireAdmin(ctx, req);
     if (!ctx.blob) throw new HttpError(503, 'storage_not_connected');
-    const out = await htmf.putPhoto(ctx.blob, { folder: url.searchParams.get('folder'), index: Number(url.searchParams.get('index')), size: url.searchParams.get('size'), bytes: raw });
+    const out = await moments.putPhoto(ctx.blob, { folder: url.searchParams.get('folder'), index: Number(url.searchParams.get('index')), size: url.searchParams.get('size'), bytes: raw });
     return { body: out };
   }, { binary: true }],
-  ['POST', '/api/htmf/delete', async (ctx, req, body) => {
+  ['POST', '/api/moments/delete', async (ctx, req, body) => {
     await requireAdmin(ctx, req);
     if (!ctx.blob) throw new HttpError(503, 'storage_not_connected');
-    return { body: await htmf.remove(ctx.blob, { folder: body.folder, index: body.index === undefined || body.index === null ? null : Number(body.index) }) };
+    return { body: await moments.remove(ctx.blob, { folder: body.folder, index: body.index === undefined || body.index === null ? null : Number(body.index) }) };
   }],
 
   // ---- Owner controls (Bearer ADMIN_API_KEY) ----
@@ -243,7 +243,7 @@ const createHandler = (ctx) => async (req, res) => {
     if (opts.maxBody) await requireAdmin(ctx, req);   // big bodies are only read for authenticated callers
     let raw = null; let body = {};
     if (opts.raw) raw = await readRaw(req);
-    else if (opts.binary) raw = await readBinary(req, htmf.MAX_BYTES);
+    else if (opts.binary) raw = await readBinary(req, moments.MAX_BYTES);
     else if (req.method !== 'GET') body = await readBody(req, opts.maxBody || 32 * 1024);
     if (body === null || typeof body !== 'object') body = {};
     const out = await route[2](ctx, req, body, url, raw);

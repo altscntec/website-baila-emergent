@@ -1,15 +1,15 @@
 'use strict';
-// hTmF: the unlisted photo library at /htmf (one section per event night, iOS-Photos style).
+// Moments: the unlisted photo library at /moments (one section per event night, iOS-Photos style).
 //
 // Photos live in Vercel Blob (public store, BLOB_READ_WRITE_TOKEN from the connected store). Nothing is in the
 // repo or the database. One folder per event, two sizes per photo, written by the owner's upload page
-// (/htmf-upload) which resizes in the browser before sending:
-//   htmf/<YYYY-MM-DD>_<city>_<venue>/web/<NNNN>.jpg     long edge <= 2000px, what the viewer opens
-//   htmf/<YYYY-MM-DD>_<city>_<venue>/thumb/<NNNN>.jpg   600px square crop, what the grid shows
+// (/moments-upload) which resizes in the browser before sending:
+//   moments/<YYYY-MM-DD>_<city>_<venue>/web/<NNNN>.jpg     long edge <= 2000px, what the viewer opens
+//   moments/<YYYY-MM-DD>_<city>_<venue>/thumb/<NNNN>.jpg   600px square crop, what the grid shows
 // The folder name is the only metadata: date, city and venue are parsed back out of it for the headers.
 const { HttpError } = require('../lib/http');
 
-const PREFIX = 'htmf/';
+const PREFIX = 'moments/';
 const FOLDER_RE = /^(\d{4}-\d{2}-\d{2})_([a-z0-9-]+)_([a-z0-9-]+)$/;
 const FILE_RE = /^(\d{4})\.jpg$/;
 const MAX_BYTES = 4 * 1024 * 1024;   // Vercel function body limit is 4.5 MB; browser-resized files are far below
@@ -33,7 +33,7 @@ const folderFor = ({ date, city, venue }) => {
   return `${date}_${c}_${v}`;
 };
 
-// Every blob under htmf/ (the store lists 1000 per page).
+// Every blob under moments/ (the store lists 1000 per page).
 const listAll = async (blob, prefix = PREFIX) => {
   const out = []; let cursor;
   do {

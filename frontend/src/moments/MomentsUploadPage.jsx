@@ -1,14 +1,14 @@
 import { useEffect, useRef, useState } from 'react';
-import './htmf.css';
-import { listHtmf, ownerJson, ownerUpload, prettyDate } from './api';
+import './moments.css';
+import { listMoments, ownerJson, ownerUpload, prettyDate } from './api';
 
-// Owner-only upload page for the hTmF photo library (/htmf-upload, unlisted, noindex).
+// Owner-only upload page for the Moments photo library (/moments-upload, unlisted, noindex).
 // Pick a night (date, city, venue) and the photos; the browser resizes each photo to a 2000px web copy and a
-// 600px square thumbnail, then sends both to /api/htmf/upload with the owner key. Nothing full-size leaves the
+// 600px square thumbnail, then sends both to /api/moments/upload with the owner key. Nothing full-size leaves the
 // phone, so an iPhone can upload a whole night on mobile data. HEIC photos work in Safari (iPhone/Mac); other
 // browsers need JPEG. Works on existing nights too: new photos are appended after the ones already there.
 
-const KEY_STORE = 'bd_htmf_key';
+const KEY_STORE = 'bd_moments_key';
 // Desktop browsers only open the calendar from the small icon; open it from anywhere in the field.
 const openPicker = (e) => { try { if (e.target.showPicker) e.target.showPicker(); } catch (_) { /* needs a user gesture; the icon still works */ } };
 const WEB_EDGE = 2000; const THUMB = 600;
@@ -33,7 +33,7 @@ const resize = async (file) => {
   return { web, thumb };
 };
 
-export const HtmfUploadPage = () => {
+export const MomentsUploadPage = () => {
   const [key, setKey] = useState(() => { try { return sessionStorage.getItem(KEY_STORE) || ''; } catch (_) { return ''; } });
   const [date, setDate] = useState('');
   const [city, setCity] = useState('');
@@ -48,7 +48,7 @@ export const HtmfUploadPage = () => {
   const inputRef = useRef(null);
   const stop = useRef(false);
 
-  const refresh = () => listHtmf().then((d) => { setNights(d.events); setConfigured(d.configured !== false); }).catch(() => setNights([]));
+  const refresh = () => listMoments().then((d) => { setNights(d.events); setConfigured(d.configured !== false); }).catch(() => setNights([]));
   useEffect(() => { refresh(); }, []);
   useEffect(() => { try { sessionStorage.setItem(KEY_STORE, key); } catch (_) { /* private mode */ } }, [key]);
 
@@ -61,7 +61,7 @@ export const HtmfUploadPage = () => {
     let folder; let index;
     try {
       const q = new URLSearchParams({ date, city: city.trim(), venue: venue.trim() });
-      const r = await ownerJson(key.trim(), 'GET', `/api/htmf/next?${q}`);
+      const r = await ownerJson(key.trim(), 'GET', `/api/moments/next?${q}`);
       folder = r.folder; index = r.next;
     } catch (e) {
       setBusy(false);
@@ -93,16 +93,16 @@ export const HtmfUploadPage = () => {
   const delNight = async (ev) => {
     if (!key.trim()) { setMsg('Enter the owner key first.'); return; }
     if (!window.confirm(`Delete all ${ev.count} photos of ${ev.city} · ${ev.venue} (${ev.date})? This cannot be undone.`)) return;
-    try { await ownerJson(key.trim(), 'POST', '/api/htmf/delete', { folder: ev.folder }); setMsg(`Deleted ${ev.folder}.`); refresh(); }
+    try { await ownerJson(key.trim(), 'POST', '/api/moments/delete', { folder: ev.folder }); setMsg(`Deleted ${ev.folder}.`); refresh(); }
     catch (e) { setMsg(e.status === 401 ? 'Owner key refused.' : `Delete failed: ${e.message}`); }
   };
 
   const pct = files.length ? Math.round((done / files.length) * 100) : 0;
   return (
-    <div className="ht">
-      <div className="ht-up">
-        <h1>hTmF upload</h1>
-        <p className="lead">Owner only. Photos are resized on this device before upload, so a full night from your phone is fine. Public page: <a href="/htmf" style={{ color: '#C9A0F0' }}>bailadembow.com/htmf</a></p>
+    <div className="mo">
+      <div className="mo-up">
+        <h1>Moments upload</h1>
+        <p className="lead">Owner only. Photos are resized on this device before upload, so a full night from your phone is fine. Public page: <a href="/moments" style={{ color: '#C9A0F0' }}>bailadembow.com/moments</a></p>
         {!configured && <div className="msg">Storage is not connected yet. In Vercel: Storage → Create → Blob → connect it to the baila-dembow project. Uploads work the moment that is done.</div>}
 
         <label htmlFor="agk">Owner key</label>
@@ -123,7 +123,7 @@ export const HtmfUploadPage = () => {
           <div className="previews">{files.slice(0, 12).map((f) => <Preview key={`${f.name}-${f.lastModified}`} file={f} />)}</div>
         )}
 
-        <button type="button" className="btn" disabled={!ready} onClick={run}>{busy ? `Uploading ${done} / ${files.length}` : 'Upload to hTmF'}</button>
+        <button type="button" className="btn" disabled={!ready} onClick={run}>{busy ? `Uploading ${done} / ${files.length}` : 'Upload to Moments'}</button>
         {!busy && missing.length > 0 && <div className="hint">Still needed: {missing.join(', ')}.</div>}
         {busy && <button type="button" className="btn ghost" onClick={() => { stop.current = true; }}>Stop after this photo</button>}
         {(busy || done > 0) && <div className="bar"><i style={{ width: `${pct}%` }} /></div>}
@@ -131,11 +131,11 @@ export const HtmfUploadPage = () => {
         {log.length > 0 && <div className="log">{log.map((l, i) => <div key={i} className={l.ok ? 'ok' : 'bad'}>{l.text}</div>)}</div>}
 
         <div className="nights">
-          <h2>Baila Dembow - hTmF</h2>
+          <h2>Baila Dembow - Moments</h2>
           {nights === null ? <div className="log">Loading…</div> : nights.length === 0 ? <div className="log">Nothing uploaded yet.</div> : nights.map((ev) => { const d = prettyDate(ev.date); return (
             <div className="night" key={ev.folder}>
               <img src={ev.photos[0].thumb} alt="" />
-              <div><b>{ev.city} · {ev.venue}</b><span>{d.day} {d.date} {d.year} · {ev.count} photos · <a href={`/htmf#p=${encodeURIComponent(ev.photos[0].id)}`} style={{ color: '#C9A0F0' }}>open</a></span></div>
+              <div><b>{ev.city} · {ev.venue}</b><span>{d.day} {d.date} {d.year} · {ev.count} photos · <a href={`/moments#p=${encodeURIComponent(ev.photos[0].id)}`} style={{ color: '#C9A0F0' }}>open</a></span></div>
               <button type="button" onClick={() => delNight(ev)}>Delete night</button>
             </div>
           ); })}

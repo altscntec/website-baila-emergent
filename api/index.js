@@ -16,7 +16,7 @@ const get = () => {
   const cfg = loadConfig();
   const db = cfg.databaseUrl ? createDb(poolFromUrl(cfg.databaseUrl)) : null;
   const mail = createResendAdapter({ apiKey: cfg.resendApiKey, from: cfg.mailFrom, replyTo: cfg.mailReplyTo });
-  // hTmF photo library: only when the Vercel Blob store is connected to the project (BLOB_READ_WRITE_TOKEN).
+  // Moments photo library: only when the Vercel Blob store is connected to the project (BLOB_READ_WRITE_TOKEN).
   let blob = null;
   if (cfg.blobToken) { const b = require('@vercel/blob'); blob = { list: (o) => b.list({ ...o, token: cfg.blobToken }), put: (p, d, o) => b.put(p, d, { ...o, token: cfg.blobToken }), del: (u) => b.del(u, { token: cfg.blobToken }) }; }
   const sms = createTwilioVerify({ accountSid: cfg.twilioAccountSid, authToken: cfg.twilioAuthToken, serviceSid: cfg.twilioVerifyServiceSid });

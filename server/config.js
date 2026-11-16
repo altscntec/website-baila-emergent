@@ -29,7 +29,7 @@ const loadConfig = (env = process.env) => {
     // Phone verification (WhatsApp / SMS one-time codes) through Twilio Verify. Off unless H27_PHONE_VERIFICATION=on
     // AND the Twilio variables are set: the approved 2027 page verifies email only.
     h27PhoneVerification: env.H27_PHONE_VERIFICATION === 'on' ? 'on' : 'off',
-    // hTmF photo library (/htmf): the Vercel Blob store connected to the project. Unset = library empty, uploads refused.
+    // Moments photo library (/moments): the Vercel Blob store connected to the project. Unset = library empty, uploads refused.
     blobToken: env.BLOB_READ_WRITE_TOKEN || null,
     twilioAccountSid: env.TWILIO_ACCOUNT_SID || null, twilioAuthToken: env.TWILIO_AUTH_TOKEN || null, twilioVerifyServiceSid: env.TWILIO_VERIFY_SERVICE_SID || null,
   };

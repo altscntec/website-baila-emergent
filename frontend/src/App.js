@@ -33,8 +33,8 @@ import { QuizPage } from "./quiz/QuizPage";
 import { QuizAdminPage } from "./quiz/QuizAdminPage";
 import { UnsubscribePage } from "./quiz/UnsubscribePage";
 import { Halloween2027Page, H27UnsubscribePage } from "./halloween2027/Halloween2027Page";
-import { HtmfPage } from "./htmf/HtmfPage";
-import { HtmfUploadPage } from "./htmf/HtmfUploadPage";
+import { MomentsPage } from "./moments/MomentsPage";
+import { MomentsUploadPage } from "./moments/MomentsUploadPage";
 
 // ---------------------------------------------------------------------------
 // Path-based routing (real URLs, crawlable + prerenderable).
@@ -273,9 +273,9 @@ function App() {
   const isQuizRoute = effectivePath === "/halloween/quiz" || effectivePath.startsWith("/halloween/quiz/");
   // Halloween 2027 early-release list: standalone like the quiz; hidden by the API until 1 Nov 2026 05:00.
   const isH27Route = effectivePath === "/halloween/2027" || effectivePath.startsWith("/halloween/2027/");
-  // hTmF photo library (/htmf, "Hemos tirado muchas fotos") and its owner upload page: unlisted, link-only, noindex, no site chrome.
-  const isHtmfRoute = effectivePath === "/htmf" || effectivePath === "/htmf-upload";
-  const isStandalonePage = isKingsdayPage || isPadelPage || isQuizRoute || isH27Route || isHtmfRoute;
+  // Moments photo library (/moments, "Hemos tirado muchas fotos") and its owner upload page: unlisted, link-only, noindex, no site chrome.
+  const isMomentsRoute = effectivePath === "/moments" || effectivePath === "/moments-upload";
+  const isStandalonePage = isKingsdayPage || isPadelPage || isQuizRoute || isH27Route || isMomentsRoute;
 
   const currentEvent = isEventPage && !isStandalonePage && eventSlug ? getEventBySlug(eventSlug, events) : null;
   const seoMeta = routeSeo(effectivePath, currentEvent);
@@ -316,10 +316,10 @@ function App() {
           path="/halloween/quiz"
         />
       )}
-      {isHtmfRoute && (
+      {isMomentsRoute && (
         <Seo
           noindex
-          title="hTmF | Baila Dembow"
+          title="Moments | Baila Dembow"
           description="Hemos tirado muchas fotos."
           path={effectivePath}
         />
@@ -335,10 +335,10 @@ function App() {
       <div className="grain-overlay" />
       {!isStandalonePage && <Navigation currentPath={effectivePath} />}
       <main>
-        {effectivePath === "/htmf" ? (
-          <HtmfPage />
-        ) : effectivePath === "/htmf-upload" ? (
-          <HtmfUploadPage />
+        {effectivePath === "/moments" ? (
+          <MomentsPage />
+        ) : effectivePath === "/moments-upload" ? (
+          <MomentsUploadPage />
         ) : effectivePath === "/halloween/2027/unsubscribe" ? (
           <H27UnsubscribePage />
         ) : effectivePath === "/halloween/2027" ? (
