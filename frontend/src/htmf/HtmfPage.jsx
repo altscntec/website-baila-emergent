@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import './memories.css';
-import { listMemories, prettyDate } from './api';
+import './htmf.css';
+import { listHtmf, prettyDate } from './api';
 
 // hTmF ("Hemos tirado muchas fotos"): the unlisted photo library at /htmf (link only, noindex). Built to feel like the iPhone Photos app:
 //   - one section per night, newest first, with a sticky date + venue header
@@ -8,7 +8,7 @@ import { listMemories, prettyDate } from './api';
 //   - Months (one cover card per night) · Days (3 across) · All (dense), also on the bottom pill like iOS
 //   - tap a photo for the full-screen viewer: swipe between photos, pinch and double-tap to zoom, filmstrip,
 //     share and download, back gesture / Escape closes it
-// Photos come from /api/memories/list (Vercel Blob behind it); the page itself holds no photos.
+// Photos come from /api/htmf/list (Vercel Blob behind it); the page itself holds no photos.
 
 const LOGO = '/images/branding/baila-logo-white.png';
 const LEVELS = ['months', 'days', 'all'];
@@ -28,7 +28,7 @@ const I = {
 const Thumb = ({ src, alt, onClick }) => {
   const [ok, setOk] = useState(false);
   return (
-    <button type="button" className="ag-ph" onClick={onClick} aria-label={alt}>
+    <button type="button" className="ht-ph" onClick={onClick} aria-label={alt}>
       <img src={src} alt="" loading="lazy" decoding="async" className={ok ? 'in' : ''} onLoad={() => setOk(true)} />
     </button>
   );
@@ -120,29 +120,29 @@ const Viewer = ({ flat, at, setAt, onClose }) => {
   const slides = [at - 1, at, at + 1].filter((i) => flat[i]);
   const base = -(at - slides[0]) * 100;
   return (
-    <div className={`ag-view${chrome ? '' : ' chrome-off'}`} role="dialog" aria-modal="true" aria-label="Photo viewer">
-      <div className="ag-vtop">
-        <button type="button" className="ag-back" onClick={onClose} aria-label="Back"><Icon d={I.back} /></button>
-        <div className="ag-ttl"><b>{d.day} {d.date} {d.year}</b><span>{cur.ev.city} · {cur.ev.venue}</span></div>
-        <div className="ag-pos">{at + 1} / {flat.length}</div>
+    <div className={`ht-view${chrome ? '' : ' chrome-off'}`} role="dialog" aria-modal="true" aria-label="Photo viewer">
+      <div className="ht-vtop">
+        <button type="button" className="ht-back" onClick={onClose} aria-label="Back"><Icon d={I.back} /></button>
+        <div className="ht-ttl"><b>{d.day} {d.date} {d.year}</b><span>{cur.ev.city} · {cur.ev.venue}</span></div>
+        <div className="ht-pos">{at + 1} / {flat.length}</div>
       </div>
-      <div className="ag-stage" ref={stageRef} onTouchStart={onStart} onTouchMove={onMove} onTouchEnd={onEnd} onTouchCancel={onEnd}>
-        <div className={`ag-strip${snap ? ' snap' : ''}`} style={{ transform: `translate3d(calc(${base}% + ${drag}px), 0, 0)` }}>
+      <div className="ht-stage" ref={stageRef} onTouchStart={onStart} onTouchMove={onMove} onTouchEnd={onEnd} onTouchCancel={onEnd}>
+        <div className={`ht-strip${snap ? ' snap' : ''}`} style={{ transform: `translate3d(calc(${base}% + ${drag}px), 0, 0)` }}>
           {slides.map((i) => (
-            <div className="ag-slide" key={flat[i].id}>
+            <div className="ht-slide" key={flat[i].id}>
               <img src={flat[i].web} alt="" draggable="false" className={i === at && zoom.s > 1 ? 'zoomed' : ''}
                 style={i === at ? { transform: `translate(${zoom.x}px, ${zoom.y}px) scale(${zoom.s})`, transition: snap ? 'transform .2s ease-out' : 'none' } : undefined} />
             </div>
           ))}
         </div>
       </div>
-      {at > 0 && <button type="button" className="ag-nav l" onClick={prev} aria-label="Previous"><Icon d={I.left} /></button>}
-      {at < flat.length - 1 && <button type="button" className="ag-nav r" onClick={next} aria-label="Next"><Icon d={I.right} /></button>}
-      <div className="ag-vbot">
-        <div className="ag-film" ref={filmRef}>
+      {at > 0 && <button type="button" className="ht-nav l" onClick={prev} aria-label="Previous"><Icon d={I.left} /></button>}
+      {at < flat.length - 1 && <button type="button" className="ht-nav r" onClick={next} aria-label="Next"><Icon d={I.right} /></button>}
+      <div className="ht-vbot">
+        <div className="ht-film" ref={filmRef}>
           {flat.map((p, i) => (<button type="button" key={p.id} className={i === at ? 'on' : ''} onClick={() => setAt(i)} aria-label={`Photo ${i + 1}`}><img src={p.thumb} alt="" loading="lazy" decoding="async" /></button>))}
         </div>
-        <div className="ag-acts">
+        <div className="ht-acts">
           <button type="button" onClick={share}><Icon d={I.share} />Share</button>
           <button type="button" onClick={download}><Icon d={I.down} />Save</button>
           <button type="button" onClick={onClose}><Icon d={I.grid} />Grid</button>
@@ -152,10 +152,10 @@ const Viewer = ({ flat, at, setAt, onClose }) => {
   );
 };
 
-export const MemoriesPage = () => {
+export const HtmfPage = () => {
   const [data, setData] = useState(null);
   const [err, setErr] = useState(false);
-  const [level, setLevel] = useState(() => { try { return LEVELS.includes(localStorage.getItem('bd_memories_zoom')) ? localStorage.getItem('bd_memories_zoom') : 'days'; } catch (_) { return 'days'; } });
+  const [level, setLevel] = useState(() => { try { return LEVELS.includes(localStorage.getItem('bd_htmf_zoom')) ? localStorage.getItem('bd_htmf_zoom') : 'days'; } catch (_) { return 'days'; } });
   const [w, setW] = useState(() => window.innerWidth);
   const [scale, setScale] = useState(1);
   const [snap, setSnap] = useState(false);
@@ -164,9 +164,9 @@ export const MemoriesPage = () => {
   const pinch = useRef(null);
   const wheelAcc = useRef(0);
 
-  useEffect(() => { listMemories().then(setData).catch(() => setErr(true)); }, []);
+  useEffect(() => { listHtmf().then(setData).catch(() => setErr(true)); }, []);
   useEffect(() => { const r = () => setW(window.innerWidth); window.addEventListener('resize', r); return () => window.removeEventListener('resize', r); }, []);
-  useEffect(() => { try { localStorage.setItem('bd_memories_zoom', level); } catch (_) { /* private mode */ } }, [level]);
+  useEffect(() => { try { localStorage.setItem('bd_htmf_zoom', level); } catch (_) { /* private mode */ } }, [level]);
 
   const events = useMemo(() => (data && data.events) || [], [data]);
   const flat = useMemo(() => events.flatMap((ev) => ev.photos.map((p) => ({ ...p, ev }))), [events]);
@@ -180,8 +180,8 @@ export const MemoriesPage = () => {
     window.addEventListener('popstate', fromHash);
     return () => window.removeEventListener('popstate', fromHash);
   }, [flat]);
-  const open = (i) => { window.history.pushState({ memoriesViewer: true }, '', `#p=${encodeURIComponent(flat[i].id)}`); setAt(i); };
-  const close = useCallback(() => { if (window.history.state && window.history.state.memoriesViewer) window.history.back(); else { window.history.replaceState(null, '', window.location.pathname); setAt(-1); } }, []);
+  const open = (i) => { window.history.pushState({ htmfViewer: true }, '', `#p=${encodeURIComponent(flat[i].id)}`); setAt(i); };
+  const close = useCallback(() => { if (window.history.state && window.history.state.htmfViewer) window.history.back(); else { window.history.replaceState(null, '', window.location.pathname); setAt(-1); } }, []);
 
   // Pinch on the grid (iOS: pinch out = bigger photos = fewer columns). Trackpad pinch arrives as ctrl+wheel.
   const step = (dir) => setLevel((l) => { const i = LEVELS.indexOf(l); const n = Math.min(LEVELS.length - 1, Math.max(0, i + dir)); return LEVELS[n]; });
@@ -202,7 +202,7 @@ export const MemoriesPage = () => {
     if (wheelAcc.current < -80) { step(-1); wheelAcc.current = 0; }
     if (wheelAcc.current > 80) { step(1); wheelAcc.current = 0; }
   };
-  useEffect(() => { const el = document.getElementById('ag-zoom'); if (!el) return; el.addEventListener('touchmove', onTouchMove, { passive: false }); el.addEventListener('wheel', onWheel, { passive: false }); return () => { el.removeEventListener('touchmove', onTouchMove); el.removeEventListener('wheel', onWheel); }; }); // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => { const el = document.getElementById('ht-zoom'); if (!el) return; el.addEventListener('touchmove', onTouchMove, { passive: false }); el.addEventListener('wheel', onWheel, { passive: false }); return () => { el.removeEventListener('touchmove', onTouchMove); el.removeEventListener('wheel', onWheel); }; }); // eslint-disable-line react-hooks/exhaustive-deps
   useEffect(() => { if (!total) return; const t1 = setTimeout(() => setHint(true), 1200); const t2 = setTimeout(() => setHint(false), 5200); return () => { clearTimeout(t1); clearTimeout(t2); }; }, [total]);
 
   const cols = COLS[level][bp(w)];
@@ -210,26 +210,26 @@ export const MemoriesPage = () => {
   let offset = 0;
 
   return (
-    <div className={`ag lv-${level}`}>
-      <header className="ag-top">
+    <div className={`ht lv-${level}`}>
+      <header className="ht-top">
         <img src={LOGO} alt="Baila Dembow" />
-        <div><h1>hTmF</h1><div className="ag-sub">Hemos tirado muchas fotos</div></div>
-        <div className="ag-count">{total ? <>{total} photos<br />{events.length} {events.length === 1 ? 'night' : 'nights'}</> : ''}</div>
+        <div><h1>hTmF</h1><div className="ht-sub">Hemos tirado muchas fotos</div></div>
+        <div className="ht-count">{total ? <>{total} photos<br />{events.length} {events.length === 1 ? 'night' : 'nights'}</> : ''}</div>
       </header>
 
-      <div className="ag-body">
+      <div className="ht-body">
         {err ? (
-          <div className="ag-empty"><h2>Offline</h2><p>The photos could not be loaded. Pull to refresh or try again in a minute.</p></div>
+          <div className="ht-empty"><h2>Offline</h2><p>The photos could not be loaded. Pull to refresh or try again in a minute.</p></div>
         ) : !data ? (
-          <div className="ag-skel" style={{ '--cols': cols }}>{Array.from({ length: cols * 6 }).map((_, i) => <div key={i} />)}</div>
+          <div className="ht-skel" style={{ '--cols': cols }}>{Array.from({ length: cols * 6 }).map((_, i) => <div key={i} />)}</div>
         ) : !total ? (
-          <div className="ag-empty"><h2>Nothing here yet</h2><p>The first night's photos land here soon. Keep the link.</p></div>
+          <div className="ht-empty"><h2>Nothing here yet</h2><p>The first night's photos land here soon. Keep the link.</p></div>
         ) : (
-          <div id="ag-zoom" className={`ag-zoom${snap ? ' snap' : ''}`} style={{ transform: `scale(${scale})` }} onTouchStart={onTouchStart} onTouchEnd={onTouchEnd} onTouchCancel={onTouchEnd}>
+          <div id="ht-zoom" className={`ht-zoom${snap ? ' snap' : ''}`} style={{ transform: `scale(${scale})` }} onTouchStart={onTouchStart} onTouchEnd={onTouchEnd} onTouchCancel={onTouchEnd}>
             {level === 'months' ? (
-              <div className="ag-months" style={{ '--mcols': cols }}>
+              <div className="ht-months" style={{ '--mcols': cols }}>
                 {events.map((ev, i) => { const d = prettyDate(ev.date); return (
-                  <button type="button" key={ev.folder} className="ag-mcard" onClick={() => jumpTo(ev.folder)}>
+                  <button type="button" key={ev.folder} className="ht-mcard" onClick={() => jumpTo(ev.folder)}>
                     <img src={ev.cover} alt="" loading={i < 2 ? 'eager' : 'lazy'} decoding="async" />
                     {i === 0 && <span className="tag">Latest</span>}
                     <div className="t"><b>{ev.city}</b><span>{ev.venue} <em>· {d.day} {d.date} {d.year} · {ev.count} photos</em></span></div>
@@ -239,9 +239,9 @@ export const MemoriesPage = () => {
             ) : events.map((ev) => {
               const d = prettyDate(ev.date); const start = offset; offset += ev.photos.length;
               return (
-                <section className="ag-sec" key={ev.folder} id={`night-${ev.folder}`}>
-                  <div className="ag-head"><div><b>{d.day} {d.date}</b><span>{ev.city} · {ev.venue} · {d.year}</span></div><span className="ag-n">{ev.count} photos</span></div>
-                  <div className="ag-grid" style={{ '--cols': cols }}>
+                <section className="ht-sec" key={ev.folder} id={`night-${ev.folder}`}>
+                  <div className="ht-head"><div><b>{d.day} {d.date}</b><span>{ev.city} · {ev.venue} · {d.year}</span></div><span className="ht-n">{ev.count} photos</span></div>
+                  <div className="ht-grid" style={{ '--cols': cols }}>
                     {ev.photos.map((p, j) => <Thumb key={p.id} src={p.thumb} alt={`${ev.city} ${d.date}, photo ${j + 1}`} onClick={() => open(start + j)} />)}
                   </div>
                 </section>
@@ -253,8 +253,8 @@ export const MemoriesPage = () => {
 
       {total > 0 && at < 0 && (
         <>
-          <div className={`ag-hint${hint ? ' show' : ''}`}>Pinch to zoom the grid</div>
-          <nav className="ag-seg" aria-label="Zoom level">
+          <div className={`ht-hint${hint ? ' show' : ''}`}>Pinch to zoom the grid</div>
+          <nav className="ht-seg" aria-label="Zoom level">
             {[['months', 'Nights'], ['days', 'Days'], ['all', 'All photos']].map(([k, label]) => (
               <button type="button" key={k} className={level === k ? 'on' : ''} onClick={() => setLevel(k)} aria-pressed={level === k}>{label}</button>
             ))}

@@ -1,14 +1,14 @@
 import { useEffect, useRef, useState } from 'react';
-import './memories.css';
-import { listMemories, ownerJson, ownerUpload, prettyDate } from './api';
+import './htmf.css';
+import { listHtmf, ownerJson, ownerUpload, prettyDate } from './api';
 
-// Owner-only upload page for the Memories photo library (/htmf-upload, unlisted, noindex).
+// Owner-only upload page for the hTmF photo library (/htmf-upload, unlisted, noindex).
 // Pick a night (date, city, venue) and the photos; the browser resizes each photo to a 2000px web copy and a
-// 600px square thumbnail, then sends both to /api/memories/upload with the owner key. Nothing full-size leaves the
+// 600px square thumbnail, then sends both to /api/htmf/upload with the owner key. Nothing full-size leaves the
 // phone, so an iPhone can upload a whole night on mobile data. HEIC photos work in Safari (iPhone/Mac); other
 // browsers need JPEG. Works on existing nights too: new photos are appended after the ones already there.
 
-const KEY_STORE = 'bd_memories_key';
+const KEY_STORE = 'bd_htmf_key';
 const WEB_EDGE = 2000; const THUMB = 600;
 
 const decode = async (file) => {
@@ -31,7 +31,7 @@ const resize = async (file) => {
   return { web, thumb };
 };
 
-export const MemoriesUploadPage = () => {
+export const HtmfUploadPage = () => {
   const [key, setKey] = useState(() => { try { return sessionStorage.getItem(KEY_STORE) || ''; } catch (_) { return ''; } });
   const [date, setDate] = useState('');
   const [city, setCity] = useState('');
@@ -46,7 +46,7 @@ export const MemoriesUploadPage = () => {
   const inputRef = useRef(null);
   const stop = useRef(false);
 
-  const refresh = () => listMemories().then((d) => { setNights(d.events); setConfigured(d.configured !== false); }).catch(() => setNights([]));
+  const refresh = () => listHtmf().then((d) => { setNights(d.events); setConfigured(d.configured !== false); }).catch(() => setNights([]));
   useEffect(() => { refresh(); }, []);
   useEffect(() => { try { sessionStorage.setItem(KEY_STORE, key); } catch (_) { /* private mode */ } }, [key]);
 
@@ -58,7 +58,7 @@ export const MemoriesUploadPage = () => {
     let folder; let index;
     try {
       const q = new URLSearchParams({ date, city: city.trim(), venue: venue.trim() });
-      const r = await ownerJson(key.trim(), 'GET', `/api/memories/next?${q}`);
+      const r = await ownerJson(key.trim(), 'GET', `/api/htmf/next?${q}`);
       folder = r.folder; index = r.next;
     } catch (e) {
       setBusy(false);
@@ -90,14 +90,14 @@ export const MemoriesUploadPage = () => {
   const delNight = async (ev) => {
     if (!key.trim()) { setMsg('Enter the owner key first.'); return; }
     if (!window.confirm(`Delete all ${ev.count} photos of ${ev.city} · ${ev.venue} (${ev.date})? This cannot be undone.`)) return;
-    try { await ownerJson(key.trim(), 'POST', '/api/memories/delete', { folder: ev.folder }); setMsg(`Deleted ${ev.folder}.`); refresh(); }
+    try { await ownerJson(key.trim(), 'POST', '/api/htmf/delete', { folder: ev.folder }); setMsg(`Deleted ${ev.folder}.`); refresh(); }
     catch (e) { setMsg(e.status === 401 ? 'Owner key refused.' : `Delete failed: ${e.message}`); }
   };
 
   const pct = files.length ? Math.round((done / files.length) * 100) : 0;
   return (
-    <div className="ag">
-      <div className="ag-up">
+    <div className="ht">
+      <div className="ht-up">
         <h1>hTmF upload</h1>
         <p className="lead">Owner only. Photos are resized on this device before upload, so a full night from your phone is fine. Public page: <a href="/htmf" style={{ color: '#C9A0F0' }}>bailadembow.com/htmf</a></p>
         {!configured && <div className="msg">Storage is not connected yet. In Vercel: Storage → Create → Blob → connect it to the baila-dembow project. Uploads work the moment that is done.</div>}

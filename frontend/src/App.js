@@ -33,8 +33,8 @@ import { QuizPage } from "./quiz/QuizPage";
 import { QuizAdminPage } from "./quiz/QuizAdminPage";
 import { UnsubscribePage } from "./quiz/UnsubscribePage";
 import { Halloween2027Page, H27UnsubscribePage } from "./halloween2027/Halloween2027Page";
-import { MemoriesPage } from "./memories/MemoriesPage";
-import { MemoriesUploadPage } from "./memories/MemoriesUploadPage";
+import { HtmfPage } from "./htmf/HtmfPage";
+import { HtmfUploadPage } from "./htmf/HtmfUploadPage";
 
 // ---------------------------------------------------------------------------
 // Path-based routing (real URLs, crawlable + prerenderable).
@@ -274,8 +274,8 @@ function App() {
   // Halloween 2027 early-release list: standalone like the quiz; hidden by the API until 1 Nov 2026 05:00.
   const isH27Route = effectivePath === "/halloween/2027" || effectivePath.startsWith("/halloween/2027/");
   // hTmF photo library (/htmf, "Hemos tirado muchas fotos") and its owner upload page: unlisted, link-only, noindex, no site chrome.
-  const isMemoriesRoute = effectivePath === "/htmf" || effectivePath === "/htmf-upload";
-  const isStandalonePage = isKingsdayPage || isPadelPage || isQuizRoute || isH27Route || isMemoriesRoute;
+  const isHtmfRoute = effectivePath === "/htmf" || effectivePath === "/htmf-upload";
+  const isStandalonePage = isKingsdayPage || isPadelPage || isQuizRoute || isH27Route || isHtmfRoute;
 
   const currentEvent = isEventPage && !isStandalonePage && eventSlug ? getEventBySlug(eventSlug, events) : null;
   const seoMeta = routeSeo(effectivePath, currentEvent);
@@ -316,7 +316,7 @@ function App() {
           path="/halloween/quiz"
         />
       )}
-      {isMemoriesRoute && (
+      {isHtmfRoute && (
         <Seo
           noindex
           title="hTmF | Baila Dembow"
@@ -336,9 +336,9 @@ function App() {
       {!isStandalonePage && <Navigation currentPath={effectivePath} />}
       <main>
         {effectivePath === "/htmf" ? (
-          <MemoriesPage />
+          <HtmfPage />
         ) : effectivePath === "/htmf-upload" ? (
-          <MemoriesUploadPage />
+          <HtmfUploadPage />
         ) : effectivePath === "/halloween/2027/unsubscribe" ? (
           <H27UnsubscribePage />
         ) : effectivePath === "/halloween/2027" ? (

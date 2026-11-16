@@ -1,6 +1,6 @@
-// Memories photo library: tiny fetch helpers shared by the public page and the owner upload page.
-export const listMemories = async () => {
-  const r = await fetch('/api/memories/list', { credentials: 'same-origin' });
+// hTmF photo library: tiny fetch helpers shared by the public page and the owner upload page.
+export const listHtmf = async () => {
+  const r = await fetch('/api/htmf/list', { credentials: 'same-origin' });
   if (!r.ok) throw new Error(`list ${r.status}`);
   return r.json();
 };
@@ -14,7 +14,7 @@ export const ownerJson = async (key, method, path, body) => {
 
 export const ownerUpload = async (key, { folder, index, size, blob }) => {
   const q = new URLSearchParams({ folder, index: String(index), size });
-  const r = await fetch(`/api/memories/upload?${q}`, { method: 'POST', credentials: 'same-origin', headers: { Authorization: `Bearer ${key}`, 'Content-Type': 'application/octet-stream' }, body: blob });
+  const r = await fetch(`/api/htmf/upload?${q}`, { method: 'POST', credentials: 'same-origin', headers: { Authorization: `Bearer ${key}`, 'Content-Type': 'application/octet-stream' }, body: blob });
   let data = {}; try { data = await r.json(); } catch (_) { /* empty */ }
   if (!r.ok) throw Object.assign(new Error(data.error || `http_${r.status}`), { status: r.status, data });
   return data;
