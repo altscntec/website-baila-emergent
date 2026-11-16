@@ -9,6 +9,8 @@ import { listHtmf, ownerJson, ownerUpload, prettyDate } from './api';
 // browsers need JPEG. Works on existing nights too: new photos are appended after the ones already there.
 
 const KEY_STORE = 'bd_htmf_key';
+// Desktop browsers only open the calendar from the small icon; open it from anywhere in the field.
+const openPicker = (e) => { try { if (e.target.showPicker) e.target.showPicker(); } catch (_) { /* needs a user gesture; the icon still works */ } };
 const WEB_EDGE = 2000; const THUMB = 600;
 
 const decode = async (file) => {
@@ -105,7 +107,7 @@ export const HtmfUploadPage = () => {
         <label htmlFor="agk">Owner key</label>
         <input id="agk" type="password" value={key} onChange={(e) => setKey(e.target.value)} autoComplete="off" placeholder="ADMIN_API_KEY" />
         <div className="row">
-          <div><label htmlFor="agd">Night (date)</label><input id="agd" type="date" value={date} onChange={(e) => setDate(e.target.value)} /></div>
+          <div><label htmlFor="agd">Night (date)</label><input id="agd" type="date" value={date} onChange={(e) => setDate(e.target.value)} onClick={openPicker} onFocus={openPicker} /></div>
           <div><label htmlFor="agc">City</label><input id="agc" type="text" value={city} onChange={(e) => setCity(e.target.value)} placeholder="Rotterdam" autoComplete="off" /></div>
         </div>
         <label htmlFor="agv">Venue</label>

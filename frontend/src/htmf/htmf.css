@@ -97,6 +97,8 @@
 .ht-up p.lead { color: var(--ht-muted); margin: 0 0 24px; font-size: 14px; }
 .ht-up label { display: block; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--ht-lav); margin: 14px 0 6px; }
 .ht-up input[type=text], .ht-up input[type=password], .ht-up input[type=date] { width: 100%; background: var(--ht-card); border: 1px solid var(--ht-line); border-radius: 10px; color: #fff; padding: 12px 14px; font: 500 16px 'Manrope', sans-serif; }
+.ht-up input[type=date] { cursor: pointer; color-scheme: dark; }
+.ht-up input[type=date]::-webkit-calendar-picker-indicator { cursor: pointer; opacity: .9; filter: invert(1); width: 22px; height: 22px; }
 .ht-up input:focus { outline: 2px solid var(--ht-purple); border-color: transparent; }
 .ht-up .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 .ht-up .drop { margin-top: 18px; border: 2px dashed rgba(123,31,162,.6); border-radius: 16px; padding: 28px 16px; text-align: center; background: rgba(123,31,162,.08); cursor: pointer; }
