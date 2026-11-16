@@ -108,6 +108,7 @@
 .ht-up .btn { margin-top: 18px; width: 100%; border: 0; border-radius: 12px; background: var(--ht-red); color: #fff; font: 800 15px 'Manrope', sans-serif; letter-spacing: .08em; text-transform: uppercase; padding: 16px; cursor: pointer; }
 .ht-up .btn[disabled] { opacity: .45; cursor: default; }
 .ht-up .btn.ghost { background: transparent; border: 1px solid var(--ht-line); color: var(--ht-muted); font-weight: 600; padding: 12px; }
+.ht-up .hint { margin-top: 10px; font-size: 13px; color: var(--ht-lav); text-align: center; }
 .ht-up .bar { height: 6px; border-radius: 999px; background: var(--ht-line); overflow: hidden; margin-top: 16px; }
 .ht-up .bar i { display: block; height: 100%; background: var(--ht-red); transition: width .2s; }
 .ht-up .log { margin-top: 12px; font-size: 13px; color: var(--ht-muted); max-height: 200px; overflow: auto; }

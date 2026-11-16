@@ -54,6 +54,7 @@ export const HtmfUploadPage = () => {
 
   const pick = (list) => { const arr = [...list].filter((f) => /^image\//.test(f.type) || /\.(heic|heif|jpe?g|png)$/i.test(f.name)); arr.sort((a, b) => a.lastModified - b.lastModified || a.name.localeCompare(b.name)); setFiles(arr); setLog([]); setDone(0); setMsg(null); };
   const ready = key.trim() && date && city.trim() && venue.trim() && files.length > 0 && !busy;
+  const missing = [!key.trim() && 'owner key', !date && 'date', !city.trim() && 'city', !venue.trim() && 'venue', files.length === 0 && 'photos'].filter(Boolean);
 
   const run = async () => {
     setBusy(true); setMsg(null); setLog([]); setDone(0); stop.current = false;
@@ -123,6 +124,7 @@ export const HtmfUploadPage = () => {
         )}
 
         <button type="button" className="btn" disabled={!ready} onClick={run}>{busy ? `Uploading ${done} / ${files.length}` : 'Upload to hTmF'}</button>
+        {!busy && missing.length > 0 && <div className="hint">Still needed: {missing.join(', ')}.</div>}
         {busy && <button type="button" className="btn ghost" onClick={() => { stop.current = true; }}>Stop after this photo</button>}
         {(busy || done > 0) && <div className="bar"><i style={{ width: `${pct}%` }} /></div>}
         {msg && <div className={`msg${/live|Deleted/.test(msg) ? ' ok' : ''}`}>{msg}</div>}
