@@ -3,7 +3,7 @@
 export const listMoments = async ({ key, album } = {}) => {
   const q = album ? `?album=${encodeURIComponent(album)}` : '';
   const r = await fetch(`/api/moments/list${q}`, { credentials: 'same-origin', headers: key ? { Authorization: `Bearer ${key}` } : {} });
-  if (!r.ok) throw new Error(`list ${r.status}`);
+  if (!r.ok) throw Object.assign(new Error(`list ${r.status}`), { status: r.status });
   return r.json();
 };
 
