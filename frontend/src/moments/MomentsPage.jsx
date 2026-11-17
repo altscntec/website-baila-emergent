@@ -68,6 +68,21 @@ const Film = memo(({ flat, at, jump }) => {
   );
 });
 
+// One slide: the (cached) thumbnail sits underneath, blurred and covering the slide, and the full photo fades in
+// over it the moment it has decoded. So a photo that is still downloading shows a soft preview, never black.
+const Slide = memo(({ p, imgRef }) => {
+  const [hi, setHi] = useState(false);
+  const local = useRef(null);
+  const setRef = (el) => { local.current = el; if (imgRef) imgRef.current = el; };
+  useLayoutEffect(() => { const el = local.current; setHi(!!(el && el.complete && el.naturalWidth)); }, [p.web]);
+  return (
+    <div className="mo-slide">
+      <img className={`lo${hi ? ' off' : ''}`} src={p.thumb} alt="" draggable="false" aria-hidden="true" />
+      <img className={`hi${hi ? ' in' : ''}`} src={p.web} alt="" draggable="false" decoding="async" ref={setRef} onLoad={() => setHi(true)} />
+    </div>
+  );
+});
+
 // Full-screen viewer. `flat` is every photo of every night in page order; `at` is the index into it.
 // `fromRect` (optional) is the tapped thumbnail's rect: the photo grows out of it, and shrinks back on dismiss.
 const Viewer = ({ flat, at, setAt, onClose, onDelete, fromRect, linkFor }) => {
@@ -97,7 +112,13 @@ const Viewer = ({ flat, at, setAt, onClose, onDelete, fromRect, linkFor }) => {
 
   // New photo: reset zoom and the strip, no animation (the slide already happened).
   useLayoutEffect(() => { z.current = { s: 1, x: 0, y: 0 }; applyZoom(false); setStrip(0, false); anim.current = false; }, [at]); // eslint-disable-line react-hooks/exhaustive-deps
-  useEffect(() => { [at - 1, at + 1].forEach((i) => { if (flat[i]) { const im = new Image(); im.src = flat[i].web; } }); }, [at, flat]);
+  // Warm the next photos: four ahead in the direction of travel, two behind, so normal swiping never waits.
+  const lastAt = useRef(at); const warmed = useRef(new Set());
+  useEffect(() => {
+    const dir = at >= lastAt.current ? 1 : -1; lastAt.current = at;
+    const order = [1, 2, 3, 4].map((k) => at + dir * k).concat([1, 2].map((k) => at - dir * k));
+    order.forEach((i) => { const p = flat[i]; if (!p || warmed.current.has(p.web)) return; warmed.current.add(p.web); const im = new Image(); im.decoding = 'async'; im.src = p.web; });
+  }, [at, flat]);
   useEffect(() => { const prevOv = document.body.style.overflow; document.body.style.overflow = 'hidden'; return () => { document.body.style.overflow = prevOv; }; }, []);
   useEffect(() => { if (!toast) return undefined; const t = setTimeout(() => setToast(''), 4500); return () => clearTimeout(t); }, [toast]);
 
@@ -240,11 +261,7 @@ const Viewer = ({ flat, at, setAt, onClose, onDelete, fromRect, linkFor }) => {
       </div>
       <div className="mo-stage" ref={stageRef} onContextMenu={(e) => e.preventDefault()} onTouchStart={onStart} onTouchMove={onMove} onTouchEnd={onEnd} onTouchCancel={onEnd}>
         <div className="mo-strip" ref={stripRef} style={{ transform: `translate3d(${base}%, 0, 0)` }}>
-          {slides.map((i) => (
-            <div className="mo-slide" key={flat[i].id}>
-              <img src={flat[i].web} alt="" draggable="false" ref={i === at ? imgRef : undefined} />
-            </div>
-          ))}
+          {slides.map((i) => <Slide key={flat[i].id} p={flat[i]} imgRef={i === at ? imgRef : undefined} />)}
         </div>
       </div>
       <img className="mo-fly" ref={flyRef} alt="" aria-hidden="true" draggable="false" />
