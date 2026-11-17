@@ -100,6 +100,7 @@
 .mo-toast.page { position: fixed; bottom: calc(env(safe-area-inset-bottom, 0px) + 84px); z-index: 40; }
 .mo-head .mo-link { margin-left: 10px; border: 1px solid var(--mo-line); background: rgba(255,255,255,.06); color: #fff; font: 600 12px/1 'Manrope', sans-serif; padding: 6px 10px; border-radius: 999px; cursor: pointer; vertical-align: middle; }
 .mo-up .night button.lnk { background: var(--mo-purple); }
+.mo-up button.inline { border: 0; background: var(--mo-purple); color: #fff; font: 600 12px 'Manrope', sans-serif; padding: 6px 10px; border-radius: 999px; cursor: pointer; margin-left: 6px; }
 .mo-view.chrome-off .mo-vtop, .mo-view.chrome-off .mo-vbot { opacity: 0; pointer-events: none; }
 .mo-nav { position: absolute; top: 50%; transform: translateY(-50%); z-index: 3; width: 48px; height: 64px; border: 0; background: rgba(0,0,0,.35); color: #fff; cursor: pointer; display: none; place-items: center; border-radius: 10px; }
 .mo-nav.l { left: 10px; } .mo-nav.r { right: 10px; }

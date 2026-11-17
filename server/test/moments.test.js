@@ -94,3 +94,13 @@ test('album links: 16 url-safe chars, stable per folder and key, different per f
   assert.equal(moments.findAlbum('k1', events, ''), null);
   assert.equal(moments.findAlbum('k1', events, undefined), null);
 });
+
+test('one link for several nights: tokens joined with a dot, unknown ones ignored', () => {
+  const events = [{ folder: '2026-11-07_rotterdam_club-reverse' }, { folder: '2026-10-31_amsterdam_ijland' }, { folder: '2026-04-18_amsterdam_ijland' }];
+  const t = (f) => moments.albumToken('k1', f);
+  assert.deepEqual(moments.findAlbums('k1', events, `${t(events[0].folder)}.${t(events[2].folder)}`), [events[0], events[2]]);
+  assert.deepEqual(moments.findAlbums('k1', events, t(events[1].folder)), [events[1]]);
+  assert.deepEqual(moments.findAlbums('k1', events, `${t(events[1].folder)}.0000000000000000`), [events[1]]);
+  assert.deepEqual(moments.findAlbums('k1', events, ''), []);
+  assert.deepEqual(moments.findAlbums('k1', events, undefined), []);
+});

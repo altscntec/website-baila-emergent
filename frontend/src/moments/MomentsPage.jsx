@@ -319,8 +319,8 @@ export const MomentsPage = () => {
   useEffect(() => { if (!note) return undefined; const t = setTimeout(() => setNote(''), 3500); return () => clearTimeout(t); }, [note]);
   const linkFor = useCallback((ev) => albumUrl(ev.token || album), [album]);
   const copyLink = async (ev) => {
-    const url = linkFor(ev);
-    try { if (navigator.share && !matchMedia('(hover: hover) and (pointer: fine)').matches) await navigator.share({ title: `Baila Dembow · ${ev.city}`, url }); else { await navigator.clipboard.writeText(url); setNote('Link copied'); } }
+    const url = ev ? linkFor(ev) : albumUrl(events.map((e) => e.token).filter(Boolean).join('.')); // no ev = one link for every night
+    try { if (navigator.share && !matchMedia('(hover: hover) and (pointer: fine)').matches) await navigator.share({ title: ev ? `Baila Dembow · ${ev.city}` : 'Baila Dembow · Moments', url }); else { await navigator.clipboard.writeText(url); setNote('Link copied'); } }
     catch (er) { if (!er || er.name !== 'AbortError') { window.prompt('Album link', url); } }
   };
   useEffect(() => { const r = () => setW(window.innerWidth); window.addEventListener('resize', r); return () => window.removeEventListener('resize', r); }, []);
@@ -450,7 +450,10 @@ export const MomentsPage = () => {
         <div className="mo-count">{total ? <>{total} photos<br />{events.length} {events.length === 1 ? 'night' : 'nights'}</> : ''}</div>
         {owner && total > 0 && at < 0 && (selecting
           ? <button type="button" className="mo-own" onClick={stopSelect}>Cancel</button>
-          : <button type="button" className="mo-own" onClick={startSelect}>Select</button>)}
+          : <>
+            {events.length > 1 && <button type="button" className="mo-own" onClick={() => copyLink(null)} title="One link that shows every night">Link all</button>}
+            <button type="button" className="mo-own" onClick={startSelect}>Select</button>
+          </>)}
         {owner && !selecting && <button type="button" className="mo-own icon" onClick={lock} aria-label="Leave owner mode" title="Leave owner mode"><Icon d={I.lock} /></button>}
       </header>
 

@@ -135,6 +135,7 @@ export const MomentsUploadPage = () => {
 
         <div className="nights">
           <h2>Baila Dembow - Moments</h2>
+          {keyOk && nights && nights.length > 1 && <p className="hint">One link for all nights: <button type="button" className="inline" onClick={() => copyLink({ token: nights.map((n) => n.token).join('.'), folder: '*' })}>{copied === '*' ? 'Copied' : 'Copy link'}</button></p>}
           <p className="hint">To remove single photos, open <a href="/moments?owner" style={{ color: '#C9A0F0' }}>Moments in owner mode</a>: Select, tap the photos, Delete. The key you typed here carries over in this tab.</p>
           {!keyOk ? <div className="log">Paste the owner key to see the nights and their links.</div> : nights === null ? <div className="log">Loading…</div> : nights.length === 0 ? <div className="log">Nothing uploaded yet (or the key was refused).</div> : nights.map((ev) => { const d = prettyDate(ev.date); return (
             <div className="night" key={ev.folder}>

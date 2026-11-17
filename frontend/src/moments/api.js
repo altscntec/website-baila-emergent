@@ -31,8 +31,8 @@ export const verifyOwner = (key) => ownerJson(key, 'GET', '/api/moments/next?dat
 // One photo = <folder>/<nnnn>; the server removes both sizes.
 export const deletePhoto = (key, id) => { const i = id.lastIndexOf('/'); return ownerJson(key, 'POST', '/api/moments/delete', { folder: id.slice(0, i), index: Number(id.slice(i + 1)) }); };
 
-// /moments/<token> → token, else null
-export const albumFromPath = (pathname) => { const m = /^\/moments\/([A-Za-z0-9_-]{16})\/?$/.exec(pathname || window.location.pathname); return m ? m[1] : null; };
+// /moments/<token> or /moments/<token>.<token>… (several nights in one link) → the token string, else null
+export const albumFromPath = (pathname) => { const m = /^\/moments\/([A-Za-z0-9_-]{16}(?:\.[A-Za-z0-9_-]{16})*)\/?$/.exec(pathname || window.location.pathname); return m ? m[1] : null; };
 export const albumUrl = (token) => `${window.location.origin}/moments/${token}`;
 
 const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];

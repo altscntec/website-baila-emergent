@@ -113,5 +113,10 @@ const remove = async (blob, { folder, index }) => {
 const TOKEN_RE = /^[A-Za-z0-9_-]{16}$/;
 const albumToken = (secret, folder) => crypto.createHmac('sha256', String(secret || 'unset')).update(`moments-album:${folder}`).digest('base64url').slice(0, 16);
 const findAlbum = (secret, events, token) => (TOKEN_RE.test(String(token || '')) ? events.find((e) => albumToken(secret, e.folder) === token) || null : null);
+// Several nights in one link: tokens joined with '.', e.g. /moments/<tokA>.<tokB>. Unknown tokens are ignored.
+const findAlbums = (secret, events, param) => {
+  const want = new Set(String(param || '').split('.').filter((t) => TOKEN_RE.test(t)));
+  return want.size ? events.filter((e) => want.has(albumToken(secret, e.folder))) : [];
+};
 
-module.exports = { PREFIX, slug, parseFolder, folderFor, listEvents, nextIndex, putPhoto, remove, albumToken, findAlbum, TOKEN_RE, MAX_BYTES };
+module.exports = { PREFIX, slug, parseFolder, folderFor, listEvents, nextIndex, putPhoto, remove, albumToken, findAlbum, findAlbums, TOKEN_RE, MAX_BYTES };

@@ -176,7 +176,7 @@ const routes = [
 
   // ---- Moments photo library: private per-night album links (/moments/<token>). Owner-only writes (Bearer ADMIN_API_KEY). ----
   // Photos sit in Vercel Blob; ctx.blob is the store client (null until BLOB_READ_WRITE_TOKEN is connected).
-  // GET list: with the owner key → every night plus its link token; with ?album=<token> → that night only;
+  // GET list: with the owner key → every night plus its link token; with ?album=<token>[.<token>…] → those nights only;
   // otherwise nothing (the bare /moments page is empty on purpose).
   ['GET', '/api/moments/list', async (ctx, req, _b, url) => {
     const headers = { 'Cache-Control': 'no-store' };
@@ -186,8 +186,7 @@ const routes = [
       await requireAdmin(ctx, req);
       return { body: { configured: true, owner: true, events: events.map((e) => ({ ...e, token: moments.albumToken(ctx.cfg.adminKey, e.folder) })) }, headers };
     }
-    const ev = moments.findAlbum(ctx.cfg.adminKey, events, url.searchParams.get('album'));
-    return { body: { configured: true, events: ev ? [ev] : [] }, headers };
+    return { body: { configured: true, events: moments.findAlbums(ctx.cfg.adminKey, events, url.searchParams.get('album')) }, headers };
   }],
   ['GET', '/api/moments/next', async (ctx, req, _b, url) => {
     await requireAdmin(ctx, req);
