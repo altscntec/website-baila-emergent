@@ -54,10 +54,10 @@ export const CasitaSection = () => {
           <p className="text-sm tracking-[0.2em] uppercase text-[#FF0080] font-semibold mb-4">
             Our Signature
           </p>
-          <h2 className="font-display text-4xl sm:text-5xl md:text-7xl text-white mb-8 leading-[0.95]">
-            CASA DE<br />
+          <h1 className="font-display text-4xl sm:text-5xl md:text-7xl text-white mb-8 leading-[0.95]">
+            CASA DE{' '}<br />
             <span className="gradient-text">BAILA DEMBOW.</span>
-          </h2>
+          </h1>
           <p className="text-base md:text-lg text-gray-400 max-w-2xl leading-relaxed">
             Some Baila Dembow events are built around La Casita — a full-scale house that transforms
             any venue into a Latin American street party. Think orange-and-red archways, tropical

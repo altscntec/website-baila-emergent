@@ -48,10 +48,10 @@ export const LiveShowSection = () => {
           <p className="text-sm tracking-[0.2em] uppercase text-[#FF0080] font-semibold mb-4">
             Our Signature
           </p>
-          <h2 className="font-display text-4xl sm:text-5xl md:text-7xl text-white mb-8 leading-[0.95]">
-            LIVE TRIBUTE<br />
+          <h1 className="font-display text-4xl sm:text-5xl md:text-7xl text-white mb-8 leading-[0.95]">
+            LIVE TRIBUTE{' '}<br />
             <span className="gradient-text">SHOWS.</span>
-          </h2>
+          </h1>
           <p className="text-base md:text-lg text-gray-400 max-w-2xl leading-relaxed">
             Some Baila Dembow nights aren't just club nights. They're full live tribute shows
             where we bring the legends of Latin music back to the stage, performed by world-class

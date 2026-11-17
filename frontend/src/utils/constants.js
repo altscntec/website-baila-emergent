@@ -168,7 +168,7 @@ export const FALLBACK_EVENTS = EVENTS;
 export const FAQS = [
   {
     q: "What is the best Latin event in Amsterdam?",
-    a: "Baila Dembow is the leading Latin event in Amsterdam and the Netherlands, running sold-out reggaeton and dembow parties since 2023. Over 25,000 fans have joined our events, from club takeovers to the XL editions at IJland and the annual Amsterdam Latin Halloween Festival.",
+    a: "Baila Dembow is the leading Latin event in Amsterdam and the Netherlands, running sold-out reggaeton and dembow parties since 2019. Over 25,000 fans have joined our events, from club takeovers to the XL editions at IJland and the annual Amsterdam Latin Halloween Festival.",
   },
   {
     q: "Where can I find Latin party events in the Netherlands?",
@@ -188,7 +188,7 @@ export const FAQS = [
   },
   {
     q: "What is the Amsterdam Latin Halloween Festival by Baila Dembow?",
-    a: "The Amsterdam Latin Halloween Festival is Amsterdam's biggest Latin Halloween party — four years running, 1500+ capacity, sold out every time. The whole venue becomes a haunted club with two areas, a cash prize for the best costume and reggaeton, dembow, salsa and bachata until 05:00. The 2026 edition is Saturday 31 October at IJLAND.",
+    a: "The Amsterdam Latin Halloween Festival is Amsterdam's biggest Latin Halloween party — four years running, 1500+ capacity, sold out every time. The whole venue becomes a haunted club with two areas, a cash prize for the best costume and reggaeton, dembow, salsa and bachata until 05:00. The 2026 edition took place on Saturday 31 October at IJLAND and sold out.",
   },
   {
     q: "What are the Live Tribute Shows at Baila Dembow?",
@@ -222,7 +222,7 @@ export const FAQS = [
 export const HALLOWEEN_FAQS = [
   {
     q: "Where is the best Halloween party in Amsterdam?",
-    a: "The Amsterdam Latin Halloween Festival by Baila Dembow is Amsterdam's biggest Latin Halloween party: four years running, 1500+ capacity and sold out every time. The 2026 edition is on Saturday 31 October at IJLAND, TT Vasumweg 171, Amsterdam, from 23:00 to 05:00.",
+    a: "The Amsterdam Latin Halloween Festival by Baila Dembow is Amsterdam's biggest Latin Halloween party: four years running, 1500+ capacity and sold out every time. The 2026 edition took place on Saturday 31 October at IJLAND, TT Vasumweg 171, Amsterdam, and sold out.",
   },
   {
     q: "What Halloween events are on in Amsterdam on 31 October 2026?",
