@@ -137,10 +137,10 @@ export const HalloweenPage = () => {
                   data-testid="halloween-sold-out-badge"
                 >
                   SOLD OUT.
-                </span>
+                </span>{' '}
                 <span className="block mt-4 text-white text-[clamp(1.5rem,4.5vw,3rem)]">
                   The Latin Halloween 2026
-                </span>
+                </span>{' '}
                 <span className="block mt-3 text-white/80 font-extrabold uppercase tracking-[0.2em] text-[clamp(0.75rem,1.6vw,1rem)]">
                   No more tickets available · Muchas gracias, Amsterdam
                 </span>
