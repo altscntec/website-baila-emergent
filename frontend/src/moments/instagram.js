@@ -15,9 +15,12 @@ export async function renderInstagram({ src, kind, logo, line }) {
 
   // backdrop: the photo itself, blurred and darkened, with a red → purple wash
   ctx.fillStyle = '#0A0609'; ctx.fillRect(0, 0, W, H);
-  const cover = Math.max(W / im.width, H / im.height) * 1.15; const bw = im.width * cover; const bh = im.height * cover;
-  if ('filter' in ctx) { ctx.filter = 'blur(50px) brightness(.5) saturate(1.3)'; ctx.drawImage(im, (W - bw) / 2, (H - bh) / 2, bw, bh); ctx.filter = 'none'; }
-  else { ctx.globalAlpha = .3; ctx.drawImage(im, (W - bw) / 2, (H - bh) / 2, bw, bh); ctx.globalAlpha = 1; }
+  // Only the middle of the photo feeds the backdrop (the watermark sits on the photo's bottom edge and would
+  // otherwise show up, blurred and cut in half, under the story).
+  const sx = im.width * .2; const sy = im.height * .2; const sw = im.width * .6; const sh = im.height * .6;
+  const cover = Math.max(W / sw, H / sh); const bw = sw * cover; const bh = sh * cover;
+  if ('filter' in ctx) { ctx.filter = 'blur(50px) brightness(.5) saturate(1.3)'; ctx.drawImage(im, sx, sy, sw, sh, (W - bw) / 2, (H - bh) / 2, bw, bh); ctx.filter = 'none'; }
+  else { ctx.globalAlpha = .3; ctx.drawImage(im, sx, sy, sw, sh, (W - bw) / 2, (H - bh) / 2, bw, bh); ctx.globalAlpha = 1; }
   const wash = ctx.createLinearGradient(0, 0, 0, H); wash.addColorStop(0, 'rgba(227,18,26,.28)'); wash.addColorStop(1, 'rgba(58,13,82,.6)');
   ctx.fillStyle = wash; ctx.fillRect(0, 0, W, H);
 
