@@ -7,7 +7,7 @@ import { deletePhoto, listMoments, prettyDate, readKey, verifyOwner, writeKey } 
 //   - square grid; pinch in/out (two fingers, or trackpad pinch / ctrl+wheel) steps through the zoom levels
 //   - Months (one cover card per night) · Days (3 across) · All (dense), also on the bottom pill like iOS
 //   - tap a photo for the full-screen viewer: swipe between photos, pinch and double-tap to zoom, filmstrip,
-//     share and download, back gesture / Escape closes it
+//     share the link (view-only: no save/download), back gesture / Escape closes it
 //   - owner mode (Hari only): /moments?owner asks for the owner key once per tab; then Select → tap photos → Delete,
 //     or Delete inside the viewer. Public visitors never see any of it.
 // Photos come from /api/moments/list (Vercel Blob behind it); the page itself holds no photos.
@@ -21,7 +21,6 @@ const Icon = ({ d }) => (<svg viewBox="0 0 24 24" fill="none" stroke="currentCol
 const I = {
   back: 'M15 18l-6-6 6-6',
   share: 'M12 3v13M7 8l5-5 5 5M5 14v5a2 2 0 002 2h10a2 2 0 002-2v-5',
-  down: 'M12 3v13M7 11l5 5 5-5M5 21h14',
   left: 'M15 18l-6-6 6-6',
   right: 'M9 6l6 6-6 6',
   grid: 'M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z',
@@ -107,19 +106,10 @@ const Viewer = ({ flat, at, setAt, onClose, onDelete }) => {
   const stageRef = useRef(null);
   useEffect(() => { const el = stageRef.current; if (!el) return; const onWheel = (e) => { if (e.ctrlKey) { e.preventDefault(); setZoom((z) => ({ ...z, s: Math.min(5, Math.max(1, z.s - e.deltaY * 0.01)) })); } }; el.addEventListener('wheel', onWheel, { passive: false }); return () => el.removeEventListener('wheel', onWheel); }, []);
 
-  const download = async () => {
-    try { const r = await fetch(cur.web); const b = await r.blob(); const u = URL.createObjectURL(b); const a = document.createElement('a'); a.href = u; a.download = `baila-dembow-${cur.id.replace('/', '-')}.jpg`; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(u), 4000); }
-    catch (_) { window.open(cur.web, '_blank', 'noopener'); }
-  };
+  // Share the link to this photo (never the file: the album is view-only).
   const share = async () => {
     const url = `${window.location.origin}/moments#p=${cur.id}`;
-    try {
-      if (navigator.share) {
-        let files;
-        if (navigator.canShare) { try { const b = await (await fetch(cur.web)).blob(); const f = new File([b], 'baila-dembow.jpg', { type: 'image/jpeg' }); if (navigator.canShare({ files: [f] })) files = [f]; } catch (_) { /* share the link instead */ } }
-        await navigator.share(files ? { files, title: 'Baila Dembow' } : { title: 'Baila Dembow', url });
-      } else if (navigator.clipboard) { await navigator.clipboard.writeText(url); }
-    } catch (_) { /* cancelled */ }
+    try { if (navigator.share) await navigator.share({ title: 'Baila Dembow', url }); else if (navigator.clipboard) await navigator.clipboard.writeText(url); } catch (_) { /* cancelled */ }
   };
 
   const d = prettyDate(cur.ev.date);
@@ -132,7 +122,7 @@ const Viewer = ({ flat, at, setAt, onClose, onDelete }) => {
         <div className="mo-ttl"><b>{d.day} {d.date} {d.year}</b><span>{cur.ev.city} · {cur.ev.venue}</span></div>
         <div className="mo-pos">{at + 1} / {flat.length}</div>
       </div>
-      <div className="mo-stage" ref={stageRef} onTouchStart={onStart} onTouchMove={onMove} onTouchEnd={onEnd} onTouchCancel={onEnd}>
+      <div className="mo-stage" ref={stageRef} onContextMenu={(e) => e.preventDefault()} onTouchStart={onStart} onTouchMove={onMove} onTouchEnd={onEnd} onTouchCancel={onEnd}>
         <div className={`mo-strip${snap ? ' snap' : ''}`} style={{ transform: `translate3d(calc(${base}% + ${drag}px), 0, 0)` }}>
           {slides.map((i) => (
             <div className="mo-slide" key={flat[i].id}>
@@ -150,7 +140,6 @@ const Viewer = ({ flat, at, setAt, onClose, onDelete }) => {
         </div>
         <div className="mo-acts">
           <button type="button" onClick={share}><Icon d={I.share} />Share</button>
-          <button type="button" onClick={download}><Icon d={I.down} />Save</button>
           {onDelete && <button type="button" className="danger" onClick={() => onDelete(cur.id)}><Icon d={I.trash} />Delete</button>}
           <button type="button" onClick={onClose}><Icon d={I.grid} />Grid</button>
         </div>
