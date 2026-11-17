@@ -174,11 +174,20 @@ const routes = [
   ['GET', '/api/admin/h27/leads.csv', async (ctx, req) => { const a = await requireAdmin(ctx, req); return { text: await h27.exportCsv(ctx, a), headers: { 'Content-Type': 'text/csv; charset=utf-8', 'Content-Disposition': 'attachment; filename="halloween-2027-early-release.csv"' } }; }, { noOrigin: true }],
 
 
-  // ---- Moments photo library (/moments, unlisted). Public read; owner-only writes (Bearer ADMIN_API_KEY). ----
+  // ---- Moments photo library: private per-night album links (/moments/<token>). Owner-only writes (Bearer ADMIN_API_KEY). ----
   // Photos sit in Vercel Blob; ctx.blob is the store client (null until BLOB_READ_WRITE_TOKEN is connected).
-  ['GET', '/api/moments/list', async (ctx) => {
-    if (!ctx.blob) return { body: { configured: false, events: [] }, headers: { 'Cache-Control': 'no-store' } };
-    return { body: { configured: true, events: await moments.listEvents(ctx.blob) } };
+  // GET list: with the owner key → every night plus its link token; with ?album=<token> → that night only;
+  // otherwise nothing (the bare /moments page is empty on purpose).
+  ['GET', '/api/moments/list', async (ctx, req, _b, url) => {
+    const headers = { 'Cache-Control': 'no-store' };
+    if (!ctx.blob) return { body: { configured: false, events: [] }, headers };
+    const events = await moments.listEvents(ctx.blob);
+    if (bearer(req)) {
+      await requireAdmin(ctx, req);
+      return { body: { configured: true, owner: true, events: events.map((e) => ({ ...e, token: moments.albumToken(ctx.cfg.adminKey, e.folder) })) }, headers };
+    }
+    const ev = moments.findAlbum(ctx.cfg.adminKey, events, url.searchParams.get('album'));
+    return { body: { configured: true, events: ev ? [ev] : [] }, headers };
   }],
   ['GET', '/api/moments/next', async (ctx, req, _b, url) => {
     await requireAdmin(ctx, req);

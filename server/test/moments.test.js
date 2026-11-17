@@ -80,3 +80,17 @@ test('listing pages through more than 1000 blobs', async () => {
   assert.equal(events[0].count, 600);
   assert.equal(await moments.nextIndex(blob, f), 601);
 });
+
+test('album links: 16 url-safe chars, stable per folder and key, different per folder, useless without the key', () => {
+  const t = moments.albumToken('k1', '2026-10-25_rotterdam_club-reverse');
+  assert.match(t, /^[A-Za-z0-9_-]{16}$/);
+  assert.equal(t, moments.albumToken('k1', '2026-10-25_rotterdam_club-reverse'));
+  assert.notEqual(t, moments.albumToken('k1', '2026-11-21_den-haag_westwood'));
+  assert.notEqual(t, moments.albumToken('k2', '2026-10-25_rotterdam_club-reverse'));
+  const events = [{ folder: '2026-10-25_rotterdam_club-reverse' }, { folder: '2026-11-21_den-haag_westwood' }];
+  assert.equal(moments.findAlbum('k1', events, t), events[0]);
+  assert.equal(moments.findAlbum('k1', events, moments.albumToken('k1', 'x')), null);
+  assert.equal(moments.findAlbum('k1', events, '2026-10-25_rotterdam_club-reverse'), null);   // folder names are not links
+  assert.equal(moments.findAlbum('k1', events, ''), null);
+  assert.equal(moments.findAlbum('k1', events, undefined), null);
+});

@@ -1,9 +1,10 @@
 import { memo, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import './moments.css';
-import { deletePhoto, listMoments, prettyDate, readKey, verifyOwner, writeKey } from './api';
-import { IG_HANDLE, renderInstagram } from './instagram';
+import { albumFromPath, albumUrl, deletePhoto, listMoments, prettyDate, readKey, verifyOwner, writeKey } from './api';
+import { renderInstagram } from './instagram';
 
-// Moments: the unlisted photo library at /moments (link only, noindex). Built to feel like the iPhone Photos app:
+// Moments: the private photo library. Every night has its own link, /moments/<token>, and a visitor only ever sees
+// that night; the bare /moments page shows nothing. Built to feel like the iPhone Photos app:
 //   - one section per night, newest first, with a sticky date + venue header
 //   - square grid; pinch in/out (two fingers, or trackpad pinch / ctrl+wheel) steps through the zoom levels,
 //     the grid re-lays out with a continuous zoom and keeps the photo under your fingers in place
@@ -69,7 +70,7 @@ const Film = memo(({ flat, at, jump }) => {
 
 // Full-screen viewer. `flat` is every photo of every night in page order; `at` is the index into it.
 // `fromRect` (optional) is the tapped thumbnail's rect: the photo grows out of it, and shrinks back on dismiss.
-const Viewer = ({ flat, at, setAt, onClose, onDelete, fromRect }) => {
+const Viewer = ({ flat, at, setAt, onClose, onDelete, fromRect, linkFor }) => {
   const [chrome, setChrome] = useState(true);
   const [ready, setReady] = useState(!fromRect || reduced());
   const [ig, setIg] = useState(null); // null | 'pick' | 'busy'
@@ -210,11 +211,11 @@ const Viewer = ({ flat, at, setAt, onClose, onDelete, fromRect }) => {
 
   // Share the link to this photo (never the file: the album is view-only).
   const share = async () => {
-    const url = `${window.location.origin}/moments#p=${cur.id}`;
+    const url = `${linkFor(cur.ev)}#p=${cur.id}`;
     try { if (navigator.share) await navigator.share({ title: 'Baila Dembow', url }); else if (navigator.clipboard) { await navigator.clipboard.writeText(url); setToast('Link copied'); } } catch (_) { /* cancelled */ }
   };
-  // Instagram: a branded story/post version with @handle baked in. Both sizes start rendering the moment the
-  // picker opens, so the share call itself still sits inside the tap (iOS needs that).
+  // Instagram: a branded story/post version (logo + the night). Both sizes start rendering the moment the picker
+  // opens, so the share call itself still sits inside the tap (iOS needs that).
   const d = prettyDate(cur.ev.date);
   const prepIg = (kind) => { const k = `${cur.id}:${kind}`; if (!igCache.current[k]) igCache.current[k] = renderInstagram({ src: cur.web, kind, logo: LOGO, line: `${cur.ev.city} · ${cur.ev.venue} · ${d.date} ${d.year}` }).catch(() => null); return igCache.current[k]; };
   const openIg = () => { setIg('pick'); prepIg('story'); prepIg('post'); };
@@ -224,8 +225,7 @@ const Viewer = ({ flat, at, setAt, onClose, onDelete, fromRect }) => {
       const blob = await prepIg(kind);
       if (!blob) throw new Error('render');
       const file = new File([blob], `baila-dembow-${kind}.jpg`, { type: 'image/jpeg' });
-      try { await navigator.clipboard.writeText(`@${IG_HANDLE}`); } catch (_) { /* no clipboard: the tag is on the image anyway */ }
-      if (navigator.canShare && navigator.canShare({ files: [file] })) { await navigator.share({ files: [file], title: 'Baila Dembow' }); setToast(`In Instagram, paste to mention @${IG_HANDLE}`); }
+      if (navigator.canShare && navigator.canShare({ files: [file] })) await navigator.share({ files: [file], title: 'Baila Dembow' });
       else setToast('Open this on your phone to share to Instagram.');
     } catch (er) { if (!er || er.name !== 'AbortError') setToast('Could not prepare the image. Try again.'); }
     setIg(null);
@@ -280,6 +280,8 @@ export const MomentsPage = () => {
   const [hint, setHint] = useState(false);
   const [at, setAt] = useState(-1);
   const [fly, setFly] = useState(null);
+  const [note, setNote] = useState('');
+  const album = useMemo(() => albumFromPath(), []);
   const zoomEl = useRef(null);
   const pinch = useRef(null);
   const wheelAcc = useRef(0);
@@ -295,7 +297,15 @@ export const MomentsPage = () => {
   const owner = !!key;
   const selectingRef = useRef(false); selectingRef.current = selecting;
 
-  useEffect(() => { listMoments().then(setData).catch(() => setErr(true)); }, []);
+  // One night via its link; everything (plus link tokens) for the owner.
+  useEffect(() => { let alive = true; setErr(false); listMoments(key ? { key } : { album }).then((d) => { if (alive) setData(d); }).catch((e) => { if (!alive) return; if (e.status === 401) { writeKey(''); setKey(''); } else setErr(true); }); return () => { alive = false; }; }, [key, album]);
+  useEffect(() => { if (!note) return undefined; const t = setTimeout(() => setNote(''), 3500); return () => clearTimeout(t); }, [note]);
+  const linkFor = useCallback((ev) => albumUrl(ev.token || album), [album]);
+  const copyLink = async (ev) => {
+    const url = linkFor(ev);
+    try { if (navigator.share && !matchMedia('(hover: hover) and (pointer: fine)').matches) await navigator.share({ title: `Baila Dembow · ${ev.city}`, url }); else { await navigator.clipboard.writeText(url); setNote('Link copied'); } }
+    catch (er) { if (!er || er.name !== 'AbortError') { window.prompt('Album link', url); } }
+  };
   useEffect(() => { const r = () => setW(window.innerWidth); window.addEventListener('resize', r); return () => window.removeEventListener('resize', r); }, []);
   useEffect(() => { try { localStorage.setItem('bd_moments_zoom', level); } catch (_) { /* private mode */ } }, [level]);
 
@@ -433,7 +443,9 @@ export const MomentsPage = () => {
         ) : !data ? (
           <div className="mo-skel" style={{ '--cols': cols }}>{Array.from({ length: cols * 6 }).map((_, i) => <div key={i} />)}</div>
         ) : !total ? (
-          <div className="mo-empty"><h2>Nothing here yet</h2><p>The first night's photos land here soon. Keep the link.</p></div>
+          album || owner
+            ? <div className="mo-empty"><h2>Nothing here yet</h2><p>{owner ? 'No nights uploaded yet.' : 'This link has no photos (yet, or any more). Ask us for a fresh one.'}</p></div>
+            : <div className="mo-empty"><h2>Private</h2><p>Every night has its own link. Use the one you were sent.</p></div>
         ) : (
           <div id="mo-zoom" className="mo-zoom" ref={zoomEl} onTouchStart={onTouchStart} onTouchEnd={onTouchEnd} onTouchCancel={onTouchEnd}>
             {level === 'months' ? (
@@ -450,7 +462,7 @@ export const MomentsPage = () => {
               const d = prettyDate(ev.date); offset += ev.photos.length;
               return (
                 <section className="mo-sec" key={ev.folder} id={`night-${ev.folder}`}>
-                  <div className="mo-head"><div><b>{d.day} {d.date}</b><span>{ev.city} · {ev.venue} · {d.year}</span></div><span className="mo-n">{ev.count} photos</span></div>
+                  <div className="mo-head"><div><b>{d.day} {d.date}</b><span>{ev.city} · {ev.venue} · {d.year}</span></div><span className="mo-n">{ev.count} photos{owner && ev.token && <button type="button" className="mo-link" onClick={() => copyLink(ev)}>Link</button>}</span></div>
                   <div className="mo-grid" style={{ '--cols': cols }}>
                     {ev.photos.map((p, j) => <Thumb key={p.id} id={p.id} src={p.thumb} alt={`${ev.city} ${d.date}, photo ${j + 1}`} selecting={selecting} selected={sel.has(p.id)} onTap={onTap} />)}
                   </div>
@@ -489,7 +501,8 @@ export const MomentsPage = () => {
         </>
       )}
 
-      {at >= 0 && flat[at] && <Viewer key="viewer" flat={flat} at={at} setAt={setAt} onClose={close} onDelete={owner ? deleteInViewer : undefined} fromRect={fly} />}
+      {note && <div className="mo-toast page" role="status">{note}</div>}
+      {at >= 0 && flat[at] && <Viewer key="viewer" flat={flat} at={at} setAt={setAt} onClose={close} onDelete={owner ? deleteInViewer : undefined} fromRect={fly} linkFor={linkFor} />}
     </div>
   );
 };

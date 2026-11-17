@@ -92,6 +92,9 @@
 .mo-ig button.x { background: transparent; color: var(--mo-muted); padding: 11px 10px; font-size: 14px; }
 .mo-toast { position: absolute; left: 50%; bottom: calc(env(safe-area-inset-bottom, 0px) + 150px); transform: translateX(-50%); z-index: 5; max-width: calc(100% - 40px); background: rgba(255,255,255,.94); color: #15090F; font: 600 13px/1.3 'Manrope', sans-serif; padding: 10px 16px; border-radius: 999px; box-shadow: 0 8px 24px rgba(0,0,0,.4); text-align: center; animation: mo-toast .25s ease; }
 @keyframes mo-toast { from { opacity: 0; transform: translate(-50%, 8px); } }
+.mo-toast.page { position: fixed; bottom: calc(env(safe-area-inset-bottom, 0px) + 84px); z-index: 40; }
+.mo-head .mo-link { margin-left: 10px; border: 1px solid var(--mo-line); background: rgba(255,255,255,.06); color: #fff; font: 600 12px/1 'Manrope', sans-serif; padding: 6px 10px; border-radius: 999px; cursor: pointer; vertical-align: middle; }
+.mo-up .night button.lnk { background: var(--mo-purple); }
 .mo-view.chrome-off .mo-vtop, .mo-view.chrome-off .mo-vbot { opacity: 0; pointer-events: none; }
 .mo-nav { position: absolute; top: 50%; transform: translateY(-50%); z-index: 3; width: 48px; height: 64px; border: 0; background: rgba(0,0,0,.35); color: #fff; cursor: pointer; display: none; place-items: center; border-radius: 10px; }
 .mo-nav.l { left: 10px; } .mo-nav.r { right: 10px; }

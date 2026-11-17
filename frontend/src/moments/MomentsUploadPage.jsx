@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import './moments.css';
-import { KEY_STORE, listMoments, ownerJson, ownerUpload, prettyDate } from './api';
+import { KEY_STORE, albumUrl, listMoments, ownerJson, ownerUpload, prettyDate } from './api';
 
 // Owner-only upload page for the Moments photo library (/moments-upload, unlisted, noindex).
 // Pick a night (date, city, venue) and the photos; the browser resizes each photo to a 2000px web copy and a
@@ -47,8 +47,12 @@ export const MomentsUploadPage = () => {
   const inputRef = useRef(null);
   const stop = useRef(false);
 
-  const refresh = () => listMoments().then((d) => { setNights(d.events); setConfigured(d.configured !== false); }).catch(() => setNights([]));
-  useEffect(() => { refresh(); }, []);
+  // The list needs the owner key (a pasted key is long; short typing never hits the API, so no lock-out).
+  const keyOk = key.trim().length >= 40;
+  const refresh = () => listMoments(keyOk ? { key: key.trim() } : {}).then((d) => { setNights(d.events); setConfigured(d.configured !== false); }).catch(() => setNights([]));
+  useEffect(() => { refresh(); }, [keyOk]); // eslint-disable-line react-hooks/exhaustive-deps
+  const [copied, setCopied] = useState('');
+  const copyLink = async (ev) => { const url = albumUrl(ev.token); try { await navigator.clipboard.writeText(url); setCopied(ev.folder); setTimeout(() => setCopied(''), 2000); } catch (_) { window.prompt('Album link', url); } };
   useEffect(() => { try { sessionStorage.setItem(KEY_STORE, key); } catch (_) { /* private mode */ } }, [key]);
 
   const pick = (list) => { const arr = [...list].filter((f) => /^image\//.test(f.type) || /\.(heic|heif|jpe?g|png)$/i.test(f.name)); arr.sort((a, b) => a.lastModified - b.lastModified || a.name.localeCompare(b.name)); setFiles(arr); setLog([]); setDone(0); setMsg(null); };
@@ -101,7 +105,7 @@ export const MomentsUploadPage = () => {
     <div className="mo">
       <div className="mo-up">
         <h1>Moments upload</h1>
-        <p className="lead">Owner only. Photos are resized on this device before upload, so a full night from your phone is fine. Public page: <a href="/moments" style={{ color: '#C9A0F0' }}>bailadembow.com/moments</a></p>
+        <p className="lead">Owner only. Photos are resized on this device before upload, so a full night from your phone is fine. Every night gets its own private link (copy it from the list below); the bare /moments page shows nothing.</p>
         {!configured && <div className="msg">Storage is not connected yet. In Vercel: Storage → Create → Blob → connect it to the baila-dembow project. Uploads work the moment that is done.</div>}
 
         <label htmlFor="agk">Owner key</label>
@@ -132,10 +136,11 @@ export const MomentsUploadPage = () => {
         <div className="nights">
           <h2>Baila Dembow - Moments</h2>
           <p className="hint">To remove single photos, open <a href="/moments?owner" style={{ color: '#C9A0F0' }}>Moments in owner mode</a>: Select, tap the photos, Delete. The key you typed here carries over in this tab.</p>
-          {nights === null ? <div className="log">Loading…</div> : nights.length === 0 ? <div className="log">Nothing uploaded yet.</div> : nights.map((ev) => { const d = prettyDate(ev.date); return (
+          {!keyOk ? <div className="log">Paste the owner key to see the nights and their links.</div> : nights === null ? <div className="log">Loading…</div> : nights.length === 0 ? <div className="log">Nothing uploaded yet (or the key was refused).</div> : nights.map((ev) => { const d = prettyDate(ev.date); return (
             <div className="night" key={ev.folder}>
               <img src={ev.photos[0].thumb} alt="" />
-              <div><b>{ev.city} · {ev.venue}</b><span>{d.day} {d.date} {d.year} · {ev.count} photos · <a href={`/moments#p=${encodeURIComponent(ev.photos[0].id)}`} style={{ color: '#C9A0F0' }}>open</a></span></div>
+              <div><b>{ev.city} · {ev.venue}</b><span>{d.day} {d.date} {d.year} · {ev.count} photos · <a href={albumUrl(ev.token)} style={{ color: '#C9A0F0' }}>open</a></span></div>
+              <button type="button" className="lnk" onClick={() => copyLink(ev)}>{copied === ev.folder ? 'Copied' : 'Copy link'}</button>
               <button type="button" onClick={() => delNight(ev)}>Delete night</button>
             </div>
           ); })}

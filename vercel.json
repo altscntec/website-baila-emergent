@@ -166,6 +166,19 @@
       ]
     },
     {
+      "source": "/moments/:album",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow, noarchive"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        }
+      ]
+    },
+    {
       "source": "/moments-upload",
       "headers": [
         {
@@ -202,6 +215,10 @@
     },
     {
       "source": "/moments",
+      "destination": "/spa-shell.html"
+    },
+    {
+      "source": "/moments/:album",
       "destination": "/spa-shell.html"
     },
     {

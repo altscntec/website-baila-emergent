@@ -1,6 +1,8 @@
 // Moments photo library: tiny fetch helpers shared by the public page and the owner upload page.
-export const listMoments = async () => {
-  const r = await fetch('/api/moments/list', { credentials: 'same-origin' });
+// Public: one night via its album token. Owner (key): every night, each with its link token.
+export const listMoments = async ({ key, album } = {}) => {
+  const q = album ? `?album=${encodeURIComponent(album)}` : '';
+  const r = await fetch(`/api/moments/list${q}`, { credentials: 'same-origin', headers: key ? { Authorization: `Bearer ${key}` } : {} });
   if (!r.ok) throw new Error(`list ${r.status}`);
   return r.json();
 };
@@ -28,6 +30,10 @@ export const writeKey = (k) => { try { if (k) sessionStorage.setItem(KEY_STORE, 
 export const verifyOwner = (key) => ownerJson(key, 'GET', '/api/moments/next?date=2000-01-01&city=check&venue=check');
 // One photo = <folder>/<nnnn>; the server removes both sizes.
 export const deletePhoto = (key, id) => { const i = id.lastIndexOf('/'); return ownerJson(key, 'POST', '/api/moments/delete', { folder: id.slice(0, i), index: Number(id.slice(i + 1)) }); };
+
+// /moments/<token> → token, else null
+export const albumFromPath = (pathname) => { const m = /^\/moments\/([A-Za-z0-9_-]{16})\/?$/.exec(pathname || window.location.pathname); return m ? m[1] : null; };
+export const albumUrl = (token) => `${window.location.origin}/moments/${token}`;
 
 const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 const DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];

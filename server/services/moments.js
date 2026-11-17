@@ -7,6 +7,7 @@
 //   moments/<YYYY-MM-DD>_<city>_<venue>/web/<NNNN>.jpg     long edge <= 2000px, what the viewer opens
 //   moments/<YYYY-MM-DD>_<city>_<venue>/thumb/<NNNN>.jpg   600px square crop, what the grid shows
 // The folder name is the only metadata: date, city and venue are parsed back out of it for the headers.
+const crypto = require('crypto');
 const { HttpError } = require('../lib/http');
 
 const PREFIX = 'moments/';
@@ -106,4 +107,11 @@ const remove = async (blob, { folder, index }) => {
   return { deleted: targets.length };
 };
 
-module.exports = { PREFIX, slug, parseFolder, folderFor, listEvents, nextIndex, putPhoto, remove, MAX_BYTES };
+// Album links. Each night is shared as /moments/<token>; the token is an HMAC of the folder name under the owner
+// key, 16 url-safe chars (~96 bits). Nothing is stored and nothing can be guessed from dates or cities; the bare
+// /moments page shows nothing. Rotating ADMIN_API_KEY rotates every album link.
+const TOKEN_RE = /^[A-Za-z0-9_-]{16}$/;
+const albumToken = (secret, folder) => crypto.createHmac('sha256', String(secret || 'unset')).update(`moments-album:${folder}`).digest('base64url').slice(0, 16);
+const findAlbum = (secret, events, token) => (TOKEN_RE.test(String(token || '')) ? events.find((e) => albumToken(secret, e.folder) === token) || null : null);
+
+module.exports = { PREFIX, slug, parseFolder, folderFor, listEvents, nextIndex, putPhoto, remove, albumToken, findAlbum, TOKEN_RE, MAX_BYTES };

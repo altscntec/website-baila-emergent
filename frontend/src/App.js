@@ -274,7 +274,8 @@ function App() {
   // Halloween 2027 early-release list: standalone like the quiz; hidden by the API until 1 Nov 2026 05:00.
   const isH27Route = effectivePath === "/halloween/2027" || effectivePath.startsWith("/halloween/2027/");
   // Moments photo library (/moments, "Hemos tirado muchas fotos") and its owner upload page: unlisted, link-only, noindex, no site chrome.
-  const isMomentsRoute = effectivePath === "/moments" || effectivePath === "/moments-upload";
+  const isMomentsAlbum = effectivePath === "/moments" || effectivePath.startsWith("/moments/");
+  const isMomentsRoute = isMomentsAlbum || effectivePath === "/moments-upload";
   const isStandalonePage = isKingsdayPage || isPadelPage || isQuizRoute || isH27Route || isMomentsRoute;
 
   const currentEvent = isEventPage && !isStandalonePage && eventSlug ? getEventBySlug(eventSlug, events) : null;
@@ -335,7 +336,7 @@ function App() {
       <div className="grain-overlay" />
       {!isStandalonePage && <Navigation currentPath={effectivePath} />}
       <main>
-        {effectivePath === "/moments" ? (
+        {isMomentsAlbum ? (
           <MomentsPage />
         ) : effectivePath === "/moments-upload" ? (
           <MomentsUploadPage />

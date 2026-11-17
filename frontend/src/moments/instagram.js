@@ -1,9 +1,7 @@
 // Instagram-ready versions of a Moments photo, drawn on a canvas in the browser:
 //   story 1080x1920 (9:16) and post 1080x1350 (4:5), Baila Dembow logo on top, the photo on a blurred
-//   backdrop in brand colours, and the @handle baked in at the bottom. The file is handed to the OS share
+//   backdrop in brand colours, and the night written underneath. The file is handed to the OS share
 //   sheet, where Instagram picks it up as a story or a post.
-export const IG_HANDLE = 'baila.dembow';
-
 const FONT = '-apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif';
 const load = (src, cors) => new Promise((res, rej) => { const im = new Image(); if (cors) im.crossOrigin = 'anonymous'; im.onload = () => res(im); im.onerror = () => rej(new Error('image')); im.src = src; });
 const rr = (ctx, x, y, w, h, r) => { ctx.beginPath(); ctx.moveTo(x + r, y); ctx.arcTo(x + w, y, x + w, y + h, r); ctx.arcTo(x + w, y + h, x, y + h, r); ctx.arcTo(x, y + h, x, y, r); ctx.arcTo(x, y, x + w, y, r); ctx.closePath(); };
@@ -33,14 +31,8 @@ export async function renderInstagram({ src, kind, logo, line }) {
   // logo above
   if (lg) { const lw = story ? 330 : 250; const lh = lw * lg.height / lg.width; ctx.drawImage(lg, (W - lw) / 2, Math.round((top - lh) / 2) + (story ? 50 : 14), lw, lh); }
 
-  // @handle pill + the night, below
-  ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-  ctx.font = `700 46px ${FONT}`;
-  const txt = `@${IG_HANDLE}`; const tw = ctx.measureText(txt).width; const pillW = tw + 76; const pillH = 96;
-  const bx = (W - pillW) / 2; const by = py + ph + (story ? 64 : 40);
-  ctx.save(); ctx.shadowColor = 'rgba(227,18,26,.45)'; ctx.shadowBlur = 40; rr(ctx, bx, by, pillW, pillH, 48); ctx.fillStyle = '#E3121A'; ctx.fill(); ctx.restore();
-  ctx.fillStyle = '#fff'; ctx.fillText(txt, W / 2, by + pillH / 2 + 2);
-  if (line) { ctx.font = `600 26px ${FONT}`; ctx.fillStyle = '#E9D5FF'; ctx.fillText(line.toUpperCase().split('').join(' '), W / 2, by + pillH + 42); }
+  // the night, below
+  if (line) { ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.font = `600 28px ${FONT}`; ctx.fillStyle = '#E9D5FF'; ctx.fillText(line.toUpperCase().split('').join('\u200A'), W / 2, py + ph + (story ? 70 : 48)); }
 
   return new Promise((res, rej) => c.toBlob((b) => (b ? res(b) : rej(new Error('blob'))), 'image/jpeg', .9));
 }
