@@ -73,7 +73,11 @@
 .mo-view.unready .mo-strip, .mo-view.unready .mo-vtop, .mo-view.unready .mo-vbot, .mo-view.unready .mo-nav { opacity: 0; }
 .mo-fly { position: fixed; z-index: 2; object-fit: cover; display: none; pointer-events: none; will-change: left, top, width, height; background: #000; }
 .mo-view.pulling .mo-vtop, .mo-view.pulling .mo-vbot, .mo-view.pulling .mo-nav { opacity: 0; pointer-events: none; }
-.mo-slide { flex: 0 0 100%; height: 100%; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.mo-slide { flex: 0 0 100%; height: 100%; display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; }
+.mo-slide img.lo { position: absolute; inset: -6%; width: 112%; height: 112%; max-width: none; max-height: none; object-fit: cover; filter: blur(22px) saturate(1.1) brightness(.85); transition: opacity .25s ease .1s; }
+.mo-slide img.lo.off { opacity: 0; visibility: hidden; transition: opacity .25s ease .1s, visibility 0s linear .4s; }
+.mo-slide img.hi { position: relative; opacity: 0; transition: opacity .18s ease; }
+.mo-slide img.hi.in { opacity: 1; }
 /* viewport units, not %, so Chrome honours the height limit on landscape screens (a % max-height in the slide was ignored) */
 .mo-slide img { max-width: 100vw; max-height: 100vh; max-height: 100dvh; width: auto; height: auto; object-fit: contain; will-change: transform; transform-origin: center; -webkit-user-drag: none; }
 .mo-vbot { position: absolute; left: 0; right: 0; bottom: 0; z-index: 3; padding: 10px 0 calc(env(safe-area-inset-bottom, 0px) + 10px); background: linear-gradient(0deg, rgba(0,0,0,.8), rgba(0,0,0,0)); transition: opacity .2s; }

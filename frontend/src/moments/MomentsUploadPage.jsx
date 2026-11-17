@@ -3,14 +3,14 @@ import './moments.css';
 import { KEY_STORE, albumUrl, listMoments, ownerJson, ownerUpload, prettyDate } from './api';
 
 // Owner-only upload page for the Moments photo library (/moments-upload, unlisted, noindex).
-// Pick a night (date, city, venue) and the photos; the browser resizes each photo to a 2000px web copy and a
+// Pick a night (date, city, venue) and the photos; the browser resizes each photo to a 1600px web copy and a
 // 600px square thumbnail, then sends both to /api/moments/upload with the owner key. Nothing full-size leaves the
 // phone, so an iPhone can upload a whole night on mobile data. HEIC photos work in Safari (iPhone/Mac); other
 // browsers need JPEG. Works on existing nights too: new photos are appended after the ones already there.
 
 // Desktop browsers only open the calendar from the small icon; open it from anywhere in the field.
 const openPicker = (e) => { try { if (e.target.showPicker) e.target.showPicker(); } catch (_) { /* needs a user gesture; the icon still works */ } };
-const WEB_EDGE = 2000; const THUMB = 600;
+const WEB_EDGE = 1600; const THUMB = 600;
 
 const decode = async (file) => {
   if (window.createImageBitmap) { try { return await createImageBitmap(file, { imageOrientation: 'from-image' }); } catch (_) { /* fall through */ } }
