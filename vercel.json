@@ -114,6 +114,15 @@
       ]
     },
     {
+      "source": "/moments-shell.html",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow, noarchive"
+        }
+      ]
+    },
+    {
       "source": "/api/(.*)",
       "headers": [
         {
@@ -215,15 +224,15 @@
     },
     {
       "source": "/moments",
-      "destination": "/spa-shell.html"
+      "destination": "/moments-shell.html"
     },
     {
       "source": "/moments/:album",
-      "destination": "/spa-shell.html"
+      "destination": "/moments-shell.html"
     },
     {
       "source": "/moments-upload",
-      "destination": "/spa-shell.html"
+      "destination": "/moments-shell.html"
     }
   ],
   "functions": {

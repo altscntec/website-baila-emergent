@@ -86,28 +86,36 @@ const SHELL = (() => {
   return Buffer.from(raw);
 })();
 
-// Unlisted routes (the Halloween quiz) are NOT prerendered or indexed. They are served from a clean copy of the
-// SPA shell, with noindex baked in, so a crawler or link preview never sees the homepage's title and canonical.
-// vercel.json rewrites /halloween/quiz* to this file and adds the same directive as an X-Robots-Tag header.
-const writeQuizShell = () => {
+// Unlisted routes (the Halloween quiz, Moments) are NOT prerendered or indexed. They are served from a clean copy of
+// the SPA shell, with noindex baked in and their own title/description for link previews, so a crawler or chat app
+// never sees the homepage's title and canonical. vercel.json rewrites those routes to these files and adds the same
+// directive as an X-Robots-Tag header.
+const SHELLS = {
+  'spa-shell.html': { title: 'Halloween Quiz | Baila Dembow', description: 'Five questions. One Halloween reward.', url: 'https://bailadembow.com/halloween/quiz' },
+  // Moments album links are shared in chats: the preview must say Baila Dembow, not the quiz.
+  'moments-shell.html': { title: 'Baila Dembow - Reggaeton, Latin Party', description: 'Hemos tirado muchas fotos. Photos from the night, by Baila Dembow.', url: 'https://bailadembow.com/moments' },
+};
+const esc = (t) => t.replace(/&/g, '&amp;').replace(/"/g, '&quot;');
+const writeShellVariant = (file, { title, description, url }) => {
   const html = SHELL.toString('utf8')
-    .replace(/<title>[\s\S]*?<\/title>/i, '<title>Halloween Quiz | Baila Dembow</title>')
+    .replace(/<title>[\s\S]*?<\/title>/i, `<title>${esc(title)}</title>`)
     .replace(/<link rel="canonical"[^>]*>/gi, '')
-    .replace(/<meta name="description"[^>]*>/gi, '<meta name="description" content="Five questions. One Halloween reward.">')
-    .replace(/<meta name="title"[^>]*>/gi, '<meta name="title" content="Halloween Quiz | Baila Dembow"/>')
-    .replace(/<meta property="og:title"[^>]*>/gi, '<meta property="og:title" content="Halloween Quiz | Baila Dembow"/>')
-    .replace(/<meta property="og:description"[^>]*>/gi, '<meta property="og:description" content="Five questions. One Halloween reward."/>')
-    .replace(/<meta property="og:url"[^>]*>/gi, '<meta property="og:url" content="https://bailadembow.com/halloween/quiz"/>')
-    .replace(/<meta name="twitter:title"[^>]*>/gi, '<meta name="twitter:title" content="Halloween Quiz | Baila Dembow"/>')
-    .replace(/<meta name="twitter:description"[^>]*>/gi, '<meta name="twitter:description" content="Five questions. One Halloween reward."/>')
+    .replace(/<meta name="description"[^>]*>/gi, `<meta name="description" content="${esc(description)}">`)
+    .replace(/<meta name="title"[^>]*>/gi, `<meta name="title" content="${esc(title)}"/>`)
+    .replace(/<meta property="og:title"[^>]*>/gi, `<meta property="og:title" content="${esc(title)}"/>`)
+    .replace(/<meta property="og:description"[^>]*>/gi, `<meta property="og:description" content="${esc(description)}"/>`)
+    .replace(/<meta property="og:url"[^>]*>/gi, `<meta property="og:url" content="${url}"/>`)
+    .replace(/<meta name="twitter:title"[^>]*>/gi, `<meta name="twitter:title" content="${esc(title)}"/>`)
+    .replace(/<meta name="twitter:description"[^>]*>/gi, `<meta name="twitter:description" content="${esc(description)}"/>`)
     .replace(/<meta name="googlebot"[^>]*>/gi, '')      // the homepage says "index, follow": remove any conflicting directive
-    .replace(/<meta name="twitter:url"[^>]*>/gi, '<meta name="twitter:url" content="https://bailadembow.com/halloween/quiz"/>')
+    .replace(/<meta name="twitter:url"[^>]*>/gi, `<meta name="twitter:url" content="${url}"/>`)
     .replace(/<script type="application\/ld\+json">[\s\S]*?<\/script>/gi, '')   // homepage structured data does not describe this page
     .replace(/<meta name="robots"[^>]*>/gi, '')
     .replace('<head>', '<head><meta name="robots" content="noindex, nofollow, noarchive">');
-  fs.writeFileSync(path.join(BUILD, 'spa-shell.html'), html);
-  console.log('[prerender] wrote spa-shell.html (noindex shell for unlisted routes)');
+  fs.writeFileSync(path.join(BUILD, file), html);
+  console.log(`[prerender] wrote ${file} (noindex shell for unlisted routes)`);
 };
+const writeQuizShell = () => Object.entries(SHELLS).forEach(([file, meta]) => writeShellVariant(file, meta));
 
 // Without a snapshot a route would 404 (vercel.json has no catch-all rewrite,
 // so unknown URLs return a real 404). If a route cannot be prerendered, write
