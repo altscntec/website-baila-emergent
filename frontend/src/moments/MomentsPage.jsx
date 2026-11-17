@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import './moments.css';
-import { listMoments, prettyDate } from './api';
+import { deletePhoto, listMoments, prettyDate, readKey, verifyOwner, writeKey } from './api';
 
 // Moments: the unlisted photo library at /moments (link only, noindex). Built to feel like the iPhone Photos app:
 //   - one section per night, newest first, with a sticky date + venue header
@@ -8,6 +8,8 @@ import { listMoments, prettyDate } from './api';
 //   - Months (one cover card per night) · Days (3 across) · All (dense), also on the bottom pill like iOS
 //   - tap a photo for the full-screen viewer: swipe between photos, pinch and double-tap to zoom, filmstrip,
 //     share and download, back gesture / Escape closes it
+//   - owner mode (Hari only): /moments?owner asks for the owner key once per tab; then Select → tap photos → Delete,
+//     or Delete inside the viewer. Public visitors never see any of it.
 // Photos come from /api/moments/list (Vercel Blob behind it); the page itself holds no photos.
 
 const LOGO = '/images/branding/baila-logo-white.png';
@@ -23,19 +25,23 @@ const I = {
   left: 'M15 18l-6-6 6-6',
   right: 'M9 6l6 6-6 6',
   grid: 'M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z',
+  trash: 'M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3',
+  check: 'M5 12l5 5L20 7',
+  lock: 'M7 11V8a5 5 0 0110 0v3M5 11h14v10H5z',
 };
 
-const Thumb = ({ src, alt, onClick }) => {
+const Thumb = ({ src, alt, onClick, selecting, selected }) => {
   const [ok, setOk] = useState(false);
   return (
-    <button type="button" className="mo-ph" onClick={onClick} aria-label={alt}>
+    <button type="button" className={`mo-ph${selecting ? ' pick' : ''}${selected ? ' sel' : ''}`} onClick={onClick} aria-label={alt} aria-pressed={selecting ? selected : undefined}>
       <img src={src} alt="" loading="lazy" decoding="async" className={ok ? 'in' : ''} onLoad={() => setOk(true)} />
+      {selecting && <span className="ck"><Icon d={I.check} /></span>}
     </button>
   );
 };
 
 // Full-screen viewer. `flat` is every photo of every night in page order; `at` is the index into it.
-const Viewer = ({ flat, at, setAt, onClose }) => {
+const Viewer = ({ flat, at, setAt, onClose, onDelete }) => {
   const [chrome, setChrome] = useState(true);
   const [drag, setDrag] = useState(0);
   const [snap, setSnap] = useState(true);
@@ -48,9 +54,9 @@ const Viewer = ({ flat, at, setAt, onClose }) => {
 
   useEffect(() => { setZoom({ s: 1, x: 0, y: 0 }); setDrag(0); setSnap(true); }, [at]);
   useEffect(() => {
-    const onKey = (e) => { if (e.key === 'Escape') onClose(); else if (e.key === 'ArrowLeft') prev(); else if (e.key === 'ArrowRight') next(); };
+    const onKey = (e) => { if (e.key === 'Escape') onClose(); else if (e.key === 'ArrowLeft') prev(); else if (e.key === 'ArrowRight') next(); else if (onDelete && (e.key === 'Delete' || e.key === 'Backspace')) onDelete(cur.id); };
     window.addEventListener('keydown', onKey); return () => window.removeEventListener('keydown', onKey);
-  }, [onClose, prev, next]);
+  }, [onClose, prev, next, onDelete, cur.id]);
   useEffect(() => {
     const el = filmRef.current && filmRef.current.children[at];
     if (el && el.scrollIntoView) el.scrollIntoView({ block: 'nearest', inline: 'center', behavior: 'smooth' });
@@ -145,6 +151,7 @@ const Viewer = ({ flat, at, setAt, onClose }) => {
         <div className="mo-acts">
           <button type="button" onClick={share}><Icon d={I.share} />Share</button>
           <button type="button" onClick={download}><Icon d={I.down} />Save</button>
+          {onDelete && <button type="button" className="danger" onClick={() => onDelete(cur.id)}><Icon d={I.trash} />Delete</button>}
           <button type="button" onClick={onClose}><Icon d={I.grid} />Grid</button>
         </div>
       </div>
@@ -163,12 +170,45 @@ export const MomentsPage = () => {
   const [at, setAt] = useState(-1);
   const pinch = useRef(null);
   const wheelAcc = useRef(0);
+  // Owner mode (delete). Key in sessionStorage; asked for via /moments?owner.
+  const [key, setKey] = useState(readKey);
+  const [ask, setAsk] = useState(() => !readKey() && /(^|[?&#])owner(=|&|$)/.test(window.location.search + window.location.hash));
+  const [askMsg, setAskMsg] = useState('');
+  const [selecting, setSelecting] = useState(false);
+  const [sel, setSel] = useState(() => new Set());
+  const [busy, setBusy] = useState(false);
+  const owner = !!key;
 
   useEffect(() => { listMoments().then(setData).catch(() => setErr(true)); }, []);
   useEffect(() => { const r = () => setW(window.innerWidth); window.addEventListener('resize', r); return () => window.removeEventListener('resize', r); }, []);
   useEffect(() => { try { localStorage.setItem('bd_moments_zoom', level); } catch (_) { /* private mode */ } }, [level]);
 
   const events = useMemo(() => (data && data.events) || [], [data]);
+
+  const unlock = async (e) => {
+    e.preventDefault();
+    const k = new FormData(e.target).get('key').trim();
+    if (!k) return;
+    setAskMsg('Checking…');
+    try { await verifyOwner(k); writeKey(k); setKey(k); setAsk(false); setAskMsg(''); window.history.replaceState(null, '', window.location.pathname + window.location.hash.replace(/#?owner/, '')); }
+    catch (er) { setAskMsg(er.status === 401 ? 'Owner key refused.' : er.status === 429 ? 'Too many tries. Wait 15 minutes.' : 'Could not check the key. Try again.'); }
+  };
+  const lock = () => { writeKey(''); setKey(''); setSelecting(false); setSel(new Set()); };
+  const dropPhotos = (ids) => setData((d) => { const gone = new Set(ids); return { ...d, events: d.events.map((ev) => { const photos = ev.photos.filter((p) => !gone.has(p.id)); return { ...ev, photos, count: photos.length, cover: photos[0] ? photos[0].web : ev.cover }; }).filter((ev) => ev.photos.length) }; });
+  const removePhotos = async (ids) => {
+    if (!ids.length || busy) return [];
+    if (!window.confirm(ids.length === 1 ? 'Delete this photo from Moments? This cannot be undone.' : `Delete ${ids.length} photos from Moments? This cannot be undone.`)) return [];
+    setBusy(true);
+    const done = [];
+    try { for (const id of ids) { await deletePhoto(key, id); done.push(id); } }
+    catch (er) { if (er.status === 401) { lock(); window.alert('Owner key refused. Open /moments?owner and enter it again.'); } else window.alert(`Delete failed after ${done.length} of ${ids.length}: ${er.message}`); }
+    finally { setBusy(false); }
+    if (done.length) { dropPhotos(done); setSel(new Set()); }
+    return done;
+  };
+  const toggleSel = (id) => setSel((cur) => { const n = new Set(cur); if (n.has(id)) n.delete(id); else n.add(id); return n; });
+  const startSelect = () => { setSelecting(true); setSel(new Set()); if (level === 'months') setLevel('days'); };
+  const stopSelect = () => { setSelecting(false); setSel(new Set()); };
   const flat = useMemo(() => events.flatMap((ev) => ev.photos.map((p) => ({ ...p, ev }))), [events]);
   const total = flat.length;
 
@@ -182,6 +222,17 @@ export const MomentsPage = () => {
   }, [flat]);
   const open = (i) => { window.history.pushState({ momentsViewer: true }, '', `#p=${encodeURIComponent(flat[i].id)}`); setAt(i); };
   const close = useCallback(() => { if (window.history.state && window.history.state.momentsViewer) window.history.back(); else { window.history.replaceState(null, '', window.location.pathname); setAt(-1); } }, []);
+  // Delete from inside the viewer: stay on the same position (the next photo slides in), or close when the last one goes.
+  const deleteInViewer = useCallback(async (id) => {
+    const done = await removePhotos([id]);
+    if (!done.length) return;
+    const left = flat.length - 1;
+    if (left <= 0) { close(); return; }
+    const ni = Math.min(at, left - 1);
+    const nextPhoto = flat.filter((p) => p.id !== id)[ni];
+    window.history.replaceState(window.history.state, '', `#p=${encodeURIComponent(nextPhoto.id)}`);
+    setAt(ni);
+  }, [flat, at, close, key, busy]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Pinch on the grid (iOS: pinch out = bigger photos = fewer columns). Trackpad pinch arrives as ctrl+wheel.
   const step = (dir) => setLevel((l) => { const i = LEVELS.indexOf(l); const n = Math.min(LEVELS.length - 1, Math.max(0, i + dir)); return LEVELS[n]; });
@@ -215,6 +266,10 @@ export const MomentsPage = () => {
         <img src={LOGO} alt="Baila Dembow" />
         <div><h1>Moments</h1><div className="mo-sub">Hemos tirado muchas fotos</div></div>
         <div className="mo-count">{total ? <>{total} photos<br />{events.length} {events.length === 1 ? 'night' : 'nights'}</> : ''}</div>
+        {owner && total > 0 && at < 0 && (selecting
+          ? <button type="button" className="mo-own" onClick={stopSelect}>Cancel</button>
+          : <button type="button" className="mo-own" onClick={startSelect}>Select</button>)}
+        {owner && !selecting && <button type="button" className="mo-own icon" onClick={lock} aria-label="Leave owner mode" title="Leave owner mode"><Icon d={I.lock} /></button>}
       </header>
 
       <div className="mo-body">
@@ -242,7 +297,7 @@ export const MomentsPage = () => {
                 <section className="mo-sec" key={ev.folder} id={`night-${ev.folder}`}>
                   <div className="mo-head"><div><b>{d.day} {d.date}</b><span>{ev.city} · {ev.venue} · {d.year}</span></div><span className="mo-n">{ev.count} photos</span></div>
                   <div className="mo-grid" style={{ '--cols': cols }}>
-                    {ev.photos.map((p, j) => <Thumb key={p.id} src={p.thumb} alt={`${ev.city} ${d.date}, photo ${j + 1}`} onClick={() => open(start + j)} />)}
+                    {ev.photos.map((p, j) => <Thumb key={p.id} src={p.thumb} alt={`${ev.city} ${d.date}, photo ${j + 1}`} selecting={selecting} selected={sel.has(p.id)} onClick={() => (selecting ? toggleSel(p.id) : open(start + j))} />)}
                   </div>
                 </section>
               );
@@ -251,7 +306,24 @@ export const MomentsPage = () => {
         )}
       </div>
 
-      {total > 0 && at < 0 && (
+      {selecting && at < 0 && (
+        <div className="mo-selbar">
+          <span>{sel.size ? `${sel.size} selected` : 'Tap photos to select'}</span>
+          <button type="button" className="del" disabled={!sel.size || busy} onClick={() => removePhotos([...sel])}>{busy ? 'Deleting…' : `Delete${sel.size ? ` (${sel.size})` : ''}`}</button>
+        </div>
+      )}
+      {ask && (
+        <div className="mo-sheet" role="dialog" aria-modal="true" aria-label="Owner key">
+          <form onSubmit={unlock}>
+            <h2>Owner only</h2>
+            <p>Enter the owner key to delete photos. It stays in this tab only.</p>
+            <input name="key" type="password" autoComplete="current-password" placeholder="Owner key" autoFocus />
+            {askMsg && <div className="m">{askMsg}</div>}
+            <div className="r"><button type="button" className="ghost" onClick={() => { setAsk(false); window.history.replaceState(null, '', window.location.pathname); }}>Not now</button><button type="submit">Unlock</button></div>
+          </form>
+        </div>
+      )}
+      {total > 0 && at < 0 && !selecting && (
         <>
           <div className={`mo-hint${hint ? ' show' : ''}`}>Pinch to zoom the grid</div>
           <nav className="mo-seg" aria-label="Zoom level">
@@ -262,7 +334,7 @@ export const MomentsPage = () => {
         </>
       )}
 
-      {at >= 0 && flat[at] && <Viewer flat={flat} at={at} setAt={setAt} onClose={close} />}
+      {at >= 0 && flat[at] && <Viewer flat={flat} at={at} setAt={setAt} onClose={close} onDelete={owner ? deleteInViewer : undefined} />}
     </div>
   );
 };

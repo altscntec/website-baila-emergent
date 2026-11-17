@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import './moments.css';
-import { listMoments, ownerJson, ownerUpload, prettyDate } from './api';
+import { KEY_STORE, listMoments, ownerJson, ownerUpload, prettyDate } from './api';
 
 // Owner-only upload page for the Moments photo library (/moments-upload, unlisted, noindex).
 // Pick a night (date, city, venue) and the photos; the browser resizes each photo to a 2000px web copy and a
@@ -8,7 +8,6 @@ import { listMoments, ownerJson, ownerUpload, prettyDate } from './api';
 // phone, so an iPhone can upload a whole night on mobile data. HEIC photos work in Safari (iPhone/Mac); other
 // browsers need JPEG. Works on existing nights too: new photos are appended after the ones already there.
 
-const KEY_STORE = 'bd_moments_key';
 // Desktop browsers only open the calendar from the small icon; open it from anywhere in the field.
 const openPicker = (e) => { try { if (e.target.showPicker) e.target.showPicker(); } catch (_) { /* needs a user gesture; the icon still works */ } };
 const WEB_EDGE = 2000; const THUMB = 600;
@@ -132,6 +131,7 @@ export const MomentsUploadPage = () => {
 
         <div className="nights">
           <h2>Baila Dembow - Moments</h2>
+          <p className="hint">To remove single photos, open <a href="/moments?owner" style={{ color: '#C9A0F0' }}>Moments in owner mode</a>: Select, tap the photos, Delete. The key you typed here carries over in this tab.</p>
           {nights === null ? <div className="log">Loading…</div> : nights.length === 0 ? <div className="log">Nothing uploaded yet.</div> : nights.map((ev) => { const d = prettyDate(ev.date); return (
             <div className="night" key={ev.folder}>
               <img src={ev.photos[0].thumb} alt="" />
