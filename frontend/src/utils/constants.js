@@ -77,6 +77,9 @@ export const EVENTS = [
   {
     id: "denhaag-westwood-nov21-2026",
     customSlug: "den-haag-21-november-2026",
+    schema_address: { streetAddress: "Laan van Poot 7", postalCode: "2566 EV" },
+    // Google/AI-only ticket data (not shown on the page): price incl. EUR 2.29 fee, from Weeztix 17 Nov 2026
+    schema_offers: [{ name: "Ladies Duo (2 ladies, 1 ticket)", price: "17.29", availability: "InStock" }, { name: "Final Round Tickets", price: "18.24", availability: "InStock" }],
     city: "Den Haag",
     venue: "Westwood, Laan van Poot 7, 2566 EV Den Haag",
     date: "2026-11-21",
@@ -94,6 +97,9 @@ export const EVENTS = [
   {
     id: "amsterdam-supperclub-nov28-2026",
     customSlug: "amsterdam-supperclub-28-november-2026",
+    schema_address: { streetAddress: "Singel 460", postalCode: "1017 AW" },
+    // Google/AI-only ticket data (not shown on the page): price incl. EUR 2.29 fee, from Weeztix 17 Nov 2026
+    schema_offers: [{ name: "Ladies Duo (2 ladies, 1 ticket)", price: "17.29", availability: "InStock" }, { name: "Final Tickets", price: "19.79", availability: "InStock" }, { name: "On The Day Ticket", price: "22.29", availability: "PreSale" }],
     city: "Amsterdam",
     venue: "Supperclub, Singel 460, Amsterdam",
     date: "2026-11-28",
@@ -111,6 +117,9 @@ export const EVENTS = [
   {
     id: "groningen-huizemaas-dec12-2026",
     customSlug: "groningen-12-december-2026",
+    schema_address: { streetAddress: "Vismarkt 52", postalCode: "9711 KV" },
+    // Google/AI-only ticket data (not shown on the page): price incl. EUR 2.29 fee, from Weeztix 17 Nov 2026
+    schema_offers: [{ name: "Early Bird Ticket", price: "9.79", availability: "InStock" }, { name: "Regular Tickets", price: "16.24", availability: "InStock" }, { name: "Ladies Duo (2 ladies, 1 ticket)", price: "18.54", availability: "InStock" }, { name: "Last Round", price: "18.54", availability: "InStock" }],
     city: "Groningen",
     venue: "Huize Maas, Groningen",
     date: "2026-12-12",
@@ -128,6 +137,9 @@ export const EVENTS = [
   {
     id: "ijland-nye-dec31-2026",
     customSlug: "nye-amsterdam-31-december-2026",
+    schema_address: { streetAddress: "TT Vasumweg 171", postalCode: "1033 SG" },
+    // Google/AI-only ticket data (not shown on the page): price incl. EUR 2.29 fee, from Weeztix 17 Nov 2026
+    schema_offers: [{ name: "Round 1 Tickets", price: "24.29", availability: "InStock" }, { name: "Round 2 Tickets", price: "32.29", availability: "InStock" }, { name: "Ladies Duo (2 ladies, 1 ticket)", price: "32.29", availability: "InStock" }],
     city: "Amsterdam",
     venue: "IJLAND, TT Vasumweg 171, Amsterdam Noord",
     date: "2026-12-31",

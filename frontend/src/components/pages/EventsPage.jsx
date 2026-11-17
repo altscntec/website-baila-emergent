@@ -15,7 +15,7 @@ export const EventsPage = ({ events: propEvents }) => {
       <div className="min-h-screen bg-[#0A0A0A] pt-24">
         <div className="container-custom py-16">
           <h1 className="font-display text-4xl md:text-6xl mb-4 text-center text-white">
-            LATIN EVENTS<br /><span className="gradient-text">AMSTERDAM & NETHERLANDS</span>
+            LATIN EVENTS{' '}<br /><span className="gradient-text">AMSTERDAM & NETHERLANDS</span>
           </h1>
           <p className="text-lg text-gray-400 text-center mb-12 max-w-2xl mx-auto">
             Experience the best Reggaeton, Dembow, and Latin Party events in the Netherlands.
