@@ -39,7 +39,7 @@ const STATIC_ROUTES = [
 // EVENTS carries a customSlug; one without it would fall back to the SPA shell.
 const eventRoutes = () => {
   const src = fs.readFileSync(path.join(__dirname, '..', 'src', 'utils', 'constants.js'), 'utf8');
-  const start = src.indexOf('export const EVENTS');
+  const start = src.indexOf('export const ALL_EVENTS');   // scheduled events included: their page must exist the minute they appear
   const end = src.indexOf('];', start);
   const block = start >= 0 && end > start ? src.slice(start, end) : '';
   const slugs = [...block.matchAll(/customSlug:\s*["']([^"']+)["']/g)].map((m) => m[1]);

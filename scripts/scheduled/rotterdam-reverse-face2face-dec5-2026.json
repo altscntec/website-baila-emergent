@@ -1,0 +1,12 @@
+{
+  "faq": {
+    "old": "The upcoming agenda includes Den Haag at Westwood (21 November), Amsterdam at Supperclub (28 November), Groningen (12 December, Huize Maas) and Indoor Fest NYE (31 December, IJLAND Amsterdam).",
+    "new": "The upcoming agenda includes Den Haag at Westwood (21 November), Amsterdam at Supperclub (28 November), Face 2 Face Rotterdam (5 December, Club Reverse), Groningen (12 December, Huize Maas) and Indoor Fest NYE (31 December, IJLAND Amsterdam)."
+  },
+  "sitemap": {
+    "marker": "face-2-face-5-december-2026",
+    "block": "  <!-- Event: Baila Dembow Face 2 Face - Club Reverse Rotterdam - Dec 5, 2026 -->\n  <url>\n    <loc>https://bailadembow.com/events/rotterdam-face-2-face-5-december-2026</loc>\n    <lastmod>2026-11-19</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>0.9</priority>\n    <image:image>\n      <image:loc>https://bailadembow.com/images/events/rotterdam-reverse-face2face-dec5-2026.png</image:loc>\n      <image:title>Latin Event Rotterdam - Baila Dembow Face 2 Face at Club Reverse - December 5 2026</image:title>\n    </image:image>\n  </url>\n\n",
+    "anchor": "  <!-- Event: Baila Dembow Indoor Fest NYE - IJLAND Amsterdam - Dec 31, 2026 -->"
+  },
+  "history": "//   2026-11-19 — Rotterdam Face 2 Face (5 Dec) published at 19:30 (scheduled publish, GitHub Actions)"
+}

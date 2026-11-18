@@ -69,12 +69,13 @@ export const GALLERY_IMAGES = [
 //   2026-11-09 — Halloween (31 Oct) and Rotterdam Día de Muertos (7 Nov) removed (past).
 //                /halloween stays live as the sold-out page with the 2027 signup; the pages that
 //                looked the Halloween entry up (quiz, OG card, floating CTA) fall back to /halloween/2027.
-//   2026-11-18 — Rotterdam Face 2 Face (5 Dec, Club Reverse) added
+//   2026-11-18 — Rotterdam Face 2 Face (5 Dec, Club Reverse) added with publish_at = 19 Nov 19:30 (channel
+//                subscribers get a 24 h head start); scripts/publish-event.js publishes it via GitHub Actions
 //   Keep EVENTS in date order (pages also sort by date when rendering).
 //
 // The /events/PadelXReggaeton standalone route still exists in App.js for
 // any inbound bookmarks but is no longer linked from the grid.
-export const EVENTS = [
+export const ALL_EVENTS = [
   {
     id: "denhaag-westwood-nov21-2026",
     customSlug: "den-haag-21-november-2026",
@@ -115,6 +116,7 @@ export const EVENTS = [
     city: "Rotterdam",
     venue: "Club Reverse, Rotterdam",
     date: "2026-12-05",
+    publish_at: "2026-11-19T19:30:00+01:00",   // hidden everywhere until then; scripts/publish-event.js finalises it
     time: "23:00 – 05:00",
     title: "FACE 2 FACE // ROTTERDAM",
     tagline: "La misión empieza aquí.",
@@ -165,6 +167,11 @@ export const EVENTS = [
   }
 ];
 
+// Scheduled events (publish_at still in the future) stay hidden everywhere, judged by the visitor's clock, so they
+// appear at the exact minute without a deploy. At that minute GitHub Actions runs scripts/publish-event.js, which
+// removes publish_at and adds the sitemap entry + FAQ mention, and pushes (that deploy refreshes the prerendered pages).
+export const EVENTS = ALL_EVENTS.filter((e) => !e.publish_at || Date.parse(e.publish_at) <= Date.now());
+
 
 // Backward compat alias
 export const FALLBACK_EVENTS = EVENTS;
@@ -178,7 +185,7 @@ export const FAQS = [
   },
   {
     q: "Where can I find Latin party events in the Netherlands?",
-    a: "Baila Dembow hosts Latin parties across the Netherlands — Amsterdam, Rotterdam, Den Haag, Groningen, Leiden, Eindhoven and beyond. The upcoming agenda includes Den Haag at Westwood (21 November), Amsterdam at Supperclub (28 November), Face 2 Face Rotterdam (5 December, Club Reverse), Groningen (12 December, Huize Maas) and Indoor Fest NYE (31 December, IJLAND Amsterdam).",
+    a: "Baila Dembow hosts Latin parties across the Netherlands — Amsterdam, Rotterdam, Den Haag, Groningen, Leiden, Eindhoven and beyond. The upcoming agenda includes Den Haag at Westwood (21 November), Amsterdam at Supperclub (28 November), Groningen (12 December, Huize Maas) and Indoor Fest NYE (31 December, IJLAND Amsterdam).",
   },
   {
     q: "What is dembow music?",
