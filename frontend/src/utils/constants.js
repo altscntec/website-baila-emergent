@@ -69,6 +69,7 @@ export const GALLERY_IMAGES = [
 //   2026-11-09 — Halloween (31 Oct) and Rotterdam Día de Muertos (7 Nov) removed (past).
 //                /halloween stays live as the sold-out page with the 2027 signup; the pages that
 //                looked the Halloween entry up (quiz, OG card, floating CTA) fall back to /halloween/2027.
+//   2026-11-18 — Rotterdam Face 2 Face (5 Dec, Club Reverse) added
 //   Keep EVENTS in date order (pages also sort by date when rendering).
 //
 // The /events/PadelXReggaeton standalone route still exists in App.js for
@@ -107,6 +108,23 @@ export const EVENTS = [
     price_from: "",
     price_door: "",
     image_url: "/images/events/amsterdam-supperclub-nov28-2026.png"
+  },
+  {
+    id: "rotterdam-reverse-face2face-dec5-2026",
+    customSlug: "rotterdam-face-2-face-5-december-2026",
+    city: "Rotterdam",
+    venue: "Club Reverse, Rotterdam",
+    date: "2026-12-05",
+    time: "23:00 – 05:00",
+    title: "FACE 2 FACE // ROTTERDAM",
+    tagline: "La misión empieza aquí.",
+    og_image: "/images/og/og-face2face-dec5.jpg",
+    description: "¡ROTTERDAM, LA MISIÓN EMPIEZA AQUÍ! For the first time ever, Baila Dembow goes Face 2 Face. Our DJs go back to back all night, face to face on the dancefloor at Club Reverse, playing reggaeton, dembow and Latin hits track for track until 05:00. Think Bad Bunny, Karol G, El Alfa and Rauw Alejandro traded back and forth, with the dembow keeping the perreo going from the first track until the lights come on. The line-up drops soon, so dress like the main character and lock in your ticket before Rotterdam does. Early bird tickets are the cheapest way in, and every round after that costs a bit more. Your mission starts on the dancefloor. Nos vemos en la pista. 📍 Location: Club Reverse, Rotterdam · 🗓️ Date: Saturday, December 5, 2026 · ⏰ Time: 23:00 till 05:00 · 🔞 18+ event, ID required.",
+    ticket_url: "https://weeztix.shop/4s84rxxa",
+    status: "upcoming",
+    price_from: "",
+    price_door: "",
+    image_url: "/images/events/rotterdam-reverse-face2face-dec5-2026.png"
   },
   {
     id: "groningen-huizemaas-dec12-2026",
@@ -160,7 +178,7 @@ export const FAQS = [
   },
   {
     q: "Where can I find Latin party events in the Netherlands?",
-    a: "Baila Dembow hosts Latin parties across the Netherlands — Amsterdam, Rotterdam, Den Haag, Groningen, Leiden, Eindhoven and beyond. The upcoming agenda includes Den Haag at Westwood (21 November), Amsterdam at Supperclub (28 November), Groningen (12 December, Huize Maas) and Indoor Fest NYE (31 December, IJLAND Amsterdam).",
+    a: "Baila Dembow hosts Latin parties across the Netherlands — Amsterdam, Rotterdam, Den Haag, Groningen, Leiden, Eindhoven and beyond. The upcoming agenda includes Den Haag at Westwood (21 November), Amsterdam at Supperclub (28 November), Face 2 Face Rotterdam (5 December, Club Reverse), Groningen (12 December, Huize Maas) and Indoor Fest NYE (31 December, IJLAND Amsterdam).",
   },
   {
     q: "What is dembow music?",
