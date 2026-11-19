@@ -32,7 +32,7 @@ export const AboutUsPage = () => {
         {/* Hero Section */}
         <div className="text-center mb-16">
           <h1 className="font-display text-4xl md:text-6xl mb-6 text-white">
-            BAILA DEMBOW<br /><span className="gradient-text">ABOUT US</span>
+            BAILA DEMBOW{' '}<br /><span className="gradient-text">ABOUT US</span>
           </h1>
           <span className="sr-only" aria-hidden="true">The #1 Latin Event in Amsterdam and the Netherlands</span>
         </div>

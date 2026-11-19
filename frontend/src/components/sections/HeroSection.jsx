@@ -103,7 +103,7 @@ export const HeroSection = () => {
           transition={{ duration: 0.6, delay: 1.1 }}
           className="text-white/60 text-sm mt-14 max-w-xl mx-auto"
         >
-          The leading Latin event in Amsterdam &amp; the Netherlands — 25,000+ dancers since 2023.
+          The leading Latin event in Amsterdam &amp; the Netherlands — 25,000+ dancers since 2019.
         </motion.p>
       </div>
     </section>

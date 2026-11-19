@@ -5,7 +5,7 @@ export const PressPage = () => {
     <div className="min-h-screen bg-white pt-24">
       <div className="container-custom py-16">
         <h1 className="font-display text-4xl md:text-6xl mb-8 text-center">
-          BAILA DEMBOW<br /><span className="gradient-text">PRESS & MEDIA</span>
+          BAILA DEMBOW{' '}<br /><span className="gradient-text">PRESS & MEDIA</span>
         </h1>
         
         <div className="max-w-3xl mx-auto">

@@ -5,6 +5,38 @@ import { trackTicketClick } from '../../utils/tracking';
 import { SoldOutCta } from '../common/SoldOutCta';
 import VenueMapSection from '../sections/VenueMapSection';
 
+// ISO 8601 date-time in Amsterdam local time, e.g. "2026-11-21T23:00:00+01:00".
+// (new Date("2026-11-21").toISOString() is midnight UTC, i.e. 01:00 in
+// Amsterdam, which told Google every night started at 01:00.)
+const amsOffset = (ymd, hh, mm) => {
+  try {
+    const probe = new Date(`${ymd}T${hh}:${mm}:00Z`);
+    const tz = new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/Amsterdam', timeZoneName: 'shortOffset' })
+      .formatToParts(probe)
+      .find((p) => p.type === 'timeZoneName').value; // "GMT+1" / "GMT+2"
+    const m = tz.match(/GMT([+-])(\d{1,2})/);
+    return m ? `${m[1]}${m[2].padStart(2, '0')}:00` : '+01:00';
+  } catch {
+    return '+01:00';
+  }
+};
+const addDays = (ymd, n) => {
+  const d = new Date(`${ymd}T12:00:00Z`);
+  d.setUTCDate(d.getUTCDate() + n);
+  return d.toISOString().slice(0, 10);
+};
+// event.date "2026-11-21" + event.time "23:00 – 04:00" -> { start, end }; an end
+// earlier than the start is the next morning.
+export const eventTimes = (event) => {
+  const m = String(event.time || '').match(/(\d{1,2}):(\d{2})\D+(\d{1,2}):(\d{2})/);
+  const [sh, sm, eh, em] = m ? [m[1], m[2], m[3], m[4]].map((x) => x.padStart(2, '0')) : ['23', '00', '05', '00'];
+  const endDay = Number(eh) * 60 + Number(em) <= Number(sh) * 60 + Number(sm) ? addDays(event.date, 1) : event.date;
+  return {
+    start: `${event.date}T${sh}:${sm}:00${amsOffset(event.date, sh, sm)}`,
+    end: `${endDay}T${eh}:${em}:00${amsOffset(endDay, eh, em)}`,
+  };
+};
+
 export const SingleEventPage = ({ eventSlug, events }) => {
   const event = getEventBySlug(eventSlug, events);
   
@@ -17,9 +49,18 @@ export const SingleEventPage = ({ eventSlug, events }) => {
       const existingBreadcrumbScript = document.querySelector('#breadcrumb-jsonld');
       if (existingBreadcrumbScript) existingBreadcrumbScript.remove();
       
-      const eventDate = new Date(event.date);
-      const endDate = new Date(eventDate);
-      endDate.setHours(endDate.getHours() + 6);
+      const { start, end } = eventTimes(event);
+      const [venueName, ...venueRest] = String(event.venue || '').split(',').map((x) => x.trim());
+      const offers = (event.schema_offers && event.schema_offers.length
+        ? event.schema_offers
+        : [{ name: 'Tickets', ...(event.price_from ? { price: event.price_from.replace('€', '') } : {}) }]
+      ).map((o) => ({
+        "@type": "Offer",
+        "name": o.name,
+        ...(o.price ? { "price": o.price, "priceCurrency": "EUR" } : {}),
+        "availability": `https://schema.org/${event.sold_out ? 'SoldOut' : o.availability || 'InStock'}`,
+        "url": event.ticket_url,
+      }));
       
       const musicEventSchema = {
         "@context": "https://schema.org",
@@ -27,29 +68,28 @@ export const SingleEventPage = ({ eventSlug, events }) => {
         "name": `${event.title} - Latin Event in ${event.city}`,
         "description": `${event.description} Experience the best Reggaeton, Dembow, and Latin Party vibes in the Netherlands.`,
         "image": [event.image_url],
-        "startDate": eventDate.toISOString(),
-        "endDate": endDate.toISOString(),
+        "startDate": start,
+        "endDate": end,
+        "doorTime": start,
         "eventStatus": "https://schema.org/EventScheduled",
         "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
         "location": {
           "@type": "Place",
-          "name": event.venue,
+          "name": venueName,
           "address": {
             "@type": "PostalAddress",
+            ...(event.schema_address || (venueRest.length ? { "streetAddress": venueRest.join(', ') } : {})),
             "addressLocality": event.city,
             "addressCountry": "NL"
           }
         },
-        "offers": {
-          "@type": "Offer",
-          "url": event.ticket_url,
-          ...(event.price_from ? { "price": event.price_from.replace("€", ""), "priceCurrency": "EUR" } : {}),
-          "availability": event.sold_out ? "https://schema.org/SoldOut" : "https://schema.org/InStock"
-        },
+        "offers": offers,
+        "performer": { "@type": "MusicGroup", "name": "Baila Dembow Resident DJs" },
         "organizer": {
           "@type": "Organization",
           "name": "Baila Dembow",
-          "url": "https://bailadembow.com"
+          "url": "https://bailadembow.com",
+          "logo": "https://bailadembow.com/images/branding/baila-dembow-logo-512.png"
         }
       };
       

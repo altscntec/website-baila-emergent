@@ -45,6 +45,21 @@
       "source": "/events/summer-of-love-29-august-2026",
       "destination": "/events",
       "permanent": true
+    },
+    {
+      "source": "/events/leiden-23-october-2026",
+      "destination": "/events",
+      "permanent": true
+    },
+    {
+      "source": "/events/dia-de-los-muertos-rotterdam-7-november-2026",
+      "destination": "/events",
+      "permanent": true
+    },
+    {
+      "source": "/events/halloween-31-october-2026",
+      "destination": "/halloween",
+      "permanent": true
     }
   ],
   "headers": [

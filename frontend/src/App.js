@@ -155,7 +155,7 @@ const routeSeo = (path, event) => {
     "/about": {
       title: "About Baila Dembow | Latin Events Netherlands",
       description:
-        "The story of Baila Dembow — the team bringing reggaeton, dembow and Latin culture to dancefloors across the Netherlands since 2023.",
+        "The story of Baila Dembow — the team bringing reggaeton, dembow and Latin culture to dancefloors across the Netherlands since 2019.",
     },
     "/press": {
       title: "Press & Media | Baila Dembow",
