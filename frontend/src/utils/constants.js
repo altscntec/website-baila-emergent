@@ -73,6 +73,7 @@ export const GALLERY_IMAGES = [
 //                subscribers get a 24 h head start); scripts/publish-event.js publishes it via GitHub Actions
 //   2026-11-19 — Rotterdam Face 2 Face (5 Dec) published at 19:30 (scheduled publish, GitHub Actions)
 //   2026-11-24 — Den Haag Westwood (21 Nov) removed (past)
+//   2026-11-26 — Rotterdam NYE 2027 (31 Dec, Club Reverse) added, after the Amsterdam NYE on the same date
 //   Keep EVENTS in date order (pages also sort by date when rendering).
 //
 // The /events/PadelXReggaeton standalone route still exists in App.js for
@@ -148,7 +149,25 @@ export const ALL_EVENTS = [
     price_from: "",
     price_door: "",
     image_url: "/images/events/ijland-nye-dec31-2026.png"
+  },
+  {
+    id: "rotterdam-reverse-nye-dec31-2026",
+    customSlug: "rotterdam-nye-31-december-2026",
+    city: "Rotterdam",
+    venue: "Club Reverse, Rotterdam",
+    date: "2026-12-31",
+    time: "23:59 – 05:00",
+    title: "NYE 2027 // ROTTERDAM",
+    tagline: "Feliz año nuevo, Rotterdam.",
+    og_image: "/images/og/og-nye-rotterdam.jpg",
+    description: "¡ROTTERDAM, FELIZ AÑO NUEVO! We’re closing 2026 and opening 2027 the only way we know how, on the dancefloor at Club Reverse. On Thursday, December 31st the doors open at 23:59, one minute before the clock flips, so the first moments of your new year belong to reggaeton, dembow and proper perreo. The playlist is the one you already know by heart: Bad Bunny, Karol G, El Alfa, Rauw Alejandro, Daddy Yankee and plenty more, with no breaks until 05:00. 🎶 Nonstop Latin and Caribbean hits 🪩 Full takeover of Reverse. New Year’s Eve tickets move faster than any other night of the year, and the price goes up with every tier. Get yours early, sort out your crew now and skip the stress of hunting for a last-minute ticket on the 31st. Come correct, bring your people and leave 2026 behind you. 📍 Location: Club Reverse, Rotterdam · 🗓️ Date: Thursday, December 31, 2026 · ⏰ Time: 23:59 till 05:00 · 🔞 18+ event, ID required.",
+    ticket_url: "https://weeztix.shop/n83feb3t",
+    status: "upcoming",
+    price_from: "",
+    price_door: "",
+    image_url: "/images/events/rotterdam-reverse-nye-dec31-2026.png"
   }
+
 ];
 
 // Scheduled events (publish_at still in the future) stay hidden everywhere, judged by the visitor's clock, so they
@@ -169,7 +188,7 @@ export const FAQS = [
   },
   {
     q: "Where can I find Latin party events in the Netherlands?",
-    a: "Baila Dembow hosts Latin parties across the Netherlands — Amsterdam, Rotterdam, Den Haag, Groningen, Leiden, Eindhoven and beyond. The upcoming agenda includes Amsterdam at Supperclub (28 November), Face 2 Face Rotterdam (5 December, Club Reverse), Groningen (12 December, Huize Maas) and Indoor Fest NYE (31 December, IJLAND Amsterdam).",
+    a: "Baila Dembow hosts Latin parties across the Netherlands — Amsterdam, Rotterdam, Den Haag, Groningen, Leiden, Eindhoven and beyond. The upcoming agenda includes Amsterdam at Supperclub (28 November), Face 2 Face Rotterdam (5 December, Club Reverse), Groningen (12 December, Huize Maas), Indoor Fest NYE (31 December, IJLAND Amsterdam) and NYE 2027 Rotterdam (31 December, Club Reverse).",
   },
   {
     q: "What is dembow music?",

@@ -176,3 +176,12 @@ if __name__ == "__main__":
         pill="EARLY BIRDS ON SALE",
         accent=(200, 90, 255),
     )
+    make_event_card(
+        ROOT / "images/events/rotterdam-reverse-nye-dec31-2026.png",
+        "og-nye-rotterdam.jpg",
+        kicker="THU 31 DECEMBER 2026  ·  BAILA DEMBOW",
+        title_lines=["NYE 2027", "ROTTERDAM"],
+        sub="CLUB REVERSE  ·  23:59 - 05:00  ·  18+",
+        pill="EARLY BIRDS ON SALE",
+        accent=(235, 235, 240),
+    )
